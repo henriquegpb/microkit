@@ -1,5 +1,59 @@
 @import "tailwindcss";
 
+.hero-card::before,
+.hero-grid-light {
+  inset: 0 !important;
+  background-size: calc(100% / 10) 100%, 100% calc(100% / 2) !important;
+  background-position: -38px -24px, -38px -24px !important;
+}
+
+/* The grid starts 38px to the left, so flashes use that same coordinate system. */
+.grid-slip-one { left: calc(20% - 38px) !important; }
+.grid-slip-two { left: calc(70% - 38px) !important; }
+.grid-slip-three { left: calc(90% - 38px) !important; }
+.grid-slip-four { left: calc(40% - 38px) !important; }
+.grid-slip-five { left: calc(60% - 38px) !important; }
+.hero-border-flash-top { left: calc(10% - 38px) !important; }
+
+.hero-card { container-type: inline-size; }
+.grid-slip-one { height: 50% !important; }
+.grid-slip-one::before,
+.grid-slip-one::after {
+  content: "";
+  position: absolute;
+  left: 20cqw;
+  width: 20cqw;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #f97316, #f973166b, transparent);
+}
+.grid-slip-one::before { top: -24px; }
+.grid-slip-one::after { left: calc(20cqw + 42px); bottom: 24px; }
+
+/* Keep the hero copy legible without competing with the artwork on narrow screens. */
+@media (max-width: 680px) {
+  .hero-copy {
+    width: 100% !important;
+    padding: 0 26px !important;
+  }
+
+  .hero-copy h2 {
+    font-size: clamp(27px, 8.5vw, 34px) !important;
+    letter-spacing: -1.5px !important;
+  }
+
+  .hero-description {
+    max-width: 72% !important;
+    margin-top: 13px !important;
+    font-size: clamp(13px, 4vw, 16px) !important;
+    line-height: 1.32 !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-copy { padding: 0 20px !important; }
+  .hero-description { max-width: 76% !important; }
+}
+
 :root { --bg:#0b0c0e; --surface:#111215; --surface2:#15171b; --line:#272a2f; --muted:#858a94; --text:#f1f2f4; --blue:#f97316; }
 * { box-sizing:border-box; }
 html, body { margin:0; background:var(--bg); color:var(--text); font-family:Arial, Helvetica, sans-serif; min-height:100%; overflow:hidden; }
