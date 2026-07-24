@@ -157,7 +157,38 @@ function CodePanel({ item, copy, copied }: { item:Interaction; copy:(id:string,t
   const usage = language === "TypeScript"
     ? `import { ${componentName} } from "@/components/${item.id}";\n\nexport default function Example() {\n  return <${componentName} />;\n}`
     : `import { ${componentName} } from "./${item.id}.js";\n\nexport default function Example() {\n  return <${componentName} />;\n}`;
-  const tailwindCode = `export function ${componentName}() {\n  return (\n    <div className="rounded-md border border-zinc-700 bg-zinc-950 p-4">\n      <span className="text-zinc-200">${item.name}</span>\n    </div>\n  );\n}`;
+  const tailwindCode = item.id === "expanding-contact-button" ? `import { ArrowRight } from "lucide-react";
+
+export function ExpandingContactButton() {
+  return (
+    <button className="group relative inline-flex h-9 w-9 items-center overflow-hidden rounded-full border-0 bg-transparent p-0 text-[13px] font-medium leading-none text-[#f0f0f0] transition-[width,background-color,color] duration-[320ms] ease-[cubic-bezier(.4,0,.2,1)] hover:w-[145px] hover:bg-[#f4f4f5] hover:text-[#111] focus-visible:w-[145px] focus-visible:bg-[#f4f4f5] focus-visible:text-[#111]">
+      <span className="relative z-10 grid size-9 shrink-0 place-items-center rounded-full bg-[#f97316] text-[#111]">
+        <ArrowRight size={18} strokeWidth={2.5} />
+      </span>
+      <span className="absolute left-[47px] whitespace-nowrap opacity-0 -translate-x-[5px] transition-[opacity,transform] duration-[240ms] delay-[60ms] group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
+        Get in touch
+      </span>
+    </button>
+  );
+}` : item.id === "contact-reveal-button" ? `import { ArrowRight } from "lucide-react";
+
+export function ContactRevealButton() {
+  return (
+    <button className="group relative inline-flex h-9 w-[145px] items-center gap-[10px] overflow-hidden rounded-full border-0 bg-transparent py-0 pr-[15px] text-[13px] font-medium leading-none text-[#f0f0f0] transition-colors duration-[280ms] hover:text-[#111] focus-visible:text-[#111]">
+      <span className="absolute inset-y-0 left-0 w-9 rounded-full bg-[#f0f0f0] transition-[width] duration-[320ms] ease-[cubic-bezier(.4,0,.2,1)] group-hover:w-full group-focus-visible:w-full" />
+      <span className="relative z-10 grid size-9 shrink-0 place-items-center rounded-full text-[#111] transition-colors delay-[120ms] duration-200 group-hover:bg-[#f97316] group-focus-visible:bg-[#f97316]">
+        <ArrowRight size={18} strokeWidth={2.5} />
+      </span>
+      <span className="relative z-10">Get in touch</span>
+    </button>
+  );
+}` : `export function ${componentName}() {
+  return (
+    <div className="rounded-md border border-zinc-700 bg-zinc-950 p-4">
+      <span className="text-zinc-200">${item.name}</span>
+    </div>
+  );
+}`;
   const cssCode = item.framework === "CSS" ? item.code : item.code.includes("/*") ? item.code.slice(item.code.lastIndexOf("/*")) : item.code;
   const implementation = styling === "Tailwind" ? tailwindCode : cssCode;
   const code = language === "JavaScript" ? implementation.replace(/: [A-Za-z][A-Za-z<>\[\]| ]*/g, "") : implementation;
