@@ -18,6 +18,50 @@ export type Interaction = {
 
 export const interactions: Interaction[] = [
   { id: "focus-input", name: "Focus Field", category: "Inputs", framework: "CSS", type: "Focus", description: "An input with a clean animated focus treatment.", code: "input:focus {\n  border-color: #F97316;\n  box-shadow: 0 0 0 3px #f9731622;\n}" },
+  { id: "expanding-contact-button", name: "Expanding Contact Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A pill-shaped call-to-action with an expanding background and arrow icon, adapted from the supplied Webflow export.", new: true, code: `<button class="contact-pill">
+  <span class="contact-pill__icon" aria-hidden="true">→</span>
+  <span>Get in touch</span>
+</button>
+
+<style>
+  .contact-pill {
+    --ink: #f0f0f0;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    overflow: hidden;
+    border: 0;
+    border-radius: 999px;
+    padding: 0 .9rem 0 0;
+    background: transparent;
+    color: var(--ink);
+    font: 500 1rem/1 system-ui, sans-serif;
+  }
+
+  .contact-pill::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 2.8rem;
+    border-radius: inherit;
+    background: var(--ink);
+    transition: width .32s ease;
+  }
+
+  .contact-pill:hover::before { width: 100%; }
+  .contact-pill:hover { color: #111; }
+  .contact-pill__icon,
+  .contact-pill > span:last-child { position: relative; z-index: 1; }
+  .contact-pill__icon {
+    display: grid;
+    place-items: center;
+    width: 2.8rem;
+    height: 2.8rem;
+    color: #111;
+    font-size: 1.1rem;
+  }
+</style>` },
   { id: "spotlight-indicator", name: "Spotlight Indicator", category: "Navigation", framework: "React", type: "Click", description: "A glowing rail that slides to the active item in a vertical nav — the same indicator powering this site's sidebar.", new: true, code: `function SpotlightNav({ items }: { items: string[] }) {
   const [active, setActive] = useState(0);
   const navRef = useRef<HTMLDivElement>(null);
