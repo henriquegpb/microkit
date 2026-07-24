@@ -63,6 +63,7 @@ function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "focus-input") return <div className={cls}><label className="demo-input"><span>Project name</span><input placeholder="e.g. microkit-web" /></label></div>;
   if (id === "expanding-contact-button") return <div className={cls}><button className="contact-pill"><span className="contact-pill-icon" aria-hidden="true"><ArrowRight size={18} strokeWidth={2.5}/></span><span>Get in touch</span></button></div>;
   if (id === "contact-reveal-button") return <div className={cls}><button className="contact-reveal"><span className="contact-reveal-icon" aria-hidden="true"><ArrowRight size={18} strokeWidth={2.5}/></span><span>Get in touch</span></button></div>;
+  if (id === "subscribe-shine-button") return <div className={cls}><button className="subscribe-shine"><span className="subscribe-shine-gradient" aria-hidden="true"/><span className="subscribe-shine-inner">Subscribe</span></button></div>;
   if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
   return <div className={cls}>Preview</div>;
 }
@@ -180,6 +181,15 @@ export function ContactRevealButton() {
         <ArrowRight size={18} strokeWidth={2.5} />
       </span>
       <span className="relative z-10">Get in touch</span>
+    </button>
+  );
+}` : item.id === "subscribe-shine-button" ? `export function SubscribeShineButton() {
+  return (
+    <button className="group relative flex h-[60px] w-[200px] items-center justify-center overflow-hidden rounded-full border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[#f97316]">
+      <span className="h-[250px] w-[230px] shrink-0 bg-[linear-gradient(121deg,#1b1b1b_38%,#f0f0f0_50%,#1b1b1b_61%)] transition-transform duration-1000 ease-linear group-hover:rotate-[360deg] group-hover:duration-[3000ms] group-focus-visible:rotate-[360deg] group-focus-visible:duration-[3000ms]" />
+      <span className="absolute inset-px flex items-center justify-center rounded-full bg-[#0b0b11] text-[13px] font-bold leading-none text-[#f0f0f0] uppercase">
+        Subscribe
+      </span>
     </button>
   );
 }` : `export function ${componentName}() {

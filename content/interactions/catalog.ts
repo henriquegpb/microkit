@@ -139,6 +139,57 @@ export function ContactRevealButton() {
 .contact-reveal:focus-visible .contact-reveal-icon { background: #f97316; }
 .contact-reveal:hover,
 .contact-reveal:focus-visible { color: #111; outline: 0; }` },
+  { id: "subscribe-shine-button", name: "Subscribe Shine Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A dark subscribe pill with a rotating highlight that traces its edge on hover.", new: true, code: `export function SubscribeShineButton() {
+  return (
+    <button className="subscribe-shine">
+      <span className="subscribe-shine-gradient" aria-hidden="true" />
+      <span className="subscribe-shine-inner">Subscribe</span>
+    </button>
+  );
+}
+
+/* subscribe-shine-button.css */
+.subscribe-shine {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 60px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.subscribe-shine-gradient {
+  width: 230px;
+  height: 250px;
+  flex: none;
+  background: linear-gradient(121deg, #1b1b1b 38%, #f0f0f0 50%, #1b1b1b 61%);
+  transition: transform 1s linear;
+}
+.subscribe-shine-inner {
+  position: absolute;
+  inset: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #0b0b11;
+  color: #f0f0f0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.subscribe-shine:hover .subscribe-shine-gradient,
+.subscribe-shine:focus-visible .subscribe-shine-gradient {
+  transform: rotate(360deg);
+  transition-duration: 3s;
+}
+.subscribe-shine:focus-visible { outline: 2px solid #f97316; outline-offset: 3px; }` },
   { id: "spotlight-indicator", name: "Spotlight Indicator", category: "Navigation", framework: "React", type: "Click", description: "A glowing rail that slides to the active item in a vertical nav — the same indicator powering this site's sidebar.", new: true, code: `function SpotlightNav({ items }: { items: string[] }) {
   const [active, setActive] = useState(0);
   const navRef = useRef<HTMLDivElement>(null);
