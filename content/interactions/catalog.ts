@@ -267,6 +267,52 @@ export function NextRevealButton() {
 }
 .next-reveal:hover .next-reveal-label,
 .next-reveal:focus-visible .next-reveal-label { opacity: 1; transform: translateY(0); }` },
+  { id: "pricing-slide-link", name: "Pricing Slide Link", category: "Click feedback", framework: "CSS", type: "Hover", description: "A text link whose arrow slides in from the left as the label settles into place.", new: true, code: `import { ArrowRight } from "lucide-react";
+
+export function PricingSlideLink() {
+  return (
+    <button className="pricing-slide">
+      <span className="pricing-slide-icon" aria-hidden="true">
+        <ArrowRight size={23} strokeWidth={2.25} />
+      </span>
+      <span className="pricing-slide-label">Pricing</span>
+    </button>
+  );
+}
+
+/* pricing-slide-link.css */
+.pricing-slide {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #f0f0f0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+}
+.pricing-slide-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 23px;
+  height: 23px;
+  transform: translateX(-150%);
+  transition: transform .5s cubic-bezier(.16, 1, .3, 1);
+}
+.pricing-slide-label {
+  transform: translateX(-16px);
+  transition: transform .5s cubic-bezier(.16, 1, .3, 1);
+}
+.pricing-slide:hover .pricing-slide-icon,
+.pricing-slide:focus-visible .pricing-slide-icon { transform: translateX(0); }
+.pricing-slide:hover .pricing-slide-label,
+.pricing-slide:focus-visible .pricing-slide-label { transform: translateX(0); }
+.pricing-slide:focus-visible { outline: 2px solid #f97316; outline-offset: 5px; }` },
   { id: "spotlight-indicator", name: "Spotlight Indicator", category: "Navigation", framework: "React", type: "Click", description: "A glowing rail that slides to the active item in a vertical nav — the same indicator powering this site's sidebar.", new: true, code: `import { useEffect, useRef, useState } from "react";
 import { Clock, Heart, Layers } from "lucide-react";
 
