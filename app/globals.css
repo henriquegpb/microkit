@@ -108,6 +108,12 @@ button, input, select { font:inherit; } button { cursor:pointer; color:inherit; 
 .topbar nav .submit-link{display:flex;align-items:center;gap:5px}
 .active-filter>span{display:none}.active-filter:not(:has(button)){display:none}
 .gallery-grid{margin:24px auto 0}
+.gallery-workspace{overflow-x:hidden;overflow-y:auto;scrollbar-color:#545961 #0b0c0e}
+.gallery-main{overflow:visible}
+.gallery-workspace::-webkit-scrollbar{width:10px}.gallery-workspace::-webkit-scrollbar-track{background:#0b0c0e}.gallery-workspace::-webkit-scrollbar-thumb{border:2px solid #0b0c0e;border-radius:999px;background:#545961}.gallery-workspace::-webkit-scrollbar-thumb:hover{background:#6a7079}
+.sponsors-rail .sponsor-card{position:sticky;top:34px}
+.sidebar-trigger{border:0;background:transparent}.sidebar-trigger:hover{border:0;background:transparent;color:#f1f2f4}
+.component-code{width:min(100%,1220px);min-width:0}.code-section{min-width:0}.code-snippet{max-width:100%;overflow-x:auto;overflow-y:hidden}.code-snippet pre{width:max-content;min-width:100%;overflow:visible}.snippet-line{white-space:pre;overflow-wrap:normal}
 .sponsor-cta { position:relative; display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:13px; border-radius:11px; background:var(--blue); color:#1a0f06; font-size:14px; font-weight:700; text-decoration:none; transition:background .16s, transform .16s; }.sponsor-cta:hover { background:#fb8a3c; transform:translateY(-1px); }
 .sponsor-secondary { position:relative; display:flex; align-items:center; justify-content:center; width:100%; margin-top:10px; padding:12px; border-radius:11px; border:1px solid #6a3f1d; color:#d7b596; font-size:13px; text-decoration:none; transition:border-color .16s, color .16s, background .16s; }.sponsor-secondary:hover { border-color:var(--blue); color:#ffce9f; background:#ffffff08; }
 .hero-card{border-color:#30363b}.hero-card::before{z-index:0;transition:opacity .18s ease}.hero-card::after{z-index:0}.hero-card:hover::before{background-image:linear-gradient(to right,#25292d 1px,transparent 1px),linear-gradient(to bottom,#25292d 1px,transparent 1px);opacity:.78}.hero-copy,.hero-figure{z-index:2}.grid-slip{z-index:1}.grid-slip-one{left:20%}.grid-slip-two{left:70%}.grid-slip-three{left:90%;right:auto}.grid-slip-four{left:40%;top:0;height:18%}.grid-slip-five{left:60%;right:auto;bottom:0;height:34%}.hero-border-flash{position:absolute;z-index:5;pointer-events:none}.hero-border-flash-top{top:-1px;left:10%;width:30%;height:2px;background:linear-gradient(90deg,transparent 0%,#f97316 16%,#f9731688 72%,transparent 100%)}.hero-border-flash-left{left:-1px;top:17%;width:2px;height:43%;background:linear-gradient(180deg,transparent 0%,#f97316 22%,#f9731670 78%,transparent 100%)}.hero-grid-light{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;background-image:linear-gradient(to right,#f97316a8 1px,transparent 1px),linear-gradient(to bottom,#f97316a8 1px,transparent 1px);background-size:calc(100% / 10) 100%,100% calc(100% / 2);-webkit-mask-image:radial-gradient(circle 105px at var(--pointer-x) var(--pointer-y),#000 0%,transparent 100%);mask-image:radial-gradient(circle 105px at var(--pointer-x) var(--pointer-y),#000 0%,transparent 100%);transition:opacity .12s ease}.hero-card:hover .hero-grid-light{opacity:1}.hero-card:hover .grid-slip{opacity:.72}
@@ -177,3 +183,11 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
 @media (max-width:680px){.sponsor-group .sponsors-list{grid-template-columns:1fr}}
 .sponsor-entry-logo{width:120px;height:auto;filter:brightness(0) invert(1);opacity:.92}
 .sponsor-entry-identity{display:grid;gap:8px}.sponsor-entry-identity p{margin:0;color:#949aa3;font-size:12px}
+
+/* Code must scroll inside its own frame, never expand the page. */
+.component-code{width:min(100%,1220px);min-width:0}
+.code-section{min-width:0}
+.code-snippet{box-sizing:border-box;width:100%;min-width:0;max-width:100%;overflow:hidden!important}
+.code-snippet pre{width:100%;min-width:0;max-width:none;overflow-x:auto!important;overflow-y:hidden!important}
+.snippet-line{width:max-content;min-width:100%;white-space:pre;overflow-wrap:normal}
+.snippet-line i{position:sticky;left:0;z-index:2;background:#111317;box-shadow:8px 0 10px #111317}

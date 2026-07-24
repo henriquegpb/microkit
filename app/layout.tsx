@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MicroKit UI — Microinteractions for developers",
+  title: "MicroKit UI - Microinteractions for developers",
   description: "Copy-paste microinteractions for modern product interfaces.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
