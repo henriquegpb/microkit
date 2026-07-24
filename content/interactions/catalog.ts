@@ -17,21 +17,55 @@ export type Interaction = {
 };
 
 export const interactions: Interaction[] = [
-  { id: "magnetic-button", name: "Magnetic Button", category: "Buttons", framework: "React", type: "Hover", description: "A button that gently follows the cursor.", new: true, code: "<MagneticButton strength={0.24}>\n  Get started\n</MagneticButton>" },
-  { id: "press-button", name: "Press Feedback", category: "Buttons", framework: "CSS", type: "Click", description: "Tactile, springy feedback for primary actions.", code: ".button:active { transform: scale(.96); }" },
-  { id: "tilt-card", name: "Tilt Card", category: "Cards", framework: "React", type: "Hover", description: "A card that responds to pointer position.", code: "<TiltCard maxTilt={8}>\n  <CardContent />\n</TiltCard>" },
   { id: "focus-input", name: "Focus Field", category: "Inputs", framework: "CSS", type: "Focus", description: "An input with a clean animated focus treatment.", code: "input:focus {\n  border-color: #F97316;\n  box-shadow: 0 0 0 3px #f9731622;\n}" },
-  { id: "nav-indicator", name: "Nav Indicator", category: "Navigation", framework: "React", type: "Click", description: "Animated active state for compact navigation.", code: "<NavIndicator items={['Overview', 'Activity', 'Settings']} />" },
-  { id: "dots-loader", name: "Dots Loader", category: "Loading", framework: "CSS", type: "Loop", description: "Three staggered dots for quick loading states.", code: "<DotsLoader size={6} delay={120} />" },
-  { id: "shine-border", name: "Shine Border", category: "Hover effects", framework: "CSS", type: "Hover", description: "A low-key sweep of light across an outline.", code: "<ShineBorder duration={1.6}>\n  <Card />\n</ShineBorder>" },
-  { id: "switch-toggle", name: "Spring Toggle", category: "Toggles", framework: "React", type: "Click", description: "A responsive toggle with a light spring transition.", new: true, code: "<SpringToggle checked={enabled} onChange={setEnabled} />" },
-  { id: "context-menu", name: "Context Menu", category: "Menus", framework: "React", type: "Click", description: "A compact context menu with keyboard support.", code: "<ContextMenu items={actions}>\n  <FileRow />\n</ContextMenu>" },
-  { id: "smart-tooltip", name: "Smart Tooltip", category: "Tooltips", framework: "React", type: "Hover", description: "A helpful tooltip with a short entry delay.", code: "<Tooltip label=\"Copy to clipboard\">\n  <CopyButton />\n</Tooltip>" },
-  { id: "split-text", name: "Split Text", category: "Text effects", framework: "CSS", type: "Enter", description: "A staggered reveal for short interface copy.", code: "<SplitText delay={45}>Ship with confidence</SplitText>" },
-  { id: "swipe-row", name: "Swipe Row", category: "Mobile gestures", framework: "React", type: "Drag", description: "A touch-first action row with swipe affordance.", dependency: "motion", code: "<SwipeRow actions={['Archive', 'Delete']}>\n  <Message />\n</SwipeRow>" },
+  { id: "spotlight-indicator", name: "Spotlight Indicator", category: "Navigation", framework: "React", type: "Click", description: "A glowing rail that slides to the active item in a vertical nav — the same indicator powering this site's sidebar.", new: true, code: `function SpotlightNav({ items }: { items: string[] }) {
+  const [active, setActive] = useState(0);
+  const navRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLSpanElement>(null);
+  const btns = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Measure the active button and move the rail to match it.
+  useEffect(() => {
+    const bar = barRef.current;
+    const btn = btns.current[active];
+    const nav = navRef.current;
+    if (!bar || !btn || !nav) return;
+    const n = nav.getBoundingClientRect();
+    const b = btn.getBoundingClientRect();
+    bar.style.top = \`\${b.top - n.top + 4}px\`;
+    bar.style.height = \`\${b.height - 8}px\`;
+  }, [active]);
+
+  return (
+    <nav ref={navRef} className="spot-nav">
+      <span ref={barRef} className="spot-bar" aria-hidden />
+      {items.map((label, i) => (
+        <button
+          key={label}
+          ref={(el) => { btns.current[i] = el; }}
+          className={i === active ? "spot-item active" : "spot-item"}
+          onClick={() => setActive(i)}
+        >
+          {label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+/* spotlight-indicator.css */
+.spot-nav { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 6px; }
+.spot-bar {
+  position: absolute; left: 4px; width: 2px; border-radius: 2px; background: #f97316;
+  box-shadow: 2px 0 5px rgba(249, 115, 22, .8), 4px 0 11px rgba(249, 115, 22, .45);
+  transition: top .3s cubic-bezier(.4, 0, .2, 1), height .3s cubic-bezier(.4, 0, .2, 1);
+}
+.spot-item {
+  border: 0; background: transparent; color: #a9afb8; text-align: left;
+  padding: 8px 12px; border-radius: 6px; transition: color .3s, background .3s;
+}
+.spot-item:hover { background: rgba(255, 255, 255, .03); }
+.spot-item.active { color: #f6f7f8; }` },
 ];
 
-export const categories = [
-  "All", "Buttons", "Cards", "Inputs", "Navigation", "Loading", "Hover effects",
-  "Click feedback", "Toggles", "Menus", "Tooltips", "Text effects", "Page transitions", "Mobile gestures",
-];
+export const categories = ["All", "Inputs", "Navigation"];

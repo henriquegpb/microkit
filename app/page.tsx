@@ -9,11 +9,9 @@ import {
   Clock,
   Code2,
   Copy,
-  GripVertical,
   Heart,
   Layers,
   Monitor,
-  MoreHorizontal,
   PanelLeft,
   RotateCcw,
   Search,
@@ -28,23 +26,42 @@ import { interactions, type Interaction } from "../content/interactions/catalog"
 const icons = { heart: Heart, search: Search, copy: Copy, back: ArrowLeft, code: Code2, grid: PanelLeft, reset: RotateCcw, desktop: Monitor, mobile: Smartphone, check: Check, close: X, sliders: SlidersHorizontal, arrow: ArrowUpRight, layers: Layers, clock: Clock } satisfies Record<string, LucideIcon>;
 function Icon({ name, size = 16, filled = false }: { name: keyof typeof icons; size?: number; filled?: boolean }) { const Glyph = icons[name]; return <Glyph aria-hidden="true" size={size} strokeWidth={1.8} fill={filled ? "currentColor" : "none"} />; }
 
+const SPOTLIGHT_ITEMS = [
+  { label: "All components", icon: "layers" },
+  { label: "Recently viewed", icon: "clock" },
+  { label: "Favorites", icon: "heart" },
+] satisfies { label: string; icon: keyof typeof icons }[];
+
+function SpotlightDemo() {
+  const navRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLSpanElement>(null);
+  const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const animatedRef = useRef(false);
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const bar = barRef.current;
+    const btn = btnRefs.current[active];
+    const nav = navRef.current;
+    if (!bar || !btn || !nav) return;
+    const navRect = nav.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    bar.style.transition = animatedRef.current
+      ? "top 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+      : "none";
+    bar.style.top = `${btnRect.top - navRect.top + 4}px`;
+    bar.style.height = `${btnRect.height - 8}px`;
+    const frame = requestAnimationFrame(() => { animatedRef.current = true; });
+    return () => cancelAnimationFrame(frame);
+  }, [active]);
+
+  return <div className="spot-nav" ref={navRef}><span ref={barRef} className="spot-bar" aria-hidden="true"/>{SPOTLIGHT_ITEMS.map((item, i)=><button key={item.label} ref={el=>{btnRefs.current[i]=el;}} className={`spot-item ${active===i?"active":""}`} onClick={()=>setActive(i)}><span className="spot-item-icon"><Icon name={item.icon} size={15}/></span>{item.label}</button>)}</div>;
+}
+
 function Demo({ id, large = false }: { id: string; large?: boolean }) {
-  const [on, setOn] = useState(false);
-  const [tab, setTab] = useState(0);
-  const [pressed, setPressed] = useState(false);
   const cls = `demo ${large ? "demo-large" : ""}`;
-  if (id === "magnetic-button") return <div className={cls}><button className="magnetic" onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.transform = `translate(${(e.clientX-r.left-r.width/2)*.14}px, ${(e.clientY-r.top-r.height/2)*.14}px)`; }} onMouseLeave={(e) => e.currentTarget.style.transform = ""}>Explore components <span>→</span></button></div>;
-  if (id === "press-button") return <div className={cls}><button className="press-btn">Save changes</button></div>;
-  if (id === "tilt-card") return <div className={cls}><div className="tilt" onMouseMove={(e) => { const r=e.currentTarget.getBoundingClientRect(); e.currentTarget.style.transform=`perspective(500px) rotateX(${(r.top+r.height/2-e.clientY)/9}deg) rotateY(${(e.clientX-r.left-r.width/2)/9}deg)`; }} onMouseLeave={(e) => e.currentTarget.style.transform=""}><span className="tiny-dot"/> <div><b>Project Mercury</b><small>Updated 2m ago</small></div><ArrowUpRight className="demo-arrow" size={15}/></div></div>;
   if (id === "focus-input") return <div className={cls}><label className="demo-input"><span>Project name</span><input placeholder="e.g. microkit-web" /></label></div>;
-  if (id === "nav-indicator") return <div className={cls}><div className="mini-nav">{["Overview", "Activity", "Settings"].map((x,i)=><button key={x} className={i===tab?"active":""} onClick={()=>setTab(i)}>{x}</button>)}</div></div>;
-  if (id === "dots-loader") return <div className={cls}><div className="dots"><i/><i/><i/></div><small>Fetching updates</small></div>;
-  if (id === "shine-border") return <div className={cls}><div className="shine"><span>Hover over me</span></div></div>;
-  if (id === "switch-toggle") return <div className={cls}><button className={`toggle ${on?"on":""}`} aria-pressed={on} onClick={()=>setOn(!on)}><i/></button><span className="toggle-label">{on?"Notifications on":"Notifications off"}</span></div>;
-  if (id === "context-menu") return <div className={cls}><div className="context"><span>design-assets.zip</span><button onClick={()=>setPressed(!pressed)} aria-label="Open file actions"><MoreHorizontal size={16}/></button>{pressed && <div className="menu-pop"><button>Download</button><button>Rename</button><button className="danger">Delete</button></div>}</div></div>;
-  if (id === "smart-tooltip") return <div className={cls}><div className="tooltip-wrap"><button className="icon-button"><Icon name="copy"/></button><span className="tooltip">Copy link</span></div></div>;
-  if (id === "split-text") return <div className={cls}><div className="split">{"Ship with confidence".split(" ").map((x,i)=><span key={x} style={{animationDelay:`${i*90}ms`}}>{x}</span>)}</div></div>;
-  if (id === "swipe-row") return <div className={cls}><div className="swipe"><div className="swipe-actions"><b>Archive</b><b>Delete</b></div><div className="mail-row" draggable onDragEnd={(e)=>e.currentTarget.classList.toggle("dragged")}> <span className="avatar">M</span><div><b>Maya Chen</b><small>Latest build is ready for review</small></div><GripVertical size={14}/></div></div></div>;
+  if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
   return <div className={cls}>Preview</div>;
 }
 
@@ -112,6 +129,6 @@ function Sidebar({ open, toggle, choose }: { open:boolean; toggle:()=>void; choo
   return <aside className={`sidebar ${open?"":"collapsed"}`}><div className="sidebar-brand"><button className="brand" onClick={()=>location.reload()}><i/>MicroKit <span>UI</span></button><button className="sidebar-trigger" onClick={toggle} aria-label="Collapse sidebar"><Icon name="grid"/></button></div><div className="sidebar-scroll" ref={navRef}>{open && <span ref={indicatorRef} className="sidebar-nav-indicator" aria-hidden="true"/>}{NAV_ITEMS.map((item, i)=><button key={item.label} ref={el=>{btnRefs.current[i]=el;}} className={`sidebar-nav-item ${activeIndex===i?"sidebar-nav-item--active":""}`} onClick={()=>select(i)}><span className="side-row"><span className="sidebar-nav-item-icon"><Icon name={item.icon}/></span>{item.label}</span><em>{item.count}</em></button>)}</div><div className="sidebar-bottom"><div className="promo-icon"><Sparkles size={14}/></div><div><b>Free forever</b><span>Copy, customize, ship.</span></div></div></aside>;
 }
 function SponsorCard() { return <section className="sponsor-card" aria-label="Sponsors"><span className="sponsor-badge">Sponsor</span><h3>Backed by Nora</h3><p>MicroKit stays free and open, supported by sponsors who care about the craft behind every interaction.</p><a className="sponsor-cta" href="#nora">Visit Nora <Icon name="arrow"/></a><a className="sponsor-secondary" href="mailto:sponsors@microkit.ui">Become a sponsor</a></section> }
-function CodePanel({ item, copy, copied }: { item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { return <div className="code-layout"><aside className="code-side"><span className="side-label">On this page</span><a className="selected">Component</a><a>Usage</a><a>Accessibility</a><a>Related</a></aside><section className="code-content"><CodeBlock label="components/magnetic-button.tsx" code={item.code} item={item} copy={copy} copied={copied}/><CodeBlock label="app/page.tsx" code={`import { ${item.name.replaceAll(" ", "")} } from "@/components/${item.id}";\n\nexport default function Page() {\n  return <main>\n    ${item.code.split("\n").map(x=>x.trim()).join("\n    ")}\n  </main>;\n}`} item={item} copy={copy} copied={copied}/></section></div> }
+function CodePanel({ item, copy, copied }: { item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { return <div className="code-layout"><aside className="code-side"><span className="side-label">On this page</span><a className="selected">Component</a><a>Usage</a><a>Accessibility</a><a>Related</a></aside><section className="code-content"><CodeBlock label={`components/${item.id}.tsx`} code={item.code} item={item} copy={copy} copied={copied}/><CodeBlock label="app/page.tsx" code={`import { ${item.name.replaceAll(" ", "")} } from "@/components/${item.id}";\n\nexport default function Page() {\n  return <main>\n    ${item.code.split("\n").map(x=>x.trim()).join("\n    ")}\n  </main>;\n}`} item={item} copy={copy} copied={copied}/></section></div> }
 function CodeBlock({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-block"><div className="code-head"><span><Icon name="code"/> {label}</span><button onClick={()=>copy(id,code)}><Icon name={copied===id?"check":"copy"}/> {copied===id?"Copied":"Copy"}</button></div><pre><code>{code}</code></pre></div> }
-function DetailInfo({ item }: { item:Interaction }) { return <section className="detail-info"><div><h2>Installation</h2><p>{item.dependency ? "This interaction uses a small external dependency for gesture handling." : "No dependencies required. Drop the component into your project."}</p><CodeBlock label="Terminal" code={item.dependency ? `npm install ${item.dependency}` : "# No installation required"} item={item} copy={()=>{}} copied={null}/></div><div><h2>Accessibility</h2><p>Keyboard interactive, with visible focus states and a reduced-motion fallback included by default.</p><div className="a11y-tags"><span>Keyboard</span><span>Focus visible</span><span>Reduced motion</span></div></div><div><h2>Related</h2><div className="related"><button>Press Feedback <Icon name="arrow"/></button><button>Shine Border <Icon name="arrow"/></button></div></div></section> }
+function DetailInfo({ item }: { item:Interaction }) { return <section className="detail-info"><div><h2>Installation</h2><p>{item.dependency ? "This interaction uses a small external dependency for gesture handling." : "No dependencies required. Drop the component into your project."}</p><CodeBlock label="Terminal" code={item.dependency ? `npm install ${item.dependency}` : "# No installation required"} item={item} copy={()=>{}} copied={null}/></div><div><h2>Accessibility</h2><p>Keyboard interactive, with visible focus states and a reduced-motion fallback included by default.</p><div className="a11y-tags"><span>Keyboard</span><span>Focus visible</span><span>Reduced motion</span></div></div><div><h2>Related</h2><div className="related">{interactions.filter(x=>x.id!==item.id).map(x=><button key={x.id}>{x.name} <Icon name="arrow"/></button>)}</div></div></section> }
