@@ -6,13 +6,19 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
+  BadgeCheck,
+  BookOpen,
   Check,
   Clock,
   Code2,
   Copy,
+  Crown,
+  Gem,
   Heart,
   Layers,
+  MessageCircle,
   Monitor,
+  Medal,
   PanelLeft,
   RotateCcw,
   Search,
@@ -93,14 +99,6 @@ export default function Home() {
   const [strength, setStrength] = useState(24);
   const [sidebar, setSidebar] = useState(true);
   const [heroPointer, setHeroPointer] = useState({ x: 50, y: 50 });
-  const [submitPage, setSubmitPage] = useState(false);
-
-  useEffect(() => {
-    const openSubmission = () => { setSelected(null); setSubmitPage(true); };
-    window.addEventListener("open-submission", openSubmission);
-    return () => window.removeEventListener("open-submission", openSubmission);
-  }, []);
-
   const toggleFavorite = (id: string) => setFavorites(prev => { const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]; localStorage.setItem("microkit-favorites", JSON.stringify(next)); return next; });
   const markRecentlyViewed = (id: string) => setRecent(prev => { const next = [id, ...prev.filter(itemId => itemId !== id)].slice(0, 20); localStorage.setItem("microkit-recent", JSON.stringify(next)); return next; });
   useEffect(() => { if (selected) markRecentlyViewed(selected.id); }, [selected]);
@@ -113,15 +111,39 @@ export default function Home() {
 
   const chooseCategory = (view: LibraryView) => { localStorage.setItem("microkit-library-view", view); setLibraryView(view); setCategory("All"); setSelected(null); };
   const chooseLibraryView = (view: LibraryView) => { localStorage.setItem("microkit-library-view", view); setLibraryView(view); setCategory("All"); setSelected(null); };
-  if (submitPage) return <SubmissionPage onBack={() => setSubmitPage(false)}/>;
+  useEffect(() => {
+    const previews = [...document.querySelectorAll<HTMLElement>(".interaction-card .card-preview")];
+    const handlers = previews.map(preview => {
+      const openCard = (event: MouseEvent) => {
+        if ((event.target as HTMLElement).closest(".favorite")) return;
+        preview.parentElement?.querySelector<HTMLButtonElement>(".card-info")?.click();
+      };
+      preview.addEventListener("click", openCard);
+      return { preview, openCard };
+    });
+    return () => handlers.forEach(({ preview, openCard }) => preview.removeEventListener("click", openCard));
+  }, [filtered]);
   if (selected) return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} view={libraryView} counts={{all:interactions.length,recent:recent.length,favorites:favorites.length}} choose={chooseLibraryView}/><main className="playground-main"><div className="crumb"><button onClick={()=>setSelected(null)}><Icon name="back"/> All interactions</button><span>/</span><span>{selected.category}</span></div><section className="playground-heading"><div><div className="eyebrow">{selected.category} <span>•</span> {selected.framework}</div><h1>{selected.name}</h1><p>{selected.description}</p></div><div className="header-actions"><button className={`square ${favorites.includes(selected.id)?"saved":""}`} onClick={()=>toggleFavorite(selected.id)} aria-label="Save favorite"><Icon name="heart" size={22} filled={favorites.includes(selected.id)}/></button><button className="copy-main" onClick={()=>copy(selected.id, selected.code)}><Icon name={copied===selected.id?"check":"copy"}/> {copied===selected.id?"Copied":"Copy code"}</button></div></section><div className="play-tabs"><button className={!codeTab?"active":""} onClick={()=>setCodeTab(false)}>Preview</button><button className={codeTab?"active":""} onClick={()=>setCodeTab(true)}>Code</button></div>{!codeTab ? <div className="play-layout"><section className="canvas-card"><div className="canvas-toolbar"><div className="segmented"><button className={canvas==="dark"?"active":""} onClick={()=>setCanvas("dark")}>Dark</button><button className={canvas==="light"?"active":""} onClick={()=>setCanvas("light")}>Light</button></div><div className="toolbar-right"><div className="segmented"><button className={viewport==="desktop"?"active":""} onClick={()=>setViewport("desktop")}><Icon name="desktop"/></button><button className={viewport==="mobile"?"active":""} onClick={()=>setViewport("mobile")}><Icon name="mobile"/></button></div><button className="reset"><Icon name="reset"/> Reset</button></div></div><div className={`canvas ${canvas} ${viewport}`}><Demo id={selected.id} large/></div><div className="canvas-footer"><span><i className="status-dot"/> Live preview</span><span>⌘ Enter to reset</span></div></section><aside className="control-panel"><div className="control-title"><Icon name="sliders"/> Customize</div><label className="control"><span>Intensity <output>{strength}%</output></span><input type="range" value={strength} onChange={e=>setStrength(+e.target.value)} /></label><label className="control"><span>Duration <output>240ms</output></span><input type="range" defaultValue="45" /></label><label className="control"><span>Label</span><input value="Explore components" readOnly /></label><label className="check-control"><input type="checkbox" defaultChecked/> Enable reduced motion fallback</label></aside></div> : <CodePanel item={selected} copy={copy} copied={copied}/>}<DetailInfo item={selected}/></main></div></div>;
 
   return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><main className="gallery-main"><section className="hero-card" aria-label="MicroKit UI introduction" onPointerMove={(event) => { const rect = event.currentTarget.getBoundingClientRect(); setHeroPointer({ x: ((event.clientX - rect.left) / rect.width) * 100, y: ((event.clientY - rect.top) / rect.height) * 100 }); }} style={{ "--pointer-x": `${heroPointer.x}%`, "--pointer-y": `${heroPointer.y}%` } as CSSProperties}><div className="hero-copy"><h2>Details Matter!</h2><p className="hero-description">MicroKit UI is a component library for developers who care about the experience behind every interaction.</p></div><div className="hero-figure" aria-hidden="true"><div className="hero-arch"/></div><span className="hero-grid-light" aria-hidden="true"/><span className="hero-border-flash hero-border-flash-top" aria-hidden="true"/><span className="hero-border-flash hero-border-flash-left" aria-hidden="true"/><span className="grid-slip grid-slip-one" aria-hidden="true"/><span className="grid-slip grid-slip-two" aria-hidden="true"/><span className="grid-slip grid-slip-three" aria-hidden="true"/><span className="grid-slip grid-slip-four" aria-hidden="true"/><span className="grid-slip grid-slip-five" aria-hidden="true"/></section><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {category === "All" ? "All interactions" : category}</div><h1>{category === "All" ? "Explore interactions" : category}</h1><p>{filtered.length} {filtered.length === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p></div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></div></div><div className="active-filter"><span>{category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div><section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<button className={`favorite ${favorites.includes(item.id)?"saved":""}`} onClick={()=>toggleFavorite(item.id)} aria-label={`Save ${item.name}`}><Icon name="heart" size={20} filled={favorites.includes(item.id)}/></button></div><button className="card-info" onClick={()=>setSelected(item)} aria-label={`Open ${item.name} playground`}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span>{item.dependency && <span>+ {item.dependency}</span>}<span className="state-type">{item.type}</span></span></button></article>)}</section>{!filtered.length && <div className="empty"><Icon name="search" size={28}/><h2>No interactions found</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}</main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div>;
 }
 
-function Header({ query, setQuery }: { query: string; setQuery: (x:string)=>void }) { return <header className="topbar"><nav><a className="current" href="#submit" onClick={(event)=>{ event.preventDefault(); window.dispatchEvent(new Event("open-submission")); }}>Submit</a></nav><label className="global-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search interactions"/><kbd>⌘ K</kbd></label><div className="top-actions"><a className="github" href="https://github.com/henriquegpb/microkit" target="_blank" rel="noreferrer"><Image src="/assets/img/GitHub.svg" alt="" width={15} height={15}/><span>GitHub</span></a></div></header> }
+function Header({ query, setQuery }: { query: string; setQuery: (x:string)=>void }) { return <header className="topbar"><nav><a className="current submit-link" href="/submit">Submit <Icon name="arrow" size={14}/></a></nav><label className="global-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search interactions"/><kbd>⌘ K</kbd></label><div className="top-actions"><a className="github" href="https://github.com/henriquegpb/microkit" target="_blank" rel="noreferrer"><Image src="/assets/img/GitHub.svg" alt="" width={15} height={15}/><span>Star on GitHub</span></a></div></header> }
 
-function SubmissionPage({ onBack }: { onBack: () => void }) {
+export function SponsorsPage({ onBack }: { onBack: () => void }) {
+  return <div className="app sponsors-app"><Header query="" setQuery={() => {}} /><main className="sponsors-page">
+    <section className="sponsors-hero sponsors-hero-compact">
+      <button className="sponsors-back" onClick={onBack}><ArrowLeft size={15} /> All components</button>
+      <div className="sponsors-hero-copy"><p className="eyebrow">MicroKit <span>•</span> Support</p><h1>Sponsors</h1><p>Support for MicroKit will be acknowledged here.</p></div>
+    </section>
+    <section className="sponsors-current"><div className="sponsor-groups">
+      <section className="sponsor-group"><span className="sponsor-tier-label sponsor-tier-diamond">Diamond</span><div className="sponsors-list"><article className="sponsor-entry sponsor-entry-diamond"><div className="sponsor-entry-identity"><Image className="sponsor-entry-logo" src="/assets/img/Nora.svg" alt="Nora" width={120} height={23} /><p>Your AI Personal Assistant</p></div><ArrowRight size={17} /></article></div></section>
+    </div></section>
+    <section className="sponsors-opportunities" id="sponsorship"><div className="sponsors-section-heading"><p className="eyebrow">Sponsorship</p><h2>Become a sponsor</h2><p>Sponsorship values are listed below. Additional details will be shared when they are ready.</p></div><div className="sponsorship-options"><article className="sponsor-plan sponsor-plan-diamond"><Gem className="sponsor-plan-icon" size={22} /><h3>Diamond</h3><p className="sponsor-price">$200 <small>/ month</small></p><ul className="sponsor-benefits"><li><PanelLeft size={15} /> Largest logo on the docs sidebar</li><li><BookOpen size={15} /> Largest logo in the README</li><li><BadgeCheck size={15} /> Featured on the sponsors page</li><li><MessageCircle size={15} /> Direct line for feedback &amp; requests</li></ul></article><article className="sponsor-plan"><Crown className="sponsor-plan-icon" size={22} /><h3>Platinum</h3><p className="sponsor-price">$100 <small>/ month</small></p><ul className="sponsor-benefits"><li><BookOpen size={15} /> Larger logo in the README</li><li><PanelLeft size={15} /> Larger logo on the docs sidebar</li></ul></article><article className="sponsor-plan"><Medal className="sponsor-plan-icon" size={22} /><h3>Silver</h3><p className="sponsor-price">$50 <small>/ month</small></p><ul className="sponsor-benefits"><li><BookOpen size={15} /> Logo in the README</li><li><PanelLeft size={15} /> Logo on the docs sidebar</li><li><BadgeCheck size={15} /> Listed on the sponsors page</li></ul></article></div></section>
+  </main></div>;
+}
+
+export function SubmissionPage({ onBack }: { onBack: () => void }) {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [screenshot, setScreenshot] = useState("");
@@ -171,7 +193,7 @@ function Sidebar({ open, toggle, view, counts, choose }: { open:boolean; toggle:
 
   return <aside className={`sidebar ${open?"":"collapsed"}`}><div className="sidebar-brand"><button className="brand" onClick={()=>location.reload()}><i/>MicroKit <span>UI</span></button><button className="sidebar-trigger" onClick={toggle} aria-label="Collapse sidebar"><Icon name="grid"/></button></div><div className="sidebar-scroll" ref={navRef}>{open && <span ref={indicatorRef} className="sidebar-nav-indicator" aria-hidden="true"/>}{NAV_ITEMS.map((item, i)=><button key={item.label} ref={el=>{btnRefs.current[i]=el;}} className={`sidebar-nav-item ${activeIndex===i?"sidebar-nav-item--active":""}`} onClick={()=>select(i)}><span className="side-row"><span className="sidebar-nav-item-icon"><Icon name={item.icon}/></span>{item.label}</span><em>{liveCounts[item.view]}</em></button>)}</div></aside>;
 }
-function SponsorCard() { return <section className="sponsor-card" aria-label="Sponsors"><span className="sponsor-badge">Sponsor</span><h3>Backed by Nora</h3><p>MicroKit stays free and open, supported by sponsors who care about the craft behind every interaction.</p><a className="sponsor-cta" href="#nora">Visit Nora <Icon name="arrow"/></a><a className="sponsor-secondary" href="mailto:sponsors@microkit.ui">Become a sponsor</a></section> }
+function SponsorCard() { return <section className="sponsor-card" aria-label="Sponsors"><span className="sponsor-badge">Sponsors</span><div className="sponsor-card-nora"><span className="sponsor-card-tier">Diamond</span><Image src="/assets/img/Nora.svg" alt="Nora" width={104} height={20} /><p>Your AI Personal Assistant</p></div><a className="sponsor-cta" href="/sponsors">View sponsors <Icon name="arrow"/></a></section> }
 function CodePanel({ item, copy, copied }: { item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) {
   const [language, setLanguage] = useState<"JavaScript" | "TypeScript">("TypeScript");
   const [styling, setStyling] = useState<"CSS" | "Tailwind">(item.framework === "CSS" ? "CSS" : "Tailwind");
