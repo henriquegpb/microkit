@@ -393,10 +393,20 @@ export function WhatsNewGlowButton() {
   const implementation = styling === "Tailwind" ? tailwindCode : item.code;
   const code = language === "JavaScript" ? implementation.replace(/^import type[^\n]*\n/gm, "").replace(/: ReactPointerEvent<HTMLButtonElement>/g, "").replace(/: [A-Za-z][A-Za-z<>\[\]| ]*/g, "") : implementation;
   const separator = code.indexOf("\n/* ");
-  const componentCode = styling === "CSS" && separator !== -1 ? code.slice(0, separator) : code;
-  const cssCode = styling === "CSS" && separator !== -1 ? code.slice(separator + 1) : "";
+  const componentCode = styling === "CSS" && separator !== -1 ? code.slice(0, separator).trim() : code.trim();
+  const cssCode = styling === "CSS" && separator !== -1 ? formatCssCode(code.slice(separator + 1)) : "";
 
   return <div className="component-code"><section className="code-section"><h2>Code</h2><div className="code-selectors"><label><span>{language === "TypeScript" ? "TS" : "JS"}</span><select value={language} onChange={event=>setLanguage(event.target.value as "JavaScript" | "TypeScript")}><option>JavaScript</option><option>TypeScript</option></select></label><label><span className={`code-style-logo ${styling.toLowerCase()}`}>{styling === "CSS" ? <Image src="/assets/img/CSS.svg" alt="" width={17} height={17} /> : <Image src="/assets/img/Tailwind.svg" alt="" width={20} height={12} />}</span><select value={styling} onChange={event=>setStyling(event.target.value as "CSS" | "Tailwind")}><option>CSS</option><option>Tailwind</option></select></label></div>{styling === "CSS" ? <div className="code-files"><div className="code-file"><h3>{language} component</h3><CodeSnippet label={`${item.id}-${language}`} code={componentCode} item={item} copy={copy} copied={copied}/></div><div className="code-file"><h3>CSS</h3><CodeSnippet label={`${item.id}-css`} code={cssCode} item={item} copy={copy} copied={copied}/></div></div> : <CodeSnippet label={`${item.id}-${language}-tailwind`} code={code} item={item} copy={copy} copied={copied}/>}</section></div>
+}
+function formatCssCode(source: string) {
+  return source
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\s*\{\s*/g, " {\n  ")
+    .replace(/;\s*/g, ";\n  ")
+    .replace(/\s*\}/g, "\n}\n")
+    .replace(/\n[ \t]*\n+/g, "\n")
+    .replace(/\n  \n}/g, "\n}")
+    .trim();
 }
 function CodeSnippet({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-snippet"><button className="snippet-copy" onClick={()=>copy(id,code)} aria-label="Copy code"><Icon name={copied===id?"check":"copy"}/></button><pre>{code.split("\n").map((line,index)=><span className="snippet-line" key={`${index}-${line}`}><i>{index + 1}</i><code>{line || " "}</code></span>)}</pre></div> }
 function CodeBlock({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-block"><div className="code-head"><span><Icon name="code"/> {label}</span><button onClick={()=>copy(id,code)}><Icon name={copied===id?"check":"copy"}/> {copied===id?"Copied":"Copy"}</button></div><pre><code>{code}</code></pre></div> }
