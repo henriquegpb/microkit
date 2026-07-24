@@ -73,6 +73,7 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "subscribe-shine-button") return <div className={cls}><button className="subscribe-shine"><span className="subscribe-shine-gradient" aria-hidden="true"/><span className="subscribe-shine-inner">Subscribe</span></button></div>;
   if (id === "next-reveal-button") return <div className={cls}><button className="next-reveal"><span className="next-reveal-label">Next</span><ArrowRight className="next-reveal-arrow" size={27} strokeWidth={1.7}/></button></div>;
   if (id === "pricing-slide-link") return <div className={cls}><button className="pricing-slide"><span className="pricing-slide-icon" aria-hidden="true"><ArrowRight size={23} strokeWidth={2.25}/></span><span className="pricing-slide-label">Pricing</span></button></div>;
+  if (id === "read-more-swap") return <div className={cls}><button className="read-more-swap"><ArrowRight className="read-more-arrow read-more-arrow-left" size={25} strokeWidth={2.5}/><span>Read more</span><ArrowRight className="read-more-arrow read-more-arrow-right" size={25} strokeWidth={2.5}/></button></div>;
   if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
   return <div className={cls}>Preview</div>;
 }

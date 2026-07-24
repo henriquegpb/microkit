@@ -410,6 +410,24 @@ export function SpotlightIndicator() {
   transition: opacity .3s cubic-bezier(.4, 0, .2, 1), color .3s;
 }
 .spot-item.active .spot-item-icon { opacity: 1; color: #f97316; }` },
+  { id: "read-more-swap", name: "Read More Swap", category: "Click feedback", framework: "CSS", type: "Hover", description: "A text link whose arrow swaps from the right side to an orange leading arrow on hover.", new: true, code: `import { ArrowRight } from "lucide-react";
+
+export function ReadMoreSwap() {
+  return (
+    <button className="read-more-swap">
+      <ArrowRight className="read-more-arrow read-more-arrow-left" size={25} strokeWidth={2.5} />
+      <span>Read more</span>
+      <ArrowRight className="read-more-arrow read-more-arrow-right" size={25} strokeWidth={2.5} />
+    </button>
+  );
+}
+
+/* read-more-swap.css */
+.read-more-swap { display: inline-flex; align-items: center; gap: 12px; height: 48px; border: 0; overflow: hidden; background: transparent; color: #f0f0f0; font-size: 16px; font-weight: 500; }
+.read-more-arrow { flex: 0 0 25px; width: 25px; transition: flex-basis .24s ease, width .24s ease, opacity .2s ease, transform .24s ease; }
+.read-more-arrow-left { flex-basis: 0; width: 0; color: #f97316; opacity: 0; transform: translateX(-12px); }
+.read-more-swap:hover .read-more-arrow-left, .read-more-swap:focus-visible .read-more-arrow-left { flex-basis: 25px; width: 25px; opacity: 1; transform: translateX(0); }
+.read-more-swap:hover .read-more-arrow-right, .read-more-swap:focus-visible .read-more-arrow-right { flex-basis: 0; width: 0; opacity: 0; transform: translateX(12px); }` },
 ];
 
 export const categories = ["All", "Inputs", "Navigation"];
