@@ -62,6 +62,7 @@ function Demo({ id, large = false }: { id: string; large?: boolean }) {
   const cls = `demo ${large ? "demo-large" : ""}`;
   if (id === "focus-input") return <div className={cls}><label className="demo-input"><span>Project name</span><input placeholder="e.g. microkit-web" /></label></div>;
   if (id === "expanding-contact-button") return <div className={cls}><button className="contact-pill"><span className="contact-pill-icon" aria-hidden="true"><ArrowRight size={18} strokeWidth={2.5}/></span><span>Get in touch</span></button></div>;
+  if (id === "contact-reveal-button") return <div className={cls}><button className="contact-reveal"><span className="contact-reveal-icon" aria-hidden="true"><ArrowRight size={18} strokeWidth={2.5}/></span><span>Get in touch</span></button></div>;
   if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
   return <div className={cls}>Preview</div>;
 }

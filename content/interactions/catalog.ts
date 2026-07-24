@@ -62,6 +62,44 @@ export const interactions: Interaction[] = [
     font-size: 1.1rem;
   }
 </style>` },
+  { id: "contact-reveal-button", name: "Contact Reveal Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A circular arrow and label that resolve into a polished contact pill on hover.", new: true, code: `<button class="contact-reveal">
+  <span class="contact-reveal__icon" aria-hidden="true">→</span>
+  <span>Get in touch</span>
+</button>
+
+<style>
+  .contact-reveal {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    border: 0;
+    border-radius: 999px;
+    padding: 0;
+    background: transparent;
+    color: #f0f0f0;
+    font: 500 1rem/1 system-ui, sans-serif;
+    transition: background .28s ease, color .28s ease, padding .28s ease;
+  }
+
+  .contact-reveal__icon {
+    display: grid;
+    place-items: center;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    background: #f0f0f0;
+    color: #111;
+    transition: background .28s ease;
+  }
+
+  .contact-reveal:hover {
+    padding-right: .95rem;
+    background: #f0f0f0;
+    color: #111;
+  }
+
+  .contact-reveal:hover .contact-reveal__icon { background: #f97316; }
+</style>` },
   { id: "spotlight-indicator", name: "Spotlight Indicator", category: "Navigation", framework: "React", type: "Click", description: "A glowing rail that slides to the active item in a vertical nav — the same indicator powering this site's sidebar.", new: true, code: `function SpotlightNav({ items }: { items: string[] }) {
   const [active, setActive] = useState(0);
   const navRef = useRef<HTMLDivElement>(null);
