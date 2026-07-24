@@ -428,6 +428,27 @@ export function ReadMoreSwap() {
 .read-more-arrow-left { flex-basis: 0; width: 0; color: #f97316; opacity: 0; transform: translateX(-12px); }
 .read-more-swap:hover .read-more-arrow-left, .read-more-swap:focus-visible .read-more-arrow-left { flex-basis: 25px; width: 25px; opacity: 1; transform: translateX(0); }
 .read-more-swap:hover .read-more-arrow-right, .read-more-swap:focus-visible .read-more-arrow-right { flex-basis: 0; width: 0; opacity: 0; transform: translateX(12px); }` },
+  { id: "projects-arrow-button", name: "Projects Arrow Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A Projects label paired with an outlined circular arrow that slides through itself on hover.", new: true, code: `import { ArrowRight } from "lucide-react";
+
+export function ProjectsArrowButton() {
+  return (
+    <button className="projects-arrow-button">
+      <span>Projects</span>
+      <span className="projects-arrow-icon" aria-hidden="true">
+        <ArrowRight className="projects-arrow projects-arrow-current" size={18} strokeWidth={2.4} />
+        <ArrowRight className="projects-arrow projects-arrow-incoming" size={18} strokeWidth={2.4} />
+      </span>
+    </button>
+  );
+}
+
+/* projects-arrow-button.css */
+.projects-arrow-button { display: inline-flex; align-items: center; gap: 9px; border: 0; background: transparent; color: #f0f0f0; font-size: 16px; font-weight: 500; letter-spacing: .5px; }
+.projects-arrow-icon { position: relative; display: grid; width: 32px; height: 32px; place-items: center; overflow: hidden; border: 1px solid currentColor; border-radius: 999px; }
+.projects-arrow { position: absolute; transition: transform .48s cubic-bezier(.16, 1, .3, 1); }
+.projects-arrow-incoming { transform: translateX(-25px); }
+.projects-arrow-button:hover .projects-arrow-current, .projects-arrow-button:focus-visible .projects-arrow-current { transform: translateX(25px); }
+.projects-arrow-button:hover .projects-arrow-incoming, .projects-arrow-button:focus-visible .projects-arrow-incoming { transform: translateX(0); }` },
 ];
 
 export const categories = ["All", "Inputs", "Navigation"];
