@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -65,6 +65,17 @@ function SpotlightDemo() {
   return <div className="spot-nav" ref={navRef}><span ref={barRef} className="spot-bar" aria-hidden="true"/>{SPOTLIGHT_ITEMS.map((item, i)=><button key={item.label} ref={el=>{btnRefs.current[i]=el;}} className={`spot-item ${active===i?"active":""}`} onClick={()=>setActive(i)}><span className="spot-item-icon"><Icon name={item.icon} size={15}/></span>{item.label}</button>)}</div>;
 }
 
+export function WhatsNewGlowButton() {
+  const updateGlow = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const position = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100));
+    event.currentTarget.style.setProperty("--glow-x", `${position}%`);
+  };
+  const resetGlow = (event: ReactPointerEvent<HTMLButtonElement>) => event.currentTarget.style.setProperty("--glow-x", "50%");
+
+  return <button className="whats-new-button" onPointerMove={updateGlow} onPointerLeave={resetGlow}><span className="whats-new-content"><ArrowRight size={16} strokeWidth={2.5}/>What's new</span><span className="whats-new-glow whats-new-glow-orange" aria-hidden="true"/><span className="whats-new-glow whats-new-glow-blue" aria-hidden="true"/></button>;
+}
+
 export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   const cls = `demo ${large ? "demo-large" : ""}`;
   if (id === "focus-input") return <div className={cls}><label className="demo-input"><span>Project name</span><input placeholder="e.g. microkit-web" /></label></div>;
@@ -75,6 +86,7 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "pricing-slide-link") return <div className={cls}><button className="pricing-slide"><span className="pricing-slide-icon" aria-hidden="true"><ArrowRight size={23} strokeWidth={2.25}/></span><span className="pricing-slide-label">Pricing</span></button></div>;
   if (id === "read-more-swap") return <div className={cls}><button className="read-more-swap"><ArrowRight className="read-more-arrow read-more-arrow-left" size={25} strokeWidth={2.5}/><span>Read more</span><ArrowRight className="read-more-arrow read-more-arrow-right" size={25} strokeWidth={2.5}/></button></div>;
   if (id === "projects-arrow-button") return <div className={cls}><button className="projects-arrow-button"><span>Projects</span><span className="projects-arrow-icon" aria-hidden="true"><ArrowRight className="projects-arrow projects-arrow-current" size={18} strokeWidth={2.4}/><ArrowRight className="projects-arrow projects-arrow-incoming" size={18} strokeWidth={2.4}/></span></button></div>;
+  if (id === "whats-new-glow-button") return <div className={cls}><WhatsNewGlowButton/></div>;
   if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
   return <div className={cls}>Preview</div>;
 }
@@ -212,7 +224,7 @@ export function CodePanel({ item, copy, copied }: { item:Interaction; copy:(id:s
   const [language, setLanguage] = useState<"JavaScript" | "TypeScript">("TypeScript");
   const [styling, setStyling] = useState<"CSS" | "Tailwind">(item.framework === "CSS" ? "CSS" : "Tailwind");
   const componentName = item.name.replaceAll(" ", "");
-  const tailwindCode = item.id === "focus-input" ? `export function FocusField() {
+  const defaultTailwindCode = item.id === "focus-input" ? `export function FocusField() {
   return (
     <label className="block w-[210px]">
       <span className="mb-[7px] block font-mono text-[10px] text-[#9298a1]">Project name</span>
@@ -332,8 +344,54 @@ export function SpotlightIndicator() {
     </div>
   );
 }`;
+  const componentTailwindCode: Record<string, string> = {
+    "read-more-swap": `import { ArrowRight } from "lucide-react";
+
+export function ReadMoreSwap() {
+  return (
+    <button className="group inline-flex h-12 items-center gap-3 overflow-hidden border-0 bg-transparent p-0 text-base font-medium text-[#f0f0f0]">
+      <ArrowRight className="w-0 shrink-0 translate-x-[-12px] text-[#f97316] opacity-0 transition-[width,transform,opacity] duration-[240ms] group-hover:w-[25px] group-hover:translate-x-0 group-hover:opacity-100" size={25} strokeWidth={2.5} />
+      <span>Read more</span>
+      <ArrowRight className="w-[25px] shrink-0 transition-[width,transform,opacity] duration-[240ms] group-hover:w-0 group-hover:translate-x-3 group-hover:opacity-0" size={25} strokeWidth={2.5} />
+    </button>
+  );
+}`,
+    "projects-arrow-button": `import { ArrowRight } from "lucide-react";
+
+export function ProjectsArrowButton() {
+  return (
+    <button className="group inline-flex items-center gap-[9px] border-0 bg-transparent p-0 text-base font-medium tracking-[.5px] text-[#f0f0f0]">
+      <span>Projects</span>
+      <span className="relative grid size-8 place-items-center overflow-hidden rounded-full border border-current">
+        <ArrowRight className="absolute transition-transform duration-[480ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-[25px]" size={18} strokeWidth={2.4} />
+        <ArrowRight className="absolute -translate-x-[25px] transition-transform duration-[480ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0" size={18} strokeWidth={2.4} />
+      </span>
+    </button>
+  );
+}`,
+    "whats-new-glow-button": `import type { PointerEvent as ReactPointerEvent } from "react";
+import { ArrowRight } from "lucide-react";
+
+export function WhatsNewGlowButton() {
+  const updateGlow = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const position = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100));
+    event.currentTarget.style.setProperty("--glow-x", \`\${position}%\`);
+  };
+  const resetGlow = (event: ReactPointerEvent<HTMLButtonElement>) => event.currentTarget.style.setProperty("--glow-x", "50%");
+
+  return (
+    <button onPointerMove={updateGlow} onPointerLeave={resetGlow} className="relative inline-flex min-h-[42px] items-center justify-center overflow-hidden rounded-full border border-[#36383d] bg-[#0e0e10] px-[18px] text-base font-medium text-[#f0f0f0]">
+      <span className="relative z-10 inline-flex items-center gap-[9px]"><ArrowRight size={16} strokeWidth={2.5} />What's new</span>
+      <span className="pointer-events-none absolute bottom-[-108%] left-[calc(var(--glow-x)-78%)] h-[180%] w-[112%] rounded-full bg-[linear-gradient(145deg,#ffbe91,#f97316_43%,#7a2808)] opacity-[.28] blur-[23px] transition-[left,transform,opacity] duration-[220ms] ease-out group-hover:translate-y-[-19px] group-hover:opacity-100" />
+      <span className="pointer-events-none absolute bottom-[-108%] left-[calc(var(--glow-x)-30%)] h-[180%] w-[112%] rounded-full bg-[linear-gradient(145deg,#77e1e6,#2187d7_45%,#192b8a)] opacity-[.28] blur-[23px] transition-[left,transform,opacity] duration-[220ms] ease-out group-hover:translate-y-[-19px] group-hover:opacity-100" />
+    </button>
+  );
+}`,
+  };
+  const tailwindCode = componentTailwindCode[item.id] ?? defaultTailwindCode;
   const implementation = styling === "Tailwind" ? tailwindCode : item.code;
-  const code = language === "JavaScript" ? implementation.replace(/: [A-Za-z][A-Za-z<>\[\]| ]*/g, "") : implementation;
+  const code = language === "JavaScript" ? implementation.replace(/^import type[^\n]*\n/gm, "").replace(/: ReactPointerEvent<HTMLButtonElement>/g, "").replace(/: [A-Za-z][A-Za-z<>\[\]| ]*/g, "") : implementation;
   const separator = code.indexOf("\n/* ");
   const componentCode = styling === "CSS" && separator !== -1 ? code.slice(0, separator) : code;
   const cssCode = styling === "CSS" && separator !== -1 ? code.slice(separator + 1) : "";
