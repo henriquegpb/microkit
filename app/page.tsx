@@ -64,6 +64,7 @@ function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "expanding-contact-button") return <div className={cls}><button className="contact-pill"><span className="contact-pill-icon" aria-hidden="true"><ArrowRight size={18} strokeWidth={2.5}/></span><span>Get in touch</span></button></div>;
   if (id === "contact-reveal-button") return <div className={cls}><button className="contact-reveal"><span className="contact-reveal-icon" aria-hidden="true"><ArrowRight size={18} strokeWidth={2.5}/></span><span>Get in touch</span></button></div>;
   if (id === "subscribe-shine-button") return <div className={cls}><button className="subscribe-shine"><span className="subscribe-shine-gradient" aria-hidden="true"/><span className="subscribe-shine-inner">Subscribe</span></button></div>;
+  if (id === "next-reveal-button") return <div className={cls}><button className="next-reveal"><span className="next-reveal-label">Next</span><ArrowRight className="next-reveal-arrow" size={27} strokeWidth={1.7}/></button></div>;
   if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
   return <div className={cls}>Preview</div>;
 }
@@ -155,10 +156,17 @@ function CodePanel({ item, copy, copied }: { item:Interaction; copy:(id:string,t
   const [language, setLanguage] = useState<"JavaScript" | "TypeScript">("TypeScript");
   const [styling, setStyling] = useState<"CSS" | "Tailwind">(item.framework === "CSS" ? "CSS" : "Tailwind");
   const componentName = item.name.replaceAll(" ", "");
-  const usage = language === "TypeScript"
-    ? `import { ${componentName} } from "@/components/${item.id}";\n\nexport default function Example() {\n  return <${componentName} />;\n}`
-    : `import { ${componentName} } from "./${item.id}.js";\n\nexport default function Example() {\n  return <${componentName} />;\n}`;
-  const tailwindCode = item.id === "expanding-contact-button" ? `import { ArrowRight } from "lucide-react";
+  const tailwindCode = item.id === "focus-input" ? `export function FocusField() {
+  return (
+    <label className="block w-[210px]">
+      <span className="mb-[7px] block font-mono text-[10px] text-[#9298a1]">Project name</span>
+      <input
+        className="w-full rounded-[5px] border border-[#363a42] bg-[#15171b] p-2 text-[11px] text-[#e8ebee] outline-none focus:border-[#f97316] focus:shadow-[0_0_0_3px_#f9731625]"
+        placeholder="e.g. microkit-web"
+      />
+    </label>
+  );
+}` : item.id === "expanding-contact-button" ? `import { ArrowRight } from "lucide-react";
 
 export function ExpandingContactButton() {
   return (
@@ -192,6 +200,62 @@ export function ContactRevealButton() {
       </span>
     </button>
   );
+}` : item.id === "next-reveal-button" ? `import { ArrowRight } from "lucide-react";
+
+export function NextRevealButton() {
+  return (
+    <button className="group relative inline-flex h-[42px] w-[110px] items-center justify-end overflow-hidden rounded-full border border-[#f0f0f033] bg-[#171717] px-[15px] text-[#f0f0f0] transition-[background-color,border-color,color] duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:border-transparent hover:bg-[#f97316] hover:text-[#171d1a] focus-visible:border-transparent focus-visible:bg-[#f97316] focus-visible:text-[#171d1a]">
+      <span className="absolute left-[21px] translate-y-[160%] text-base font-normal opacity-0 transition-[opacity,transform] duration-300 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+        Next
+      </span>
+      <ArrowRight className="relative z-10 shrink-0" size={27} strokeWidth={1.7} />
+    </button>
+  );
+}` : item.id === "spotlight-indicator" ? `import { useEffect, useRef, useState } from "react";
+import { Clock, Heart, Layers } from "lucide-react";
+
+const items = [
+  { label: "All components", Icon: Layers },
+  { label: "Recently viewed", Icon: Clock },
+  { label: "Favorites", Icon: Heart },
+];
+
+export function SpotlightIndicator() {
+  const navRef = useRef(null);
+  const barRef = useRef(null);
+  const buttonRefs = useRef([]);
+  const animatedRef = useRef(false);
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    const bar = barRef.current;
+    const button = buttonRefs.current[active];
+    if (!nav || !bar || !button) return;
+    const navRect = nav.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+    bar.style.top = \`\${buttonRect.top - navRect.top + 4}px\`;
+    bar.style.height = \`\${buttonRect.height - 8}px\`;
+    const frame = requestAnimationFrame(() => { animatedRef.current = true; });
+    return () => cancelAnimationFrame(frame);
+  }, [active]);
+
+  return (
+    <div ref={navRef} className="relative flex w-[210px] flex-col gap-0.5 rounded-lg border border-[#2f333a] bg-[#101216] p-1.5">
+      <span ref={barRef} className="pointer-events-none absolute left-1 w-0.5 rounded-sm bg-[#f97316] shadow-[2px_0_5px_rgba(249,115,22,.8),4px_0_11px_rgba(249,115,22,.45)] transition-[top,height] duration-300 ease-[cubic-bezier(.4,0,.2,1)]" />
+      {items.map(({ label, Icon }, index) => (
+        <button
+          key={label}
+          ref={(element) => { buttonRefs.current[index] = element; }}
+          className={\`flex items-center gap-2.5 rounded-md bg-transparent px-3 py-2 text-left text-xs transition-colors duration-300 hover:bg-[#17191d] hover:text-[#e4e6e9] \${active === index ? "text-[#f6f7f8]" : "text-[#a9afb8]"}\`}
+          onClick={() => setActive(index)}
+        >
+          <Icon className={active === index ? "text-[#f97316]" : "opacity-40"} size={15} />
+          {label}
+        </button>
+      ))}
+    </div>
+  );
 }` : `export function ${componentName}() {
   return (
     <div className="rounded-md border border-zinc-700 bg-zinc-950 p-4">
@@ -199,11 +263,13 @@ export function ContactRevealButton() {
     </div>
   );
 }`;
-  const cssCode = item.framework === "CSS" ? item.code : item.code.includes("/*") ? item.code.slice(item.code.lastIndexOf("/*")) : item.code;
-  const implementation = styling === "Tailwind" ? tailwindCode : cssCode;
+  const implementation = styling === "Tailwind" ? tailwindCode : item.code;
   const code = language === "JavaScript" ? implementation.replace(/: [A-Za-z][A-Za-z<>\[\]| ]*/g, "") : implementation;
+  const separator = code.indexOf("\n/* ");
+  const componentCode = styling === "CSS" && separator !== -1 ? code.slice(0, separator) : code;
+  const cssCode = styling === "CSS" && separator !== -1 ? code.slice(separator + 1) : "";
 
-  return <div className="component-code"><section className="code-section"><h2>Usage</h2><CodeSnippet label="usage" code={usage} item={item} copy={copy} copied={copied}/></section><section className="code-section"><h2>Code</h2><div className="code-selectors"><label><span>{language === "TypeScript" ? "TS" : "JS"}</span><select value={language} onChange={event=>setLanguage(event.target.value as "JavaScript" | "TypeScript")}><option>JavaScript</option><option>TypeScript</option></select></label><label><span>⌁</span><select value={styling} onChange={event=>setStyling(event.target.value as "CSS" | "Tailwind")}><option>CSS</option><option>Tailwind</option></select></label></div><CodeSnippet label={`${item.id}-${language}-${styling}`} code={code} item={item} copy={copy} copied={copied}/></section></div>
+  return <div className="component-code"><section className="code-section"><h2>Code</h2><div className="code-selectors"><label><span>{language === "TypeScript" ? "TS" : "JS"}</span><select value={language} onChange={event=>setLanguage(event.target.value as "JavaScript" | "TypeScript")}><option>JavaScript</option><option>TypeScript</option></select></label><label><span>⌁</span><select value={styling} onChange={event=>setStyling(event.target.value as "CSS" | "Tailwind")}><option>CSS</option><option>Tailwind</option></select></label></div>{styling === "CSS" ? <div className="code-files"><div className="code-file"><h3>{language} component</h3><CodeSnippet label={`${item.id}-${language}`} code={componentCode} item={item} copy={copy} copied={copied}/></div><div className="code-file"><h3>CSS</h3><CodeSnippet label={`${item.id}-css`} code={cssCode} item={item} copy={copy} copied={copied}/></div></div> : <CodeSnippet label={`${item.id}-${language}-tailwind`} code={code} item={item} copy={copy} copied={copied}/>}</section></div>
 }
 function CodeSnippet({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-snippet"><button className="snippet-copy" onClick={()=>copy(id,code)} aria-label="Copy code"><Icon name={copied===id?"check":"copy"}/></button><pre>{code.split("\n").map((line,index)=><span className="snippet-line" key={`${index}-${line}`}><i>{index + 1}</i><code>{line || " "}</code></span>)}</pre></div> }
 function CodeBlock({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-block"><div className="code-head"><span><Icon name="code"/> {label}</span><button onClick={()=>copy(id,code)}><Icon name={copied===id?"check":"copy"}/> {copied===id?"Copied":"Copy"}</button></div><pre><code>{code}</code></pre></div> }

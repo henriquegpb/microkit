@@ -17,7 +17,37 @@ export type Interaction = {
 };
 
 export const interactions: Interaction[] = [
-  { id: "focus-input", name: "Focus Field", category: "Inputs", framework: "CSS", type: "Focus", description: "An input with a clean animated focus treatment.", code: "input:focus {\n  border-color: #F97316;\n  box-shadow: 0 0 0 3px #f9731622;\n}" },
+  { id: "focus-input", name: "Focus Field", category: "Inputs", framework: "CSS", type: "Focus", description: "An input with a clean animated focus treatment.", code: `export function FocusField() {
+  return (
+    <label className="demo-input">
+      <span>Project name</span>
+      <input placeholder="e.g. microkit-web" />
+    </label>
+  );
+}
+
+/* focus-field.css */
+.demo-input { width: 210px; display: block; }
+.demo-input span {
+  display: block;
+  margin: 0 0 7px;
+  color: #9298a1;
+  font: 10px ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.demo-input input {
+  width: 100%;
+  border: 1px solid #363a42;
+  border-radius: 5px;
+  background: #15171b;
+  padding: 8px;
+  color: #e8ebee;
+  font-size: 11px;
+  outline: 0;
+}
+.demo-input input:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px #f9731625;
+}` },
   { id: "expanding-contact-button", name: "Expanding Contact Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A pill-shaped call-to-action with an expanding background and arrow icon, adapted from the supplied Webflow export.", new: true, code: `import { ArrowRight } from "lucide-react";
 
 export function ExpandingContactButton() {
@@ -190,54 +220,150 @@ export function ContactRevealButton() {
   transition-duration: 3s;
 }
 .subscribe-shine:focus-visible { outline: 2px solid #f97316; outline-offset: 3px; }` },
-  { id: "spotlight-indicator", name: "Spotlight Indicator", category: "Navigation", framework: "React", type: "Click", description: "A glowing rail that slides to the active item in a vertical nav — the same indicator powering this site's sidebar.", new: true, code: `function SpotlightNav({ items }: { items: string[] }) {
-  const [active, setActive] = useState(0);
-  const navRef = useRef<HTMLDivElement>(null);
-  const barRef = useRef<HTMLSpanElement>(null);
-  const btns = useRef<(HTMLButtonElement | null)[]>([]);
+  { id: "next-reveal-button", name: "Next Reveal Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An outlined arrow control that expands into a bright Next button on hover.", new: true, code: `import { ArrowRight } from "lucide-react";
 
-  // Measure the active button and move the rail to match it.
+export function NextRevealButton() {
+  return (
+    <button className="next-reveal">
+      <span className="next-reveal-label">Next</span>
+      <ArrowRight className="next-reveal-arrow" size={27} strokeWidth={1.7} />
+    </button>
+  );
+}
+
+/* next-reveal-button.css */
+.next-reveal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 110px;
+  height: 42px;
+  overflow: hidden;
+  border: 1px solid #f0f0f033;
+  border-radius: 999px;
+  background: #171717;
+  color: #f0f0f0;
+  padding: 0 15px;
+  cursor: pointer;
+  transition: background-color .3s cubic-bezier(.16, 1, .3, 1), border-color .3s cubic-bezier(.16, 1, .3, 1), color .3s cubic-bezier(.16, 1, .3, 1);
+}
+.next-reveal-label {
+  position: absolute;
+  left: 21px;
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0;
+  transform: translateY(160%);
+  transition: opacity .3s cubic-bezier(.16, 1, .3, 1), transform .3s cubic-bezier(.16, 1, .3, 1);
+}
+.next-reveal-arrow { position: relative; z-index: 1; flex: none; }
+.next-reveal:hover,
+.next-reveal:focus-visible {
+  border-color: transparent;
+  background: #f97316;
+  color: #171d1a;
+  outline: 0;
+}
+.next-reveal:hover .next-reveal-label,
+.next-reveal:focus-visible .next-reveal-label { opacity: 1; transform: translateY(0); }` },
+  { id: "spotlight-indicator", name: "Spotlight Indicator", category: "Navigation", framework: "React", type: "Click", description: "A glowing rail that slides to the active item in a vertical nav — the same indicator powering this site's sidebar.", new: true, code: `import { useEffect, useRef, useState } from "react";
+import { Clock, Heart, Layers } from "lucide-react";
+
+const items = [
+  { label: "All components", Icon: Layers },
+  { label: "Recently viewed", Icon: Clock },
+  { label: "Favorites", Icon: Heart },
+];
+
+export function SpotlightIndicator() {
+  const navRef = useRef(null);
+  const barRef = useRef(null);
+  const buttonRefs = useRef([]);
+  const animatedRef = useRef(false);
+  const [active, setActive] = useState(0);
+
   useEffect(() => {
     const bar = barRef.current;
-    const btn = btns.current[active];
+    const button = buttonRefs.current[active];
     const nav = navRef.current;
-    if (!bar || !btn || !nav) return;
-    const n = nav.getBoundingClientRect();
-    const b = btn.getBoundingClientRect();
-    bar.style.top = \`\${b.top - n.top + 4}px\`;
-    bar.style.height = \`\${b.height - 8}px\`;
+    if (!bar || !button || !nav) return;
+    const navRect = nav.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+    bar.style.transition = animatedRef.current
+      ? "top .3s cubic-bezier(.4, 0, .2, 1), height .3s cubic-bezier(.4, 0, .2, 1)"
+      : "none";
+    bar.style.top = \`\${buttonRect.top - navRect.top + 4}px\`;
+    bar.style.height = \`\${buttonRect.height - 8}px\`;
+    const frame = requestAnimationFrame(() => { animatedRef.current = true; });
+    return () => cancelAnimationFrame(frame);
   }, [active]);
 
   return (
-    <nav ref={navRef} className="spot-nav">
-      <span ref={barRef} className="spot-bar" aria-hidden />
-      {items.map((label, i) => (
+    <div className="spot-nav" ref={navRef}>
+      <span className="spot-bar" ref={barRef} aria-hidden="true" />
+      {items.map(({ label, Icon }, index) => (
         <button
           key={label}
-          ref={(el) => { btns.current[i] = el; }}
-          className={i === active ? "spot-item active" : "spot-item"}
-          onClick={() => setActive(i)}
+          ref={(element) => { buttonRefs.current[index] = element; }}
+          className={\`spot-item \${active === index ? "active" : ""}\`}
+          onClick={() => setActive(index)}
         >
+          <span className="spot-item-icon"><Icon size={15} /></span>
           {label}
         </button>
       ))}
-    </nav>
+    </div>
   );
 }
 
 /* spotlight-indicator.css */
-.spot-nav { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 6px; }
+.spot-nav {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 210px;
+  padding: 6px;
+  border: 1px solid #2f333a;
+  border-radius: 8px;
+  background: #101216;
+}
 .spot-bar {
-  position: absolute; left: 4px; width: 2px; border-radius: 2px; background: #f97316;
+  position: absolute;
+  top: 0;
+  left: 4px;
+  width: 2px;
+  height: 0;
+  border-radius: 2px;
+  background: #f97316;
   box-shadow: 2px 0 5px rgba(249, 115, 22, .8), 4px 0 11px rgba(249, 115, 22, .45);
-  transition: top .3s cubic-bezier(.4, 0, .2, 1), height .3s cubic-bezier(.4, 0, .2, 1);
+  pointer-events: none;
 }
 .spot-item {
-  border: 0; background: transparent; color: #a9afb8; text-align: left;
-  padding: 8px 12px; border-radius: 6px; transition: color .3s, background .3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  padding: 8px 12px;
+  color: #a9afb8;
+  font-size: 12px;
+  text-align: left;
+  transition: color .3s cubic-bezier(.4, 0, .2, 1), background .3s cubic-bezier(.4, 0, .2, 1);
 }
-.spot-item:hover { background: rgba(255, 255, 255, .03); }
-.spot-item.active { color: #f6f7f8; }` },
+.spot-item:hover { background: #17191d; color: #e4e6e9; }
+.spot-item.active { color: #f6f7f8; }
+.spot-item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  opacity: .4;
+  transition: opacity .3s cubic-bezier(.4, 0, .2, 1), color .3s;
+}
+.spot-item.active .spot-item-icon { opacity: 1; color: #f97316; }` },
 ];
 
 export const categories = ["All", "Inputs", "Navigation"];
