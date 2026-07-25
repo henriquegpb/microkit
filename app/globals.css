@@ -214,6 +214,8 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
 
 .preview-browser-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #f0f0f0;border-radius:999px;background:transparent;padding:12px 24px;color:#f0f0f0;font-size:16px;font-weight:500}.preview-browser-icon{position:relative;display:grid;width:17px;height:20px;place-items:center;overflow:hidden}.preview-browser-arrow{position:absolute;transform:rotate(-45deg);transition:transform .42s cubic-bezier(.16,1,.3,1)}.preview-browser-arrow-incoming{transform:translate(-16px,12px) rotate(-45deg)}.preview-browser-button:hover .preview-browser-arrow-current,.preview-browser-button:focus-visible .preview-browser-arrow-current{transform:translate(16px,-12px) rotate(-45deg)}.preview-browser-button:hover .preview-browser-arrow-incoming,.preview-browser-button:focus-visible .preview-browser-arrow-incoming{transform:translate(0,0) rotate(-45deg)}.preview-browser-button:focus-visible{outline:2px solid #f97316;outline-offset:3px}
 
+.download-ios-button{display:inline-flex;align-items:center;justify-content:center;width:228px;min-height:56px;overflow:hidden;border:1px solid #ffffff14;border-radius:12px;background:transparent;padding:8px 16px;color:#f0f0f0}.download-ios-content{position:relative;display:inline-flex;align-items:center;gap:8px}.download-ios-apple{width:24px;height:24px;flex:none;color:#f0f0f0;transition:width .52s cubic-bezier(.16,1,.3,1),margin .52s cubic-bezier(.16,1,.3,1),opacity .24s ease,transform .52s cubic-bezier(.16,1,.3,1)}.download-ios-label{position:relative;z-index:1;white-space:nowrap;font-size:16px;font-weight:500}.download-ios-arrow{display:grid;width:0;height:24px;margin-left:-8px;overflow:hidden;place-items:center;opacity:0;transform:translateX(18px);transition:width .52s cubic-bezier(.16,1,.3,1),margin .52s cubic-bezier(.16,1,.3,1),opacity .24s ease,transform .52s cubic-bezier(.16,1,.3,1)}.download-ios-button:hover .download-ios-apple,.download-ios-button:focus-visible .download-ios-apple{width:0;margin-right:-8px;opacity:0;transform:translateX(-18px)}.download-ios-button:hover .download-ios-arrow,.download-ios-button:focus-visible .download-ios-arrow{width:24px;margin-left:0;opacity:1;transform:translateX(0)}.download-ios-button:focus-visible{outline:2px solid #f97316;outline-offset:3px}
+
 /* Nested tunnel artwork replacing the original orange hero block. */
 @property --tunnel-x{syntax:"<percentage>";inherits:true;initial-value:0%}
 @property --tunnel-y{syntax:"<percentage>";inherits:true;initial-value:100%}
@@ -228,3 +230,13 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
 .hero-arch i:nth-child(6){--tunnel-inset:40%}
 @media (max-width:1000px){.hero-arch{top:-50%;right:6%;width:58%;height:auto}}
 @media (max-width:680px){.hero-arch{top:-50%;right:-17%;width:77%;height:auto;border-radius:22%}}
+
+.play-tabs{--play-tab-width:66px;--play-tab-gap:18px;position:relative;gap:var(--play-tab-gap)}
+.play-tabs::after{content:"";position:absolute;bottom:-1px;left:0;width:var(--play-tab-width);height:2px;background:#f97316;transform:translateX(0);transition:transform .34s cubic-bezier(.16,1,.3,1);pointer-events:none}
+.play-tabs:has(button:nth-child(2).active)::after{transform:translateX(calc(var(--play-tab-width) + var(--play-tab-gap)))}
+.play-tabs button{width:var(--play-tab-width);border-bottom:0!important;padding:10px 0;color:#858c96;font-size:16px;transition:color .3s ease}
+.play-tabs button.active{color:#f4f5f7}
+@media (prefers-reduced-motion:reduce){.play-tabs::after,.play-tabs button{transition:none}}
+
+.crumb>span{display:none}
+.code-selectors label{cursor:pointer}

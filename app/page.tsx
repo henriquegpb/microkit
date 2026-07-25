@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { Highlight, type Language, type PrismTheme } from "prism-react-renderer";
 import {
   ArrowLeft,
   ArrowRight,
@@ -28,6 +29,55 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { interactions, type Interaction } from "../content/interactions/catalog";
+
+const microKitCodeTheme: PrismTheme = {
+  plain: {
+    color: "#d8d9dd",
+    backgroundColor: "transparent",
+  },
+  styles: [
+    {
+      types: ["comment", "prolog", "doctype", "cdata"],
+      style: { color: "#5f646c", fontStyle: "italic" },
+    },
+    {
+      types: ["keyword", "atrule", "rule"],
+      style: { color: "#f97316", fontWeight: "600" },
+    },
+    {
+      types: ["selector", "tag", "class-name", "important"],
+      style: { color: "#ffad75" },
+    },
+    {
+      types: ["property", "attr-name"],
+      style: { color: "#d99562" },
+    },
+    {
+      types: ["string", "char", "attr-value", "regex"],
+      style: { color: "#f2c4a0" },
+    },
+    {
+      types: ["number", "boolean", "constant", "symbol", "unit"],
+      style: { color: "#ff8c47" },
+    },
+    {
+      types: ["function", "function-variable"],
+      style: { color: "#f2f3f4" },
+    },
+    {
+      types: ["operator", "entity", "url"],
+      style: { color: "#c96f3b" },
+    },
+    {
+      types: ["punctuation"],
+      style: { color: "#898f98" },
+    },
+    {
+      types: ["builtin", "variable", "parameter"],
+      style: { color: "#c8ccd2" },
+    },
+  ],
+};
 
 const icons = { heart: Heart, search: Search, copy: Copy, back: ArrowLeft, code: Code2, grid: PanelLeft, reset: RotateCcw, desktop: Monitor, mobile: Smartphone, check: Check, close: X, sliders: SlidersHorizontal, arrow: ArrowUpRight, layers: Layers, clock: Clock } satisfies Record<string, LucideIcon>;
 function Icon({ name, size = 16, filled = false }: { name: keyof typeof icons; size?: number; filled?: boolean }) { const Glyph = icons[name]; return <Glyph aria-hidden="true" size={size} strokeWidth={1.8} fill={filled ? "currentColor" : "none"} />; }
@@ -76,6 +126,10 @@ export function WhatsNewGlowButton() {
   return <button className="whats-new-button" onPointerMove={updateGlow} onPointerLeave={resetGlow}><span className="whats-new-content"><ArrowRight size={16} strokeWidth={2.5}/>What's new</span><span className="whats-new-glow whats-new-glow-orange" aria-hidden="true"/><span className="whats-new-glow whats-new-glow-blue" aria-hidden="true"/></button>;
 }
 
+function AppleMark() {
+  return <svg className="download-ios-apple" width="18" height="20" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M13.5621 5.45739C13.4857 5.50195 11.6671 6.44248 11.6671 8.52785C11.7528 10.9061 13.9621 11.7401 14 11.7401C13.9621 11.7847 13.6665 12.8763 12.7907 14.0205C12.0956 15.0062 11.3242 16 10.1528 16C9.0385 16 8.6385 15.3431 7.35278 15.3431C5.97203 15.3431 5.58135 16 4.5242 16C3.35277 16 2.52419 14.953 1.79127 13.9766C.839096 12.6986.0297778 10.6931.00120634 8.76747C-.0180484 7.74707.19189 6.74403.72481 5.89206C1.47699 4.70265 2.81985 3.89524 4.28631 3.86862C5.40992 3.83331 6.40992 4.58747 7.09563 4.58747C7.75278 4.58747 8.98135 3.86862 10.3714 3.86862C10.9714 3.86919 12.5714 4.03762 13.5621 5.45739ZM7.0006 3.66488C6.8006 2.73303 7.35278 1.80119 7.86706 1.20677C8.52421.487918 9.5621 0 10.4571 0C10.5143.931848 10.1522 1.84575 9.50496 2.51136C8.92421 3.23021 7.92421 3.77138 7.0006 3.66488Z" fill="currentColor"/></svg>;
+}
+
 export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   const cls = `demo ${large ? "demo-large" : ""}`;
   if (id === "focus-input") return <div className={cls}><label className="demo-input"><span>Project name</span><input placeholder="e.g. microkit-web" /></label></div>;
@@ -88,6 +142,7 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "projects-arrow-button") return <div className={cls}><button className="projects-arrow-button"><span>Projects</span><span className="projects-arrow-icon" aria-hidden="true"><ArrowRight className="projects-arrow projects-arrow-current" size={18} strokeWidth={2.4}/><ArrowRight className="projects-arrow projects-arrow-incoming" size={18} strokeWidth={2.4}/></span></button></div>;
   if (id === "whats-new-glow-button") return <div className={cls}><WhatsNewGlowButton/></div>;
   if (id === "preview-browser-button") return <div className={cls}><button className="preview-browser-button"><span>Preview in browser</span><span className="preview-browser-icon" aria-hidden="true"><ArrowRight className="preview-browser-arrow preview-browser-arrow-current" size={17} strokeWidth={2.4}/><ArrowRight className="preview-browser-arrow preview-browser-arrow-incoming" size={17} strokeWidth={2.4}/></span></button></div>;
+  if (id === "download-ios-button") return <div className={cls}><button className="download-ios-button"><span className="download-ios-content"><AppleMark/><span className="download-ios-label">Download for IOS</span><span className="download-ios-arrow" aria-hidden="true"><ArrowRight size={17} strokeWidth={2.4}/></span></span></button></div>;
   if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
   return <div className={cls}>Preview</div>;
 }
@@ -224,6 +279,21 @@ function SponsorCard() { return <section className="sponsor-card" aria-label="Sp
 export function CodePanel({ item, copy, copied }: { item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) {
   const [language, setLanguage] = useState<"JavaScript" | "TypeScript">("TypeScript");
   const [styling, setStyling] = useState<"CSS" | "Tailwind">(item.framework === "CSS" ? "CSS" : "Tailwind");
+  useEffect(() => {
+    const openSelector = (event: PointerEvent) => {
+      const target = event.target as HTMLElement;
+      const label = target.closest<HTMLLabelElement>(".code-selectors label");
+      if (!label || target.closest("select")) return;
+      const select = label.querySelector("select");
+      if (!select) return;
+      event.preventDefault();
+      select.focus();
+      if (typeof select.showPicker === "function") select.showPicker();
+      else select.click();
+    };
+    document.addEventListener("pointerdown", openSelector);
+    return () => document.removeEventListener("pointerdown", openSelector);
+  }, []);
   const componentName = item.name.replaceAll(" ", "");
   const defaultTailwindCode = item.id === "focus-input" ? `export function FocusField() {
   return (
@@ -402,6 +472,29 @@ export function PreviewInBrowserButton() {
     </button>
   );
 }`,
+    "download-ios-button": `import { ArrowRight } from "lucide-react";
+
+function AppleMark() {
+  return (
+    <svg className="size-6 shrink-0 text-[#f0f0f0] transition-[width,margin,opacity,transform] duration-[520ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:-mr-2 group-hover:w-0 group-hover:-translate-x-[18px] group-hover:opacity-0 group-focus-visible:-mr-2 group-focus-visible:w-0 group-focus-visible:-translate-x-[18px] group-focus-visible:opacity-0" width="18" height="20" viewBox="0 0 14 16" fill="none" aria-hidden="true">
+      <path d="M13.5621 5.45739C13.4857 5.50195 11.6671 6.44248 11.6671 8.52785C11.7528 10.9061 13.9621 11.7401 14 11.7401C13.9621 11.7847 13.6665 12.8763 12.7907 14.0205C12.0956 15.0062 11.3242 16 10.1528 16C9.0385 16 8.6385 15.3431 7.35278 15.3431C5.97203 15.3431 5.58135 16 4.5242 16C3.35277 16 2.52419 14.953 1.79127 13.9766C.839096 12.6986.0297778 10.6931.00120634 8.76747C-.0180484 7.74707.19189 6.74403.72481 5.89206C1.47699 4.70265 2.81985 3.89524 4.28631 3.86862C5.40992 3.83331 6.40992 4.58747 7.09563 4.58747C7.75278 4.58747 8.98135 3.86862 10.3714 3.86862C10.9714 3.86919 12.5714 4.03762 13.5621 5.45739ZM7.0006 3.66488C6.8006 2.73303 7.35278 1.80119 7.86706 1.20677C8.52421.487918 9.5621 0 10.4571 0C10.5143.931848 10.1522 1.84575 9.50496 2.51136C8.92421 3.23021 7.92421 3.77138 7.0006 3.66488Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function DownloadIOSButton() {
+  return (
+    <button className="group inline-flex min-h-14 w-[228px] items-center justify-center overflow-hidden rounded-xl border border-[#ffffff14] bg-transparent px-4 py-2 text-[#f0f0f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[#f97316]">
+      <span className="relative inline-flex items-center gap-2">
+        <AppleMark />
+        <span className="relative z-10 whitespace-nowrap text-base font-medium">Download for IOS</span>
+        <span className="-ml-2 grid h-6 w-0 translate-x-[18px] place-items-center overflow-hidden opacity-0 transition-[width,margin,opacity,transform] duration-[520ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:ml-0 group-hover:w-6 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:ml-0 group-focus-visible:w-6 group-focus-visible:translate-x-0 group-focus-visible:opacity-100" aria-hidden="true">
+          <ArrowRight size={17} strokeWidth={2.4} />
+        </span>
+      </span>
+    </button>
+  );
+}`,
   };
   const tailwindCode = componentTailwindCode[item.id] ?? defaultTailwindCode;
   const implementation = styling === "Tailwind" ? tailwindCode : item.code;
@@ -422,6 +515,15 @@ function formatCssCode(source: string) {
     .replace(/\n  \n}/g, "\n}")
     .trim();
 }
-function CodeSnippet({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-snippet"><button className="snippet-copy" onClick={()=>copy(id,code)} aria-label="Copy code"><Icon name={copied===id?"check":"copy"}/></button><pre>{code.split("\n").map((line,index)=><span className="snippet-line" key={`${index}-${line}`}><i>{index + 1}</i><code>{line || " "}</code></span>)}</pre></div> }
+function getSnippetLanguage(label: string): Language {
+  if (label.endsWith("-css")) return "css";
+  return label.includes("JavaScript") ? "jsx" : "tsx";
+}
+function CodeSnippet({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) {
+  const id = `${item.id}-${label}`;
+  const language = getSnippetLanguage(label);
+
+  return <div className="code-snippet"><button className="snippet-copy" onClick={()=>copy(id,code)} aria-label="Copy code"><Icon name={copied===id?"check":"copy"}/></button><Highlight theme={microKitCodeTheme} code={code} language={language}>{({ tokens, getLineProps, getTokenProps })=><pre>{tokens.map((line,index)=>{const lineProps=getLineProps({line});return <span {...lineProps} className={`${lineProps.className} snippet-line`} key={index}><i>{index + 1}</i><code>{line.map((token,tokenIndex)=><span {...getTokenProps({token})} key={tokenIndex}/>)}</code></span>;})}</pre>}</Highlight></div>;
+}
 function CodeBlock({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-block"><div className="code-head"><span><Icon name="code"/> {label}</span><button onClick={()=>copy(id,code)}><Icon name={copied===id?"check":"copy"}/> {copied===id?"Copied":"Copy"}</button></div><pre><code>{code}</code></pre></div> }
 function DetailInfo({ item }: { item:Interaction }) { return <section className="detail-info"><div><h2>Installation</h2><p>{item.dependency ? "This interaction uses a small external dependency for gesture handling." : "No dependencies required. Drop the component into your project."}</p><CodeBlock label="Terminal" code={item.dependency ? `npm install ${item.dependency}` : "# No installation required"} item={item} copy={()=>{}} copied={null}/></div><div><h2>Accessibility</h2><p>Keyboard interactive, with visible focus states and a reduced-motion fallback included by default.</p><div className="a11y-tags"><span>Keyboard</span><span>Focus visible</span><span>Reduced motion</span></div></div><div><h2>Related</h2><div className="related">{interactions.filter(x=>x.id!==item.id).map(x=><button key={x.id}>{x.name} <Icon name="arrow"/></button>)}</div></div></section> }
