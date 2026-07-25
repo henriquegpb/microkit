@@ -482,6 +482,62 @@ export function WhatsNewGlowButton() {
 .whats-new-glow-blue { left: calc(var(--glow-x) - 30%); background: linear-gradient(145deg, #77e1e6, #2187d7 45%, #192b8a); }
 .whats-new-button:hover .whats-new-glow, .whats-new-button:focus-visible .whats-new-glow { transform: translateY(-19px); opacity: 1; }
 .whats-new-button:focus-visible { outline: 2px solid #f97316; outline-offset: 3px; }` },
+  { id: "preview-browser-button", name: "Preview in Browser Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An outlined pill button with a diagonal arrow that slides through on hover.", new: true, code: `import { ArrowRight } from "lucide-react";
+
+export function PreviewInBrowserButton() {
+  return (
+    <button className="preview-browser-button">
+      <span>Preview in browser</span>
+      <span className="preview-browser-icon" aria-hidden="true">
+        <ArrowRight className="preview-browser-arrow preview-browser-arrow-current" size={17} strokeWidth={2.4} />
+        <ArrowRight className="preview-browser-arrow preview-browser-arrow-incoming" size={17} strokeWidth={2.4} />
+      </span>
+    </button>
+  );
+}
+
+/* preview-browser-button.css */
+.preview-browser-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #f0f0f0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 12px 24px;
+  color: #f0f0f0;
+  font-size: 16px;
+  font-weight: 500;
+}
+.preview-browser-icon {
+  position: relative;
+  display: grid;
+  width: 17px;
+  height: 20px;
+  place-items: center;
+  overflow: hidden;
+}
+.preview-browser-arrow {
+  position: absolute;
+  transform: rotate(-45deg);
+  transition: transform .42s cubic-bezier(.16, 1, .3, 1);
+}
+.preview-browser-arrow-incoming {
+  transform: translate(-16px, 12px) rotate(-45deg);
+}
+.preview-browser-button:hover .preview-browser-arrow-current,
+.preview-browser-button:focus-visible .preview-browser-arrow-current {
+  transform: translate(16px, -12px) rotate(-45deg);
+}
+.preview-browser-button:hover .preview-browser-arrow-incoming,
+.preview-browser-button:focus-visible .preview-browser-arrow-incoming {
+  transform: translate(0, 0) rotate(-45deg);
+}
+.preview-browser-button:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 3px;
+}` },
 ];
 
 export const categories = ["All", "Inputs", "Navigation"];
