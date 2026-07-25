@@ -1,15 +1,64 @@
-# MicroKit UI
+<div align="center">
+  <br />
+  <img src="./app/icon.svg" alt="MicroKit orange square" width="88" height="88" />
+  <h1>MicroKit UI</h1>
+  <strong>Details matter.</strong>
+  <br />
+  <sub>Copy-paste microinteractions for thoughtful product interfaces.</sub>
+  <br />
+  <br />
+  <a href="https://github.com/henriquegpb/microkit/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/henriquegpb/microkit?style=flat&color=f97316" />
+  </a>
+  <a href="https://microkit.vercel.app">
+    <img alt="Website status" src="https://img.shields.io/website?url=https%3A%2F%2Fmicrokit.vercel.app&label=website&color=f97316" />
+  </a>
+  <br />
+  <br />
+  <a href="https://microkit.vercel.app">Explore interactions</a>
+  ·
+  <a href="https://microkit.vercel.app/submit">Submit a component</a>
+  ·
+  <a href="https://microkit.vercel.app/sponsors">Sponsors</a>
+</div>
 
-MicroKit UI is a free, developer-focused library of copy-paste microinteractions. Every library item has a live preview and the code needed to reproduce it.
+<br />
 
-This repository currently contains the product shell, gallery, playground, and a sample interaction catalog. It is intentionally structured to make adding a large number of interactions predictable.
+## Why MicroKit?
 
-## Quick start
+MicroKit is a focused library for the small interactions that make an interface feel considered. Each component has a live preview and copy-ready source, so you can inspect the behavior, choose your preferred implementation, and adapt it directly in your project.
+
+MicroKit is built for copying and learning from the source—not for hiding interaction details behind a package API.
+
+## Features
+
+- **12 interactive components** with dedicated preview pages
+- **JavaScript and TypeScript** implementations
+- **CSS and Tailwind** styling variants
+- **Live previews** for testing every interaction before copying
+- **Copy-ready source** designed to reproduce the displayed component
+- **Favorites and recently viewed** components stored locally in the browser
+- **Direct component routes** for sharing individual interactions
+- **GitHub-based submissions** with no custom backend required
+
+## Using a component
+
+1. Open the [interaction library](https://microkit.vercel.app).
+2. Select a component to open its dedicated page.
+3. Test the interaction in the live preview.
+4. Open the **Code** tab.
+5. Choose JavaScript or TypeScript.
+6. Choose CSS or Tailwind.
+7. Copy the source into your project and customize it.
+
+Some interactions use `lucide-react` for icons. Any required dependency is visible in the copied source.
+
+## Run locally
 
 **Requirements:** Node.js 20 or newer and npm.
 
 ```bash
-git clone <your-fork-url>
+git clone https://github.com/henriquegpb/microkit.git
 cd microkit
 npm install
 npm run dev
@@ -17,88 +66,88 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-### If the development server cannot start
-
-Next.js uses Turbopack by default. If its native compiler is unavailable on your machine, use the Webpack fallback:
+Create a production build with:
 
 ```bash
-npm run dev -- --webpack
+npm run build
 ```
-
-This is also the command to use in this checkout, where the native macOS SWC binary cannot load.
 
 ## Project structure
 
 ```text
 app/
-  layout.tsx                     App metadata and root layout
-  page.tsx                       Gallery and playground UI
-  globals.css                    Global visual system and preview styles
+  components/[id]/page.tsx   Dedicated component routes
+  sponsors/page.tsx          Sponsors route
+  submit/page.tsx            Contribution route
+  page.tsx                   Gallery, previews, and shared page UI
+  globals.css                Visual system and interaction styles
 
 content/
-  interactions/
-    catalog.ts                   Interaction metadata, filters, and copyable code
-    README.md                    Catalog-specific authoring notes
+  interactions/catalog.ts    Component metadata and copyable source
 
 public/
-  assets/                        Every static file delivered to website visitors
-    interactions/<interaction>/  Component-specific images, media, or downloads
-    brand/                       Shared logos and product assets
-    legacy/                      Unused starter files; do not add new work here
+  assets/img/                Shared logos and visual assets
+
+.github/
+  ISSUE_TEMPLATE/            Component submission form
 ```
 
-## Add an interaction
+## Sponsors
 
-Each interaction starts as an entry in the catalog. This makes it searchable, filterable, and available in the gallery without duplicating metadata.
+MicroKit is supported by:
 
-1. In `content/interactions/catalog.ts`, add an `Interaction` object.
-2. Use a unique kebab-case `id`—for example, `command-palette`.
-3. Add the matching isolated preview in the `Demo` component in `app/page.tsx`.
-4. Include copyable implementation code in the `code` field.
-5. Declare any external package in `dependency`; this is shown to visitors.
-6. Place any user-visible media in `public/assets/interactions/<id>/` and reference it as `/assets/interactions/<id>/<file>`.
-7. Verify the gallery, playground, keyboard behavior, and copy action.
+### Diamond
 
-Example catalog entry:
+<table>
+  <tr>
+    <td align="center">
+      <br />
+      <img src="./public/assets/img/Nora.svg" alt="Nora" width="260" />
+      <br />
+      <sub>Your AI Personal Assistant</sub>
+      <br />
+      <br />
+    </td>
+  </tr>
+</table>
 
-```ts
-{
-  id: "command-palette",
-  name: "Command Palette",
-  category: "Navigation",
-  framework: "React",
-  type: "Keyboard",
-  description: "A focused command menu for application shortcuts.",
-  code: "<CommandPalette open={open} onOpenChange={setOpen} />",
-}
-```
+Support helps keep MicroKit available and gives the project more room to improve its components, documentation, and contribution workflow.
 
-## Contribution guidelines
+**[Become a MicroKit sponsor](https://microkit.vercel.app/sponsors)** — Choose a tier and send a prefilled sponsorship inquiry.
 
-- Keep interactions small, useful, and focused on a single behavior.
-- Previews must be genuinely interactive; do not use videos or GIFs as replacements.
-- Preserve keyboard navigation, visible focus states, and reduced-motion behavior.
-- Avoid unnecessary dependencies. Label any dependency required by a component.
-- Use the orange accent (`#F97316`) only for active, selected, status, and focus states.
-- Keep gallery metadata quiet—the preview should be the visual focus.
-- Do not add static visitor assets outside `public/assets/`.
-- Do not commit build output, dependencies, secrets, or generated local files.
+## Contributing
 
-## Verify your work
+You can submit an interaction through the [MicroKit submission page](https://microkit.vercel.app/submit). The page prepares a GitHub issue containing your component code, where you can add a screenshot and any necessary attribution.
 
-Run these checks before opening a pull request:
+Before submitting:
+
+- Keep the interaction focused on one clear behavior.
+- Make the preview genuinely interactive.
+- Include the complete code required to reproduce the result.
+- Support keyboard focus where the element is interactive.
+- Respect reduced-motion preferences when motion is not essential.
+- Avoid unnecessary dependencies.
+- Credit the original source when adapting someone else’s work.
+
+You can also use the [component submission issue form](https://github.com/henriquegpb/microkit/issues/new?template=component-submission.yml) directly.
+
+## Development
+
+Useful commands:
 
 ```bash
+npm run dev
 npm run lint
-npm run build -- --webpack
+npm run build
+npm run start
 ```
 
-The Webpack build is the reliable verification command in this checkout. `npm run build` can use Turbopack and needs a working native SWC binary.
+The site is built with Next.js, React, TypeScript, Tailwind CSS, Lucide icons, Prism syntax highlighting, and Vercel Analytics.
 
-## Pull requests
+## Maintainer
 
-Keep pull requests focused. Include a short description of the interaction or UI behavior, mention any dependency added, and describe how you tested keyboard, mouse/touch, and mobile behavior. Add screenshots or a short recording when a visual change is easier to understand that way.
+MicroKit is maintained by [@henriquegpb](https://github.com/henriquegpb).
 
-## License
+## Credits
 
-License information has not yet been added to this repository.
+Some interactions are adapted from publicly shared examples and Webflow exports. MicroKit rewrites them into reusable JavaScript, TypeScript, CSS, and Tailwind implementations. If you recognize work that needs clearer attribution, please [open an issue](https://github.com/henriquegpb/microkit/issues).

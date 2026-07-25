@@ -212,16 +212,58 @@ export function ComponentDetailPage({ item }: { item: Interaction }) {
 
 function Header({ query, setQuery }: { query: string; setQuery: (x:string)=>void }) { return <header className="topbar"><nav><a className="current submit-link" href="/submit"><span>Submit</span><span className="submit-link-icon" aria-hidden="true"><ArrowRight className="submit-link-arrow submit-link-arrow-current" size={14} strokeWidth={2.2}/><ArrowRight className="submit-link-arrow submit-link-arrow-incoming" size={14} strokeWidth={2.2}/></span></a></nav><label className="global-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search interactions"/><kbd>⌘ K</kbd></label><div className="top-actions"><a className="github" href="https://github.com/henriquegpb/microkit" target="_blank" rel="noreferrer"><span className="github-content"><Image className="github-mark" src="/assets/img/GitHub.svg" alt="" width={15} height={15}/><span className="github-label">Star on GitHub</span><span className="github-arrow" aria-hidden="true"><ArrowRight size={14} strokeWidth={2.2}/></span></span></a></div></header> }
 
+function sponsorshipEmailHref(tier: string, price: string) {
+  const subject = `MicroKit ${tier} sponsorship inquiry`;
+  const body = `Hello,
+
+I'm interested in the ${tier} sponsorship tier for MicroKit (${price}).
+
+Name:
+Company or project:
+Website:
+What we would like to promote:
+
+Questions or additional details:
+`;
+
+  return `mailto:hbarone2005@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 export function SponsorsPage({ onBack }: { onBack: () => void }) {
   return <div className="app sponsors-app"><Header query="" setQuery={() => {}} /><main className="sponsors-page">
     <section className="sponsors-hero sponsors-hero-compact">
       <button className="sponsors-back" onClick={onBack}><ArrowLeft size={15} /> All components</button>
-      <div className="sponsors-hero-copy"><p className="eyebrow">MicroKit <span>•</span> Support</p><h1>Sponsors</h1><p>Support for MicroKit will be acknowledged here.</p></div>
+      <div className="sponsors-hero-copy"><h1>Sponsors</h1><p>Support for MicroKit will be acknowledged here.</p></div>
     </section>
     <section className="sponsors-current"><div className="sponsor-groups">
       <section className="sponsor-group"><span className="sponsor-tier-label sponsor-tier-diamond">Diamond</span><div className="sponsors-list"><article className="sponsor-entry sponsor-entry-diamond"><div className="sponsor-entry-identity"><Image className="sponsor-entry-logo" src="/assets/img/Nora.svg" alt="Nora" width={120} height={23} /><p>Your AI Personal Assistant</p></div><ArrowRight size={17} /></article></div></section>
     </div></section>
-    <section className="sponsors-opportunities" id="sponsorship"><div className="sponsors-section-heading"><p className="eyebrow">Sponsorship</p><h2>Become a sponsor</h2><p>Sponsorship values are listed below. Additional details will be shared when they are ready.</p></div><div className="sponsorship-options"><article className="sponsor-plan sponsor-plan-diamond"><Gem className="sponsor-plan-icon" size={22} /><h3>Diamond</h3><p className="sponsor-price">$200 <small>/ month</small></p><ul className="sponsor-benefits"><li><PanelLeft size={15} /> Largest logo on the docs sidebar</li><li><BookOpen size={15} /> Largest logo in the README</li><li><BadgeCheck size={15} /> Featured on the sponsors page</li><li><MessageCircle size={15} /> Direct line for feedback &amp; requests</li></ul></article><article className="sponsor-plan"><Crown className="sponsor-plan-icon" size={22} /><h3>Platinum</h3><p className="sponsor-price">$100 <small>/ month</small></p><ul className="sponsor-benefits"><li><BookOpen size={15} /> Larger logo in the README</li><li><PanelLeft size={15} /> Larger logo on the docs sidebar</li></ul></article><article className="sponsor-plan"><Medal className="sponsor-plan-icon" size={22} /><h3>Silver</h3><p className="sponsor-price">$50 <small>/ month</small></p><ul className="sponsor-benefits"><li><BookOpen size={15} /> Logo in the README</li><li><PanelLeft size={15} /> Logo on the docs sidebar</li><li><BadgeCheck size={15} /> Listed on the sponsors page</li></ul></article></div></section>
+    <section className="sponsors-opportunities" id="sponsorship">
+      <div className="sponsors-section-heading"><h2>Become a sponsor</h2><p>Choose a tier and send an inquiry. We’ll confirm the details with you directly by email.</p></div>
+      <div className="sponsorship-options">
+        <article className="sponsor-plan sponsor-plan-diamond">
+          <Gem className="sponsor-plan-icon" size={22} />
+          <h3>Diamond</h3>
+          <p className="sponsor-price">$200 <small>/ month</small></p>
+          <ul className="sponsor-benefits"><li><PanelLeft size={15} /> Largest logo on the docs sidebar</li><li><BookOpen size={15} /> Largest logo in the README</li><li><BadgeCheck size={15} /> Featured on the sponsors page</li><li><MessageCircle size={15} /> Direct line for feedback &amp; requests</li></ul>
+          <a className="sponsor-email sponsor-email-diamond" href={sponsorshipEmailHref("Diamond", "$200 / month")}><span>Become a Diamond sponsor</span><span className="sponsor-cta-icon" aria-hidden="true"><ArrowRight className="sponsor-cta-arrow sponsor-cta-arrow-current" size={15} strokeWidth={2.3}/><ArrowRight className="sponsor-cta-arrow sponsor-cta-arrow-incoming" size={15} strokeWidth={2.3}/></span></a>
+        </article>
+        <article className="sponsor-plan">
+          <Crown className="sponsor-plan-icon" size={22} />
+          <h3>Platinum</h3>
+          <p className="sponsor-price">$100 <small>/ month</small></p>
+          <ul className="sponsor-benefits"><li><BookOpen size={15} /> Larger logo in the README</li><li><PanelLeft size={15} /> Larger logo on the docs sidebar</li></ul>
+          <a className="sponsor-email" href={sponsorshipEmailHref("Platinum", "$100 / month")}><span>Become a Platinum sponsor</span><span className="sponsor-cta-icon" aria-hidden="true"><ArrowRight className="sponsor-cta-arrow sponsor-cta-arrow-current" size={15} strokeWidth={2.3}/><ArrowRight className="sponsor-cta-arrow sponsor-cta-arrow-incoming" size={15} strokeWidth={2.3}/></span></a>
+        </article>
+        <article className="sponsor-plan">
+          <Medal className="sponsor-plan-icon" size={22} />
+          <h3>Silver</h3>
+          <p className="sponsor-price">$50 <small>/ month</small></p>
+          <ul className="sponsor-benefits"><li><BookOpen size={15} /> Logo in the README</li><li><PanelLeft size={15} /> Logo on the docs sidebar</li><li><BadgeCheck size={15} /> Listed on the sponsors page</li></ul>
+          <a className="sponsor-email" href={sponsorshipEmailHref("Silver", "$50 / month")}><span>Become a Silver sponsor</span><span className="sponsor-cta-icon" aria-hidden="true"><ArrowRight className="sponsor-cta-arrow sponsor-cta-arrow-current" size={15} strokeWidth={2.3}/><ArrowRight className="sponsor-cta-arrow sponsor-cta-arrow-incoming" size={15} strokeWidth={2.3}/></span></a>
+        </article>
+      </div>
+    </section>
   </main></div>;
 }
 
