@@ -230,10 +230,31 @@ export function SubmissionPage({ onBack }: { onBack: () => void }) {
   const [code, setCode] = useState("");
   const [screenshot, setScreenshot] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const issueBody = `## Component
 
-  if (submitted) return <div className="app submit-app"><Header query="" setQuery={()=>{}}/><main className="submit-page"><section className="submit-card submit-success"><span className="submit-check"><Check size={24}/></span><p className="eyebrow">Submission received</p><h1>Thanks for sharing{ name ? ` ${name}` : " your component" }.</h1><p>We’ll review the code and get in touch if it’s a fit for the library.</p><button className="submit-primary" onClick={onBack}>Back to the library</button></section></main></div>;
+${name.trim() || "Untitled component"}
 
-  return <div className="app submit-app"><Header query="" setQuery={()=>{}}/><main className="submit-page"><section className="submit-card"><button className="submit-back" onClick={onBack}><ArrowLeft size={15}/> All components</button><div className="submit-intro"><p className="eyebrow">Contribute</p><h1>Submit a component</h1><p>Share the code behind an interaction. A screenshot helps us understand the intended result, but it’s optional.</p></div><form className="submit-form" onSubmit={(event)=>{ event.preventDefault(); if (code.trim()) setSubmitted(true); }}><label>Component name <span>Optional</span><input value={name} onChange={event=>setName(event.target.value)} placeholder="e.g. Magnetic button" /></label><label>Component code<textarea value={code} onChange={event=>setCode(event.target.value)} placeholder={'export function Component() {\n  return <button>Hover me</button>;\n}'} required /></label><label className="screenshot-field">Screenshot <span>Optional · PNG, JPG, or WebP</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={event=>setScreenshot(event.target.files?.[0]?.name || "")} /><span className="upload-drop">{screenshot ? screenshot : "Choose an image or drop it here"}</span></label><button className="submit-primary" type="submit">Send component</button></form></section></main></div>;
+## Code
+
+\`\`\`tsx
+${code.trim()}
+\`\`\`
+
+## Screenshot
+
+${screenshot ? `Attach **${screenshot}** here before submitting.` : "Optional — drag a screenshot into this section."}
+
+## Notes
+
+Describe the interaction, its intended use, and any relevant source or attribution.`;
+  const issueUrl = `https://github.com/henriquegpb/microkit/issues/new?${new URLSearchParams({
+    title: `[Component] ${name.trim() || "New submission"}`,
+    body: issueBody,
+  }).toString()}`;
+
+  if (submitted) return <div className="app submit-app"><Header query="" setQuery={()=>{}}/><main className="submit-page"><section className="submit-card submit-success"><span className="submit-check"><Check size={24}/></span><p className="eyebrow">Continue on GitHub</p><h1>Your submission is prefilled.</h1><p>Review the component code in the GitHub description{screenshot ? ` and attach ${screenshot}` : ""}, then create the issue to send it for review.</p><div className="submit-success-actions"><a className="submit-primary" href={issueUrl} target="_blank" rel="noreferrer">Open GitHub form</a><button className="submit-secondary" onClick={onBack}>Back to the library</button></div></section></main></div>;
+
+  return <div className="app submit-app"><Header query="" setQuery={()=>{}}/><main className="submit-page"><section className="submit-card"><button className="submit-back" onClick={onBack}><ArrowLeft size={15}/> All components</button><div className="submit-intro"><p className="eyebrow">Contribute</p><h1>Submit a component</h1><p>Share the code behind an interaction. We’ll prefill it in a GitHub issue where you can attach the optional screenshot.</p></div><form className="submit-form" onSubmit={(event)=>{event.preventDefault();if(!code.trim())return;void navigator.clipboard.writeText(code).catch(()=>{});window.open(issueUrl,"_blank","noopener,noreferrer");setSubmitted(true);}}><label>Component name <span>Optional</span><input value={name} onChange={event=>setName(event.target.value)} placeholder="e.g. Magnetic button" /></label><label>Component code<textarea value={code} onChange={event=>setCode(event.target.value)} placeholder={'export function Component() {\n  return <button>Hover me</button>;\n}'} required /></label><label className="screenshot-field">Screenshot <span>Optional · attach it in GitHub</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={event=>setScreenshot(event.target.files?.[0]?.name || "")} /><span className="upload-drop">{screenshot ? screenshot : "Choose an image to remember for the GitHub form"}</span></label><button className="submit-primary submit-primary-send" type="submit"><span>Send component</span><span className="submit-primary-icon" aria-hidden="true"><ArrowRight className="submit-primary-arrow submit-primary-arrow-current" size={15} strokeWidth={2.3}/><ArrowRight className="submit-primary-arrow submit-primary-arrow-incoming" size={15} strokeWidth={2.3}/></span></button></form></section></main></div>;
 }
 const NAV_ITEMS = [
   { label: "All components", icon: "layers", view: "all" },

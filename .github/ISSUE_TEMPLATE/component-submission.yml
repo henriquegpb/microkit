@@ -1,0 +1,59 @@
+name: Component submission
+description: Share an interaction for possible inclusion in MicroKit.
+title: "[Component] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing. Paste the component code copied by MicroKit below and attach an optional screenshot.
+  - type: input
+    id: component-name
+    attributes:
+      label: Component name
+      placeholder: Magnetic button
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What does it do?
+      description: Briefly describe the interaction and when it should be used.
+    validations:
+      required: true
+  - type: dropdown
+    id: implementation
+    attributes:
+      label: Implementation
+      options:
+        - JavaScript and CSS
+        - TypeScript and CSS
+        - JavaScript and Tailwind
+        - TypeScript and Tailwind
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: component-code
+    attributes:
+      label: Component code
+      description: Paste the code copied from the MicroKit submission page.
+      render: tsx
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Optional. Drag an image into this field to attach it.
+  - type: input
+    id: source
+    attributes:
+      label: Source or attribution
+      description: Optional. Include the original source if this interaction is adapted from elsewhere.
+  - type: checkboxes
+    id: permission
+    attributes:
+      label: Permission
+      options:
+        - label: I have permission to share this code for review and possible inclusion in MicroKit.
+          required: true
