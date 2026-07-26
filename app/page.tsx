@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { Highlight, type Language, type PrismTheme } from "prism-react-renderer";
 import {
+  ArrowDown,
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
@@ -158,6 +159,7 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "projects-arrow-button") return <div className={cls}><button className="projects-arrow-button"><span>Projects</span><span className="projects-arrow-icon" aria-hidden="true"><ArrowRight className="projects-arrow projects-arrow-current" size={18} strokeWidth={2.4}/><ArrowRight className="projects-arrow projects-arrow-incoming" size={18} strokeWidth={2.4}/></span></button></div>;
   if (id === "whats-new-glow-button") return <div className={cls}><WhatsNewGlowButton/></div>;
   if (id === "magnetic-fill-button") return <div className={cls}><MagneticFillButton/></div>;
+  if (id === "see-more-swap-button") return <div className={cls}><button type="button" className="see-more-swap-button"><span className="see-more-swap-content"><span className="see-more-swap-icon see-more-swap-icon-left" aria-hidden="true"><ArrowDown size={20} strokeWidth={2.4}/></span><span className="see-more-swap-label">See more</span><span className="see-more-swap-icon see-more-swap-icon-right" aria-hidden="true"><ArrowDown size={20} strokeWidth={2.4}/></span></span></button></div>;
   if (id === "preview-browser-button") return <div className={cls}><button className="preview-browser-button"><span>Preview in browser</span><span className="preview-browser-icon" aria-hidden="true"><ArrowRight className="preview-browser-arrow preview-browser-arrow-current" size={17} strokeWidth={2.4}/><ArrowRight className="preview-browser-arrow preview-browser-arrow-incoming" size={17} strokeWidth={2.4}/></span></button></div>;
   if (id === "download-ios-button") return <div className={cls}><button className="download-ios-button"><span className="download-ios-content"><AppleMark/><span className="download-ios-label">Download for IOS</span><span className="download-ios-arrow" aria-hidden="true"><ArrowRight size={17} strokeWidth={2.4}/></span></span></button></div>;
   if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
@@ -598,6 +600,23 @@ export function MagneticFillButton() {
     >
       <span className="relative z-10">Start a project</span>
       <span className="absolute inset-x-0 bottom-0 h-0 bg-[#f97316] transition-[height] duration-[380ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:h-full group-focus-visible:h-full" aria-hidden="true" />
+    </button>
+  );
+}`,
+    "see-more-swap-button": `import { ArrowDown } from "lucide-react";
+
+export function SeeMoreSwapButton() {
+  return (
+    <button type="button" className="group inline-flex w-[196px] cursor-pointer appearance-none box-border items-center justify-center overflow-hidden rounded-full border-0 bg-[#f0f0f0] px-4 py-3 text-[#101016] [font-family:Arial,Helvetica,sans-serif] transition-colors duration-[420ms] ease-[cubic-bezier(.16,1,.3,1)] hover:bg-[#22222d] hover:text-[#f0f0f0] focus-visible:bg-[#22222d] focus-visible:text-[#f0f0f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]">
+      <span className="relative flex h-10 w-full items-center justify-center">
+        <span className="absolute left-0 grid size-10 place-items-center rounded-full bg-[#101016] text-white transition-transform duration-[420ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:-translate-x-16 group-focus-visible:-translate-x-16" aria-hidden="true">
+          <ArrowDown size={20} strokeWidth={2.4} />
+        </span>
+        <span className="relative z-10 translate-x-4 whitespace-nowrap text-center text-[16px] font-medium [line-height:normal] transition-transform duration-[420ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:-translate-x-4 group-focus-visible:-translate-x-4">See more</span>
+        <span className="absolute right-0 grid size-10 translate-x-16 place-items-center rounded-full bg-white text-[#101016] transition-transform duration-[420ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0" aria-hidden="true">
+          <ArrowDown size={20} strokeWidth={2.4} />
+        </span>
+      </span>
     </button>
   );
 }`,
