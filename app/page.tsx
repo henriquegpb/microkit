@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { Highlight, type Language, type PrismTheme } from "prism-react-renderer";
 import {
   ArrowDown,
@@ -172,6 +172,131 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   return <div className={cls}>Preview</div>;
 }
 
+const HERO_TUNNEL_HOME = { x: 18, y: 82 };
+
+function HeroTunnel() {
+  const gradientRef = useRef<SVGRadialGradientElement>(null);
+  const frameRef = useRef<number | null>(null);
+  const boundsRef = useRef<DOMRect | null>(null);
+  const currentRef = useRef({ ...HERO_TUNNEL_HOME });
+  const targetRef = useRef({ ...HERO_TUNNEL_HOME });
+  const trackingRef = useRef(false);
+
+  const animate = () => {
+    const current = currentRef.current;
+    const target = targetRef.current;
+    const easing = trackingRef.current ? 0.14 : 0.055;
+
+    current.x += (target.x - current.x) * easing;
+    current.y += (target.y - current.y) * easing;
+
+    const gradient = gradientRef.current;
+    if (gradient) {
+      gradient.setAttribute("cx", current.x.toFixed(2));
+      gradient.setAttribute("cy", current.y.toFixed(2));
+    }
+
+    if (Math.abs(target.x - current.x) > 0.04 || Math.abs(target.y - current.y) > 0.04) {
+      frameRef.current = requestAnimationFrame(animate);
+    } else {
+      current.x = target.x;
+      current.y = target.y;
+      frameRef.current = null;
+    }
+  };
+
+  const startAnimation = () => {
+    if (frameRef.current === null) frameRef.current = requestAnimationFrame(animate);
+  };
+
+  useEffect(() => () => {
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+  }, []);
+
+  const handlePointerEnter = (event: ReactPointerEvent<HTMLDivElement>) => {
+    boundsRef.current = event.currentTarget.getBoundingClientRect();
+    trackingRef.current = true;
+  };
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const bounds = boundsRef.current ?? event.currentTarget.getBoundingClientRect();
+    targetRef.current.x = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100));
+    targetRef.current.y = Math.max(0, Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100));
+    startAnimation();
+  };
+
+  const handlePointerLeave = () => {
+    boundsRef.current = null;
+    trackingRef.current = false;
+    targetRef.current = { ...HERO_TUNNEL_HOME };
+    startAnimation();
+  };
+
+  return (
+    <div className="hero-arch" onPointerEnter={handlePointerEnter} onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
+      <svg className="hero-tunnel-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <radialGradient ref={gradientRef} id="hero-tunnel-gradient" gradientUnits="userSpaceOnUse" cx={HERO_TUNNEL_HOME.x} cy={HERO_TUNNEL_HOME.y} r="115">
+            <stop offset="0" stopColor="#f97316"/>
+            <stop offset=".22" stopColor="#743313"/>
+            <stop offset=".5" stopColor="#160a04"/>
+            <stop offset=".82" stopColor="#000"/>
+          </radialGradient>
+        </defs>
+        <rect x="1" y="1" width="98" height="98" rx="21.5"/>
+        <rect x="9" y="9" width="82" height="82" rx="18"/>
+        <rect x="17" y="17" width="66" height="66" rx="14.5"/>
+        <rect x="25" y="25" width="50" height="50" rx="11"/>
+        <rect x="33" y="33" width="34" height="34" rx="7.5"/>
+        <rect x="41" y="41" width="18" height="18" rx="4"/>
+      </svg>
+    </div>
+  );
+}
+
+function HeroCard() {
+  const cardRef = useRef<HTMLElement>(null);
+  const pointerRef = useRef({ x: 50, y: 50 });
+  const frameRef = useRef<number | null>(null);
+
+  useEffect(() => () => {
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+  }, []);
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLElement>) => {
+    pointerRef.current = { x: event.clientX, y: event.clientY };
+    if (frameRef.current !== null) return;
+
+    frameRef.current = requestAnimationFrame(() => {
+      const card = cardRef.current;
+      if (card) {
+        const bounds = card.getBoundingClientRect();
+        card.style.setProperty("--pointer-x", `${((pointerRef.current.x - bounds.left) / bounds.width) * 100}%`);
+        card.style.setProperty("--pointer-y", `${((pointerRef.current.y - bounds.top) / bounds.height) * 100}%`);
+      }
+      frameRef.current = null;
+    });
+  };
+
+  return (
+    <section ref={cardRef} className="hero-card" aria-label="MicroKit UI introduction" onPointerMove={handlePointerMove}>
+      <div className="hero-copy">
+        <h2>Details Matter!</h2>
+        <p className="hero-description">MicroKit UI is a component library for developers who care about the experience behind every interaction.</p>
+      </div>
+      <div className="hero-figure" aria-hidden="true"><HeroTunnel/></div>
+      <span className="hero-grid-light" aria-hidden="true"/>
+      <span className="hero-border-flash hero-border-flash-top" aria-hidden="true"/>
+      <span className="hero-border-flash hero-border-flash-left" aria-hidden="true"/>
+      <span className="grid-slip grid-slip-one" aria-hidden="true"/>
+      <span className="grid-slip grid-slip-two" aria-hidden="true"/>
+      <span className="grid-slip grid-slip-three" aria-hidden="true"/>
+      <span className="grid-slip grid-slip-four" aria-hidden="true"/>
+      <span className="grid-slip grid-slip-five" aria-hidden="true"/>
+    </section>
+  );
+}
+
 export default function Home() {
   const [selected, setSelected] = useState<Interaction | null>(null);
   const [category, setCategory] = useState("All");
@@ -193,7 +318,6 @@ export default function Home() {
   const [canvas, setCanvas] = useState<"dark" | "light">("dark");
   const [strength, setStrength] = useState(24);
   const [sidebar, setSidebar] = useState(true);
-  const [heroPointer, setHeroPointer] = useState({ x: 50, y: 50 });
   const toggleFavorite = (id: string) => setFavorites(prev => { const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]; localStorage.setItem("microkit-favorites", JSON.stringify(next)); return next; });
   const markRecentlyViewed = (id: string) => setRecent(prev => { const next = [id, ...prev.filter(itemId => itemId !== id)].slice(0, 20); localStorage.setItem("microkit-recent", JSON.stringify(next)); return next; });
   useEffect(() => { if (selected) markRecentlyViewed(selected.id); }, [selected]);
@@ -215,7 +339,7 @@ export default function Home() {
   };
   if (selected) return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} view={libraryView} counts={{all:interactions.length,recent:recent.length,favorites:favorites.length}} choose={chooseLibraryView}/><main className="playground-main"><div className="crumb"><button className="back-slide" onClick={()=>setSelected(null)}><span className="back-slide-label">All interactions</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></button><span>/</span><span>{selected.category}</span></div><section className="playground-heading"><div><div className="eyebrow">{selected.category} <span>•</span> {selected.framework}</div><h1>{selected.name}</h1><p>{selected.description}</p></div><div className="header-actions"><button className={`square ${favorites.includes(selected.id)?"saved":""}`} onClick={()=>toggleFavorite(selected.id)} aria-label="Save favorite"><Icon name="heart" size={22} filled={favorites.includes(selected.id)}/></button><button className="copy-main" onClick={()=>copy(selected.id, selected.code)}><Icon name={copied===selected.id?"check":"copy"}/> {copied===selected.id?"Copied":"Copy code"}</button></div></section><div className="play-tabs"><button className={!codeTab?"active":""} onClick={()=>setCodeTab(false)}>Preview</button><button className={codeTab?"active":""} onClick={()=>setCodeTab(true)}>Code</button></div>{!codeTab ? <div className="play-layout"><section className="canvas-card"><div className="canvas-toolbar"><div className="segmented"><button className={canvas==="dark"?"active":""} onClick={()=>setCanvas("dark")}>Dark</button><button className={canvas==="light"?"active":""} onClick={()=>setCanvas("light")}>Light</button></div><div className="toolbar-right"><div className="segmented"><button className={viewport==="desktop"?"active":""} onClick={()=>setViewport("desktop")}><Icon name="desktop"/></button><button className={viewport==="mobile"?"active":""} onClick={()=>setViewport("mobile")}><Icon name="mobile"/></button></div><button className="reset"><Icon name="reset"/> Reset</button></div></div><div className={`canvas ${canvas} ${viewport}`}><Demo id={selected.id} large/></div><div className="canvas-footer"><span><i className="status-dot"/> Live preview</span><span>⌘ Enter to reset</span></div></section><aside className="control-panel"><div className="control-title"><Icon name="sliders"/> Customize</div><label className="control"><span>Intensity <output>{strength}%</output></span><input type="range" value={strength} onChange={e=>setStrength(+e.target.value)} /></label><label className="control"><span>Duration <output>240ms</output></span><input type="range" defaultValue="45" /></label><label className="control"><span>Label</span><input value="Explore components" readOnly /></label><label className="check-control"><input type="checkbox" defaultChecked/> Enable reduced motion fallback</label></aside></div> : <CodePanel item={selected} copy={copy} copied={copied}/>}<DetailInfo item={selected}/></main></div></div>;
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><main className="gallery-main"><section className="hero-card" aria-label="MicroKit UI introduction" onPointerMove={(event) => { const rect = event.currentTarget.getBoundingClientRect(); setHeroPointer({ x: ((event.clientX - rect.left) / rect.width) * 100, y: ((event.clientY - rect.top) / rect.height) * 100 }); }} style={{ "--pointer-x": `${heroPointer.x}%`, "--pointer-y": `${heroPointer.y}%` } as CSSProperties}><div className="hero-copy"><h2>Details Matter!</h2><p className="hero-description">MicroKit UI is a component library for developers who care about the experience behind every interaction.</p></div><div className="hero-figure" aria-hidden="true"><div className="hero-arch" onPointerMove={(event)=>{const rect=event.currentTarget.getBoundingClientRect();const x=Math.max(0,Math.min(100,((event.clientX-rect.left)/rect.width)*100));const y=Math.max(0,Math.min(100,((event.clientY-rect.top)/rect.height)*100));event.currentTarget.classList.add("is-tracking");event.currentTarget.style.setProperty("--tunnel-x",`${x}%`);event.currentTarget.style.setProperty("--tunnel-y",`${y}%`);}} onPointerLeave={(event)=>{event.currentTarget.classList.remove("is-tracking");event.currentTarget.style.setProperty("--tunnel-x","0%");event.currentTarget.style.setProperty("--tunnel-y","100%");}}><i/><i/><i/><i/><i/><i/></div></div><span className="hero-grid-light" aria-hidden="true"/><span className="hero-border-flash hero-border-flash-top" aria-hidden="true"/><span className="hero-border-flash hero-border-flash-left" aria-hidden="true"/><span className="grid-slip grid-slip-one" aria-hidden="true"/><span className="grid-slip grid-slip-two" aria-hidden="true"/><span className="grid-slip grid-slip-three" aria-hidden="true"/><span className="grid-slip grid-slip-four" aria-hidden="true"/><span className="grid-slip grid-slip-five" aria-hidden="true"/></section><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {category === "All" ? "All interactions" : category}</div><h1>{category === "All" ? "Explore micro interactions" : category}</h1><p>{filtered.length} {filtered.length === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p></div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></div></div><div className="active-filter"><span>{category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div><section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<button className={`favorite ${favorites.includes(item.id)?"saved":""}`} onClick={()=>toggleFavorite(item.id)} aria-label={`Save ${item.name}`}><Icon name="heart" size={20} filled={favorites.includes(item.id)}/></button></div><button className="card-info" onClick={()=>openComponent(item)} aria-label={`Open ${item.name} playground`}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span>{item.dependency && <span>+ {item.dependency}</span>}<span className="state-type">{item.type}</span></span></button></article>)}</section>{!filtered.length && <div className="empty"><Icon name="search" size={28}/><h2>No interactions found</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}</main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div>;
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><main className="gallery-main"><HeroCard/><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {category === "All" ? "All interactions" : category}</div><h1>{category === "All" ? "Explore micro interactions" : category}</h1><p>{filtered.length} {filtered.length === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p></div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></div></div><div className="active-filter"><span>{category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div><section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<button className={`favorite ${favorites.includes(item.id)?"saved":""}`} onClick={()=>toggleFavorite(item.id)} aria-label={`Save ${item.name}`}><Icon name="heart" size={20} filled={favorites.includes(item.id)}/></button></div><button className="card-info" onClick={()=>openComponent(item)} aria-label={`Open ${item.name} playground`}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span>{item.dependency && <span>+ {item.dependency}</span>}<span className="state-type">{item.type}</span></span></button></article>)}</section>{!filtered.length && <div className="empty"><Icon name="search" size={28}/><h2>No interactions found</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}</main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div>;
 }
 
 export function ComponentDetailPage({ item }: { item: Interaction }) {
