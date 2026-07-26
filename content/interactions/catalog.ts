@@ -937,6 +937,91 @@ export function SeeMoreSwapButton() {
   outline: 2px solid #f97316;
   outline-offset: 4px;
 }` },
+  { id: "contact-underline-button", name: "Contact Underline Button", category: "Click feedback", framework: "React", type: "Hover", description: "A compact contact action whose icon turns orange while an underline draws beneath the label.", new: true, code: `import { ArrowRight } from "lucide-react";
+
+export function ContactUnderlineButton() {
+  return (
+    <button type="button" className="contact-underline-button">
+      <span className="contact-underline-icon" aria-hidden="true">
+        <ArrowRight size={16} strokeWidth={2.5} />
+      </span>
+      <span className="contact-underline-copy">
+        <span>Get in touch</span>
+        <span className="contact-underline-line" />
+      </span>
+    </button>
+  );
+}
+
+/* contact-underline-button.css */
+.contact-underline-button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  padding: 0 16px 0 0;
+  color: #f0f0f0;
+  font: inherit;
+  cursor: pointer;
+}
+.contact-underline-icon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  place-items: center;
+  border-radius: 8px;
+  background: #f0f0f0;
+  color: #000;
+  transition: background-color .45s cubic-bezier(.16, 1, .3, 1);
+}
+.contact-underline-icon svg {
+  transition: transform .45s cubic-bezier(.16, 1, .3, 1);
+}
+.contact-underline-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 8px 0;
+}
+.contact-underline-copy > span:first-child {
+  position: relative;
+  z-index: 1;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+}
+.contact-underline-line {
+  width: 100%;
+  height: 1px;
+  background: #f0f0f0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .45s cubic-bezier(.16, 1, .3, 1);
+}
+.contact-underline-button:hover .contact-underline-icon,
+.contact-underline-button:focus-visible .contact-underline-icon {
+  background: #f97316;
+}
+.contact-underline-button:hover .contact-underline-icon svg,
+.contact-underline-button:focus-visible .contact-underline-icon svg {
+  transform: scale(1.35);
+}
+.contact-underline-button:hover .contact-underline-line,
+.contact-underline-button:focus-visible .contact-underline-line {
+  transform: scaleX(1);
+}
+.contact-underline-button:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 4px;
+}` },
 ];
 
 export const categories = ["All", "Inputs", "Navigation"];

@@ -156,6 +156,7 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "focus-input") return <div className={cls}><label className="demo-input"><span>Project name</span><input placeholder="e.g. microkit-web" /></label></div>;
   if (id === "expanding-contact-button") return <div className={cls}><button className="contact-pill"><span className="contact-pill-icon" aria-hidden="true"><ArrowRight size={18} strokeWidth={2.5}/></span><span>Get in touch</span></button></div>;
   if (id === "contact-reveal-button") return <div className={cls}><button className="contact-reveal"><span className="contact-reveal-icon" aria-hidden="true"><ArrowRight size={18} strokeWidth={2.5}/></span><span>Get in touch</span></button></div>;
+  if (id === "contact-underline-button") return <div className={cls}><button type="button" className="contact-underline-button"><span className="contact-underline-icon" aria-hidden="true"><ArrowRight size={16} strokeWidth={2.5}/></span><span className="contact-underline-copy"><span>Get in touch</span><span className="contact-underline-line"/></span></button></div>;
   if (id === "subscribe-shine-button") return <div className={cls}><button className="subscribe-shine"><span className="subscribe-shine-gradient" aria-hidden="true"/><span className="subscribe-shine-inner">Subscribe</span></button></div>;
   if (id === "next-reveal-button") return <div className={cls}><button className="next-reveal"><span className="next-reveal-label">Next</span><ArrowRight className="next-reveal-arrow" size={27} strokeWidth={1.7}/></button></div>;
   if (id === "pricing-slide-link") return <div className={cls}><button className="pricing-slide"><span className="pricing-slide-icon" aria-hidden="true"><ArrowRight size={23} strokeWidth={2.25}/></span><span className="pricing-slide-label">Pricing</span></button></div>;
@@ -628,6 +629,21 @@ export function SpotlightIndicator() {
   );
 }`;
   const componentTailwindCode: Record<string, string> = {
+    "contact-underline-button": `import { ArrowRight } from "lucide-react";
+
+export function ContactUnderlineButton() {
+  return (
+    <button type="button" className="group inline-flex cursor-pointer appearance-none items-center justify-start gap-2 overflow-hidden border-0 bg-transparent p-0 pr-4 font-[inherit] text-[#f0f0f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]">
+      <span className="relative z-10 grid size-8 shrink-0 place-items-center rounded-lg bg-[#f0f0f0] text-black transition-colors duration-[450ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:bg-[#f97316] group-focus-visible:bg-[#f97316]" aria-hidden="true">
+        <ArrowRight className="transition-transform duration-[450ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.35] group-focus-visible:scale-[1.35]" size={16} strokeWidth={2.5} />
+      </span>
+      <span className="flex flex-col justify-between gap-1 py-2">
+        <span className="relative z-10 text-base font-medium leading-none">Get in touch</span>
+        <span className="h-px w-full origin-left scale-x-0 bg-[#f0f0f0] transition-transform duration-[450ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+      </span>
+    </button>
+  );
+}`,
     "read-more-swap": `import { ArrowRight } from "lucide-react";
 
 export function ReadMoreSwap() {
