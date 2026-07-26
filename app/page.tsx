@@ -126,6 +126,22 @@ export function WhatsNewGlowButton() {
   return <button className="whats-new-button" onPointerMove={updateGlow} onPointerLeave={resetGlow}><span className="whats-new-content"><ArrowRight size={16} strokeWidth={2.5}/>What's new</span><span className="whats-new-glow whats-new-glow-orange" aria-hidden="true"/><span className="whats-new-glow whats-new-glow-blue" aria-hidden="true"/></button>;
 }
 
+export function MagneticFillButton() {
+  const move = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - (bounds.left + bounds.width / 2)) * .14;
+    const y = (event.clientY - (bounds.top + bounds.height / 2)) * .22;
+    event.currentTarget.style.setProperty("--magnetic-x", `${x}px`);
+    event.currentTarget.style.setProperty("--magnetic-y", `${y}px`);
+  };
+  const reset = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    event.currentTarget.style.setProperty("--magnetic-x", "0px");
+    event.currentTarget.style.setProperty("--magnetic-y", "0px");
+  };
+
+  return <button className="magnetic-fill-button" onPointerMove={move} onPointerLeave={reset}><span className="magnetic-fill-label">Start a project</span><span className="magnetic-fill-background" aria-hidden="true"/></button>;
+}
+
 function AppleMark() {
   return <svg className="download-ios-apple" width="18" height="20" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M13.5621 5.45739C13.4857 5.50195 11.6671 6.44248 11.6671 8.52785C11.7528 10.9061 13.9621 11.7401 14 11.7401C13.9621 11.7847 13.6665 12.8763 12.7907 14.0205C12.0956 15.0062 11.3242 16 10.1528 16C9.0385 16 8.6385 15.3431 7.35278 15.3431C5.97203 15.3431 5.58135 16 4.5242 16C3.35277 16 2.52419 14.953 1.79127 13.9766C.839096 12.6986.0297778 10.6931.00120634 8.76747C-.0180484 7.74707.19189 6.74403.72481 5.89206C1.47699 4.70265 2.81985 3.89524 4.28631 3.86862C5.40992 3.83331 6.40992 4.58747 7.09563 4.58747C7.75278 4.58747 8.98135 3.86862 10.3714 3.86862C10.9714 3.86919 12.5714 4.03762 13.5621 5.45739ZM7.0006 3.66488C6.8006 2.73303 7.35278 1.80119 7.86706 1.20677C8.52421.487918 9.5621 0 10.4571 0C10.5143.931848 10.1522 1.84575 9.50496 2.51136C8.92421 3.23021 7.92421 3.77138 7.0006 3.66488Z" fill="currentColor"/></svg>;
 }
@@ -141,6 +157,7 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "read-more-swap") return <div className={cls}><button className="read-more-swap"><ArrowRight className="read-more-arrow read-more-arrow-left" size={25} strokeWidth={2.5}/><span>Read more</span><ArrowRight className="read-more-arrow read-more-arrow-right" size={25} strokeWidth={2.5}/></button></div>;
   if (id === "projects-arrow-button") return <div className={cls}><button className="projects-arrow-button"><span>Projects</span><span className="projects-arrow-icon" aria-hidden="true"><ArrowRight className="projects-arrow projects-arrow-current" size={18} strokeWidth={2.4}/><ArrowRight className="projects-arrow projects-arrow-incoming" size={18} strokeWidth={2.4}/></span></button></div>;
   if (id === "whats-new-glow-button") return <div className={cls}><WhatsNewGlowButton/></div>;
+  if (id === "magnetic-fill-button") return <div className={cls}><MagneticFillButton/></div>;
   if (id === "preview-browser-button") return <div className={cls}><button className="preview-browser-button"><span>Preview in browser</span><span className="preview-browser-icon" aria-hidden="true"><ArrowRight className="preview-browser-arrow preview-browser-arrow-current" size={17} strokeWidth={2.4}/><ArrowRight className="preview-browser-arrow preview-browser-arrow-incoming" size={17} strokeWidth={2.4}/></span></button></div>;
   if (id === "download-ios-button") return <div className={cls}><button className="download-ios-button"><span className="download-ios-content"><AppleMark/><span className="download-ios-label">Download for IOS</span><span className="download-ios-arrow" aria-hidden="true"><ArrowRight size={17} strokeWidth={2.4}/></span></span></button></div>;
   if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
@@ -555,6 +572,32 @@ export function DownloadIOSButton() {
           <ArrowRight size={17} strokeWidth={2.4} />
         </span>
       </span>
+    </button>
+  );
+}`,
+    "magnetic-fill-button": `import type { PointerEvent as ReactPointerEvent } from "react";
+
+export function MagneticFillButton() {
+  const move = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - (bounds.left + bounds.width / 2)) * .14;
+    const y = (event.clientY - (bounds.top + bounds.height / 2)) * .22;
+    event.currentTarget.style.setProperty("--magnetic-x", \`\${x}px\`);
+    event.currentTarget.style.setProperty("--magnetic-y", \`\${y}px\`);
+  };
+  const reset = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    event.currentTarget.style.setProperty("--magnetic-x", "0px");
+    event.currentTarget.style.setProperty("--magnetic-y", "0px");
+  };
+
+  return (
+    <button
+      onPointerMove={move}
+      onPointerLeave={reset}
+      className="group relative inline-flex items-center justify-center overflow-hidden rounded-[100px] border border-[#f0f0f0] bg-transparent px-8 py-3 text-base font-medium text-[#f0f0f0] [transform:translate(var(--magnetic-x,0px),var(--magnetic-y,0px))] transition-[transform,color] duration-[220ms] ease-[cubic-bezier(.16,1,.3,1)] hover:text-[#111] focus-visible:text-[#111] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"
+    >
+      <span className="relative z-10">Start a project</span>
+      <span className="absolute inset-x-0 bottom-0 h-0 bg-[#f97316] transition-[height] duration-[380ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:h-full group-focus-visible:h-full" aria-hidden="true" />
     </button>
   );
 }`,

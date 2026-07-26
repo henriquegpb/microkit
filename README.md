@@ -32,7 +32,7 @@ MicroKit is built for copying and learning from the source—not for hiding inte
 
 ## Features
 
-- **12 interactive components** with dedicated preview pages
+- **13 interactive components** with dedicated preview pages
 - **JavaScript and TypeScript** implementations
 - **CSS and Tailwind** styling variants
 - **Live previews** for testing every interaction before copying
