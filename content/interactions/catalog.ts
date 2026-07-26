@@ -21,9 +21,9 @@ export const interactions: Interaction[] = [
 import { Star, ThumbsUp, Users } from "lucide-react";
 
 const tabs = [
-  { label: "Followers", content: "1,284 people follow your updates.", Icon: Users },
-  { label: "Likes", content: "68 people liked your latest post.", Icon: ThumbsUp },
-  { label: "Favorites", content: "12 items are saved for later.", Icon: Star },
+  { label: "Audience", content: "1,284 people are in your audience.", Icon: Users },
+  { label: "Reactions", content: "68 people reacted to your latest post.", Icon: ThumbsUp },
+  { label: "Saved", content: "12 items are saved for later.", Icon: Star },
 ];
 
 export function SlidingContentTabs() {
@@ -96,7 +96,7 @@ export function SlidingContentTabs() {
   border-radius: 6px;
   background: #f97316;
   box-shadow: 0 1px 2px #0005;
-  transition: transform .42s cubic-bezier(.16, 1, .3, 1);
+  transition: transform .75s cubic-bezier(.22, 1, .36, 1);
 }
 .tabs-active-1 .sliding-tabs-indicator { transform: translateX(100%); }
 .tabs-active-2 .sliding-tabs-indicator { transform: translateX(200%); }
@@ -106,15 +106,108 @@ export function SlidingContentTabs() {
   color: #a9afb8;
   font-size: 11px;
   line-height: 1.4;
-  animation: sliding-tabs-enter .3s cubic-bezier(.16, 1, .3, 1);
+  animation: sliding-tabs-enter .65s cubic-bezier(.22, 1, .36, 1);
 }
 @keyframes sliding-tabs-enter {
-  from { opacity: 0; transform: translateX(-8px); }
+  from { opacity: 0; transform: translateX(-5px); }
   to { opacity: 1; transform: translateX(0); }
 }
 @media (prefers-reduced-motion: reduce) {
   .sliding-tabs-indicator, .sliding-tabs-list button { transition: none; }
   .sliding-tabs-content { animation: none; }
+}` },
+  { id: "sliding-underline-tabs", name: "Sliding Underline Tabs", category: "Navigation", framework: "React", type: "Click", description: "A compact tab switcher with an orange underline that glides between labels.", new: true, code: `import { useState } from "react";
+
+const tabs = [
+  { label: "Audience", content: "Content one" },
+  { label: "Reactions", content: "Content two" },
+  { label: "Saved", content: "Content three" },
+];
+
+export function SlidingUnderlineTabs() {
+  const [active, setActive] = useState(0);
+  const activeTab = tabs[active];
+
+  return (
+    <section className={\`underline-tabs underline-tabs-active-\${active}\`}>
+      <div className="underline-tabs-list" role="tablist" aria-label="Activity">
+        {tabs.map(({ label }, index) => (
+          <button
+            key={label}
+            id={\`underline-tab-\${index}\`}
+            type="button"
+            role="tab"
+            aria-selected={active === index}
+            className={active === index ? "active" : ""}
+            onClick={() => setActive(index)}
+          >
+            {label}
+          </button>
+        ))}
+        <span className="underline-tabs-indicator" aria-hidden="true" />
+      </div>
+      <div key={active} className="underline-tabs-content" role="tabpanel" aria-labelledby={\`underline-tab-\${active}\`}>
+        <span>{activeTab.content}</span>
+      </div>
+    </section>
+  );
+}
+
+/* sliding-underline-tabs.css */
+.underline-tabs {
+  width: min(100%, 248px);
+  border: 1px solid #30343a;
+  border-radius: 10px;
+  background: #101216;
+  padding: 5px;
+}
+.underline-tabs-list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid #30343a;
+}
+.underline-tabs-list button {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  background: transparent;
+  padding: 9px 4px;
+  color: #858c96;
+  font-size: 10px;
+  cursor: pointer;
+  transition: color .3s cubic-bezier(.16, 1, .3, 1);
+}
+.underline-tabs-list button.active { color: #fff; }
+.underline-tabs-list button:focus-visible { outline: 2px solid #f97316; outline-offset: -2px; }
+.underline-tabs-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: calc(100% / 3);
+  height: 2px;
+  background: #f97316;
+  transition: transform .75s cubic-bezier(.22, 1, .36, 1);
+}
+.underline-tabs-active-1 .underline-tabs-indicator { transform: translateX(100%); }
+.underline-tabs-active-2 .underline-tabs-indicator { transform: translateX(200%); }
+.underline-tabs-content {
+  display: grid;
+  min-height: 54px;
+  place-content: center;
+  padding: 10px 8px 6px;
+  color: #f4f5f7;
+  font-size: 11px;
+  text-align: center;
+  animation: underline-tabs-enter .65s cubic-bezier(.22, 1, .36, 1);
+}
+@keyframes underline-tabs-enter {
+  from { opacity: 0; transform: translateX(-5px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .underline-tabs-indicator, .underline-tabs-list button { transition: none; }
+  .underline-tabs-content { animation: none; }
 }` },
   { id: "focus-input", name: "Focus Field", category: "Inputs", framework: "CSS", type: "Focus", description: "An input with a clean animated focus treatment.", code: `export function FocusField() {
   return (

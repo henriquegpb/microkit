@@ -174,6 +174,7 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "download-ios-button") return <div className={cls}><button className="download-ios-button"><span className="download-ios-content"><AppleMark/><span className="download-ios-label">Download for IOS</span><span className="download-ios-arrow" aria-hidden="true"><ArrowRight size={17} strokeWidth={2.4}/></span></span></button></div>;
   if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
   if (id === "sliding-content-tabs") return <div className={cls}><SlidingContentTabs/></div>;
+  if (id === "sliding-underline-tabs") return <div className={cls}><SlidingUnderlineTabs/></div>;
   return <div className={cls}>Preview</div>;
 }
 
@@ -633,13 +634,53 @@ export function SpotlightIndicator() {
   );
 }`;
   const componentTailwindCode: Record<string, string> = {
+    "sliding-underline-tabs": `import { useState } from "react";
+
+const tabs = [
+  { label: "Audience", content: "Content one" },
+  { label: "Reactions", content: "Content two" },
+  { label: "Saved", content: "Content three" },
+];
+
+export function SlidingUnderlineTabs() {
+  const [active, setActive] = useState(0);
+  const activeTab = tabs[active];
+
+  return (
+    <section className="w-full max-w-[248px] rounded-[10px] border border-[#30343a] bg-[#101216] p-[5px]">
+      <div className="relative grid grid-cols-3 border-b border-[#30343a]" role="tablist" aria-label="Activity">
+        {tabs.map(({ label }, index) => (
+          <button
+            key={label}
+            id={\`underline-tab-\${index}\`}
+            type="button"
+            role="tab"
+            aria-selected={active === index}
+            className={\`relative z-10 border-0 bg-transparent px-1 py-[9px] text-[10px] transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#f97316] \${active === index ? "text-white" : "text-[#858c96]"}\`}
+            onClick={() => setActive(index)}
+          >
+            {label}
+          </button>
+        ))}
+        <span
+          className="pointer-events-none absolute bottom-[-1px] left-0 h-0.5 w-1/3 bg-[#f97316] transition-transform duration-[750ms] ease-[cubic-bezier(.22,1,.36,1)]"
+          style={{ transform: \`translateX(\${active * 100}%)\` }}
+          aria-hidden="true"
+        />
+      </div>
+      <div key={active} className="grid min-h-[54px] place-content-center px-2 pb-1.5 pt-2.5 text-center text-[11px] text-[#f4f5f7]">
+        <span>{activeTab.content}</span>
+      </div>
+    </section>
+  );
+}`,
     "sliding-content-tabs": `import { useState } from "react";
 import { Star, ThumbsUp, Users } from "lucide-react";
 
 const tabs = [
-  { label: "Followers", content: "1,284 people follow your updates.", Icon: Users },
-  { label: "Likes", content: "68 people liked your latest post.", Icon: ThumbsUp },
-  { label: "Favorites", content: "12 items are saved for later.", Icon: Star },
+  { label: "Audience", content: "1,284 people are in your audience.", Icon: Users },
+  { label: "Reactions", content: "68 people reacted to your latest post.", Icon: ThumbsUp },
+  { label: "Saved", content: "12 items are saved for later.", Icon: Star },
 ];
 
 export function SlidingContentTabs() {
@@ -664,7 +705,7 @@ export function SlidingContentTabs() {
           </button>
         ))}
         <span
-          className="pointer-events-none absolute inset-y-0 left-0 w-1/3 rounded-md bg-[#f97316] shadow-[0_1px_2px_#0005] transition-transform duration-[420ms] ease-[cubic-bezier(.16,1,.3,1)]"
+          className="pointer-events-none absolute inset-y-0 left-0 w-1/3 rounded-md bg-[#f97316] shadow-[0_1px_2px_#0005] transition-transform duration-[750ms] ease-[cubic-bezier(.22,1,.36,1)]"
           style={{ transform: \`translateX(\${active * 100}%)\` }}
           aria-hidden="true"
         />
@@ -860,9 +901,9 @@ export function SeeMoreSwapButton() {
 }
 
 const slidingTabItems = [
-  { label: "Followers", content: "1,284 people follow your updates.", Icon: Users },
-  { label: "Likes", content: "68 people liked your latest post.", Icon: ThumbsUp },
-  { label: "Favorites", content: "12 items are saved for later.", Icon: Star },
+  { label: "Audience", content: "1,284 people are in your audience.", Icon: Users },
+  { label: "Reactions", content: "68 people reacted to your latest post.", Icon: ThumbsUp },
+  { label: "Saved", content: "12 items are saved for later.", Icon: Star },
 ];
 
 export function SlidingContentTabs() {
@@ -875,6 +916,25 @@ export function SlidingContentTabs() {
       <span className="sliding-tabs-indicator" aria-hidden="true"/>
     </div>
     <p key={active} className="sliding-tabs-content" role="tabpanel" aria-labelledby={`sliding-tab-${active}`}>{activeTab.content}</p>
+  </section>;
+}
+
+const underlineTabItems = [
+  { label: "Audience", content: "Content one" },
+  { label: "Reactions", content: "Content two" },
+  { label: "Saved", content: "Content three" },
+];
+
+export function SlidingUnderlineTabs() {
+  const [active, setActive] = useState(0);
+  const activeTab = underlineTabItems[active];
+
+  return <section className={`underline-tabs underline-tabs-active-${active}`}>
+    <div className="underline-tabs-list" role="tablist" aria-label="Activity">
+      {underlineTabItems.map(({ label }, index) => <button key={label} id={`underline-tab-${index}`} type="button" role="tab" aria-selected={active === index} className={active === index ? "active" : ""} onClick={() => setActive(index)}>{label}</button>)}
+      <span className="underline-tabs-indicator" aria-hidden="true"/>
+    </div>
+    <div key={active} className="underline-tabs-content" role="tabpanel" aria-labelledby={`underline-tab-${active}`}><span>{activeTab.content}</span></div>
   </section>;
 }
 
