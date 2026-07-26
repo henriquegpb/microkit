@@ -26,6 +26,9 @@ import {
   Search,
   SlidersHorizontal,
   Smartphone,
+  Star,
+  ThumbsUp,
+  Users,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -170,6 +173,7 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "preview-browser-button") return <div className={cls}><button className="preview-browser-button"><span>Preview in browser</span><span className="preview-browser-icon" aria-hidden="true"><ArrowRight className="preview-browser-arrow preview-browser-arrow-current" size={17} strokeWidth={2.4}/><ArrowRight className="preview-browser-arrow preview-browser-arrow-incoming" size={17} strokeWidth={2.4}/></span></button></div>;
   if (id === "download-ios-button") return <div className={cls}><button className="download-ios-button"><span className="download-ios-content"><AppleMark/><span className="download-ios-label">Download for IOS</span><span className="download-ios-arrow" aria-hidden="true"><ArrowRight size={17} strokeWidth={2.4}/></span></span></button></div>;
   if (id === "spotlight-indicator") return <div className={cls}><SpotlightDemo/></div>;
+  if (id === "sliding-content-tabs") return <div className={cls}><SlidingContentTabs/></div>;
   return <div className={cls}>Preview</div>;
 }
 
@@ -629,6 +633,48 @@ export function SpotlightIndicator() {
   );
 }`;
   const componentTailwindCode: Record<string, string> = {
+    "sliding-content-tabs": `import { useState } from "react";
+import { Star, ThumbsUp, Users } from "lucide-react";
+
+const tabs = [
+  { label: "Followers", content: "1,284 people follow your updates.", Icon: Users },
+  { label: "Likes", content: "68 people liked your latest post.", Icon: ThumbsUp },
+  { label: "Favorites", content: "12 items are saved for later.", Icon: Star },
+];
+
+export function SlidingContentTabs() {
+  const [active, setActive] = useState(0);
+  const activeTab = tabs[active];
+
+  return (
+    <section className="w-full max-w-[248px] rounded-[10px] border border-[#30343a] bg-[#101216] p-[5px]">
+      <div className="relative grid grid-cols-3" role="tablist" aria-label="Activity">
+        {tabs.map(({ label, Icon }, index) => (
+          <button
+            key={label}
+            id={\`sliding-tab-\${index}\`}
+            type="button"
+            role="tab"
+            aria-selected={active === index}
+            className={\`relative z-10 inline-flex min-w-0 items-center justify-center gap-1.5 rounded-md border-0 bg-transparent px-1.5 py-[9px] text-[11px] transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#f97316] \${active === index ? "text-white" : "text-[#858c96]"}\`}
+            onClick={() => setActive(index)}
+          >
+            <Icon size={15} strokeWidth={1.8} aria-hidden="true" />
+            <span>{label}</span>
+          </button>
+        ))}
+        <span
+          className="pointer-events-none absolute inset-y-0 left-0 w-1/3 rounded-md bg-[#f97316] shadow-[0_1px_2px_#0005] transition-transform duration-[420ms] ease-[cubic-bezier(.16,1,.3,1)]"
+          style={{ transform: \`translateX(\${active * 100}%)\` }}
+          aria-hidden="true"
+        />
+      </div>
+      <p key={active} className="m-0 px-2 pb-[7px] pt-[14px] text-[11px] leading-[1.4] text-[#a9afb8]">
+        {activeTab.content}
+      </p>
+    </section>
+  );
+}`,
     "contact-underline-button": `import { ArrowRight } from "lucide-react";
 
 export function ContactUnderlineButton() {
@@ -812,6 +858,26 @@ export function SeeMoreSwapButton() {
 
   return <div className="component-code"><section className="code-section"><h2>Code</h2><div className="code-selectors"><label><span>{language === "TypeScript" ? "TS" : "JS"}</span><select value={language} onChange={event=>setLanguage(event.target.value as "JavaScript" | "TypeScript")}><option>JavaScript</option><option>TypeScript</option></select></label><label><span className={`code-style-logo ${styling.toLowerCase()}`}>{styling === "CSS" ? <Image src="/assets/img/CSS.svg" alt="" width={17} height={17} /> : <Image src="/assets/img/Tailwind.svg" alt="" width={20} height={12} />}</span><select value={styling} onChange={event=>setStyling(event.target.value as "CSS" | "Tailwind")}><option>CSS</option><option>Tailwind</option></select></label></div>{styling === "CSS" ? <div className="code-files"><div className="code-file"><h3>{language} component</h3><CodeSnippet label={`${item.id}-${language}`} code={componentCode} item={item} copy={copy} copied={copied}/></div><div className="code-file"><h3>CSS</h3><CodeSnippet label={`${item.id}-css`} code={cssCode} item={item} copy={copy} copied={copied}/></div></div> : <CodeSnippet label={`${item.id}-${language}-tailwind`} code={code} item={item} copy={copy} copied={copied}/>}</section></div>
 }
+
+const slidingTabItems = [
+  { label: "Followers", content: "1,284 people follow your updates.", Icon: Users },
+  { label: "Likes", content: "68 people liked your latest post.", Icon: ThumbsUp },
+  { label: "Favorites", content: "12 items are saved for later.", Icon: Star },
+];
+
+export function SlidingContentTabs() {
+  const [active, setActive] = useState(0);
+  const activeTab = slidingTabItems[active];
+
+  return <section className={`sliding-tabs tabs-active-${active}`}>
+    <div className="sliding-tabs-list" role="tablist" aria-label="Activity">
+      {slidingTabItems.map(({ label, Icon }, index) => <button key={label} id={`sliding-tab-${index}`} type="button" role="tab" aria-selected={active === index} className={active === index ? "active" : ""} onClick={() => setActive(index)}><Icon size={15} strokeWidth={1.8} aria-hidden="true"/><span>{label}</span></button>)}
+      <span className="sliding-tabs-indicator" aria-hidden="true"/>
+    </div>
+    <p key={active} className="sliding-tabs-content" role="tabpanel" aria-labelledby={`sliding-tab-${active}`}>{activeTab.content}</p>
+  </section>;
+}
+
 function formatCssCode(source: string) {
   return source
     .replace(/\/\*[\s\S]*?\*\//g, "")

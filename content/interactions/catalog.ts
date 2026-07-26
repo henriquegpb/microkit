@@ -17,6 +17,105 @@ export type Interaction = {
 };
 
 export const interactions: Interaction[] = [
+  { id: "sliding-content-tabs", name: "Sliding Content Tabs", category: "Navigation", framework: "React", type: "Click", description: "A compact tab switcher with a sliding active surface and content transition.", new: true, code: `import { useState } from "react";
+import { Star, ThumbsUp, Users } from "lucide-react";
+
+const tabs = [
+  { label: "Followers", content: "1,284 people follow your updates.", Icon: Users },
+  { label: "Likes", content: "68 people liked your latest post.", Icon: ThumbsUp },
+  { label: "Favorites", content: "12 items are saved for later.", Icon: Star },
+];
+
+export function SlidingContentTabs() {
+  const [active, setActive] = useState(0);
+  const activeTab = tabs[active];
+
+  return (
+    <section className={\`sliding-tabs tabs-active-\${active}\`}>
+      <div className="sliding-tabs-list" role="tablist" aria-label="Activity">
+        {tabs.map(({ label, Icon }, index) => (
+          <button
+            key={label}
+            id={\`sliding-tab-\${index}\`}
+            type="button"
+            role="tab"
+            aria-selected={active === index}
+            className={active === index ? "active" : ""}
+            onClick={() => setActive(index)}
+          >
+            <Icon size={15} strokeWidth={1.8} aria-hidden="true" />
+            <span>{label}</span>
+          </button>
+        ))}
+        <span className="sliding-tabs-indicator" aria-hidden="true" />
+      </div>
+      <p key={active} className="sliding-tabs-content" role="tabpanel" aria-labelledby={\`sliding-tab-\${active}\`}>
+        {activeTab.content}
+      </p>
+    </section>
+  );
+}
+
+/* sliding-content-tabs.css */
+.sliding-tabs {
+  width: min(100%, 248px);
+  border: 1px solid #30343a;
+  border-radius: 10px;
+  background: #101216;
+  padding: 5px;
+}
+.sliding-tabs-list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.sliding-tabs-list button {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  padding: 9px 6px;
+  color: #858c96;
+  font-size: 11px;
+  cursor: pointer;
+  transition: color .3s cubic-bezier(.16, 1, .3, 1);
+}
+.sliding-tabs-list button.active { color: #fff; }
+.sliding-tabs-list button:focus-visible { outline: 2px solid #f97316; outline-offset: -2px; }
+.sliding-tabs-indicator {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: calc(100% / 3);
+  height: 100%;
+  border-radius: 6px;
+  background: #f97316;
+  box-shadow: 0 1px 2px #0005;
+  transition: transform .42s cubic-bezier(.16, 1, .3, 1);
+}
+.tabs-active-1 .sliding-tabs-indicator { transform: translateX(100%); }
+.tabs-active-2 .sliding-tabs-indicator { transform: translateX(200%); }
+.sliding-tabs-content {
+  margin: 0;
+  padding: 14px 8px 7px;
+  color: #a9afb8;
+  font-size: 11px;
+  line-height: 1.4;
+  animation: sliding-tabs-enter .3s cubic-bezier(.16, 1, .3, 1);
+}
+@keyframes sliding-tabs-enter {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sliding-tabs-indicator, .sliding-tabs-list button { transition: none; }
+  .sliding-tabs-content { animation: none; }
+}` },
   { id: "focus-input", name: "Focus Field", category: "Inputs", framework: "CSS", type: "Focus", description: "An input with a clean animated focus treatment.", code: `export function FocusField() {
   return (
     <label className="demo-input">
