@@ -10,16 +10,16 @@
   <a href="https://github.com/henriquegpb/microkit/stargazers">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/henriquegpb/microkit?style=flat&color=f97316" />
   </a>
-  <a href="https://microkit.vercel.app">
-    <img alt="Website status" src="https://img.shields.io/website?url=https%3A%2F%2Fmicrokit.vercel.app&label=website&color=f97316" />
+  <a href="https://www.microkit.co">
+    <img alt="Website status" src="https://img.shields.io/website?url=https%3A%2F%2Fwww.microkit.co&label=website&color=f97316" />
   </a>
   <br />
   <br />
-  <a href="https://microkit.vercel.app">Explore interactions</a>
+  <a href="https://www.microkit.co">Explore interactions</a>
   ·
-  <a href="https://microkit.vercel.app/submit">Submit a component</a>
+  <a href="https://www.microkit.co/submit">Submit a component</a>
   ·
-  <a href="https://microkit.vercel.app/sponsors">Sponsors</a>
+  <a href="https://www.microkit.co/sponsors">Sponsors</a>
 </div>
 
 <br />
@@ -32,7 +32,7 @@ MicroKit is built for copying and learning from the source—not for hiding inte
 
 ## Features
 
-- **15 interactive components** with dedicated preview pages
+- **16 interactive components** with dedicated preview pages
 - **JavaScript and TypeScript** implementations
 - **CSS and Tailwind** styling variants
 - **Live previews** for testing every interaction before copying
@@ -43,7 +43,7 @@ MicroKit is built for copying and learning from the source—not for hiding inte
 
 ## Using a component
 
-1. Open the [interaction library](https://microkit.vercel.app).
+1. Open the [interaction library](https://www.microkit.co).
 2. Select a component to open its dedicated page.
 3. Test the interaction in the live preview.
 4. Open the **Code** tab.
@@ -113,11 +113,11 @@ MicroKit is supported by:
 
 Support helps keep MicroKit available and gives the project more room to improve its components, documentation, and contribution workflow.
 
-**[Become a MicroKit sponsor](https://microkit.vercel.app/sponsors)** — Choose a tier and send a prefilled sponsorship inquiry.
+**[Become a MicroKit sponsor](https://www.microkit.co/sponsors)** — Choose a tier and send a prefilled sponsorship inquiry.
 
 ## Contributing
 
-You can submit an interaction through the [MicroKit submission page](https://microkit.vercel.app/submit). The page prepares a GitHub issue containing your component code, where you can add a screenshot and any necessary attribution.
+You can submit an interaction through the [MicroKit submission page](https://www.microkit.co/submit). The page prepares a GitHub issue containing your component code, where you can add a screenshot and any necessary attribution.
 
 Before submitting:
 

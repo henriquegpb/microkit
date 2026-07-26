@@ -147,6 +147,10 @@ function AppleMark() {
   return <svg className="download-ios-apple" width="18" height="20" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M13.5621 5.45739C13.4857 5.50195 11.6671 6.44248 11.6671 8.52785C11.7528 10.9061 13.9621 11.7401 14 11.7401C13.9621 11.7847 13.6665 12.8763 12.7907 14.0205C12.0956 15.0062 11.3242 16 10.1528 16C9.0385 16 8.6385 15.3431 7.35278 15.3431C5.97203 15.3431 5.58135 16 4.5242 16C3.35277 16 2.52419 14.953 1.79127 13.9766C.839096 12.6986.0297778 10.6931.00120634 8.76747C-.0180484 7.74707.19189 6.74403.72481 5.89206C1.47699 4.70265 2.81985 3.89524 4.28631 3.86862C5.40992 3.83331 6.40992 4.58747 7.09563 4.58747C7.75278 4.58747 8.98135 3.86862 10.3714 3.86862C10.9714 3.86919 12.5714 4.03762 13.5621 5.45739ZM7.0006 3.66488C6.8006 2.73303 7.35278 1.80119 7.86706 1.20677C8.52421.487918 9.5621 0 10.4571 0C10.5143.931848 10.1522 1.84575 9.50496 2.51136C8.92421 3.23021 7.92421 3.77138 7.0006 3.66488Z" fill="currentColor"/></svg>;
 }
 
+function LongArrowMark() {
+  return <svg viewBox="0 0 120 55" fill="none" aria-hidden="true"><path d="M95.2389 0.989578C93.8845 -0.376811 91.7407 -0.321332 90.4505 1.11345C89.1602 2.54775 89.2126 4.81806 90.5674 6.18445L95.2389 0.989578ZM114.277 30.0975C115.631 31.4638 117.775 31.4084 119.066 29.9736C120.356 28.5393 120.303 26.269 118.949 24.9026L114.277 30.0975ZM118.949 30.0975C120.303 28.7311 120.356 26.4608 119.066 25.0265C117.775 23.5917 115.631 23.5362 114.277 24.9026L118.949 30.0975ZM90.5674 48.8156C89.2126 50.1818 89.1602 52.4522 90.4505 53.8868C91.7407 55.3213 93.8845 55.3767 95.2389 54.0105L90.5674 48.8156ZM116.613 31.087C118.483 31.087 120 29.481 120 27.5C120 25.5191 118.483 23.9131 116.613 23.9131L116.613 31.087ZM3.38709 25.894C1.51647 25.894 -1.20206e-06 27.5 -1.11547e-06 29.481C-1.02888e-06 31.4619 1.51647 33.0679 3.38709 33.0679L3.38709 25.894ZM90.5674 6.18445L114.277 30.0975L118.949 24.9026L95.2389 0.989578L90.5674 6.18445ZM114.277 24.9026L90.5674 48.8156L95.2389 54.0105L118.949 30.0975L114.277 24.9026ZM116.613 23.9131L3.38709 25.894L3.38709 33.0679L116.613 31.087L116.613 23.9131Z" fill="currentColor"/></svg>;
+}
+
 export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   const cls = `demo ${large ? "demo-large" : ""}`;
   if (id === "focus-input") return <div className={cls}><label className="demo-input"><span>Project name</span><input placeholder="e.g. microkit-web" /></label></div>;
@@ -160,6 +164,7 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "whats-new-glow-button") return <div className={cls}><WhatsNewGlowButton/></div>;
   if (id === "magnetic-fill-button") return <div className={cls}><MagneticFillButton/></div>;
   if (id === "project-text-swap-button") return <div className={cls}><button type="button" className="project-text-swap-button"><span className="project-text-swap-label project-text-swap-label-current">Start a Project</span><span className="project-text-swap-label project-text-swap-label-incoming" aria-hidden="true">Start a Project</span></button></div>;
+  if (id === "talk-arrow-reveal-button") return <div className={cls}><button type="button" className="talk-arrow-reveal-button"><span className="talk-arrow-reveal-label">Talk to us</span><span className="talk-arrow-reveal-icon"><LongArrowMark/></span></button></div>;
   if (id === "see-more-swap-button") return <div className={cls}><button type="button" className="see-more-swap-button"><span className="see-more-swap-content"><span className="see-more-swap-icon see-more-swap-icon-left" aria-hidden="true"><ArrowDown size={20} strokeWidth={2.4}/></span><span className="see-more-swap-label">See more</span><span className="see-more-swap-icon see-more-swap-icon-right" aria-hidden="true"><ArrowDown size={20} strokeWidth={2.4}/></span></span></button></div>;
   if (id === "preview-browser-button") return <div className={cls}><button className="preview-browser-button"><span>Preview in browser</span><span className="preview-browser-icon" aria-hidden="true"><ArrowRight className="preview-browser-arrow preview-browser-arrow-current" size={17} strokeWidth={2.4}/><ArrowRight className="preview-browser-arrow preview-browser-arrow-incoming" size={17} strokeWidth={2.4}/></span></button></div>;
   if (id === "download-ios-button") return <div className={cls}><button className="download-ios-button"><span className="download-ios-content"><AppleMark/><span className="download-ios-label">Download for IOS</span><span className="download-ios-arrow" aria-hidden="true"><ArrowRight size={17} strokeWidth={2.4}/></span></span></button></div>;
@@ -612,6 +617,24 @@ export function MagneticFillButton() {
     >
       <span className="relative z-10 flex text-[16px] font-normal [line-height:normal] [transition:transform_.36s_cubic-bezier(.16,1,.3,1),opacity_.22s_ease] group-hover:-translate-y-[160%] group-hover:opacity-0 group-focus-visible:-translate-y-[160%] group-focus-visible:opacity-0">Start a Project</span>
       <span className="absolute z-10 flex translate-y-[160%] text-[16px] font-normal [line-height:normal] opacity-0 [transition:transform_.36s_cubic-bezier(.16,1,.3,1),opacity_.22s_ease] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100" aria-hidden="true">Start a Project</span>
+    </button>
+  );
+}`,
+    "talk-arrow-reveal-button": `function LongArrowMark() {
+  return (
+    <svg className="block h-auto w-12" viewBox="0 0 120 55" fill="none" aria-hidden="true">
+      <path d="M95.2389 0.989578C93.8845 -0.376811 91.7407 -0.321332 90.4505 1.11345C89.1602 2.54775 89.2126 4.81806 90.5674 6.18445L95.2389 0.989578ZM114.277 30.0975C115.631 31.4638 117.775 31.4084 119.066 29.9736C120.356 28.5393 120.303 26.269 118.949 24.9026L114.277 30.0975ZM118.949 30.0975C120.303 28.7311 120.356 26.4608 119.066 25.0265C117.775 23.5917 115.631 23.5362 114.277 24.9026L118.949 30.0975ZM90.5674 48.8156C89.2126 50.1818 89.1602 52.4522 90.4505 53.8868C91.7407 55.3213 93.8845 55.3767 95.2389 54.0105L90.5674 48.8156ZM116.613 31.087C118.483 31.087 120 29.481 120 27.5C120 25.5191 118.483 23.9131 116.613 23.9131L116.613 31.087ZM3.38709 25.894C1.51647 25.894 -1.20206e-06 27.5 -1.11547e-06 29.481C-1.02888e-06 31.4619 1.51647 33.0679 3.38709 33.0679L3.38709 25.894ZM90.5674 6.18445L114.277 30.0975L118.949 24.9026L95.2389 0.989578L90.5674 6.18445ZM114.277 24.9026L90.5674 48.8156L95.2389 54.0105L118.949 30.0975L114.277 24.9026ZM116.613 23.9131L3.38709 25.894L3.38709 33.0679L116.613 31.087L116.613 23.9131Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function TalkArrowRevealButton() {
+  return (
+    <button type="button" className="group relative inline-flex min-h-12 w-[120px] cursor-pointer appearance-none box-border items-center justify-center overflow-hidden rounded-full border border-[#f0f0f033] bg-transparent px-6 py-2 text-[#f0f0f0] [font-family:Arial,Helvetica,sans-serif] [transition:background-color_.24s_ease,color_.24s_ease] hover:bg-[#f97316] hover:text-[#111] focus-visible:bg-[#f97316] focus-visible:text-[#111] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]">
+      <span className="relative z-10 flex items-center whitespace-nowrap text-[16px] font-medium [line-height:normal] [transition:transform_.38s_cubic-bezier(.16,1,.3,1),opacity_.18s_ease] group-hover:translate-x-32 group-hover:opacity-0 group-focus-visible:translate-x-32 group-focus-visible:opacity-0">Talk to us</span>
+      <span className="absolute z-10 flex -translate-x-20 items-center justify-center text-[#111] transition-transform duration-[380ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0">
+        <LongArrowMark />
+      </span>
     </button>
   );
 }`,

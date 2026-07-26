@@ -1,0 +1,26 @@
+import type { MetadataRoute } from "next";
+import {
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from "./site-metadata";
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    id: SITE_URL,
+    name: SITE_NAME,
+    short_name: "MicroKit",
+    description: SITE_DESCRIPTION,
+    start_url: "/",
+    display: "standalone",
+    background_color: "#0b0c0e",
+    theme_color: "#0b0c0e",
+    icons: [
+      {
+        src: "/icon.svg",
+        sizes: "any",
+        type: "image/svg+xml",
+      },
+    ],
+  };
+}
