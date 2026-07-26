@@ -159,6 +159,7 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "projects-arrow-button") return <div className={cls}><button className="projects-arrow-button"><span>Projects</span><span className="projects-arrow-icon" aria-hidden="true"><ArrowRight className="projects-arrow projects-arrow-current" size={18} strokeWidth={2.4}/><ArrowRight className="projects-arrow projects-arrow-incoming" size={18} strokeWidth={2.4}/></span></button></div>;
   if (id === "whats-new-glow-button") return <div className={cls}><WhatsNewGlowButton/></div>;
   if (id === "magnetic-fill-button") return <div className={cls}><MagneticFillButton/></div>;
+  if (id === "project-text-swap-button") return <div className={cls}><button type="button" className="project-text-swap-button"><span className="project-text-swap-label project-text-swap-label-current">Start a Project</span><span className="project-text-swap-label project-text-swap-label-incoming" aria-hidden="true">Start a Project</span></button></div>;
   if (id === "see-more-swap-button") return <div className={cls}><button type="button" className="see-more-swap-button"><span className="see-more-swap-content"><span className="see-more-swap-icon see-more-swap-icon-left" aria-hidden="true"><ArrowDown size={20} strokeWidth={2.4}/></span><span className="see-more-swap-label">See more</span><span className="see-more-swap-icon see-more-swap-icon-right" aria-hidden="true"><ArrowDown size={20} strokeWidth={2.4}/></span></span></button></div>;
   if (id === "preview-browser-button") return <div className={cls}><button className="preview-browser-button"><span>Preview in browser</span><span className="preview-browser-icon" aria-hidden="true"><ArrowRight className="preview-browser-arrow preview-browser-arrow-current" size={17} strokeWidth={2.4}/><ArrowRight className="preview-browser-arrow preview-browser-arrow-incoming" size={17} strokeWidth={2.4}/></span></button></div>;
   if (id === "download-ios-button") return <div className={cls}><button className="download-ios-button"><span className="download-ios-content"><AppleMark/><span className="download-ios-label">Download for IOS</span><span className="download-ios-arrow" aria-hidden="true"><ArrowRight size={17} strokeWidth={2.4}/></span></span></button></div>;
@@ -603,6 +604,17 @@ export function MagneticFillButton() {
     </button>
   );
 }`,
+    "project-text-swap-button": `export function ProjectTextSwapButton() {
+  return (
+    <button
+      type="button"
+      className="group relative inline-flex w-full max-w-44 cursor-pointer appearance-none box-border items-center justify-center overflow-hidden rounded-full border border-[#f0f0f0] bg-transparent px-8 py-3 text-center text-[#f0f0f0] [font-family:Arial,Helvetica,sans-serif] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"
+    >
+      <span className="relative z-10 flex text-[16px] font-normal [line-height:normal] [transition:transform_.36s_cubic-bezier(.16,1,.3,1),opacity_.22s_ease] group-hover:-translate-y-[160%] group-hover:opacity-0 group-focus-visible:-translate-y-[160%] group-focus-visible:opacity-0">Start a Project</span>
+      <span className="absolute z-10 flex translate-y-[160%] text-[16px] font-normal [line-height:normal] opacity-0 [transition:transform_.36s_cubic-bezier(.16,1,.3,1),opacity_.22s_ease] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100" aria-hidden="true">Start a Project</span>
+    </button>
+  );
+}`,
     "see-more-swap-button": `import { ArrowDown } from "lucide-react";
 
 export function SeeMoreSwapButton() {
@@ -623,10 +635,17 @@ export function SeeMoreSwapButton() {
   };
   const tailwindCode = componentTailwindCode[item.id] ?? defaultTailwindCode;
   const implementation = styling === "Tailwind" ? tailwindCode : item.code;
-  const code = language === "JavaScript" ? implementation.replace(/^import type[^\n]*\n/gm, "").replace(/: ReactPointerEvent<HTMLButtonElement>/g, "").replace(/: [A-Za-z][A-Za-z<>\[\]| ]*/g, "") : implementation;
-  const separator = code.indexOf("\n/* ");
-  const componentCode = styling === "CSS" && separator !== -1 ? code.slice(0, separator).trim() : code.trim();
-  const cssCode = styling === "CSS" && separator !== -1 ? formatCssCode(code.slice(separator + 1)) : "";
+  const toJavaScript = (source: string) => language === "JavaScript"
+    ? source
+        .replace(/^import type[^\n]*\n/gm, "")
+        .replace(/: ReactPointerEvent<HTMLButtonElement>/g, "")
+        .replace(/: [A-Za-z][A-Za-z<>\[\]| ]*/g, "")
+    : source;
+  const separator = implementation.indexOf("\n/* ");
+  const componentSource = styling === "CSS" && separator !== -1 ? implementation.slice(0, separator) : implementation;
+  const componentCode = toJavaScript(componentSource).trim();
+  const cssCode = styling === "CSS" && separator !== -1 ? formatCssCode(implementation.slice(separator + 1)) : "";
+  const code = styling === "Tailwind" ? componentCode : implementation;
 
   return <div className="component-code"><section className="code-section"><h2>Code</h2><div className="code-selectors"><label><span>{language === "TypeScript" ? "TS" : "JS"}</span><select value={language} onChange={event=>setLanguage(event.target.value as "JavaScript" | "TypeScript")}><option>JavaScript</option><option>TypeScript</option></select></label><label><span className={`code-style-logo ${styling.toLowerCase()}`}>{styling === "CSS" ? <Image src="/assets/img/CSS.svg" alt="" width={17} height={17} /> : <Image src="/assets/img/Tailwind.svg" alt="" width={20} height={12} />}</span><select value={styling} onChange={event=>setStyling(event.target.value as "CSS" | "Tailwind")}><option>CSS</option><option>Tailwind</option></select></label></div>{styling === "CSS" ? <div className="code-files"><div className="code-file"><h3>{language} component</h3><CodeSnippet label={`${item.id}-${language}`} code={componentCode} item={item} copy={copy} copied={copied}/></div><div className="code-file"><h3>CSS</h3><CodeSnippet label={`${item.id}-css`} code={cssCode} item={item} copy={copy} copied={copied}/></div></div> : <CodeSnippet label={`${item.id}-${language}-tailwind`} code={code} item={item} copy={copy} copied={copied}/>}</section></div>
 }
