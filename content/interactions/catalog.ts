@@ -48,11 +48,11 @@ export const interactions: Interaction[] = [
   border-color: #f97316;
   box-shadow: 0 0 0 3px #f9731625;
 }` },
-  { id: "expanding-contact-button", name: "Expanding Contact Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A pill-shaped call-to-action with an expanding background and arrow icon, adapted from the supplied Webflow export.", new: true, code: `import { ArrowRight } from "lucide-react";
+  { id: "expanding-contact-button", name: "Expanding Contact Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A pill-shaped call-to-action with an expanding background and arrow icon, adapted from the supplied Webflow export.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
 
 export function ExpandingContactButton() {
   return (
-    <button className="contact-pill">
+    <button type="button" className="contact-pill">
       <span className="contact-pill-icon" aria-hidden="true">
         <ArrowRight size={18} strokeWidth={2.5} />
       </span>
@@ -107,14 +107,15 @@ export function ExpandingContactButton() {
   transition: opacity .18s ease .1s, transform .24s ease .06s;
 }
 .contact-pill:hover,
-.contact-pill:focus-visible { width: 145px; background: #f4f4f5; color: #111; outline: 0; }
+.contact-pill:focus-visible { width: 145px; background: #f4f4f5; color: #111; }
 .contact-pill:hover > span:last-child,
-.contact-pill:focus-visible > span:last-child { opacity: 1; transform: translateX(0); }` },
-  { id: "contact-reveal-button", name: "Contact Reveal Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A circular arrow and label that resolve into a polished contact pill on hover.", new: true, code: `import { ArrowRight } from "lucide-react";
+.contact-pill:focus-visible > span:last-child { opacity: 1; transform: translateX(0); }
+.contact-pill:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
+  { id: "contact-reveal-button", name: "Contact Reveal Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A circular arrow and label that resolve into a polished contact pill on hover.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
 
 export function ContactRevealButton() {
   return (
-    <button className="contact-reveal">
+    <button type="button" className="contact-reveal">
       <span className="contact-reveal-icon" aria-hidden="true">
         <ArrowRight size={18} strokeWidth={2.5} />
       </span>
@@ -168,10 +169,11 @@ export function ContactRevealButton() {
 .contact-reveal:hover .contact-reveal-icon,
 .contact-reveal:focus-visible .contact-reveal-icon { background: #f97316; }
 .contact-reveal:hover,
-.contact-reveal:focus-visible { color: #111; outline: 0; }` },
+.contact-reveal:focus-visible { color: #111; }
+.contact-reveal:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
   { id: "subscribe-shine-button", name: "Subscribe Shine Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A dark subscribe pill with a rotating highlight that traces its edge on hover.", new: true, code: `export function SubscribeShineButton() {
   return (
-    <button className="subscribe-shine">
+    <button type="button" className="subscribe-shine">
       <span className="subscribe-shine-gradient" aria-hidden="true" />
       <span className="subscribe-shine-inner">Subscribe</span>
     </button>
@@ -220,11 +222,11 @@ export function ContactRevealButton() {
   transition-duration: 3s;
 }
 .subscribe-shine:focus-visible { outline: 2px solid #f97316; outline-offset: 3px; }` },
-  { id: "next-reveal-button", name: "Next Reveal Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An outlined arrow control that expands into a bright Next button on hover.", new: true, code: `import { ArrowRight } from "lucide-react";
+  { id: "next-reveal-button", name: "Next Reveal Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An outlined arrow control that expands into a bright Next button on hover.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
 
 export function NextRevealButton() {
   return (
-    <button className="next-reveal">
+    <button type="button" className="next-reveal">
       <span className="next-reveal-label">Next</span>
       <ArrowRight className="next-reveal-arrow" size={27} strokeWidth={1.7} />
     </button>
@@ -263,15 +265,15 @@ export function NextRevealButton() {
   border-color: transparent;
   background: #f97316;
   color: #171d1a;
-  outline: 0;
 }
 .next-reveal:hover .next-reveal-label,
-.next-reveal:focus-visible .next-reveal-label { opacity: 1; transform: translateY(0); }` },
-  { id: "pricing-slide-link", name: "Pricing Slide Link", category: "Click feedback", framework: "CSS", type: "Hover", description: "A text link whose arrow slides in from the left as the label settles into place.", new: true, code: `import { ArrowRight } from "lucide-react";
+.next-reveal:focus-visible .next-reveal-label { opacity: 1; transform: translateY(0); }
+.next-reveal:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
+  { id: "pricing-slide-link", name: "Pricing Slide Link", category: "Click feedback", framework: "CSS", type: "Hover", description: "A text link whose arrow slides in from the left as the label settles into place.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
 
 export function PricingSlideLink() {
   return (
-    <button className="pricing-slide">
+    <button type="button" className="pricing-slide">
       <span className="pricing-slide-icon" aria-hidden="true">
         <ArrowRight size={23} strokeWidth={2.25} />
       </span>
@@ -313,7 +315,7 @@ export function PricingSlideLink() {
 .pricing-slide:hover .pricing-slide-label,
 .pricing-slide:focus-visible .pricing-slide-label { transform: translateX(0); }
 .pricing-slide:focus-visible { outline: 2px solid #f97316; outline-offset: 5px; }` },
-  { id: "spotlight-indicator", name: "Spotlight Indicator", category: "Navigation", framework: "React", type: "Click", description: "A glowing rail that slides to the active item in a vertical nav — the same indicator powering this site's sidebar.", new: true, code: `import { useEffect, useRef, useState } from "react";
+  { id: "spotlight-indicator", name: "Spotlight Indicator", category: "Navigation", framework: "React", type: "Click", description: "A glowing rail that slides to the active item in a vertical nav — the same indicator powering this site's sidebar.", new: true, dependency: "lucide-react", code: `import { useEffect, useRef, useState } from "react";
 import { Clock, Heart, Layers } from "lucide-react";
 
 const items = [
@@ -323,9 +325,9 @@ const items = [
 ];
 
 export function SpotlightIndicator() {
-  const navRef = useRef(null);
-  const barRef = useRef(null);
-  const buttonRefs = useRef([]);
+  const navRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLSpanElement>(null);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const animatedRef = useRef(false);
   const [active, setActive] = useState(0);
 
@@ -350,9 +352,11 @@ export function SpotlightIndicator() {
       <span className="spot-bar" ref={barRef} aria-hidden="true" />
       {items.map(({ label, Icon }, index) => (
         <button
+          type="button"
           key={label}
           ref={(element) => { buttonRefs.current[index] = element; }}
           className={\`spot-item \${active === index ? "active" : ""}\`}
+          aria-pressed={active === index}
           onClick={() => setActive(index)}
         >
           <span className="spot-item-icon"><Icon size={15} /></span>
@@ -399,7 +403,9 @@ export function SpotlightIndicator() {
   text-align: left;
   transition: color .3s cubic-bezier(.4, 0, .2, 1), background .3s cubic-bezier(.4, 0, .2, 1);
 }
-.spot-item:hover { background: #17191d; color: #e4e6e9; }
+.spot-item:hover,
+.spot-item:focus-visible { background: #17191d; color: #e4e6e9; }
+.spot-item:focus-visible { outline: 2px solid #f97316; outline-offset: -2px; }
 .spot-item.active { color: #f6f7f8; }
 .spot-item-icon {
   display: inline-flex;
@@ -410,11 +416,11 @@ export function SpotlightIndicator() {
   transition: opacity .3s cubic-bezier(.4, 0, .2, 1), color .3s;
 }
 .spot-item.active .spot-item-icon { opacity: 1; color: #f97316; }` },
-  { id: "read-more-swap", name: "Read More Swap", category: "Click feedback", framework: "CSS", type: "Hover", description: "A text link whose arrow swaps from the right side to an orange leading arrow on hover.", new: true, code: `import { ArrowRight } from "lucide-react";
+  { id: "read-more-swap", name: "Read More Swap", category: "Click feedback", framework: "CSS", type: "Hover", description: "A text link whose arrow swaps from the right side to an orange leading arrow on hover.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
 
 export function ReadMoreSwap() {
   return (
-    <button className="read-more-swap">
+    <button type="button" className="read-more-swap">
       <ArrowRight className="read-more-arrow read-more-arrow-left" size={25} strokeWidth={2.5} />
       <span>Read more</span>
       <ArrowRight className="read-more-arrow read-more-arrow-right" size={25} strokeWidth={2.5} />
@@ -427,12 +433,13 @@ export function ReadMoreSwap() {
 .read-more-arrow { flex: 0 0 25px; width: 25px; transition: flex-basis .24s ease, width .24s ease, opacity .2s ease, transform .24s ease; }
 .read-more-arrow-left { flex-basis: 0; width: 0; color: #f97316; opacity: 0; transform: translateX(-12px); }
 .read-more-swap:hover .read-more-arrow-left, .read-more-swap:focus-visible .read-more-arrow-left { flex-basis: 25px; width: 25px; opacity: 1; transform: translateX(0); }
-.read-more-swap:hover .read-more-arrow-right, .read-more-swap:focus-visible .read-more-arrow-right { flex-basis: 0; width: 0; opacity: 0; transform: translateX(12px); }` },
-  { id: "projects-arrow-button", name: "Projects Arrow Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A Projects label paired with an outlined circular arrow that slides through itself on hover.", new: true, code: `import { ArrowRight } from "lucide-react";
+.read-more-swap:hover .read-more-arrow-right, .read-more-swap:focus-visible .read-more-arrow-right { flex-basis: 0; width: 0; opacity: 0; transform: translateX(12px); }
+.read-more-swap:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
+  { id: "projects-arrow-button", name: "Projects Arrow Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A Projects label paired with an outlined circular arrow that slides through itself on hover.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
 
 export function ProjectsArrowButton() {
   return (
-    <button className="projects-arrow-button">
+    <button type="button" className="projects-arrow-button">
       <span>Projects</span>
       <span className="projects-arrow-icon" aria-hidden="true">
         <ArrowRight className="projects-arrow projects-arrow-current" size={18} strokeWidth={2.4} />
@@ -448,8 +455,9 @@ export function ProjectsArrowButton() {
 .projects-arrow { position: absolute; transition: transform .48s cubic-bezier(.16, 1, .3, 1); }
 .projects-arrow-incoming { transform: translateX(-25px); }
 .projects-arrow-button:hover .projects-arrow-current, .projects-arrow-button:focus-visible .projects-arrow-current { transform: translateX(25px); }
-.projects-arrow-button:hover .projects-arrow-incoming, .projects-arrow-button:focus-visible .projects-arrow-incoming { transform: translateX(0); }` },
-  { id: "whats-new-glow-button", name: "What's New Glow Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A dark, fully rounded button whose orange and blue glows follow the cursor.", new: true, code: `import type { PointerEvent as ReactPointerEvent } from "react";
+.projects-arrow-button:hover .projects-arrow-incoming, .projects-arrow-button:focus-visible .projects-arrow-incoming { transform: translateX(0); }
+.projects-arrow-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
+  { id: "whats-new-glow-button", name: "What's New Glow Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A dark, fully rounded button whose orange and blue glows follow the cursor.", new: true, dependency: "lucide-react", code: `import type { PointerEvent as ReactPointerEvent } from "react";
 import { ArrowRight } from "lucide-react";
 
 export function WhatsNewGlowButton() {
@@ -463,7 +471,7 @@ export function WhatsNewGlowButton() {
   };
 
   return (
-    <button className="whats-new-button" onPointerMove={updateGlow} onPointerLeave={resetGlow}>
+    <button type="button" className="whats-new-button" onPointerMove={updateGlow} onPointerLeave={resetGlow}>
       <span className="whats-new-content">
         <ArrowRight size={16} strokeWidth={2.5} />
         What's new
@@ -482,11 +490,11 @@ export function WhatsNewGlowButton() {
 .whats-new-glow-blue { left: calc(var(--glow-x) - 30%); background: linear-gradient(145deg, #77e1e6, #2187d7 45%, #192b8a); }
 .whats-new-button:hover .whats-new-glow, .whats-new-button:focus-visible .whats-new-glow { transform: translateY(-19px); opacity: 1; }
 .whats-new-button:focus-visible { outline: 2px solid #f97316; outline-offset: 3px; }` },
-  { id: "preview-browser-button", name: "Preview in Browser Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An outlined pill button with a diagonal arrow that slides through on hover.", new: true, code: `import { ArrowRight } from "lucide-react";
+  { id: "preview-browser-button", name: "Preview in Browser Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An outlined pill button with a diagonal arrow that slides through on hover.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
 
 export function PreviewInBrowserButton() {
   return (
-    <button className="preview-browser-button">
+    <button type="button" className="preview-browser-button">
       <span>Preview in browser</span>
       <span className="preview-browser-icon" aria-hidden="true">
         <ArrowRight className="preview-browser-arrow preview-browser-arrow-current" size={17} strokeWidth={2.4} />
@@ -538,7 +546,7 @@ export function PreviewInBrowserButton() {
   outline: 2px solid #f97316;
   outline-offset: 3px;
 }` },
-  { id: "download-ios-button", name: "Download for IOS Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An outlined iOS download button whose arrow reveals without changing its width.", new: true, code: `import { ArrowRight } from "lucide-react";
+  { id: "download-ios-button", name: "Download for iOS Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An outlined iOS download button whose arrow reveals without changing its width.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
 
 function AppleMark() {
   return (
@@ -550,10 +558,10 @@ function AppleMark() {
 
 export function DownloadIOSButton() {
   return (
-    <button className="download-ios-button">
+    <button type="button" className="download-ios-button">
       <span className="download-ios-content">
         <AppleMark />
-        <span className="download-ios-label">Download for IOS</span>
+        <span className="download-ios-label">Download for iOS</span>
         <span className="download-ios-arrow" aria-hidden="true">
           <ArrowRight size={17} strokeWidth={2.4} />
         </span>
@@ -641,7 +649,7 @@ export function MagneticFillButton() {
   };
 
   return (
-    <button className="magnetic-fill-button" onPointerMove={move} onPointerLeave={reset}>
+    <button type="button" className="magnetic-fill-button" onPointerMove={move} onPointerLeave={reset}>
       <span className="magnetic-fill-label">Start a project</span>
       <span className="magnetic-fill-background" aria-hidden="true" />
     </button>
@@ -758,6 +766,247 @@ export function MagneticFillButton() {
   outline: 2px solid #f97316;
   outline-offset: 4px;
 }` },
+  { id: "view-more-text-swap", name: "View More Text Swap", category: "Click feedback", framework: "CSS", type: "Hover", description: "A borderless View More label that swaps vertically on hover.", new: true, code: `export function ViewMoreTextSwap() {
+  return (
+    <button type="button" className="view-more-text-swap">
+      <span className="view-more-text-swap-label view-more-text-swap-label-current">
+        View More
+      </span>
+      <span
+        className="view-more-text-swap-label view-more-text-swap-label-incoming"
+        aria-hidden="true"
+      >
+        View More
+      </span>
+    </button>
+  );
+}
+
+/* view-more-text-swap.css */
+.view-more-text-swap {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #f0f0f0;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+.view-more-text-swap-label {
+  z-index: 1;
+  display: flex;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  transition: transform .36s cubic-bezier(.16, 1, .3, 1), opacity .22s ease;
+}
+.view-more-text-swap-label-current {
+  position: relative;
+}
+.view-more-text-swap-label-incoming {
+  position: absolute;
+  opacity: 0;
+  transform: translateY(160%);
+}
+.view-more-text-swap:hover .view-more-text-swap-label-current,
+.view-more-text-swap:focus-visible .view-more-text-swap-label-current {
+  opacity: 0;
+  transform: translateY(-160%);
+}
+.view-more-text-swap:hover .view-more-text-swap-label-incoming,
+.view-more-text-swap:focus-visible .view-more-text-swap-label-incoming {
+  opacity: 1;
+  transform: translateY(0);
+}
+.view-more-text-swap:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 4px;
+}` },
+  { id: "gradient-underline-button", name: "Gradient Underline Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A label that scales up as a warm gradient underline grows across it.", new: true, code: `export function GradientUnderlineButton() {
+  return (
+    <button type="button" className="gradient-underline-button">
+      <span className="gradient-underline-button-label">HOVER ME</span>
+      <span className="gradient-underline-button-line" aria-hidden="true" />
+    </button>
+  );
+}
+
+/* gradient-underline-button.css */
+.gradient-underline-button {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  padding: 8px 24px;
+  color: #f0f0f0;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+.gradient-underline-button-label {
+  position: relative;
+  z-index: 1;
+  font-size: 16px;
+  font-weight: 500;
+  transition: transform .5s ease;
+}
+.gradient-underline-button-line {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(351deg, transparent 20%, #f97316 52%, transparent 85%);
+  transition: width 1s cubic-bezier(.165, .84, .44, 1);
+}
+.gradient-underline-button:hover .gradient-underline-button-label,
+.gradient-underline-button:focus-visible .gradient-underline-button-label {
+  transform: scale(1.2);
+}
+.gradient-underline-button:hover .gradient-underline-button-line,
+.gradient-underline-button:focus-visible .gradient-underline-button-line {
+  width: 100%;
+}
+.gradient-underline-button:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 4px;
+}` },
+  { id: "yellow-fill-preview-button", name: "Yellow Fill Preview Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An outlined Preview in browser button that fills with yellow from the left.", new: true, code: `export function YellowFillPreviewButton() {
+  return (
+    <button type="button" className="yellow-fill-preview-button">
+      <span className="yellow-fill-preview-button-label">Preview in browser</span>
+      <span className="yellow-fill-preview-button-fill" aria-hidden="true" />
+    </button>
+  );
+}
+
+/* yellow-fill-preview-button.css */
+.yellow-fill-preview-button {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 12px 24px;
+  color: #f0f0f0;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+.yellow-fill-preview-button-label {
+  position: relative;
+  z-index: 1;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color .3s ease;
+}
+.yellow-fill-preview-button-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  background: #f97316;
+  transition: width .5s cubic-bezier(.16, 1, .3, 1);
+}
+.yellow-fill-preview-button:hover .yellow-fill-preview-button-label,
+.yellow-fill-preview-button:focus-visible .yellow-fill-preview-button-label {
+  color: #111;
+}
+.yellow-fill-preview-button:hover .yellow-fill-preview-button-fill,
+.yellow-fill-preview-button:focus-visible .yellow-fill-preview-button-fill {
+  width: 100%;
+}
+.yellow-fill-preview-button:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 4px;
+}` },
+  { id: "circle-surface-button", name: "Circle Surface Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A circular CTA whose dark surface expands into an orange fill.", new: true, code: `export function CircleSurfaceButton() {
+  return <button type="button" className="circle-surface-button"><span>CLICK HERE</span><span aria-hidden="true" /></button>;
+}
+
+/* circle-surface-button.css */
+.circle-surface-button { position: relative; display: grid; width: 128px; height: 128px; place-items: center; overflow: hidden; border: 1px solid #f0f0f0; border-radius: 50%; background: transparent; color: #f0f0f0; cursor: pointer; }
+.circle-surface-button > span:first-child { position: relative; z-index: 1; font-size: 13px; transition: color .3s ease; }
+.circle-surface-button > span:last-child { position: absolute; inset: 0; border-radius: inherit; background: #323232; transition: transform .5s cubic-bezier(.16, 1, .3, 1), background-color .5s ease; }
+.circle-surface-button:hover > span:first-child, .circle-surface-button:focus-visible > span:first-child { color: #111; }
+.circle-surface-button:hover > span:last-child, .circle-surface-button:focus-visible > span:last-child { background: #f97316; transform: scale(1.1); }
+.circle-surface-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
+  { id: "inset-circle-button", name: "Inset Circle Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A circular project CTA that reveals its dark base as the inset surface collapses.", new: true, code: `export function InsetCircleButton() {
+  return <button type="button" className="inset-circle-button"><span>View Project</span><span aria-hidden="true" /></button>;
+}
+
+/* inset-circle-button.css */
+.inset-circle-button { position: relative; display: grid; width: 128px; height: 128px; place-items: center; overflow: hidden; border: 1px solid #f0f0f0; border-radius: 50%; background: #1f1f1f; color: #111; cursor: pointer; }
+.inset-circle-button > span:first-child { position: relative; z-index: 1; font-size: 13px; font-weight: 700; transition: color .42s ease; }
+.inset-circle-button > span:last-child { position: absolute; inset: 4px; border-radius: 50%; background: #f0f0f0; clip-path: circle(75% at 50% 50%); will-change: clip-path; transition: clip-path .52s cubic-bezier(.16, 1, .3, 1); }
+.inset-circle-button:hover > span:first-child, .inset-circle-button:focus-visible > span:first-child { color: #f0f0f0; }
+.inset-circle-button:hover > span:last-child, .inset-circle-button:focus-visible > span:last-child { clip-path: circle(0% at 50% 50%); }
+.inset-circle-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
+  { id: "sliding-arrow-label", name: "Sliding Arrow Label", category: "Click feedback", framework: "CSS", type: "Hover", description: "A text label that gets a bright surface while an arrow slides in beside it.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
+
+export function SlidingArrowLabel() {
+  return <button type="button" className="sliding-arrow-label"><span className="sliding-arrow-label-copy">Create a blog</span><span className="sliding-arrow-label-icon" aria-hidden="true"><ArrowRight size={16} strokeWidth={2.4} /></span></button>;
+}
+
+/* sliding-arrow-label.css */
+.sliding-arrow-label { position: relative; display: inline-flex; align-items: center; overflow: hidden; border: 0; background: transparent; padding-right: 24px; color: #f0f0f0; cursor: pointer; }
+.sliding-arrow-label-copy { border-radius: 8px; padding: 4px 12px; font-size: 16px; font-weight: 500; transition: background-color .3s ease, color .3s ease; }
+.sliding-arrow-label-icon { position: absolute; right: 0; display: flex; width: 16px; opacity: 0; transform: translateX(-10px); transition: opacity .2s ease, transform .35s cubic-bezier(.16, 1, .3, 1); }
+.sliding-arrow-label:hover .sliding-arrow-label-copy, .sliding-arrow-label:focus-visible .sliding-arrow-label-copy { background: #f97316; color: #111; }
+.sliding-arrow-label:hover .sliding-arrow-label-icon, .sliding-arrow-label:focus-visible .sliding-arrow-label-icon { opacity: 1; transform: translateX(0); }
+.sliding-arrow-label:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
+  { id: "orange-circle-fill-button", name: "Orange Circle Fill Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An orange outlined pill that fills from a growing circle.", new: true, code: `export function OrangeCircleFillButton() {
+  return <button type="button" className="orange-circle-fill-button"><span>View all projects</span><span aria-hidden="true" /></button>;
+}
+
+/* orange-circle-fill-button.css */
+.orange-circle-fill-button { position: relative; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #f97316; border-radius: 999px; background: #f973162b; padding: 16px 24px; color: #f97316; cursor: pointer; transition: transform .5s cubic-bezier(.16, 1, .3, 1); }
+.orange-circle-fill-button > span:first-child { position: relative; z-index: 1; font-size: 18px; font-weight: 500; transition: color .3s ease; }
+.orange-circle-fill-button > span:last-child { position: absolute; width: 240px; height: 240px; border-radius: 50%; background: #f97316; transform: scale(0); transition: transform .5s cubic-bezier(.16, 1, .3, 1); }
+.orange-circle-fill-button:hover, .orange-circle-fill-button:focus-visible { transform: scale(1.06); }
+.orange-circle-fill-button:hover > span:first-child, .orange-circle-fill-button:focus-visible > span:first-child { color: #111; }
+.orange-circle-fill-button:hover > span:last-child, .orange-circle-fill-button:focus-visible > span:last-child { transform: scale(1); }
+.orange-circle-fill-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
+  { id: "layered-gradient-button", name: "Layered Gradient Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A dimensional pill with gradient text and subtly shifting layered surfaces.", new: true, code: `export function LayeredGradientButton() {
+  return <button type="button" className="layered-gradient-button"><span>View all projects</span><span className="layered-gradient-button-surface" aria-hidden="true" /><span className="layered-gradient-button-haze" aria-hidden="true" /></button>;
+}
+
+/* layered-gradient-button.css */
+.layered-gradient-button { position: relative; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: transparent; padding: 16px 24px; cursor: pointer; }
+.layered-gradient-button > span:first-child { position: relative; z-index: 2; background: linear-gradient(to right, #f0f0f0, #464646 48%, #f0f0f0); background-clip: text; color: transparent; font-size: 18px; font-weight: 500; transition: transform .3s ease; }
+.layered-gradient-button-surface { position: absolute; z-index: 1; inset: 0; border: 1px solid #f0f0f033; border-radius: inherit; background: radial-gradient(circle at 50% 100%, #111, #252525); transition: transform .3s ease; }
+.layered-gradient-button-haze { position: absolute; z-index: 0; top: 4px; width: 104%; height: 98%; border-radius: inherit; background: #f0f0f080; opacity: 0; transform: scale(.8); transition: opacity .6s ease, transform .3s ease; }
+.layered-gradient-button:hover > span:first-child, .layered-gradient-button:focus-visible > span:first-child { transform: scale(1.05); }
+.layered-gradient-button:hover .layered-gradient-button-surface, .layered-gradient-button:focus-visible .layered-gradient-button-surface { transform: scale(1.05); }
+.layered-gradient-button:hover .layered-gradient-button-haze, .layered-gradient-button:focus-visible .layered-gradient-button-haze { opacity: 1; transform: translateY(1px) scale(.98); }
+.layered-gradient-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
+  { id: "glow-arrow-button", name: "Glow Arrow Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A bright CTA with a soft glow and a moving arrow on hover.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
+
+export function GlowArrowButton() {
+  return <button type="button" className="glow-arrow-button"><span>Get Started</span><ArrowRight aria-hidden="true" size={16} strokeWidth={2.3} /></button>;
+}
+
+/* glow-arrow-button.css */
+.glow-arrow-button { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 999px; background: #f0f0f0; padding: 16px 32px; color: #111; font-size: 16px; font-weight: 500; cursor: pointer; transition: box-shadow .3s ease; }
+.glow-arrow-button svg { transition: transform .3s ease; }
+.glow-arrow-button:hover, .glow-arrow-button:focus-visible { box-shadow: 0 3px 20px #f0f0f080; }
+.glow-arrow-button:hover svg, .glow-arrow-button:focus-visible svg { transform: translateX(4px); }
+.glow-arrow-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }` },
   { id: "talk-arrow-reveal-button", name: "Talk Arrow Reveal Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "An outlined Talk to us pill that fills with orange and reveals a long arrow.", new: true, code: `function LongArrowMark() {
   return (
     <svg viewBox="0 0 120 55" fill="none" aria-hidden="true">
@@ -841,7 +1090,7 @@ export function TalkArrowRevealButton() {
   outline: 2px solid #f97316;
   outline-offset: 4px;
 }` },
-  { id: "see-more-swap-button", name: "See More Swap Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A pill button whose arrow circle swaps sides while its surface changes color.", new: true, code: `import { ArrowDown } from "lucide-react";
+  { id: "see-more-swap-button", name: "See More Swap Button", category: "Click feedback", framework: "CSS", type: "Hover", description: "A pill button whose arrow circle swaps sides while its surface changes color.", new: true, dependency: "lucide-react", code: `import { ArrowDown } from "lucide-react";
 
 export function SeeMoreSwapButton() {
   return (
@@ -937,7 +1186,7 @@ export function SeeMoreSwapButton() {
   outline: 2px solid #f97316;
   outline-offset: 4px;
 }` },
-  { id: "contact-underline-button", name: "Contact Underline Button", category: "Click feedback", framework: "React", type: "Hover", description: "A compact contact action whose icon turns orange while an underline draws beneath the label.", new: true, code: `import { ArrowRight } from "lucide-react";
+  { id: "contact-underline-button", name: "Contact Underline Button", category: "Click feedback", framework: "React", type: "Hover", description: "A compact contact action whose icon turns orange while an underline draws beneath the label.", new: true, dependency: "lucide-react", code: `import { ArrowRight } from "lucide-react";
 
 export function ContactUnderlineButton() {
   return (

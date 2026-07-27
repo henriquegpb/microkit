@@ -165,6 +165,15 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
   if (id === "whats-new-glow-button") return <div className={cls}><WhatsNewGlowButton/></div>;
   if (id === "magnetic-fill-button") return <div className={cls}><MagneticFillButton/></div>;
   if (id === "project-text-swap-button") return <div className={cls}><button type="button" className="project-text-swap-button"><span className="project-text-swap-label project-text-swap-label-current">Start a Project</span><span className="project-text-swap-label project-text-swap-label-incoming" aria-hidden="true">Start a Project</span></button></div>;
+  if (id === "view-more-text-swap") return <div className={cls}><button type="button" className="view-more-text-swap"><span className="view-more-text-swap-label view-more-text-swap-label-current">View More</span><span className="view-more-text-swap-label view-more-text-swap-label-incoming" aria-hidden="true">View More</span></button></div>;
+  if (id === "gradient-underline-button") return <div className={cls}><button type="button" className="gradient-underline-button"><span className="gradient-underline-button-label">HOVER ME</span><span className="gradient-underline-button-line" aria-hidden="true"/></button></div>;
+  if (id === "yellow-fill-preview-button") return <div className={cls}><button type="button" className="yellow-fill-preview-button"><span className="yellow-fill-preview-button-label">Preview in browser</span><span className="yellow-fill-preview-button-fill" aria-hidden="true"/></button></div>;
+  if (id === "circle-surface-button") return <div className={cls}><button type="button" className="circle-surface-button"><span>CLICK HERE</span><span aria-hidden="true"/></button></div>;
+  if (id === "inset-circle-button") return <div className={cls}><button type="button" className="inset-circle-button"><span>View Project</span><span aria-hidden="true"/></button></div>;
+  if (id === "sliding-arrow-label") return <div className={cls}><button type="button" className="sliding-arrow-label"><span className="sliding-arrow-label-copy">Create a blog</span><span className="sliding-arrow-label-icon" aria-hidden="true"><ArrowRight size={16} strokeWidth={2.4}/></span></button></div>;
+  if (id === "orange-circle-fill-button") return <div className={cls}><button type="button" className="orange-circle-fill-button"><span>View all projects</span><span aria-hidden="true"/></button></div>;
+  if (id === "layered-gradient-button") return <div className={cls}><button type="button" className="layered-gradient-button"><span>View all projects</span><span className="layered-gradient-button-surface" aria-hidden="true"/><span className="layered-gradient-button-haze" aria-hidden="true"/></button></div>;
+  if (id === "glow-arrow-button") return <div className={cls}><button type="button" className="glow-arrow-button"><span>Get Started</span><ArrowRight aria-hidden="true" size={16} strokeWidth={2.3}/></button></div>;
   if (id === "talk-arrow-reveal-button") return <div className={cls}><button type="button" className="talk-arrow-reveal-button"><span className="talk-arrow-reveal-label">Talk to us</span><span className="talk-arrow-reveal-icon"><LongArrowMark/></span></button></div>;
   if (id === "see-more-swap-button") return <div className={cls}><button type="button" className="see-more-swap-button"><span className="see-more-swap-content"><span className="see-more-swap-icon see-more-swap-icon-left" aria-hidden="true"><ArrowDown size={20} strokeWidth={2.4}/></span><span className="see-more-swap-label">See more</span><span className="see-more-swap-icon see-more-swap-icon-right" aria-hidden="true"><ArrowDown size={20} strokeWidth={2.4}/></span></span></button></div>;
   if (id === "preview-browser-button") return <div className={cls}><button className="preview-browser-button"><span>Preview in browser</span><span className="preview-browser-icon" aria-hidden="true"><ArrowRight className="preview-browser-arrow preview-browser-arrow-current" size={17} strokeWidth={2.4}/><ArrowRight className="preview-browser-arrow preview-browser-arrow-incoming" size={17} strokeWidth={2.4}/></span></button></div>;
@@ -586,9 +595,9 @@ const items = [
 ];
 
 export function SpotlightIndicator() {
-  const navRef = useRef(null);
-  const barRef = useRef(null);
-  const buttonRefs = useRef([]);
+  const navRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLSpanElement>(null);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const animatedRef = useRef(false);
   const [active, setActive] = useState(0);
 
@@ -760,6 +769,61 @@ export function MagneticFillButton() {
     </button>
   );
 }`,
+    "view-more-text-swap": `export function ViewMoreTextSwap() {
+  return (
+    <button
+      type="button"
+      className="group relative inline-flex cursor-pointer appearance-none items-center justify-center overflow-hidden border-0 bg-transparent p-0 text-[#f0f0f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"
+    >
+      <span className="relative z-10 flex whitespace-nowrap text-[16px] font-normal [line-height:normal] [transition:transform_.36s_cubic-bezier(.16,1,.3,1),opacity_.22s_ease] group-hover:-translate-y-[160%] group-hover:opacity-0 group-focus-visible:-translate-y-[160%] group-focus-visible:opacity-0">View More</span>
+      <span className="absolute z-10 flex translate-y-[160%] whitespace-nowrap text-[16px] font-normal [line-height:normal] opacity-0 [transition:transform_.36s_cubic-bezier(.16,1,.3,1),opacity_.22s_ease] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100" aria-hidden="true">View More</span>
+    </button>
+  );
+}`,
+    "gradient-underline-button": `export function GradientUnderlineButton() {
+  return (
+    <button
+      type="button"
+      className="group relative inline-flex cursor-pointer appearance-none flex-col items-center justify-center overflow-hidden border-0 bg-transparent px-6 py-2 text-center text-[#f0f0f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"
+    >
+      <span className="relative z-10 text-base font-medium transition-transform duration-500 group-hover:scale-[1.2] group-focus-visible:scale-[1.2]">HOVER ME</span>
+      <span className="absolute inset-x-0 bottom-0 h-px w-0 bg-[linear-gradient(351deg,transparent_20%,#f97316_52%,transparent_85%)] transition-[width] duration-1000 ease-[cubic-bezier(.165,.84,.44,1)] group-hover:w-full group-focus-visible:w-full" aria-hidden="true" />
+    </button>
+  );
+}`,
+    "yellow-fill-preview-button": `export function YellowFillPreviewButton() {
+  return (
+    <button
+      type="button"
+      className="group relative inline-flex cursor-pointer appearance-none items-center justify-center overflow-hidden rounded-full border border-[#f0f0f0] bg-transparent px-6 py-3 text-[#f0f0f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"
+    >
+      <span className="relative z-10 text-base font-medium transition-colors duration-300 group-hover:text-[#111] group-focus-visible:text-[#111]">Preview in browser</span>
+      <span className="absolute inset-y-0 left-0 w-0 bg-[#f97316] transition-[width] duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:w-full group-focus-visible:w-full" aria-hidden="true" />
+    </button>
+  );
+}`,
+    "circle-surface-button": `export function CircleSurfaceButton() {
+  return <button type="button" className="group relative grid size-32 cursor-pointer place-items-center overflow-hidden rounded-full border border-[#f0f0f0] bg-transparent p-3 text-[13px] font-medium text-[#f0f0f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"><span className="relative z-10 transition-colors duration-300 group-hover:text-[#111] group-focus-visible:text-[#111]">CLICK HERE</span><span className="absolute inset-0 rounded-full bg-[#323232] transition-[transform,background-color] duration-500 group-hover:scale-110 group-hover:bg-[#f97316] group-focus-visible:scale-110 group-focus-visible:bg-[#f97316]" aria-hidden="true" /></button>;
+}`,
+    "inset-circle-button": `export function InsetCircleButton() {
+  return <button type="button" className="group relative grid size-32 cursor-pointer place-items-center overflow-hidden rounded-full border border-[#f0f0f0] bg-[#1f1f1f] p-3 text-[13px] font-bold text-[#111] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"><span className="relative z-10 transition-colors duration-[420ms] group-hover:text-[#f0f0f0] group-focus-visible:text-[#f0f0f0]">View Project</span><span className="absolute inset-1 rounded-full bg-[#f0f0f0] [clip-path:circle(75%_at_50%_50%)] [transition:clip-path_.52s_cubic-bezier(.16,1,.3,1)] [will-change:clip-path] group-hover:[clip-path:circle(0%_at_50%_50%)] group-focus-visible:[clip-path:circle(0%_at_50%_50%)]" aria-hidden="true" /></button>;
+}`,
+    "sliding-arrow-label": `import { ArrowRight } from "lucide-react";
+
+export function SlidingArrowLabel() {
+  return <button type="button" className="group relative inline-flex cursor-pointer items-center overflow-hidden border-0 bg-transparent py-0 pr-6 pl-0 text-[#f0f0f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"><span className="rounded-lg px-3 py-1 text-base font-medium transition-colors duration-300 group-hover:bg-[#f97316] group-hover:text-[#111] group-focus-visible:bg-[#f97316] group-focus-visible:text-[#111]">Create a blog</span><span className="absolute right-0 flex w-4 -translate-x-2.5 opacity-0 transition-[opacity,transform] duration-[350ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100" aria-hidden="true"><ArrowRight size={16} strokeWidth={2.4} /></span></button>;
+}`,
+    "orange-circle-fill-button": `export function OrangeCircleFillButton() {
+  return <button type="button" className="group relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-full border border-[#f97316] bg-[#f973162b] px-6 py-4 text-[18px] font-medium text-[#f97316] transition-transform duration-500 group-hover:scale-[1.06] group-focus-visible:scale-[1.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"><span className="relative z-10 transition-colors duration-300 group-hover:text-[#111] group-focus-visible:text-[#111]">View all projects</span><span className="absolute size-60 scale-0 rounded-full bg-[#f97316] transition-transform duration-500 group-hover:scale-100 group-focus-visible:scale-100" aria-hidden="true" /></button>;
+}`,
+    "layered-gradient-button": `export function LayeredGradientButton() {
+  return <button type="button" className="group relative inline-flex cursor-pointer items-center justify-center rounded-full border-0 bg-transparent px-6 py-4 text-[18px] font-medium text-transparent [background:linear-gradient(to_right,#f0f0f0,#464646_48%,#f0f0f0)] bg-clip-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"><span className="relative z-10 transition-transform duration-300 group-hover:scale-105 group-focus-visible:scale-105">View all projects</span><span className="absolute inset-0 z-[1] rounded-full border border-[#f0f0f033] bg-[radial-gradient(circle_at_50%_100%,#111,#252525)] transition-transform duration-300 group-hover:scale-105 group-focus-visible:scale-105" aria-hidden="true" /><span className="absolute top-1 z-0 h-[98%] w-[104%] scale-80 rounded-full bg-[#f0f0f080] opacity-0 [transition:opacity_.6s_ease,transform_.3s_ease] group-hover:translate-y-px group-hover:scale-[.98] group-hover:opacity-100 group-focus-visible:translate-y-px group-focus-visible:scale-[.98] group-focus-visible:opacity-100" aria-hidden="true" /></button>;
+}`,
+    "glow-arrow-button": `import { ArrowRight } from "lucide-react";
+
+export function GlowArrowButton() {
+  return <button type="button" className="group inline-flex cursor-pointer items-center gap-2 overflow-hidden rounded-full border-0 bg-[#f0f0f0] px-8 py-4 text-base font-medium text-[#111] transition-shadow duration-300 hover:shadow-[0_3px_20px_#f0f0f080] focus-visible:shadow-[0_3px_20px_#f0f0f080] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"><span>Get Started</span><ArrowRight aria-hidden="true" size={16} strokeWidth={2.3} className="transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1" /></button>;
+}`,
     "talk-arrow-reveal-button": `function LongArrowMark() {
   return (
     <svg className="block h-auto w-12" viewBox="0 0 120 55" fill="none" aria-hidden="true">
@@ -802,7 +866,7 @@ export function SeeMoreSwapButton() {
     ? source
         .replace(/^import type[^\n]*\n/gm, "")
         .replace(/: ReactPointerEvent<HTMLButtonElement>/g, "")
-        .replace(/: [A-Za-z][A-Za-z<>\[\]| ]*/g, "")
+        .replace(/\buseRef<[^>]+>/g, "useRef")
     : source;
   const separator = implementation.indexOf("\n/* ");
   const componentSource = styling === "CSS" && separator !== -1 ? implementation.slice(0, separator) : implementation;
