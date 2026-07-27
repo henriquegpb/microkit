@@ -1,0 +1,7 @@
+.orange-circle-fill-button { position: relative; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #f97316; border-radius: 999px; background: #f973162b; padding: 16px 24px; color: #f97316; cursor: pointer; transition: transform .5s cubic-bezier(.16, 1, .3, 1); }
+.orange-circle-fill-button > span:first-child { position: relative; z-index: 1; font-size: 18px; font-weight: 500; transition: color .3s ease; }
+.orange-circle-fill-button > span:last-child { position: absolute; width: 240px; height: 240px; border-radius: 50%; background: #f97316; transform: scale(0); transition: transform .5s cubic-bezier(.16, 1, .3, 1); }
+.orange-circle-fill-button:hover, .orange-circle-fill-button:focus-visible { transform: scale(1.06); }
+.orange-circle-fill-button:hover > span:first-child, .orange-circle-fill-button:focus-visible > span:first-child { color: #111; }
+.orange-circle-fill-button:hover > span:last-child, .orange-circle-fill-button:focus-visible > span:last-child { transform: scale(1); }
+.orange-circle-fill-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }

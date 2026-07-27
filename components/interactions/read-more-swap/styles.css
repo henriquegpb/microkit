@@ -1,0 +1,6 @@
+.read-more-swap { display: inline-flex; align-items: center; gap: 12px; height: 48px; border: 0; overflow: hidden; background: transparent; color: #f0f0f0; font-size: 16px; font-weight: 500; }
+.read-more-arrow { flex: 0 0 25px; width: 25px; transition: flex-basis .24s ease, width .24s ease, opacity .2s ease, transform .24s ease; }
+.read-more-arrow-left { flex-basis: 0; width: 0; color: #f97316; opacity: 0; transform: translateX(-12px); }
+.read-more-swap:hover .read-more-arrow-left, .read-more-swap:focus-visible .read-more-arrow-left { flex-basis: 25px; width: 25px; opacity: 1; transform: translateX(0); }
+.read-more-swap:hover .read-more-arrow-right, .read-more-swap:focus-visible .read-more-arrow-right { flex-basis: 0; width: 0; opacity: 0; transform: translateX(12px); }
+.read-more-swap:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }

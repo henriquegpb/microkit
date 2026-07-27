@@ -1,0 +1,7 @@
+.projects-arrow-button { display: inline-flex; align-items: center; gap: 9px; border: 0; background: transparent; color: #f0f0f0; font-size: 16px; font-weight: 500; letter-spacing: .5px; }
+.projects-arrow-icon { position: relative; display: grid; width: 32px; height: 32px; place-items: center; overflow: hidden; border: 1px solid currentColor; border-radius: 999px; }
+.projects-arrow { position: absolute; transition: transform .48s cubic-bezier(.16, 1, .3, 1); }
+.projects-arrow-incoming { transform: translateX(-25px); }
+.projects-arrow-button:hover .projects-arrow-current, .projects-arrow-button:focus-visible .projects-arrow-current { transform: translateX(25px); }
+.projects-arrow-button:hover .projects-arrow-incoming, .projects-arrow-button:focus-visible .projects-arrow-incoming { transform: translateX(0); }
+.projects-arrow-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }

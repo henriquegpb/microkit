@@ -1,0 +1,8 @@
+.layered-gradient-button { position: relative; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: transparent; padding: 16px 24px; cursor: pointer; }
+.layered-gradient-button > span:first-child { position: relative; z-index: 2; background: linear-gradient(to right, #f0f0f0, #464646 48%, #f0f0f0); background-clip: text; color: transparent; font-size: 18px; font-weight: 500; transition: transform .3s ease; }
+.layered-gradient-button-surface { position: absolute; z-index: 1; inset: 0; border: 1px solid #f0f0f033; border-radius: inherit; background: radial-gradient(circle at 50% 100%, #111, #252525); transition: transform .3s ease; }
+.layered-gradient-button-haze { position: absolute; z-index: 0; top: 4px; width: 104%; height: 98%; border-radius: inherit; background: #f0f0f080; opacity: 0; transform: scale(.8); transition: opacity .6s ease, transform .3s ease; }
+.layered-gradient-button:hover > span:first-child, .layered-gradient-button:focus-visible > span:first-child { transform: scale(1.05); }
+.layered-gradient-button:hover .layered-gradient-button-surface, .layered-gradient-button:focus-visible .layered-gradient-button-surface { transform: scale(1.05); }
+.layered-gradient-button:hover .layered-gradient-button-haze, .layered-gradient-button:focus-visible .layered-gradient-button-haze { opacity: 1; transform: translateY(1px) scale(.98); }
+.layered-gradient-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }

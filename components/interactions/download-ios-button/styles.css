@@ -1,0 +1,62 @@
+.download-ios-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 228px;
+  min-height: 56px;
+  overflow: hidden;
+  border: 1px solid #ffffff14;
+  border-radius: 12px;
+  background: transparent;
+  padding: 8px 16px;
+  color: #f0f0f0;
+}
+.download-ios-content {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.download-ios-apple {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  color: #f0f0f0;
+  transition: width .52s cubic-bezier(.16, 1, .3, 1), margin .52s cubic-bezier(.16, 1, .3, 1), opacity .24s ease, transform .52s cubic-bezier(.16, 1, .3, 1);
+}
+.download-ios-label {
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 500;
+}
+.download-ios-arrow {
+  display: grid;
+  width: 0;
+  height: 24px;
+  margin-left: -8px;
+  overflow: hidden;
+  place-items: center;
+  opacity: 0;
+  transform: translateX(18px);
+  transition: width .52s cubic-bezier(.16, 1, .3, 1), margin .52s cubic-bezier(.16, 1, .3, 1), opacity .24s ease, transform .52s cubic-bezier(.16, 1, .3, 1);
+}
+.download-ios-button:hover .download-ios-apple,
+.download-ios-button:focus-visible .download-ios-apple {
+  width: 0;
+  margin-right: -8px;
+  opacity: 0;
+  transform: translateX(-18px);
+}
+.download-ios-button:hover .download-ios-arrow,
+.download-ios-button:focus-visible .download-ios-arrow {
+  width: 24px;
+  margin-left: 0;
+  opacity: 1;
+  transform: translateX(0);
+}
+.download-ios-button:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 3px;
+}

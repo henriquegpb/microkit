@@ -1,0 +1,5 @@
+.glow-arrow-button { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 999px; background: #f0f0f0; padding: 16px 32px; color: #111; font-size: 16px; font-weight: 500; cursor: pointer; transition: box-shadow .3s ease; }
+.glow-arrow-button svg { transition: transform .3s ease; }
+.glow-arrow-button:hover, .glow-arrow-button:focus-visible { box-shadow: 0 3px 20px #f0f0f080; }
+.glow-arrow-button:hover svg, .glow-arrow-button:focus-visible svg { transform: translateX(4px); }
+.glow-arrow-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }

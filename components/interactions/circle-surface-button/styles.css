@@ -1,0 +1,6 @@
+.circle-surface-button { position: relative; display: grid; width: 128px; height: 128px; place-items: center; overflow: hidden; border: 1px solid #f0f0f0; border-radius: 50%; background: transparent; color: #f0f0f0; cursor: pointer; }
+.circle-surface-button > span:first-child { position: relative; z-index: 1; font-size: 13px; transition: color .3s ease; }
+.circle-surface-button > span:last-child { position: absolute; inset: 0; border-radius: inherit; background: #323232; transition: transform .5s cubic-bezier(.16, 1, .3, 1), background-color .5s ease; }
+.circle-surface-button:hover > span:first-child, .circle-surface-button:focus-visible > span:first-child { color: #111; }
+.circle-surface-button:hover > span:last-child, .circle-surface-button:focus-visible > span:last-child { background: #f97316; transform: scale(1.1); }
+.circle-surface-button:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }

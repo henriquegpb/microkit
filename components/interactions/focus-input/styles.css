@@ -1,0 +1,21 @@
+.demo-input { width: 210px; display: block; }
+.demo-input span {
+  display: block;
+  margin: 0 0 7px;
+  color: #9298a1;
+  font: 10px ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.demo-input input {
+  width: 100%;
+  border: 1px solid #363a42;
+  border-radius: 5px;
+  background: #15171b;
+  padding: 8px;
+  color: #e8ebee;
+  font-size: 11px;
+  outline: 0;
+}
+.demo-input input:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px #f9731625;
+}

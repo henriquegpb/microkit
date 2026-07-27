@@ -1,0 +1,49 @@
+.contact-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  gap: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  padding: 0;
+  background: transparent;
+  color: #f0f0f0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  transition: width .32s cubic-bezier(.4, 0, .2, 1), background-color .32s cubic-bezier(.4, 0, .2, 1), color .28s ease;
+}
+.contact-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f97316;
+}
+.contact-pill-icon,
+.contact-pill > span:last-child { position: relative; z-index: 1; }
+.contact-pill-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: #111;
+}
+.contact-pill > span:last-child {
+  position: absolute;
+  left: 47px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: opacity .18s ease .1s, transform .24s ease .06s;
+}
+.contact-pill:hover,
+.contact-pill:focus-visible { width: 145px; background: #f4f4f5; color: #111; }
+.contact-pill:hover > span:last-child,
+.contact-pill:focus-visible > span:last-child { opacity: 1; transform: translateX(0); }
+.contact-pill:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }

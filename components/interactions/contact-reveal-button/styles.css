@@ -1,0 +1,46 @@
+.contact-reveal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 145px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 15px 0 0;
+  background: transparent;
+  color: #f0f0f0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  transition: color .28s ease;
+}
+.contact-reveal::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 36px;
+  border-radius: inherit;
+  background: #f0f0f0;
+  transition: width .32s cubic-bezier(.4, 0, .2, 1);
+}
+.contact-reveal-icon,
+.contact-reveal > span:last-child { position: relative; z-index: 1; }
+.contact-reveal-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 50%;
+  color: #111;
+  transition: background-color .2s ease .12s;
+}
+.contact-reveal:hover::before,
+.contact-reveal:focus-visible::before { width: 100%; }
+.contact-reveal:hover .contact-reveal-icon,
+.contact-reveal:focus-visible .contact-reveal-icon { background: #f97316; }
+.contact-reveal:hover,
+.contact-reveal:focus-visible { color: #111; }
+.contact-reveal:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }
