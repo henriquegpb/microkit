@@ -26,6 +26,8 @@ import { definition as TalkArrowRevealButtonDefinition } from "./talk-arrow-reve
 import { definition as SeeMoreSwapButtonDefinition } from "./see-more-swap-button/definition";
 import { definition as NeonInvertButtonDefinition } from "./neon-invert-button/definition";
 import { definition as ContactUnderlineButtonDefinition } from "./contact-underline-button/definition";
+import { definition as SlidingContentTabsDefinition } from "./sliding-content-tabs/definition";
+import { definition as SlidingUnderlineTabsDefinition } from "./sliding-underline-tabs/definition";
 
 export const interactionDefinitions: Interaction[] = [
   FocusFieldDefinition,
@@ -55,4 +57,6 @@ export const interactionDefinitions: Interaction[] = [
   SeeMoreSwapButtonDefinition,
   NeonInvertButtonDefinition,
   ContactUnderlineButtonDefinition,
+  SlidingContentTabsDefinition,
+  SlidingUnderlineTabsDefinition,
 ];

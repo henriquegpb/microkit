@@ -28,6 +28,8 @@ import { TalkArrowRevealButton } from "./talk-arrow-reveal-button/component";
 import { SeeMoreSwapButton } from "./see-more-swap-button/component";
 import { NeonInvertButton } from "./neon-invert-button/component";
 import { ContactUnderlineButton } from "./contact-underline-button/component";
+import { SlidingContentTabs } from "./sliding-content-tabs/component";
+import { SlidingUnderlineTabs } from "./sliding-underline-tabs/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "focus-input": FocusField,
@@ -57,6 +59,8 @@ const interactionComponents: Record<string, ComponentType> = {
   "see-more-swap-button": SeeMoreSwapButton,
   "neon-invert-button": NeonInvertButton,
   "contact-underline-button": ContactUnderlineButton,
+  "sliding-content-tabs": SlidingContentTabs,
+  "sliding-underline-tabs": SlidingUnderlineTabs,
 };
 
 export function InteractionPreview({ id }: { id: string }) {
