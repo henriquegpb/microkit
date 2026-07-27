@@ -1,0 +1,65 @@
+.white-contact-orbit-button {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 50px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  padding: 0;
+  background: #fff;
+  color: #111;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+
+.white-contact-orbit-button-label {
+  position: relative;
+  z-index: 1;
+  margin-right: 20px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.03em;
+  transition: transform .42s cubic-bezier(.16, 1, .3, 1);
+}
+
+.white-contact-orbit-button-icon {
+  position: absolute;
+  right: 8px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  color: #111;
+  transition: background-color .32s ease, color .32s ease;
+}
+
+.white-contact-orbit-button-icon svg {
+  transition: transform .42s cubic-bezier(.16, 1, .3, 1);
+}
+
+.white-contact-orbit-button:hover .white-contact-orbit-button-icon,
+.white-contact-orbit-button:focus-visible .white-contact-orbit-button-icon {
+  background: #111;
+  color: #fff;
+}
+
+.white-contact-orbit-button:hover .white-contact-orbit-button-icon svg,
+.white-contact-orbit-button:focus-visible .white-contact-orbit-button-icon svg {
+  transform: rotate(-45deg);
+}
+
+.white-contact-orbit-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .white-contact-orbit-button-icon,
+  .white-contact-orbit-button-icon svg { transition: none; }
+}

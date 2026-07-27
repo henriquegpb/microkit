@@ -18,6 +18,7 @@ import { ProjectTextSwapButton } from "./project-text-swap-button/component";
 import { ViewMoreTextSwap } from "./view-more-text-swap/component";
 import { GradientUnderlineButton } from "./gradient-underline-button/component";
 import { YellowFillPreviewButton } from "./yellow-fill-preview-button/component";
+import { WhiteContactOrbitButton } from "./white-contact-orbit-button/component";
 import { CircleSurfaceButton } from "./circle-surface-button/component";
 import { InsetCircleButton } from "./inset-circle-button/component";
 import { SlidingArrowLabel } from "./sliding-arrow-label/component";
@@ -49,6 +50,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "view-more-text-swap": ViewMoreTextSwap,
   "gradient-underline-button": GradientUnderlineButton,
   "yellow-fill-preview-button": YellowFillPreviewButton,
+  "white-contact-orbit-button": WhiteContactOrbitButton,
   "circle-surface-button": CircleSurfaceButton,
   "inset-circle-button": InsetCircleButton,
   "sliding-arrow-label": SlidingArrowLabel,

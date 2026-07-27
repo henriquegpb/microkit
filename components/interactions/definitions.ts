@@ -16,6 +16,7 @@ import { definition as ProjectTextSwapButtonDefinition } from "./project-text-sw
 import { definition as ViewMoreTextSwapDefinition } from "./view-more-text-swap/definition";
 import { definition as GradientUnderlineButtonDefinition } from "./gradient-underline-button/definition";
 import { definition as YellowFillPreviewButtonDefinition } from "./yellow-fill-preview-button/definition";
+import { definition as WhiteContactOrbitButtonDefinition } from "./white-contact-orbit-button/definition";
 import { definition as CircleSurfaceButtonDefinition } from "./circle-surface-button/definition";
 import { definition as InsetCircleButtonDefinition } from "./inset-circle-button/definition";
 import { definition as SlidingArrowLabelDefinition } from "./sliding-arrow-label/definition";
@@ -47,6 +48,7 @@ export const interactionDefinitions: Interaction[] = [
   ViewMoreTextSwapDefinition,
   GradientUnderlineButtonDefinition,
   YellowFillPreviewButtonDefinition,
+  WhiteContactOrbitButtonDefinition,
   CircleSurfaceButtonDefinition,
   InsetCircleButtonDefinition,
   SlidingArrowLabelDefinition,
