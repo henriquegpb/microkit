@@ -27,7 +27,7 @@
   left: 0;
   width: 0;
   height: 1px;
-  background: linear-gradient(351deg, transparent 20%, #f97316 52%, transparent 85%);
+  background: linear-gradient(351deg, transparent 20%, #f97316 50%, transparent 85%);
   transition: width 1s cubic-bezier(.165, .84, .44, 1);
 }
 .gradient-underline-button:hover .gradient-underline-button-label,
