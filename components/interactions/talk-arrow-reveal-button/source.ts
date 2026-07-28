@@ -35,7 +35,7 @@ export function TalkArrowRevealButton() {
   color: #f0f0f0;
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
-  transition: background-color .24s ease, color .24s ease;
+  transition: background-color .29s ease, color .29s ease;
 }
 .talk-arrow-reveal-label {
   position: relative;
@@ -46,7 +46,7 @@ export function TalkArrowRevealButton() {
   font-size: 16px;
   font-weight: 500;
   line-height: normal;
-  transition: transform .38s cubic-bezier(.16, 1, .3, 1), opacity .18s ease;
+  transition: transform .46s cubic-bezier(.16, 1, .3, 1), opacity .22s ease;
 }
 .talk-arrow-reveal-icon {
   position: absolute;
@@ -56,7 +56,7 @@ export function TalkArrowRevealButton() {
   justify-content: center;
   color: #111;
   transform: translateX(-80px);
-  transition: transform .38s cubic-bezier(.16, 1, .3, 1);
+  transition: transform .46s cubic-bezier(.16, 1, .3, 1);
 }
 .talk-arrow-reveal-icon svg {
   display: block;
@@ -92,9 +92,9 @@ export const tailwindCode = `function LongArrowMark() {
 
 export function TalkArrowRevealButton() {
   return (
-    <button type="button" className="group relative inline-flex min-h-12 w-[120px] cursor-pointer appearance-none box-border items-center justify-center overflow-hidden rounded-full border border-[#f0f0f033] bg-transparent px-6 py-2 text-[#f0f0f0] [font-family:Arial,Helvetica,sans-serif] [transition:background-color_.24s_ease,color_.24s_ease] hover:bg-[#f97316] hover:text-[#111] focus-visible:bg-[#f97316] focus-visible:text-[#111] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]">
-      <span className="relative z-10 flex items-center whitespace-nowrap text-[16px] font-medium [line-height:normal] [transition:transform_.38s_cubic-bezier(.16,1,.3,1),opacity_.18s_ease] group-hover:translate-x-32 group-hover:opacity-0 group-focus-visible:translate-x-32 group-focus-visible:opacity-0">Talk to us</span>
-      <span className="absolute z-10 flex -translate-x-20 items-center justify-center text-[#111] transition-transform duration-[380ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0">
+    <button type="button" className="group relative inline-flex min-h-12 w-[120px] cursor-pointer appearance-none box-border items-center justify-center overflow-hidden rounded-full border border-[#f0f0f033] bg-transparent px-6 py-2 text-[#f0f0f0] [font-family:Arial,Helvetica,sans-serif] [transition:background-color_.29s_ease,color_.29s_ease] hover:bg-[#f97316] hover:text-[#111] focus-visible:bg-[#f97316] focus-visible:text-[#111] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]">
+      <span className="relative z-10 flex items-center whitespace-nowrap text-[16px] font-medium [line-height:normal] [transition:transform_.46s_cubic-bezier(.16,1,.3,1),opacity_.22s_ease] group-hover:translate-x-32 group-hover:opacity-0 group-focus-visible:translate-x-32 group-focus-visible:opacity-0">Talk to us</span>
+      <span className="absolute z-10 flex -translate-x-20 items-center justify-center text-[#111] transition-transform duration-[460ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0">
         <LongArrowMark />
       </span>
     </button>
