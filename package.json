@@ -11,6 +11,7 @@
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "lucide-react": "^1.26.0",
+    "motion": "^12.43.0",
     "next": "16.2.11",
     "prism-react-renderer": "^2.4.1",
     "react": "19.2.4",
