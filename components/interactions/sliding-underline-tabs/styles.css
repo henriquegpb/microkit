@@ -26,16 +26,16 @@
 .underline-tabs-list button:focus-visible { outline: 2px solid #f97316; outline-offset: -2px; }
 .underline-tabs-indicator {
   position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: calc(100% / 3);
-  height: 2px;
+  bottom: -2px;
+  left: 4px;
+  width: calc((100% / 3) - 8px);
+  height: 3px;
   border-radius: 999px;
   background: #f97316;
   transition: transform .75s cubic-bezier(.22, 1, .36, 1);
 }
-.underline-tabs-active-1 .underline-tabs-indicator { transform: translateX(100%); }
-.underline-tabs-active-2 .underline-tabs-indicator { transform: translateX(200%); }
+.underline-tabs-active-1 .underline-tabs-indicator { transform: translateX(calc(100% + 8px)); }
+.underline-tabs-active-2 .underline-tabs-indicator { transform: translateX(calc(200% + 16px)); }
 .underline-tabs-content {
   display: grid;
   min-height: 54px;

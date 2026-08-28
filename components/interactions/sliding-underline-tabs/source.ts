@@ -1,4 +1,8 @@
-export const componentCode = `import { useState } from "react";
+export const componentCode = `"use client";
+
+import { useState } from "react";
+
+import "./sliding-underline-tabs.css";
 
 const tabs = [
   { label: "Audience", content: "Content one" },
@@ -64,16 +68,16 @@ export function SlidingUnderlineTabs() {
 .underline-tabs-list button:focus-visible { outline: 2px solid #f97316; outline-offset: -2px; }
 .underline-tabs-indicator {
   position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: calc(100% / 3);
-  height: 2px;
+  bottom: -2px;
+  left: 4px;
+  width: calc((100% / 3) - 8px);
+  height: 3px;
   border-radius: 999px;
   background: #f97316;
   transition: transform .75s cubic-bezier(.22, 1, .36, 1);
 }
-.underline-tabs-active-1 .underline-tabs-indicator { transform: translateX(100%); }
-.underline-tabs-active-2 .underline-tabs-indicator { transform: translateX(200%); }
+.underline-tabs-active-1 .underline-tabs-indicator { transform: translateX(calc(100% + 8px)); }
+.underline-tabs-active-2 .underline-tabs-indicator { transform: translateX(calc(200% + 16px)); }
 .underline-tabs-content {
   display: grid;
   min-height: 54px;
@@ -93,7 +97,9 @@ export function SlidingUnderlineTabs() {
   .underline-tabs-content { animation: none; }
 }`;
 
-export const tailwindCode = `import { useState } from "react";
+export const tailwindCode = `"use client";
+
+import { useState } from "react";
 
 const tabs = [
   { label: "Audience", content: "Content one" },
@@ -106,6 +112,8 @@ export function SlidingUnderlineTabs() {
   const activeTab = tabs[active];
 
   return (
+    <>
+      <style>{"@keyframes underline-tabs-enter { from { opacity: 0; transform: translateX(-5px); } to { opacity: 1; transform: translateX(0); } }"}</style>
     <section className="w-full max-w-[248px] rounded-[10px] border border-[#30343a] bg-[#101216] p-[5px]">
       <div className="relative grid grid-cols-3 border-b border-[#30343a]" role="tablist" aria-label="Activity">
         {tabs.map(({ label }, index) => (
@@ -115,21 +123,22 @@ export function SlidingUnderlineTabs() {
             type="button"
             role="tab"
             aria-selected={active === index}
-            className={\`relative z-10 border-0 bg-transparent px-1 py-[9px] text-[10px] transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#f97316] \${active === index ? "text-white" : "text-[#858c96]"}\`}
+            className={\`relative z-10 cursor-pointer border-0 bg-transparent px-1 py-[9px] text-[10px] transition-colors duration-300 ease-[cubic-bezier(.16,1,.3,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#f97316] motion-reduce:transition-none \${active === index ? "text-white" : "text-[#858c96]"}\`}
             onClick={() => setActive(index)}
           >
             {label}
           </button>
         ))}
         <span
-          className="pointer-events-none absolute bottom-[-1px] left-0 h-0.5 w-1/3 rounded-full bg-[#f97316] transition-transform duration-[750ms] ease-[cubic-bezier(.22,1,.36,1)]"
-          style={{ transform: \`translateX(\${active * 100}%)\` }}
+          className="pointer-events-none absolute bottom-[-2px] left-1 h-[3px] w-[calc(33.333333%_-_8px)] rounded-full bg-[#f97316] transition-transform duration-[750ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none"
+          style={{ transform: \`translateX(calc(\${active * 100}% + \${active * 8}px))\` }}
           aria-hidden="true"
         />
       </div>
-      <div key={active} className="grid min-h-[54px] place-content-center px-2 pb-1.5 pt-2.5 text-center text-[11px] text-[#f4f5f7]">
+      <div key={active} className="grid min-h-[54px] place-content-center px-2 pb-1.5 pt-2.5 text-center text-[11px] text-[#f4f5f7] [animation:underline-tabs-enter_.65s_cubic-bezier(.22,1,.36,1)] motion-reduce:animate-none">
         <span>{activeTab.content}</span>
       </div>
     </section>
+    </>
   );
 }`;
