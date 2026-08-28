@@ -33,6 +33,7 @@ import { NeonInvertButton } from "./neon-invert-button/component";
 import { ContactUnderlineButton } from "./contact-underline-button/component";
 import { SlidingContentTabs } from "./sliding-content-tabs/component";
 import { SlidingUnderlineTabs } from "./sliding-underline-tabs/component";
+import { FloatingNewsletterButton } from "./floating-newsletter-button/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
@@ -67,6 +68,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "contact-underline-button": ContactUnderlineButton,
   "sliding-content-tabs": SlidingContentTabs,
   "sliding-underline-tabs": SlidingUnderlineTabs,
+  "floating-newsletter-button": FloatingNewsletterButton,
 };
 
 export function InteractionPreview({ id }: { id: string }) {

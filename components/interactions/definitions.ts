@@ -31,6 +31,7 @@ import { definition as NeonInvertButtonDefinition } from "./neon-invert-button/d
 import { definition as ContactUnderlineButtonDefinition } from "./contact-underline-button/definition";
 import { definition as SlidingContentTabsDefinition } from "./sliding-content-tabs/definition";
 import { definition as SlidingUnderlineTabsDefinition } from "./sliding-underline-tabs/definition";
+import { definition as FloatingNewsletterButtonDefinition } from "./floating-newsletter-button/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
@@ -65,4 +66,5 @@ export const interactionDefinitions: Interaction[] = [
   ContactUnderlineButtonDefinition,
   SlidingContentTabsDefinition,
   SlidingUnderlineTabsDefinition,
+  FloatingNewsletterButtonDefinition,
 ];
