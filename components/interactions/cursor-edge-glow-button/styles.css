@@ -1,0 +1,153 @@
+.edge-light-button,
+.edge-light-button * {
+  box-sizing: border-box;
+}
+
+.edge-light-button {
+  position: relative;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+}
+
+.edge-light-button__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(100% + 9px);
+  height: calc(100% + 9px);
+  border: 3px solid transparent;
+  border-radius: 9999px;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.edge-light-button__glow--mirrored {
+  opacity: 0;
+  transform: translate(-50%, -50%) scaleX(-1);
+}
+
+.edge-light-button__outer-glow,
+.edge-light-button__inner-glow {
+  position: absolute;
+  box-sizing: content-box;
+  width: 100%;
+  height: 100%;
+  border-style: solid;
+  border-color: transparent;
+  border-radius: 9999px;
+}
+
+.edge-light-button__outer-glow {
+  z-index: 20;
+  left: -3px;
+  top: -3px;
+  border-width: 3px;
+  background: linear-gradient(transparent, transparent) padding-box, linear-gradient(91.88deg, rgba(255, 137, 100, .2) 46.45%, #cd3100 98.59%) border-box;
+  filter: blur(15px);
+}
+
+.edge-light-button__inner-glow {
+  z-index: 10;
+  left: -2px;
+  top: -2px;
+  border-width: 2px;
+  background: linear-gradient(transparent, transparent) padding-box, linear-gradient(97.68deg, rgba(255, 177, 153, 0) 38.1%, rgba(255, 177, 153, .2) 82.47%, #ff7950 93.3%) border-box;
+  filter: blur(2px);
+}
+
+.edge-light-button__rim {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  background: linear-gradient(transparent, transparent) padding-box, linear-gradient(103.7deg, rgba(188, 155, 143, .1) 38.66%, rgba(233, 132, 99, .1) 68.55%, #e98463 85.01%, #fff 92.12%) border-box;
+}
+
+.edge-light-button__rim-glow {
+  position: absolute;
+  z-index: 30;
+  left: -2px;
+  top: -2px;
+  box-sizing: content-box;
+  width: 100%;
+  height: 100%;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  background: linear-gradient(transparent, transparent) padding-box, linear-gradient(91.96deg, rgba(255, 177, 153, 0) 6.11%, rgba(255, 177, 153, .2) 53.57%, #ff7950 93.6%) border-box;
+  filter: blur(7px);
+}
+
+.edge-light-button__control {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: .25rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .6);
+  border-radius: 9999px;
+  background: #d1d1d1;
+  padding: 0 3.25rem;
+  color: #5a250a;
+  font-family: Inter, -apple-system, "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color .2s cubic-bezier(.4, 0, .2, 1);
+}
+
+.edge-light-button__light-track {
+  --light-x: 120px;
+  position: absolute;
+  z-index: -10;
+  left: 50%;
+  top: 0;
+  display: flex;
+  width: 204px;
+  height: 100%;
+  margin-left: -102px;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(var(--light-x)) translateZ(0);
+}
+
+.edge-light-button__light-core {
+  position: absolute;
+  top: 50%;
+  width: 121px;
+  height: 121px;
+  background: radial-gradient(50% 50% at 50% 50%, #fffff5 3.5%, #ffaa81 26.5%, #ffda9f 37.5%, rgba(255, 170, 129, .5) 49%, rgba(210, 106, 58, 0) 92.5%);
+  transform: translateY(-50%);
+}
+
+.edge-light-button__light-bloom {
+  position: absolute;
+  top: 50%;
+  width: 204px;
+  height: 103px;
+  background: radial-gradient(43.3% 44.23% at 50% 49.51%, #fffff7 29%, #fffacd 48.5%, #f4d2bf 60.71%, rgba(214, 211, 210, 0) 100%);
+  filter: blur(5px);
+  transform: translateY(-50%);
+}
+
+.edge-light-button__arrow {
+  width: 17px;
+  height: 9px;
+  flex: none;
+  color: #5a250a;
+}
+
+.edge-light-button__control:focus-visible {
+  outline: 2px solid #ff8964;
+  outline-offset: 8px;
+}

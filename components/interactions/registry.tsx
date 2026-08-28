@@ -1,6 +1,7 @@
 "use client";
 
 import type { ComponentType } from "react";
+import { CursorEdgeGlowButton } from "./cursor-edge-glow-button/component";
 import { FocusField } from "./focus-input/component";
 import { ExpandingContactButton } from "./expanding-contact-button/component";
 import { ContactRevealButton } from "./contact-reveal-button/component";
@@ -34,6 +35,7 @@ import { SlidingContentTabs } from "./sliding-content-tabs/component";
 import { SlidingUnderlineTabs } from "./sliding-underline-tabs/component";
 
 const interactionComponents: Record<string, ComponentType> = {
+  "cursor-edge-glow-button": CursorEdgeGlowButton,
   "focus-input": FocusField,
   "expanding-contact-button": ExpandingContactButton,
   "contact-reveal-button": ContactRevealButton,

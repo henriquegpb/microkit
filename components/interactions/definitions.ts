@@ -1,4 +1,5 @@
 import type { Interaction } from "@/content/interactions/types";
+import { definition as CursorEdgeGlowButtonDefinition } from "./cursor-edge-glow-button/definition";
 import { definition as FocusFieldDefinition } from "./focus-input/definition";
 import { definition as ExpandingContactButtonDefinition } from "./expanding-contact-button/definition";
 import { definition as ContactRevealButtonDefinition } from "./contact-reveal-button/definition";
@@ -32,9 +33,10 @@ import { definition as SlidingContentTabsDefinition } from "./sliding-content-ta
 import { definition as SlidingUnderlineTabsDefinition } from "./sliding-underline-tabs/definition";
 
 export const interactionDefinitions: Interaction[] = [
+  CursorEdgeGlowButtonDefinition,
   FocusFieldDefinition,
-  ExpandingContactButtonDefinition,
   SocialIconButtonsDefinition,
+  ExpandingContactButtonDefinition,
   ContactRevealButtonDefinition,
   SubscribeShineButtonDefinition,
   NextRevealButtonDefinition,
