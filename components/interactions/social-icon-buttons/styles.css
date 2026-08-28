@@ -1,0 +1,10 @@
+.social-icon-buttons { display: flex; align-items: center; gap: 8px; }
+.social-icon-button { position: relative; display: grid; width: 36px; height: 36px; place-items: center; overflow: hidden; border: 1px solid #2b2b34; border-radius: 50%; background: #101015; color: #e8e8ec; text-decoration: none; transition: border-color .2s ease, box-shadow .2s ease; }
+.social-icon-button-swap { display: grid; place-items: center; transition: transform .32s cubic-bezier(.22, 1, .36, 1); }
+.social-icon-button-swap svg { width: 16px; height: 16px; }
+.social-icon-button-arrow { position: absolute; transform: translateY(260%); }
+.social-icon-button:hover .social-icon-button-swap:not(.social-icon-button-arrow), .social-icon-button:focus-visible .social-icon-button-swap:not(.social-icon-button-arrow) { transform: translateY(-260%); }
+.social-icon-button:hover .social-icon-button-arrow, .social-icon-button:focus-visible .social-icon-button-arrow { transform: translateY(0); color: var(--social-brand); }
+.social-icon-button:hover, .social-icon-button:focus-visible { border-color: var(--social-brand); outline: none; box-shadow: 0 0 18px color-mix(in srgb, var(--social-brand) 55%, transparent); }
+.social-icon-button:focus-visible { outline: 2px solid var(--social-brand); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .social-icon-button, .social-icon-button-swap { transition: none; } }

@@ -17,7 +17,6 @@
   height: 250px;
   flex: none;
   background: linear-gradient(121deg, #1b1b1b 38%, #f0f0f0 50%, #1b1b1b 61%);
-  transition: transform 1s linear;
 }
 .subscribe-shine-inner {
   position: absolute;
@@ -32,10 +31,5 @@
   font-weight: 700;
   line-height: 1;
   text-transform: uppercase;
-}
-.subscribe-shine:hover .subscribe-shine-gradient,
-.subscribe-shine:focus-visible .subscribe-shine-gradient {
-  transform: rotate(360deg);
-  transition-duration: 3s;
 }
 .subscribe-shine:focus-visible { outline: 2px solid #f97316; outline-offset: 3px; }

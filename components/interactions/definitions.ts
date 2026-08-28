@@ -2,6 +2,7 @@ import type { Interaction } from "@/content/interactions/types";
 import { definition as FocusFieldDefinition } from "./focus-input/definition";
 import { definition as ExpandingContactButtonDefinition } from "./expanding-contact-button/definition";
 import { definition as ContactRevealButtonDefinition } from "./contact-reveal-button/definition";
+import { definition as SocialIconButtonsDefinition } from "./social-icon-buttons/definition";
 import { definition as SubscribeShineButtonDefinition } from "./subscribe-shine-button/definition";
 import { definition as NextRevealButtonDefinition } from "./next-reveal-button/definition";
 import { definition as PricingSlideLinkDefinition } from "./pricing-slide-link/definition";
@@ -33,6 +34,7 @@ import { definition as SlidingUnderlineTabsDefinition } from "./sliding-underlin
 export const interactionDefinitions: Interaction[] = [
   FocusFieldDefinition,
   ExpandingContactButtonDefinition,
+  SocialIconButtonsDefinition,
   ContactRevealButtonDefinition,
   SubscribeShineButtonDefinition,
   NextRevealButtonDefinition,
