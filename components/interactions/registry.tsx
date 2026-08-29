@@ -2,6 +2,7 @@
 
 import type { ComponentType } from "react";
 import { CursorEdgeGlowButton } from "./cursor-edge-glow-button/component";
+import { CursorFollowShareButton } from "./cursor-follow-share-button/component";
 import { FocusField } from "./focus-input/component";
 import { ExpandingContactButton } from "./expanding-contact-button/component";
 import { ContactRevealButton } from "./contact-reveal-button/component";
@@ -39,6 +40,7 @@ import { AuroraDownloadButton } from "./aurora-download-button/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
+  "cursor-follow-share-button": CursorFollowShareButton,
   "focus-input": FocusField,
   "expanding-contact-button": ExpandingContactButton,
   "contact-reveal-button": ContactRevealButton,

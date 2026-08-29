@@ -1,5 +1,6 @@
 import type { Interaction } from "@/content/interactions/types";
 import { definition as CursorEdgeGlowButtonDefinition } from "./cursor-edge-glow-button/definition";
+import { definition as CursorFollowShareButtonDefinition } from "./cursor-follow-share-button/definition";
 import { definition as FocusFieldDefinition } from "./focus-input/definition";
 import { definition as ExpandingContactButtonDefinition } from "./expanding-contact-button/definition";
 import { definition as ContactRevealButtonDefinition } from "./contact-reveal-button/definition";
@@ -37,6 +38,7 @@ import { definition as AuroraDownloadButtonDefinition } from "./aurora-download-
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
+  CursorFollowShareButtonDefinition,
   FocusFieldDefinition,
   SocialIconButtonsDefinition,
   SocialHighlightCardsDefinition,
