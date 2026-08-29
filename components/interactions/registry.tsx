@@ -6,6 +6,7 @@ import { FocusField } from "./focus-input/component";
 import { ExpandingContactButton } from "./expanding-contact-button/component";
 import { ContactRevealButton } from "./contact-reveal-button/component";
 import { SocialIconButtons } from "./social-icon-buttons/component";
+import { SocialHighlightCards } from "./social-highlight-cards/component";
 import { SubscribeShineButton } from "./subscribe-shine-button/component";
 import { NextRevealButton } from "./next-reveal-button/component";
 import { PricingSlideLink } from "./pricing-slide-link/component";
@@ -42,6 +43,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "expanding-contact-button": ExpandingContactButton,
   "contact-reveal-button": ContactRevealButton,
   "social-icon-buttons": SocialIconButtons,
+  "social-highlight-cards": SocialHighlightCards,
   "subscribe-shine-button": SubscribeShineButton,
   "next-reveal-button": NextRevealButton,
   "pricing-slide-link": PricingSlideLink,
