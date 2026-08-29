@@ -32,6 +32,7 @@ import { definition as ContactUnderlineButtonDefinition } from "./contact-underl
 import { definition as SlidingContentTabsDefinition } from "./sliding-content-tabs/definition";
 import { definition as SlidingUnderlineTabsDefinition } from "./sliding-underline-tabs/definition";
 import { definition as FloatingNewsletterButtonDefinition } from "./floating-newsletter-button/definition";
+import { definition as AuroraDownloadButtonDefinition } from "./aurora-download-button/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
@@ -67,4 +68,5 @@ export const interactionDefinitions: Interaction[] = [
   SlidingContentTabsDefinition,
   SlidingUnderlineTabsDefinition,
   FloatingNewsletterButtonDefinition,
+  AuroraDownloadButtonDefinition,
 ];

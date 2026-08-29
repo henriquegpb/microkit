@@ -1,0 +1,116 @@
+.aurora-download-button,
+.aurora-download-button * {
+  box-sizing: border-box;
+}
+
+.aurora-download-button {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 10px;
+  background:
+    radial-gradient(101.79% 101.79% at 65.61% 81.79%, rgba(255, 255, 255, .6) 0, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(114.65% 114.65% at 9.73% 17.27%, rgb(30, 130, 224) 0, rgb(28, 56, 234) 100%);
+  background-blend-mode: overlay, normal;
+  box-shadow:
+    rgba(0, 0, 0, .28) 0 10px 18px,
+    rgba(191, 229, 251, .4) -3px -3px 4px inset,
+    rgba(19, 26, 228, .1) 4px 4px 4px inset;
+  padding: 10px 20px;
+  color: #fff;
+  font-family: var(--font-geist-sans, Geist), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -.13px;
+  cursor: pointer;
+  transition: transform .16s ease-out;
+}
+
+.aurora-download-button__hover-bloom {
+  position: absolute;
+  z-index: 0;
+  inset: 1px;
+  border-radius: inherit;
+  background: radial-gradient(101.79% 101.79% at 65.61% 81.79%, rgba(255, 255, 255, .6) 0, rgba(255, 255, 255, 0) 100%);
+  mix-blend-mode: overlay;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease-in-out;
+}
+
+.aurora-download-button__rim {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.aurora-download-button__rim-highlight {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(176.87deg, rgba(255, 255, 255, .5) 8.56%, rgba(255, 255, 255, 0) 85.04%);
+  padding: 3px;
+  opacity: .45;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.aurora-download-button__icon,
+.aurora-download-button__label {
+  position: relative;
+  z-index: 1;
+}
+
+.aurora-download-button__icon {
+  flex: 0 0 auto;
+}
+
+@media (min-width: 768px) {
+  .aurora-download-button,
+  .aurora-download-button__rim-highlight {
+    border-radius: 12px;
+  }
+}
+
+@media (hover: hover) {
+  .aurora-download-button:hover {
+    transform: scale(1.03);
+  }
+
+  .aurora-download-button:hover .aurora-download-button__hover-bloom {
+    opacity: .4;
+  }
+}
+
+.aurora-download-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+  transform: scale(1.03);
+}
+
+.aurora-download-button:focus-visible .aurora-download-button__hover-bloom {
+  opacity: .4;
+}
+
+.aurora-download-button:active {
+  transform: scale(.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-download-button,
+  .aurora-download-button__hover-bloom {
+    transition-duration: .01ms;
+  }
+}

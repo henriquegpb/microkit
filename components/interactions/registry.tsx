@@ -34,6 +34,7 @@ import { ContactUnderlineButton } from "./contact-underline-button/component";
 import { SlidingContentTabs } from "./sliding-content-tabs/component";
 import { SlidingUnderlineTabs } from "./sliding-underline-tabs/component";
 import { FloatingNewsletterButton } from "./floating-newsletter-button/component";
+import { AuroraDownloadButton } from "./aurora-download-button/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
@@ -69,6 +70,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "sliding-content-tabs": SlidingContentTabs,
   "sliding-underline-tabs": SlidingUnderlineTabs,
   "floating-newsletter-button": FloatingNewsletterButton,
+  "aurora-download-button": AuroraDownloadButton,
 };
 
 export function InteractionPreview({ id }: { id: string }) {
