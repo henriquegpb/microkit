@@ -218,3 +218,52 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
 .crumb>span{display:none}
 .code-selectors label{cursor:pointer}
 .sponsors-page .sponsors-back{gap:10px;color:#aab0b9;font-size:16px;font-weight:500;line-height:20px}.sponsors-page .sponsors-back>svg{width:20px;height:20px}
+
+/* Keep every empty-state element together as one centered, balanced group. */
+.gallery-main > .empty{
+  box-sizing:border-box;
+  width:100%;
+  max-width:1460px;
+  min-height:clamp(300px,48vh,480px);
+  margin:0 auto;
+  padding:56px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#858b94;
+}
+.gallery-main > .empty > svg{
+  flex:none;
+  margin:0 0 14px;
+  color:#858b94;
+}
+.gallery-main > .empty h2{
+  margin:0 0 7px;
+  color:#e4e6ea;
+  font-size:15px;
+  font-weight:500;
+}
+.gallery-main > .empty p{
+  margin:0 0 18px;
+  font-size:12px;
+  line-height:1.5;
+}
+.gallery-main > .empty button{
+  margin:0;
+  padding:8px 11px;
+  border:1px solid #343944;
+  border-radius:5px;
+  background:#20252d;
+  color:#aeb4bd;
+  font-size:12px;
+}
+.gallery-main > .empty button:hover{
+  border-color:#454b55;
+  background:#292e36;
+  color:#eef0f3;
+}
+@media (max-width:680px){
+  .gallery-main > .empty{min-height:300px;padding:44px 16px}
+}
