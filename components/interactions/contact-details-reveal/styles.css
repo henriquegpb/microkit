@@ -1,0 +1,102 @@
+.contact-details-reveal,
+.contact-details-reveal * {
+  box-sizing: border-box;
+}
+
+.contact-details-reveal {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  width: min(190px, calc(100vw - 40px));
+  height: 54px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #f7f7fa;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
+  cursor: pointer;
+}
+
+.contact-details-reveal__dot {
+  position: relative;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #f7f7fa;
+  transform: translate(18px, 0);
+  transition: background-color .32s ease, transform .42s cubic-bezier(.16, 1, .3, 1);
+}
+
+.contact-details-reveal__content {
+  position: relative;
+  width: 145px;
+  height: 46px;
+  margin-left: 15px;
+  transform: translateX(18px);
+}
+
+.contact-details-reveal__title,
+.contact-details-reveal__detail {
+  position: absolute;
+  left: 0;
+  white-space: nowrap;
+}
+
+.contact-details-reveal__title {
+  top: 50%;
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: -.55px;
+  line-height: 1;
+  transform: translateY(-50%);
+  transition: top .42s cubic-bezier(.16, 1, .3, 1), transform .42s cubic-bezier(.16, 1, .3, 1);
+}
+
+.contact-details-reveal__detail {
+  top: 30px;
+  color: #77777d;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -.2px;
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity .24s ease .05s, transform .42s cubic-bezier(.16, 1, .3, 1);
+}
+
+.contact-details-reveal:hover .contact-details-reveal__dot,
+.contact-details-reveal:focus-visible .contact-details-reveal__dot {
+  background: #f97316;
+  transform: translate(18px, 4px);
+}
+
+.contact-details-reveal:hover .contact-details-reveal__title,
+.contact-details-reveal:focus-visible .contact-details-reveal__title {
+  top: 6px;
+  transform: translateY(0);
+}
+
+.contact-details-reveal:hover .contact-details-reveal__detail,
+.contact-details-reveal:focus-visible .contact-details-reveal__detail {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-details-reveal:focus-visible {
+  border-radius: 8px;
+  outline: 2px solid #f97316;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-details-reveal__dot,
+  .contact-details-reveal__title,
+  .contact-details-reveal__detail {
+    transition: none;
+  }
+}

@@ -6,6 +6,7 @@ import { CursorFollowShareButton } from "./cursor-follow-share-button/component"
 import { FocusField } from "./focus-input/component";
 import { ExpandingContactButton } from "./expanding-contact-button/component";
 import { ContactRevealButton } from "./contact-reveal-button/component";
+import { ContactDetailsReveal } from "./contact-details-reveal/component";
 import { SocialIconButtons } from "./social-icon-buttons/component";
 import { SocialHighlightCards } from "./social-highlight-cards/component";
 import { SubscribeShineButton } from "./subscribe-shine-button/component";
@@ -46,6 +47,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "focus-input": FocusField,
   "expanding-contact-button": ExpandingContactButton,
   "contact-reveal-button": ContactRevealButton,
+  "contact-details-reveal": ContactDetailsReveal,
   "social-icon-buttons": SocialIconButtons,
   "social-highlight-cards": SocialHighlightCards,
   "subscribe-shine-button": SubscribeShineButton,

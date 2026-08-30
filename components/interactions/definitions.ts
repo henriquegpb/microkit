@@ -4,6 +4,7 @@ import { definition as CursorFollowShareButtonDefinition } from "./cursor-follow
 import { definition as FocusFieldDefinition } from "./focus-input/definition";
 import { definition as ExpandingContactButtonDefinition } from "./expanding-contact-button/definition";
 import { definition as ContactRevealButtonDefinition } from "./contact-reveal-button/definition";
+import { definition as ContactDetailsRevealDefinition } from "./contact-details-reveal/definition";
 import { definition as SocialIconButtonsDefinition } from "./social-icon-buttons/definition";
 import { definition as SocialHighlightCardsDefinition } from "./social-highlight-cards/definition";
 import { definition as SubscribeShineButtonDefinition } from "./subscribe-shine-button/definition";
@@ -46,6 +47,7 @@ export const interactionDefinitions: Interaction[] = [
   SocialHighlightCardsDefinition,
   ExpandingContactButtonDefinition,
   ContactRevealButtonDefinition,
+  ContactDetailsRevealDefinition,
   SubscribeShineButtonDefinition,
   ExpandingNewsletterButtonDefinition,
   NextRevealButtonDefinition,
