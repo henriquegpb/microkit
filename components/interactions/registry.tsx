@@ -32,6 +32,8 @@ import { InsetCircleButton } from "./inset-circle-button/component";
 import { SlidingArrowLabel } from "./sliding-arrow-label/component";
 import { OrangeCircleFillButton } from "./orange-circle-fill-button/component";
 import { LayeredGradientButton } from "./layered-gradient-button/component";
+import { StaggeredLetterGlowButton } from "./staggered-letter-glow-button/component";
+import { StaggeredLetterTextSwap } from "./staggered-letter-text-swap/component";
 import { GlowArrowButton } from "./glow-arrow-button/component";
 import { TalkArrowRevealButton } from "./talk-arrow-reveal-button/component";
 import { SeeMoreSwapButton } from "./see-more-swap-button/component";
@@ -74,6 +76,8 @@ const interactionComponents: Record<string, ComponentType> = {
   "sliding-arrow-label": SlidingArrowLabel,
   "orange-circle-fill-button": OrangeCircleFillButton,
   "layered-gradient-button": LayeredGradientButton,
+  "staggered-letter-glow-button": StaggeredLetterGlowButton,
+  "staggered-letter-text-swap": StaggeredLetterTextSwap,
   "glow-arrow-button": GlowArrowButton,
   "talk-arrow-reveal-button": TalkArrowRevealButton,
   "see-more-swap-button": SeeMoreSwapButton,

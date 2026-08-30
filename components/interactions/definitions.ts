@@ -30,6 +30,8 @@ import { definition as InsetCircleButtonDefinition } from "./inset-circle-button
 import { definition as SlidingArrowLabelDefinition } from "./sliding-arrow-label/definition";
 import { definition as OrangeCircleFillButtonDefinition } from "./orange-circle-fill-button/definition";
 import { definition as LayeredGradientButtonDefinition } from "./layered-gradient-button/definition";
+import { definition as StaggeredLetterGlowButtonDefinition } from "./staggered-letter-glow-button/definition";
+import { definition as StaggeredLetterTextSwapDefinition } from "./staggered-letter-text-swap/definition";
 import { definition as GlowArrowButtonDefinition } from "./glow-arrow-button/definition";
 import { definition as TalkArrowRevealButtonDefinition } from "./talk-arrow-reveal-button/definition";
 import { definition as SeeMoreSwapButtonDefinition } from "./see-more-swap-button/definition";
@@ -64,6 +66,8 @@ export const interactionDefinitions: Interaction[] = [
   GetStartedCircleSwapDefinition,
   ProjectTextSwapButtonDefinition,
   ViewMoreTextSwapDefinition,
+  StaggeredLetterTextSwapDefinition,
+  StaggeredLetterGlowButtonDefinition,
   GradientUnderlineButtonDefinition,
   YellowFillPreviewButtonDefinition,
   WhiteContactOrbitButtonDefinition,
