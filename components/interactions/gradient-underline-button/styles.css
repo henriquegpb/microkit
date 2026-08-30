@@ -22,12 +22,12 @@
 }
 .gradient-underline-button-line {
   position: absolute;
-  right: 0;
+  right: auto;
   bottom: 0;
   left: 0;
   width: 0;
   height: 1px;
-  background: linear-gradient(351deg, transparent 20%, #f97316 50%, transparent 85%);
+  background: linear-gradient(90deg, transparent 0%, rgba(249, 115, 22, .35) 30%, #f97316 50%, rgba(249, 115, 22, .35) 70%, transparent 100%);
   transition: width 1s cubic-bezier(.165, .84, .44, 1);
 }
 .gradient-underline-button:hover .gradient-underline-button-label,
