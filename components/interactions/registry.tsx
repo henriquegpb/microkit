@@ -18,6 +18,7 @@ import { WhatsNewGlowButton } from "./whats-new-glow-button/component";
 import { PreviewInBrowserButton } from "./preview-browser-button/component";
 import { DownloadIOSButton } from "./download-ios-button/component";
 import { MagneticFillButton } from "./magnetic-fill-button/component";
+import { SlidingSendButton } from "./sliding-send-button/component";
 import { ProjectTextSwapButton } from "./project-text-swap-button/component";
 import { ViewMoreTextSwap } from "./view-more-text-swap/component";
 import { GradientUnderlineButton } from "./gradient-underline-button/component";
@@ -56,6 +57,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "preview-browser-button": PreviewInBrowserButton,
   "download-ios-button": DownloadIOSButton,
   "magnetic-fill-button": MagneticFillButton,
+  "sliding-send-button": SlidingSendButton,
   "project-text-swap-button": ProjectTextSwapButton,
   "view-more-text-swap": ViewMoreTextSwap,
   "gradient-underline-button": GradientUnderlineButton,

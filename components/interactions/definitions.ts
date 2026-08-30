@@ -16,6 +16,7 @@ import { definition as WhatsNewGlowButtonDefinition } from "./whats-new-glow-but
 import { definition as PreviewInBrowserButtonDefinition } from "./preview-browser-button/definition";
 import { definition as DownloadIOSButtonDefinition } from "./download-ios-button/definition";
 import { definition as MagneticFillButtonDefinition } from "./magnetic-fill-button/definition";
+import { definition as SlidingSendButtonDefinition } from "./sliding-send-button/definition";
 import { definition as ProjectTextSwapButtonDefinition } from "./project-text-swap-button/definition";
 import { definition as ViewMoreTextSwapDefinition } from "./view-more-text-swap/definition";
 import { definition as GradientUnderlineButtonDefinition } from "./gradient-underline-button/definition";
@@ -54,6 +55,7 @@ export const interactionDefinitions: Interaction[] = [
   PreviewInBrowserButtonDefinition,
   DownloadIOSButtonDefinition,
   MagneticFillButtonDefinition,
+  SlidingSendButtonDefinition,
   ProjectTextSwapButtonDefinition,
   ViewMoreTextSwapDefinition,
   GradientUnderlineButtonDefinition,
