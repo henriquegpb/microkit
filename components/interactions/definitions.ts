@@ -7,6 +7,7 @@ import { definition as ContactRevealButtonDefinition } from "./contact-reveal-bu
 import { definition as SocialIconButtonsDefinition } from "./social-icon-buttons/definition";
 import { definition as SocialHighlightCardsDefinition } from "./social-highlight-cards/definition";
 import { definition as SubscribeShineButtonDefinition } from "./subscribe-shine-button/definition";
+import { definition as ExpandingNewsletterButtonDefinition } from "./expanding-newsletter-button/definition";
 import { definition as NextRevealButtonDefinition } from "./next-reveal-button/definition";
 import { definition as PricingSlideLinkDefinition } from "./pricing-slide-link/definition";
 import { definition as SpotlightIndicatorDefinition } from "./spotlight-indicator/definition";
@@ -46,6 +47,7 @@ export const interactionDefinitions: Interaction[] = [
   ExpandingContactButtonDefinition,
   ContactRevealButtonDefinition,
   SubscribeShineButtonDefinition,
+  ExpandingNewsletterButtonDefinition,
   NextRevealButtonDefinition,
   PricingSlideLinkDefinition,
   SpotlightIndicatorDefinition,

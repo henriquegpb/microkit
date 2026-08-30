@@ -9,6 +9,7 @@ import { ContactRevealButton } from "./contact-reveal-button/component";
 import { SocialIconButtons } from "./social-icon-buttons/component";
 import { SocialHighlightCards } from "./social-highlight-cards/component";
 import { SubscribeShineButton } from "./subscribe-shine-button/component";
+import { ExpandingNewsletterButton } from "./expanding-newsletter-button/component";
 import { NextRevealButton } from "./next-reveal-button/component";
 import { PricingSlideLink } from "./pricing-slide-link/component";
 import { SpotlightIndicator } from "./spotlight-indicator/component";
@@ -48,6 +49,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "social-icon-buttons": SocialIconButtons,
   "social-highlight-cards": SocialHighlightCards,
   "subscribe-shine-button": SubscribeShineButton,
+  "expanding-newsletter-button": ExpandingNewsletterButton,
   "next-reveal-button": NextRevealButton,
   "pricing-slide-link": PricingSlideLink,
   "spotlight-indicator": SpotlightIndicator,
