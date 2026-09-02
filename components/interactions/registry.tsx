@@ -43,6 +43,7 @@ import { SlidingContentTabs } from "./sliding-content-tabs/component";
 import { SlidingUnderlineTabs } from "./sliding-underline-tabs/component";
 import { FloatingNewsletterButton } from "./floating-newsletter-button/component";
 import { AuroraDownloadButton } from "./aurora-download-button/component";
+import { OutlineWipeButton } from "./outline-wipe-button/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
@@ -66,6 +67,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "magnetic-fill-button": MagneticFillButton,
   "sliding-send-button": SlidingSendButton,
   "get-started-circle-swap": GetStartedCircleSwap,
+  "outline-wipe-button": OutlineWipeButton,
   "project-text-swap-button": ProjectTextSwapButton,
   "view-more-text-swap": ViewMoreTextSwap,
   "gradient-underline-button": GradientUnderlineButton,

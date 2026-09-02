@@ -41,6 +41,7 @@ import { definition as SlidingContentTabsDefinition } from "./sliding-content-ta
 import { definition as SlidingUnderlineTabsDefinition } from "./sliding-underline-tabs/definition";
 import { definition as FloatingNewsletterButtonDefinition } from "./floating-newsletter-button/definition";
 import { definition as AuroraDownloadButtonDefinition } from "./aurora-download-button/definition";
+import { definition as OutlineWipeButtonDefinition } from "./outline-wipe-button/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
@@ -64,6 +65,7 @@ export const interactionDefinitions: Interaction[] = [
   MagneticFillButtonDefinition,
   SlidingSendButtonDefinition,
   GetStartedCircleSwapDefinition,
+  OutlineWipeButtonDefinition,
   ProjectTextSwapButtonDefinition,
   ViewMoreTextSwapDefinition,
   StaggeredLetterTextSwapDefinition,
