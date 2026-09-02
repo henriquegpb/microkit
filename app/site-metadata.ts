@@ -1,6 +1,6 @@
 import { interactions } from "../content/interactions/catalog";
 
-export const SITE_URL = "https://www.microkit.co";
+export const SITE_URL = "https://microkit.co";
 export const REPO_URL = "https://github.com/henriquegpb/microkit";
 export const SITE_NAME = "MicroKit UI";
 
