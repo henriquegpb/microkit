@@ -282,3 +282,48 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
 .component-install .code-block{max-width:420px}
 .component-install .code-block pre{padding:10px;font-size:11px}
 
+/* FAQ. The answers stay in the DOM while collapsed — <details> only hides them
+   — which is what keeps the FAQPage schema describing text that is really on
+   the page. */
+.faq{
+  max-width:1220px;
+  margin:64px auto 0;
+  padding-top:26px;
+  border-top:1px solid var(--line);
+}
+.faq h2{font-size:16px;letter-spacing:-.4px;margin:0 0 14px}
+.faq ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.faq li{border-bottom:1px solid var(--line)}
+.faq summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding:14px 0;
+  cursor:pointer;
+  list-style:none;
+  font-size:13px;
+  color:#e4e6ea;
+  transition:color .16s ease;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:#f97316}
+.faq summary svg{
+  flex:none;
+  color:#7f868f;
+  transition:transform .3s cubic-bezier(.16,1,.3,1);
+}
+.faq details[open] summary svg{transform:rotate(180deg)}
+.faq p{
+  max-width:70ch;
+  margin:0;
+  padding:0 0 18px;
+  font-size:12.5px;
+  line-height:1.65;
+  color:#898f99;
+  text-wrap:pretty;
+}
+@media (max-width:680px){
+  .faq{margin-top:48px}
+  .faq summary{gap:16px;align-items:flex-start}
+}
