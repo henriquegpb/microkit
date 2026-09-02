@@ -28,6 +28,32 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
+  /*
+   * Written the way somebody with the problem searches, not the way the product
+   * describes itself. Nobody types "microinteraction library for product
+   * interfaces"; they type "css button hover animation" or ask an assistant for
+   * a copy-paste animated button.
+   *
+   * Every phrase here is something the catalog actually contains — buttons,
+   * hover and click effects, tabs, an input. No toggles, modals or carousels:
+   * bringing in traffic for an interaction that is not on the site costs the
+   * visitor a click and the site a bounce.
+   */
+  keywords: [
+    "copy paste microinteractions",
+    "css hover effects",
+    "tailwind micro animations",
+    "react button hover animation",
+    "css button animation",
+    "animated button component react",
+    "microinteractions library",
+    "copy paste react components",
+    "tailwind hover effects",
+    "animated tabs react",
+    "css sliding underline tabs",
+    "animated input focus css",
+    "free ui interactions",
+  ],
   applicationName: SITE_NAME,
   creator: SITE_NAME,
   publisher: SITE_NAME,
