@@ -285,21 +285,28 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
 /* FAQ. The answers stay in the DOM while collapsed — <details> only hides them
    — which is what keeps the FAQPage schema describing text that is really on
    the page. */
+/* The FAQ is the last thing on the home page, so its own bottom padding is what
+   keeps the final answer off the floor — and it has to clear the tallest state,
+   which is the last question open. */
 .faq{
   max-width:1220px;
   margin:64px auto 0;
   padding-top:26px;
+  padding-bottom:106px;
   border-top:1px solid var(--line);
 }
 .faq h2{font-size:16px;letter-spacing:-.4px;margin:0 0 14px}
 .faq ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
 .faq li{border-bottom:1px solid var(--line)}
+/* The chevron is inset from the row's right edge rather than sitting on it.
+   The border-bottom still runs the full width, so the rule keeps marking the
+   column and only the icon steps back from the wall. */
 .faq summary{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:24px;
-  padding:14px 0;
+  padding:14px 14px 14px 0;
   cursor:pointer;
   list-style:none;
   font-size:13px;
@@ -313,7 +320,12 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
   color:#7f868f;
   transition:transform .3s cubic-bezier(.16,1,.3,1);
 }
-.faq details[open] summary svg{transform:rotate(180deg)}
+/* Driven by the class, not [open]. On the way out the attribute has to survive
+   until the collapse finishes, and the chevron should turn with the click. */
+.faq details.is-open summary svg{transform:rotate(180deg)}
+/* The height animated by FaqEntry is this element's. Clipping is what makes a
+   partial height read as a partial answer rather than a cropped one. */
+.faq-answer{overflow:hidden}
 .faq p{
   max-width:70ch;
   margin:0;
@@ -324,6 +336,178 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
   text-wrap:pretty;
 }
 @media (max-width:680px){
-  .faq{margin-top:48px}
-  .faq summary{gap:16px;align-items:flex-start}
+  .faq{margin-top:48px;padding-bottom:40px}
+  .faq summary{gap:16px;align-items:flex-start;padding-right:6px}
+}
+
+/* The gallery card body is an anchor now, not a button — same box, same hover,
+   but a real href a crawler can follow and a reader can open in a new tab. */
+a.card-info{text-decoration:none}
+a.card-info:focus-visible{outline:2px solid #f97316;outline-offset:-2px}
+
+/* The back control on /components is a link for the same reason. It reuses
+   .back-slide, whose ::before and .back-slide-icon rules are element-agnostic
+   already; only the base .crumb button rules needed an anchor twin. */
+.crumb a.back-slide{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  overflow:hidden;
+  padding:0;
+  border:0;
+  border-radius:6px;
+  background:none;
+  color:#aab0b9;
+  font-size:16px;
+  font-weight:500;
+  text-decoration:none;
+  transition:color .2s ease;
+}
+.crumb a.back-slide:hover,.crumb a.back-slide:focus-visible{color:#fff}
+
+/* The home page's one link to /components. It sits under the interaction count
+   rather than in the top nav: the index has to be reachable from the strongest
+   page on the site, but it does not have to compete with Submit for the eye. */
+.gallery-index-link{
+  align-self:flex-start;
+  margin-top:10px;
+  color:#8d939d;
+  font-size:12px;
+  text-decoration:none;
+  border-bottom:1px solid #2f333a;
+  padding-bottom:1px;
+  transition:color .16s ease,border-color .16s ease;
+}
+.gallery-index-link:hover,.gallery-index-link:focus-visible{color:#f97316;border-color:#f97316}
+.gallery-header>div:first-child{display:flex;flex-direction:column}
+
+/* /components — the link index. No previews, so the row can stay dense and
+   the component's own name can carry the link. */
+.component-index{max-width:1220px;margin:0 auto}
+.component-index-group{margin:0 0 34px}
+.component-index-group h2{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0 0 10px;
+  padding-bottom:9px;
+  border-bottom:1px solid var(--line);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:-.2px;
+}
+.component-index-group h2 em{
+  font:10px var(--font-geist-mono,monospace);
+  font-style:normal;
+  color:#7f868f;
+}
+.component-index-group ul{list-style:none;margin:0;padding:0}
+.component-index-group li{border-bottom:1px solid #1c1f23}
+.component-index-group li:last-child{border-bottom:0}
+.component-index-group li a{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding:11px 8px;
+  border-radius:5px;
+  color:inherit;
+  text-decoration:none;
+  transition:background .16s ease;
+}
+.component-index-group li a:hover{background:#17191d}
+.component-index-entry{display:flex;flex-direction:column;gap:3px;min-width:0}
+.component-index-name{font-size:13px;color:#e4e6ea;letter-spacing:-.2px}
+.component-index-group li a:hover .component-index-name{color:#f97316}
+.component-index-summary{
+  max-width:78ch;
+  font-size:11.5px;
+  line-height:1.5;
+  color:#868c96;
+  text-wrap:pretty;
+}
+.component-index-meta{display:flex;flex:none;gap:6px;align-items:center}
+.component-index-meta span{
+  font:10px var(--font-geist-mono,monospace);
+  color:#888f99;
+  border:1px solid #2b2f35;
+  padding:3px 5px;
+  border-radius:3px;
+}
+.component-index-meta .state-type{border:0;padding-right:0;color:#68707c}
+@media (max-width:680px){
+  .component-index-group li a{align-items:flex-start;gap:14px;padding:12px 6px}
+  .component-index-meta{flex-direction:column;align-items:flex-end;gap:4px}
+}
+
+/* Both tab panels are in the DOM at all times now; only one is shown. That is
+   what puts the component's code in the static HTML, which is the whole reason
+   the page is worth crawling — the name and one sentence were not. */
+.play-panel[hidden]{display:none}
+
+/* Cross-links to the framework indexes, under every index list. */
+.index-crosslinks{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+  max-width:1220px;
+  margin:8px auto 0;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+.index-crosslinks>span{font-size:12px;color:#7f868f}
+.index-crosslinks a{
+  padding:7px 11px;
+  border:1px solid #2b2f35;
+  border-radius:5px;
+  background:#14161a;
+  color:#c3c8cf;
+  font-size:12px;
+  text-decoration:none;
+  transition:border-color .16s ease,color .16s ease;
+}
+.index-crosslinks a:hover{border-color:#454b55;color:#f2f3f4}
+
+/* Related components, at the foot of every component page. Same rule as the
+   Installation block: its own class, because .detail-info was display:none and
+   a link nobody can see passes nothing. */
+.component-related{
+  max-width:1220px;
+  margin:38px auto 0;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+}
+.component-related h2{font-size:13px;margin:0 0 12px}
+.component-related ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+.component-related li{min-width:0}
+.component-related a{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  height:100%;
+  padding:10px 11px;
+  border:1px solid #2b2f35;
+  border-radius:6px;
+  background:#14161a;
+  text-decoration:none;
+  transition:border-color .16s ease,background .16s ease;
+}
+.component-related a:hover{border-color:#454b55;background:#17191d}
+.component-related-name{font-size:12.5px;color:#dfe2e6;letter-spacing:-.2px}
+.component-related a:hover .component-related-name{color:#f97316}
+.component-related-meta{font:10px var(--font-geist-mono,monospace);color:#7f868f}
+.component-related-meta span{padding:0 4px;color:#4b525b}
+@media (max-width:1000px){
+  .component-related ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:680px){
+  .component-related ul{grid-template-columns:1fr}
 }

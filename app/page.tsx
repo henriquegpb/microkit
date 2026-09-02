@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { forwardRef, useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { Highlight, type Language, type PrismTheme } from "prism-react-renderer";
 import {
@@ -33,12 +34,23 @@ import {
   PanelLeftCloseIcon,
   PanelLeftOpenIcon,
 } from "../components/animated-icons";
-import { interactions, type Interaction } from "../content/interactions/catalog";
+import { componentsByCategory, interactions, type Interaction } from "../content/interactions/catalog";
 import { InteractionPreview } from "../components/interactions/registry";
 import { StructuredData } from "../components/structured-data";
 import { Faq } from "../components/faq";
 import { homeSchema, installationCommand, installationNote } from "./schema";
-import { GALLERY_HEADING, HERO_DESCRIPTION, REPO_URL } from "./site-metadata";
+import {
+  COMPONENTS_INDEX_DESCRIPTION,
+  COMPONENTS_INDEX_HEADING,
+  FRAMEWORK_ROUTES,
+  frameworkDescription,
+  frameworkHeading,
+  frameworkLabel,
+  GALLERY_HEADING,
+  HERO_DESCRIPTION,
+  REPO_URL,
+  type FrameworkRoute,
+} from "./site-metadata";
 
 const microKitCodeTheme: PrismTheme = {
   plain: {
@@ -238,7 +250,6 @@ function HeroCard() {
 }
 
 export default function Home() {
-  const [selected, setSelected] = useState<Interaction | null>(null);
   const [category, setCategory] = useState("All");
   const [libraryView, setLibraryView] = useState<LibraryView>("all");
   const [query, setQuery] = useState("");
@@ -252,36 +263,34 @@ export default function Home() {
     if (typeof window === "undefined") return [];
     return JSON.parse(localStorage.getItem("microkit-recent") || "[]");
   });
-  const [copied, setCopied] = useState<string | null>(null);
-  const [codeTab, setCodeTab] = useState(false);
-  const [viewport, setViewport] = useState<"desktop" | "mobile">("desktop");
-  const [canvas, setCanvas] = useState<"dark" | "light">("dark");
-  const [strength, setStrength] = useState(24);
   const [sidebar, setSidebar] = useState(true);
   const toggleFavorite = (id: string) => setFavorites(prev => { const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]; localStorage.setItem("microkit-favorites", JSON.stringify(next)); return next; });
   const markRecentlyViewed = (id: string) => setRecent(prev => { const next = [id, ...prev.filter(itemId => itemId !== id)].slice(0, 20); localStorage.setItem("microkit-recent", JSON.stringify(next)); return next; });
-  const copy = async (id: string, text: string) => { await navigator.clipboard?.writeText(text); setCopied(id); setTimeout(()=>setCopied(null), 1400); };
   const filtered = useMemo(() => {
     const matches = interactions.filter(item => (libraryView !== "all" || category === "All" || item.category === category || (category === "Click feedback" && item.type === "Click")) && (framework === "All frameworks" || item.framework === framework) && `${item.name} ${item.category} ${item.type}`.toLowerCase().includes(query.toLowerCase()));
     const scoped = libraryView === "favorites" ? matches.filter(item => favorites.includes(item.id)) : libraryView === "recent" ? recent.map(id => matches.find(item => item.id === id)).filter((item): item is Interaction => Boolean(item)) : matches;
     return sort === "Newest" && libraryView === "recent" ? scoped : [...scoped].sort((a,b) => sort === "A–Z" ? a.name.localeCompare(b.name) : sort === "Popular" ? (a.id === "magnetic-button" ? -1 : 1) : (a.new === b.new ? 0 : a.new ? -1 : 1));
   }, [category, favorites, framework, libraryView, query, recent, sort]);
 
-  const chooseCategory = (view: LibraryView) => { localStorage.setItem("microkit-library-view", view); setLibraryView(view); setCategory("All"); setSelected(null); };
-  const chooseLibraryView = (view: LibraryView) => { localStorage.setItem("microkit-library-view", view); setLibraryView(view); setCategory("All"); setSelected(null); };
+  const chooseCategory = (view: LibraryView) => { localStorage.setItem("microkit-library-view", view); setLibraryView(view); setCategory("All"); };
   const openComponent = (item: Interaction) => {
     markRecentlyViewed(item.id);
     window.location.assign(`/components/${item.id}`);
   };
+  /*
+   * The card body is an <a href="/components/{id}">, so a click that lands
+   * inside it is left alone: the browser navigates, and the anchor's own
+   * handler is what records the view. Handling it here as well would race the
+   * navigation to the same URL.
+   */
   const handleCardClick = (event: ReactMouseEvent<HTMLElement>, item: Interaction) => {
     const target = event.target as HTMLElement;
     const demo = target.closest<HTMLElement>(".demo");
-    if (target.closest(".favorite") || (demo && target !== demo)) return;
+    if (target.closest(".card-info") || target.closest(".favorite") || (demo && target !== demo)) return;
     openComponent(item);
   };
-  if (selected) return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} view={libraryView} counts={{all:interactions.length,recent:recent.length,favorites:favorites.length}} choose={chooseLibraryView}/><main className="playground-main"><div className="crumb"><button className="back-slide" onClick={()=>setSelected(null)}><span className="back-slide-label">All interactions</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></button><span>/</span><span>{selected.category}</span></div><section className="playground-heading"><div><div className="eyebrow">{selected.category} <span>•</span> {selected.framework}</div><h1>{selected.name}</h1><p>{selected.description}</p></div><div className="header-actions"><FavoriteButton className={`square ${favorites.includes(selected.id)?"saved":""}`} saved={favorites.includes(selected.id)} size={22} label="Save favorite" onClick={()=>toggleFavorite(selected.id)}/><button className="copy-main" onClick={()=>copy(selected.id, selected.code)}><Icon name={copied===selected.id?"check":"copy"}/> {copied===selected.id?"Copied":"Copy code"}</button></div></section><div className="play-tabs"><button className={!codeTab?"active":""} onClick={()=>setCodeTab(false)}>Preview</button><button className={codeTab?"active":""} onClick={()=>setCodeTab(true)}>Code</button></div>{!codeTab ? <div className="play-layout"><section className="canvas-card"><div className="canvas-toolbar"><div className="segmented"><button className={canvas==="dark"?"active":""} onClick={()=>setCanvas("dark")}>Dark</button><button className={canvas==="light"?"active":""} onClick={()=>setCanvas("light")}>Light</button></div><div className="toolbar-right"><div className="segmented"><button className={viewport==="desktop"?"active":""} onClick={()=>setViewport("desktop")}><Icon name="desktop"/></button><button className={viewport==="mobile"?"active":""} onClick={()=>setViewport("mobile")}><Icon name="mobile"/></button></div><button className="reset"><Icon name="reset"/> Reset</button></div></div><div className={`canvas ${canvas} ${viewport}`}><Demo id={selected.id} large/></div><div className="canvas-footer"><span><i className="status-dot"/> Live preview</span><span>⌘ Enter to reset</span></div></section><aside className="control-panel"><div className="control-title"><Icon name="sliders"/> Customize</div><label className="control"><span>Intensity <output>{strength}%</output></span><input type="range" value={strength} onChange={e=>setStrength(+e.target.value)} /></label><label className="control"><span>Duration <output>240ms</output></span><input type="range" defaultValue="45" /></label><label className="control"><span>Label</span><input value="Explore components" readOnly /></label><label className="check-control"><input type="checkbox" defaultChecked/> Enable reduced motion fallback</label></aside></div> : <CodePanel item={selected} copy={copy} copied={copied}/>}<Installation item={selected} copy={copy} copied={copied}/><DetailInfo item={selected}/></main></div></div>;
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><main className="gallery-main"><HeroCard/><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {category === "All" ? "All interactions" : category}</div><h1>{category === "All" ? GALLERY_HEADING : category}</h1><p>{filtered.length} {filtered.length === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p></div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></div></div><div className="active-filter"><span>{category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div><section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><button className="card-info" onClick={()=>openComponent(item)} aria-label={`Open ${item.name} playground`}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></button></article>)}</section>{!filtered.length && <div className="empty"><Icon name="search" size={28}/><h2>No interactions found</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div>;
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><main className="gallery-main"><HeroCard/><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {category === "All" ? "All interactions" : category}</div><h1>{category === "All" ? GALLERY_HEADING : category}</h1><p>{filtered.length} {filtered.length === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p><Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link></div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></div></div><div className="active-filter"><span>{category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div><section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`} onClick={()=>markRecentlyViewed(item.id)}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>{!filtered.length && <div className="empty"><Icon name="search" size={28}/><h2>No interactions found</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div>;
 }
 
 export function ComponentDetailPage({ item }: { item: Interaction }) {
@@ -298,7 +307,101 @@ export function ComponentDetailPage({ item }: { item: Interaction }) {
     setFavorite(!favorite);
   };
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={() => setSidebar(!sidebar)} view="all" counts={{ all: interactions.length, recent: 0, favorites: 0 }} choose={() => window.location.assign("/")} /><main className="playground-main"><div className="crumb"><button className="back-slide" onClick={() => window.location.assign("/")}><span className="back-slide-label">All interactions</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></button><span>/</span><span>{item.category}</span></div><section className="playground-heading"><div><div className="eyebrow">{item.category} <span>•</span> {item.framework}</div><h1>{item.name}</h1><p>{item.description}</p></div><div className="header-actions"><FavoriteButton className={`square ${favorite ? "saved" : ""}`} saved={favorite} label="Save favorite" onClick={toggleFavorite}/></div></section><div className="play-tabs"><button className={!codeTab ? "active" : ""} onClick={() => setCodeTab(false)}>Preview</button><button className={codeTab ? "active" : ""} onClick={() => setCodeTab(true)}>Code</button></div>{codeTab ? <CodePanel item={item} copy={copy} copied={copied}/> : <div className="play-layout"><section className="canvas-card"><div className="canvas dark desktop"><Demo id={item.id} large/></div><div className="canvas-footer"><span><i className="status-dot"/> Live preview</span></div></section></div>}<Installation item={item} copy={copy} copied={copied}/></main></div></div>;
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={() => setSidebar(!sidebar)} view="all" counts={{ all: interactions.length, recent: 0, favorites: 0 }} choose={() => window.location.assign("/")} /><main className="playground-main"><div className="crumb"><button className="back-slide" onClick={() => window.location.assign("/")}><span className="back-slide-label">All interactions</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></button><span>/</span><span>{item.category}</span></div><section className="playground-heading"><div><div className="eyebrow">{item.category} <span>•</span> {item.framework}</div><h1>{item.name}</h1><p>{item.description}</p></div><div className="header-actions"><FavoriteButton className={`square ${favorite ? "saved" : ""}`} saved={favorite} label="Save favorite" onClick={toggleFavorite}/></div></section><div className="play-tabs"><button className={!codeTab ? "active" : ""} onClick={() => setCodeTab(false)}>Preview</button><button className={codeTab ? "active" : ""} onClick={() => setCodeTab(true)}>Code</button></div><div className="play-panel" hidden={codeTab}><div className="play-layout"><section className="canvas-card"><div className="canvas dark desktop"><Demo id={item.id} large/></div><div className="canvas-footer"><span><i className="status-dot"/> Live preview</span></div></section></div></div><div className="play-panel" hidden={!codeTab}><CodePanel item={item} copy={copy} copied={copied}/></div><Installation item={item} copy={copy} copied={copied}/><Related item={item}/></main></div></div>;
+}
+
+/** How many neighbours a component page links to. */
+const RELATED_COUNT = 6;
+
+/**
+ * Sideways links, which the site had none of.
+ *
+ * Every component page used to be a dead end: the only way out was back to the
+ * home page. That leaves the forty-two pages sharing whatever authority the
+ * home page passes down and passing none of it between themselves, and it gives
+ * a crawler exactly one path through the catalog instead of a mesh.
+ *
+ * Same category first, because that is the honest sense of "related" here, then
+ * topped up from the rest of the catalog — "Inputs" holds a single interaction,
+ * so a strict same-category rule would render an empty block on that page and a
+ * three-link one elsewhere.
+ *
+ * The component's own name is the link text. That is the whole point: `<button>`
+ * told a crawler nothing, and "read more" would tell it just as little.
+ */
+function Related({ item }: { item: Interaction }) {
+  const others = interactions.filter(other => other.id !== item.id);
+  const sameCategory = others.filter(other => other.category === item.category);
+  const related = [...sameCategory, ...others.filter(other => other.category !== item.category)].slice(0, RELATED_COUNT);
+
+  return <section className="component-related"><h2>Related components</h2><ul>{related.map(other => <li key={other.id}><a href={`/components/${other.id}`}><span className="component-related-name">{other.name}</span><span className="component-related-meta">{other.category} <span>•</span> {other.framework}</span></a></li>)}</ul></section>;
+}
+
+/**
+ * `/components` — the index the gallery never was.
+ *
+ * The home page renders forty-two live previews and no links; every card used
+ * to open its component through a click handler, which meant the component
+ * pages existed in the sitemap and nowhere in the site's own link graph. This
+ * page is the plain-text counterpart: one anchor per component, its own name as
+ * the link text, its description beside it, grouped by the category it belongs
+ * to. It is cheap to crawl, it is a page in its own right for anyone searching
+ * for the catalog rather than for one interaction, and it is the middle level
+ * of the breadcrumb the component pages now declare.
+ *
+ * No previews here on purpose. The home page is where the interactions are
+ * shown; repeating forty-two of them would make the index the slowest page on
+ * the site and say nothing the home page does not already say better.
+ */
+export function ComponentsIndexPage() {
+  return <ComponentIndexShell heading={COMPONENTS_INDEX_HEADING} intro={COMPONENTS_INDEX_DESCRIPTION} eyebrow={`${interactions.length} interactions`} groups={componentsByCategory} crumb={{ href: "/", label: "All interactions" }} activeFramework={null}/>;
+}
+
+/**
+ * `/components/react` and `/components/css`.
+ *
+ * A framework is the one axis of this catalog that both splits it usefully —
+ * 33 CSS against 9 React — and matches something people type. The category axis
+ * does neither: 35 of the 42 sit in one category and one category holds a
+ * single interaction.
+ *
+ * The rows are grouped by category inside the framework, so the page is not a
+ * flat list of thirty-three names, and the crumb points back at the full index
+ * rather than the home page — that is where this page's parent actually is.
+ */
+export function FrameworkIndexPage({ route }: { route: FrameworkRoute }) {
+  const label = frameworkLabel(route);
+  const groups = componentsByCategory
+    .map(group => ({ category: group.category, items: group.items.filter(item => item.framework === label) }))
+    .filter(group => group.items.length);
+  const count = groups.reduce((total, group) => total + group.items.length, 0);
+
+  return <ComponentIndexShell heading={frameworkHeading(route)} intro={frameworkDescription(route, count)} eyebrow={`${count} ${label} interactions`} groups={groups} crumb={{ href: "/components", label: COMPONENTS_INDEX_HEADING }} activeFramework={route}/>;
+}
+
+/**
+ * The chrome and the list markup both index pages share.
+ *
+ * Extracted the moment there was a second one, so the two cannot drift into
+ * describing the same catalog with different markup — the shape of these rows
+ * is what the CollectionPage schema on each page claims is on screen.
+ */
+function ComponentIndexShell({ heading, intro, eyebrow, groups, crumb, activeFramework }: { heading: string; intro: string; eyebrow: string; groups: { category: string; items: Interaction[] }[]; crumb: { href: string; label: string }; activeFramework: FrameworkRoute | null }) {
+  const [query, setQuery] = useState("");
+  const [sidebar, setSidebar] = useState(true);
+
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={() => setSidebar(!sidebar)} view="all" counts={{ all: interactions.length, recent: 0, favorites: 0 }} choose={() => window.location.assign("/")} /><main className="playground-main"><div className="crumb"><Link className="back-slide" href={crumb.href}><span className="back-slide-label">{crumb.label}</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></Link></div><section className="playground-heading"><div><div className="eyebrow">Library <span>•</span> {eyebrow}</div><h1>{heading}</h1><p>{intro}</p></div></section><div className="component-index">{groups.map(group => <section className="component-index-group" key={group.category}><h2>{group.category} <em>{group.items.length}</em></h2><ul>{group.items.map(item => <li key={item.id}><a href={`/components/${item.id}`}><span className="component-index-entry"><span className="component-index-name">{item.name}</span><span className="component-index-summary">{item.description}</span></span><span className="component-index-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></li>)}</ul></section>)}</div><FrameworkLinks active={activeFramework}/></main></div></div>;
+}
+
+/**
+ * The two framework pages, linked from every index. Without this they would be
+ * reachable only from the sitemap — the exact problem the component pages had.
+ */
+function FrameworkLinks({ active }: { active: FrameworkRoute | null }) {
+  const routes = FRAMEWORK_ROUTES.filter(route => route !== active);
+  if (!routes.length) return null;
+
+  return <nav className="index-crosslinks" aria-label="Browse by framework"><span>Browse by framework</span>{routes.map(route => <Link key={route} href={`/components/${route}`}>{frameworkHeading(route)}</Link>)}</nav>;
 }
 
 function Header({ query, setQuery }: { query: string; setQuery: (x:string)=>void }) { return <header className="topbar"><nav><a className="current submit-link" href="/submit"><span>Submit</span><span className="submit-link-icon" aria-hidden="true"><ArrowRight className="submit-link-arrow submit-link-arrow-current" size={14} strokeWidth={2.2}/><ArrowRight className="submit-link-arrow submit-link-arrow-incoming" size={14} strokeWidth={2.2}/></span></a></nav><label className="global-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search interactions"/><kbd>⌘ K</kbd></label><div className="top-actions"><a className="github" href={REPO_URL} target="_blank" rel="noreferrer"><span className="github-content"><Image className="github-mark" src="/assets/img/GitHub.svg" alt="" width={15} height={15}/><span className="github-label">Star on GitHub</span><span className="github-arrow" aria-hidden="true"><ArrowRight size={14} strokeWidth={2.2}/></span></span></a></div></header> }
@@ -484,7 +587,15 @@ function CodeSnippet({ label, code, item, copy, copied }: { label:string; code:s
   const id = `${item.id}-${label}`;
   const language = getSnippetLanguage(label);
 
-  return <div className="code-snippet"><button className="snippet-copy" onClick={()=>copy(id,code)} aria-label="Copy code"><Icon name={copied===id?"check":"copy"}/></button><Highlight theme={microKitCodeTheme} code={code} language={language}>{({ tokens, getLineProps, getTokenProps })=><pre>{tokens.map((line,index)=>{const lineProps=getLineProps({line});return <span {...lineProps} className={`${lineProps.className} snippet-line`} key={index}><i>{index + 1}</i><code>{line.map((token,tokenIndex)=><span {...getTokenProps({token})} key={tokenIndex}/>)}</code></span>;})}</pre>}</Highlight></div>;
+  /*
+   * The two prop objects are read for what they carry rather than spread.
+   * prism-react-renderer still returns a `key` in them, and React 19 takes the
+   * key off a spread object in preference to the explicit attribute — so every
+   * token span was rendering keyless, one warning per line of every snippet.
+   * It only ever surfaced when somebody opened the Code tab; now that the panel
+   * is always in the DOM it fired on every build.
+   */
+  return <div className="code-snippet"><button className="snippet-copy" onClick={()=>copy(id,code)} aria-label="Copy code"><Icon name={copied===id?"check":"copy"}/></button><Highlight theme={microKitCodeTheme} code={code} language={language}>{({ tokens, getLineProps, getTokenProps })=><pre>{tokens.map((line,index)=>{const { className, style }=getLineProps({line});return <span key={index} style={style} className={`${className} snippet-line`}><i>{index + 1}</i><code>{line.map((token,tokenIndex)=>{const { className: tokenClass, style: tokenStyle, children }=getTokenProps({token});return <span key={tokenIndex} className={tokenClass} style={tokenStyle}>{children}</span>;})}</code></span>;})}</pre>}</Highlight></div>;
 }
 function CodeBlock({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-block"><div className="code-head"><span><Icon name="code"/> {label}</span><button onClick={()=>copy(id,code)}><Icon name={copied===id?"check":"copy"}/> {copied===id?"Copied":"Copy"}</button></div><pre><code>{code}</code></pre></div> }
 /**
@@ -500,4 +611,3 @@ function CodeBlock({ label, code, item, copy, copied }: { label:string; code:str
  * and this paragraph cannot come to say different things.
  */
 function Installation({ item, copy, copied }: { item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { return <section className="component-install"><h2>Installation</h2><p>{installationNote(item)}</p><CodeBlock label="Terminal" code={installationCommand(item)} item={item} copy={copy} copied={copied}/></section> }
-function DetailInfo({ item }: { item:Interaction }) { return <section className="detail-info"><div><h2>Accessibility</h2><p>Keyboard interactive, with visible focus states and a reduced-motion fallback included by default.</p><div className="a11y-tags"><span>Keyboard</span><span>Focus visible</span><span>Reduced motion</span></div></div><div><h2>Related</h2><div className="related">{interactions.filter(x=>x.id!==item.id).map(x=><button key={x.id}>{x.name} <Icon name="arrow"/></button>)}</div></div></section> }

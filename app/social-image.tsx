@@ -9,7 +9,33 @@ export const socialImageSize = {
 const tunnelInsets = [0, 34, 68, 102, 136];
 const tunnelColors = ["#f97316", "#b94d12", "#71300f", "#3c1c0d", "#20120c"];
 
-export function createSocialImage() {
+/**
+ * One image, two registers.
+ *
+ * With no argument it is the site card: the tagline and the description that
+ * `SOCIAL_TITLE`/`SOCIAL_DESCRIPTION` already carry. Given a component it
+ * becomes that component's card — its name in place of the tagline, its own
+ * description under it, and the category and framework as an eyebrow.
+ *
+ * Sharing forty-two different pages under one identical picture wastes the only
+ * part of a link somebody actually looks at before clicking. The layout is
+ * unchanged so the two still read as the same site.
+ */
+type SocialImageSubject = {
+  eyebrow: string;
+  lines: string[];
+  description: string;
+};
+
+export function createSocialImage(subject?: SocialImageSubject) {
+  const eyebrow = subject?.eyebrow;
+  const lines = subject?.lines ?? ["Microinteractions", "worth copying."];
+  const description = subject?.description ?? SOCIAL_DESCRIPTION;
+  // A component name takes two lines at 76px only if it is short; the site
+  // tagline is authored to fit. Anything longer steps down a size rather than
+  // overflowing the 760px column.
+  const titleSize = lines.join(" ").length > 26 ? 58 : 76;
+
   return new ImageResponse(
     (
       <div
@@ -78,18 +104,35 @@ export function createSocialImage() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", width: 760 }}>
+            {eyebrow ? (
+              <div
+                style={{
+                  display: "flex",
+                  marginBottom: 22,
+                  color: "#f97316",
+                  fontFamily: "monospace",
+                  fontSize: 22,
+                  letterSpacing: "1px",
+                }}
+              >
+                {eyebrow}
+              </div>
+            ) : null}
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                fontSize: 76,
+                fontSize: titleSize,
                 fontWeight: 500,
                 lineHeight: 0.98,
                 letterSpacing: "-4px",
               }}
             >
-              <div style={{ display: "flex" }}>Microinteractions</div>
-              <div style={{ display: "flex" }}>worth copying.</div>
+              {lines.map((line) => (
+                <div key={line} style={{ display: "flex" }}>
+                  {line}
+                </div>
+              ))}
             </div>
             <div
               style={{
@@ -101,7 +144,7 @@ export function createSocialImage() {
                 lineHeight: 1.35,
               }}
             >
-              {SOCIAL_DESCRIPTION}
+              {description}
             </div>
           </div>
 

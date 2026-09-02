@@ -1,10 +1,24 @@
-import { interactions, type Interaction } from "../content/interactions/catalog";
 import {
+  componentsByCategory,
+  interactions,
+  type Interaction,
+} from "../content/interactions/catalog";
+import type { Metadata } from "next";
+import {
+  COMPONENTS_INDEX_DESCRIPTION,
+  COMPONENTS_INDEX_HEADING,
+  frameworkDescription,
+  frameworkHeading,
+  frameworkLabel,
+  frameworkTitle,
   GALLERY_HEADING,
   HERO_DESCRIPTION,
+  OPEN_GRAPH_IMAGE,
   REPO_URL,
   SITE_NAME,
   SITE_URL,
+  TWITTER_IMAGE,
+  type FrameworkRoute,
 } from "./site-metadata";
 
 /**
@@ -16,6 +30,7 @@ import {
  */
 
 const componentUrl = (id: string) => `${SITE_URL}/components/${id}`;
+const COMPONENTS_INDEX_URL = `${SITE_URL}/components`;
 
 /**
  * Home: the site itself, plus the catalog the gallery renders.
@@ -62,6 +77,141 @@ export const homeSchema = [
 ];
 
 /**
+ * The `/components` index: the same catalog, described as a list of links.
+ *
+ * It repeats the home page's ItemList on purpose — that is what an index is —
+ * but it carries `description` where the home page's does not, because this is
+ * the page that actually prints each component's description next to its name.
+ * The home cards show name, category, framework and type and nothing more.
+ */
+export const componentsIndexSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: COMPONENTS_INDEX_HEADING,
+    url: COMPONENTS_INDEX_URL,
+    description: COMPONENTS_INDEX_DESCRIPTION,
+    inLanguage: "en-US",
+    isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+    mainEntity: {
+      "@type": "ItemList",
+      name: COMPONENTS_INDEX_HEADING,
+      numberOfItems: interactions.length,
+      // Grouped by category on the page, in catalog order within each group.
+      // That is a stable sequence with no sort control to disturb it, so the
+      // positions here are the positions a reader sees.
+      itemListOrder: "https://schema.org/ItemListOrderAscending",
+      itemListElement: componentsByCategory
+        .flatMap((group) =>
+          group.items.map((item) => ({
+            "@type": "ListItem",
+            name: item.name,
+            description: item.description,
+            url: componentUrl(item.id),
+          })),
+        )
+        .map((entry, index) => ({ ...entry, position: index + 1 })),
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: COMPONENTS_INDEX_HEADING,
+        item: COMPONENTS_INDEX_URL,
+      },
+    ],
+  },
+];
+
+/**
+ * `/components/react` and `/components/css`: the same catalog, narrowed.
+ *
+ * The metadata is built here rather than in each route file so the two pages
+ * cannot describe themselves differently, and so the count in the title is read
+ * from the catalog instead of typed twice.
+ */
+const frameworkItems = (route: FrameworkRoute) =>
+  interactions.filter((item) => item.framework === frameworkLabel(route));
+
+export function frameworkMetadata(route: FrameworkRoute): Metadata {
+  const items = frameworkItems(route);
+  const title = frameworkTitle(route, items.length);
+  const description = frameworkDescription(route, items.length);
+  const canonical = `/components/${route}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: "website",
+      url: canonical,
+      title: `${title} | ${SITE_NAME}`,
+      description,
+      siteName: SITE_NAME,
+      locale: "en_US",
+      images: [OPEN_GRAPH_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | ${SITE_NAME}`,
+      description,
+      images: [TWITTER_IMAGE],
+    },
+  };
+}
+
+export function frameworkSchema(route: FrameworkRoute) {
+  const items = frameworkItems(route);
+  const url = `${SITE_URL}/components/${route}`;
+  const heading = frameworkHeading(route);
+
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: heading,
+      url,
+      description: frameworkDescription(route, items.length),
+      inLanguage: "en-US",
+      isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+      mainEntity: {
+        "@type": "ItemList",
+        name: heading,
+        numberOfItems: items.length,
+        itemListOrder: "https://schema.org/ItemListOrderAscending",
+        itemListElement: items.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.name,
+          description: item.description,
+          url: componentUrl(item.id),
+        })),
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: COMPONENTS_INDEX_HEADING,
+          item: COMPONENTS_INDEX_URL,
+        },
+        { "@type": "ListItem", position: 3, name: heading, item: url },
+      ],
+    },
+  ];
+}
+
+/**
  * The Installation line, as one string used by the visible block and by the
  * schema's `dependencies`. lucide-react is the only dependency in the catalog,
  * and it is there for icons.
@@ -86,10 +236,11 @@ export function installationCommand(item: Interaction) {
  * so stamping MIT onto each component individually would assert, forty-two
  * times over, something the project deliberately does not assert once.
  *
- * The breadcrumb is two levels because the last position of a BreadcrumbList is
- * the current page, and the current page is the component. Category is not a
- * level: there is no category route, and no breadcrumb item may point at a URL
- * that does not exist. `/components` has no index page either.
+ * The breadcrumb is three levels: the site, the `/components` index, and the
+ * component itself as the last position. Category is still not a level — there
+ * is no category route, and no breadcrumb item may point at a URL that does not
+ * exist. The index is a level only because it is now a real page that links
+ * here; before it existed this list stopped at two.
  */
 export function componentSchema(item: Interaction) {
   const url = componentUrl(item.id);
@@ -124,6 +275,12 @@ export function componentSchema(item: Interaction) {
           {
             "@type": "ListItem",
             position: 2,
+            name: COMPONENTS_INDEX_HEADING,
+            item: COMPONENTS_INDEX_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
             name: item.name,
             item: url,
           },

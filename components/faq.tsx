@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { ChevronDown } from "lucide-react";
 import { interactions } from "@/content/interactions/catalog";
 import { StructuredData } from "@/components/structured-data";
@@ -56,16 +59,138 @@ const SCHEMA = {
   })),
 };
 
+const OPEN_DURATION = 260;
+const CLOSE_DURATION = 200;
+const EASING = "cubic-bezier(.16,1,.3,1)";
+/** Breathing room left below an answer that had to be scrolled into view. */
+const REVEAL_MARGIN = 20;
+
 /**
- * Native `<details>` rather than state and a height transition.
+ * The element that actually scrolls, which is not a fixed one.
  *
- * Three things come free with it and none of them are free otherwise: it works
- * before hydration, the summary is a real keyboard control, and find-in-page
- * opens the section it matched. It also keeps every answer in the DOM while
- * collapsed, which is what lets the FAQPage schema stay honest — an accordion
- * mounting its content on click would leave the structured data describing text
- * no crawler ever sees.
+ * `.gallery-main` and `.gallery-workspace` are both `overflow-y:auto`, and
+ * which of the two holds the overflow depends on the viewport — the workspace
+ * drops its sponsor rail under 1180px. Asking the DOM which ancestor is really
+ * scrolling right now is shorter than encoding that rule twice.
  */
+function scrollParent(node: HTMLElement) {
+  for (let el = node.parentElement; el; el = el.parentElement) {
+    const overflowY = getComputedStyle(el).overflowY;
+    if (
+      (overflowY === "auto" || overflowY === "scroll") &&
+      el.scrollHeight > el.clientHeight
+    ) {
+      return el;
+    }
+  }
+  return null;
+}
+
+/**
+ * One question. Native `<details>`, with the open and close animated by hand.
+ *
+ * The element stays native for the three things that are free with it and free
+ * nowhere else: it works before hydration, the summary is a real keyboard
+ * control, and find-in-page opens the section it matched. It also keeps every
+ * answer in the DOM while collapsed, which is what lets the FAQPage schema stay
+ * honest — an accordion mounting its content on click would leave the
+ * structured data describing text no crawler ever sees.
+ *
+ * What is not free is the animation: a browser opens and closes `<details>` in
+ * one frame. So the click is intercepted, and the panel's height is animated
+ * between 0 and its measured height. `details.open` is set at the start of an
+ * opening and only at the end of a closing, because the content has to still be
+ * laid out while it collapses.
+ *
+ * `expanded` tracks intent rather than the attribute, for the same reason: on
+ * the way out the two disagree for the length of the animation, and it is the
+ * intent that the chevron should follow.
+ */
+function FaqEntry({ q, a }: { q: string; a: string }) {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<Animation | null>(null);
+  const [expanded, setExpanded] = useState(false);
+
+  /**
+   * Only when the answer would open below the fold, and only by as much as it
+   * takes — never past the question itself, or a long answer would scroll the
+   * thing you just clicked off the top of the screen.
+   *
+   * The jump is deliberate rather than smoothed: it runs after the expand has
+   * finished, so a second animation on top of it would read as drift.
+   */
+  const revealIfClipped = () => {
+    const details = detailsRef.current;
+    if (!details) return;
+    const scroller = scrollParent(details);
+    if (!scroller) return;
+
+    const item = details.getBoundingClientRect();
+    const view = scroller.getBoundingClientRect();
+    const clipped = item.bottom - view.bottom + REVEAL_MARGIN;
+    if (clipped <= 0) return;
+
+    const untilQuestionLeaves = Math.max(0, item.top - view.top);
+    scroller.scrollBy({
+      top: Math.min(clipped, untilQuestionLeaves),
+      behavior: "instant",
+    });
+  };
+
+  const toggle = (event: ReactMouseEvent<HTMLElement>) => {
+    const details = detailsRef.current;
+    const panel = panelRef.current;
+    if (!details || !panel) return;
+
+    event.preventDefault();
+
+    // Measured before the running animation is cancelled: cancelling reverts
+    // the panel to its base height, and a click mid-flight should carry on from
+    // wherever it had got to.
+    const from = panel.getBoundingClientRect().height;
+    animationRef.current?.cancel();
+    animationRef.current = null;
+
+    const opening = !expanded;
+    setExpanded(opening);
+    if (opening) details.open = true;
+
+    const to = opening ? panel.scrollHeight : 0;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      details.open = opening;
+      if (opening) revealIfClipped();
+      return;
+    }
+
+    const animation = panel.animate(
+      { height: [`${from}px`, `${to}px`] },
+      { duration: opening ? OPEN_DURATION : CLOSE_DURATION, easing: EASING },
+    );
+    animationRef.current = animation;
+    animation.onfinish = () => {
+      animationRef.current = null;
+      if (opening) revealIfClipped();
+      else details.open = false;
+    };
+  };
+
+  return (
+    <li>
+      <details ref={detailsRef} className={expanded ? "is-open" : undefined}>
+        <summary onClick={toggle}>
+          {q}
+          <ChevronDown size={16} strokeWidth={1.75} aria-hidden="true" />
+        </summary>
+        <div className="faq-answer" ref={panelRef}>
+          <p>{a}</p>
+        </div>
+      </details>
+    </li>
+  );
+}
+
 export function Faq() {
   return (
     <section className="faq" aria-labelledby="faq-heading">
@@ -73,15 +198,7 @@ export function Faq() {
       <h2 id="faq-heading">Questions</h2>
       <ul>
         {FAQ.map(({ q, a }) => (
-          <li key={q}>
-            <details>
-              <summary>
-                {q}
-                <ChevronDown size={16} strokeWidth={1.75} aria-hidden="true" />
-              </summary>
-              <p>{a}</p>
-            </details>
-          </li>
+          <FaqEntry key={q} q={q} a={a} />
         ))}
       </ul>
     </section>

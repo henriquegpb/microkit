@@ -54,6 +54,9 @@ and CSS or Tailwind, and copy the code. Each component has its own page with a
 live preview and all four variants.
 
 - Site: ${SITE_URL}
+- All components: ${SITE_URL}/components
+- React interactions: ${SITE_URL}/components/react
+- CSS interactions: ${SITE_URL}/components/css
 - Source: ${REPO_URL}
 - Submit an interaction: ${SITE_URL}/submit
 - Sponsors: ${SITE_URL}/sponsors

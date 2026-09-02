@@ -5,9 +5,9 @@ import { StructuredData } from "../../../components/structured-data";
 import { ComponentDetailPage } from "../../page";
 import { componentSchema } from "../../schema";
 import {
-  OPEN_GRAPH_IMAGE,
+  componentDescription,
+  componentTitle,
   SITE_NAME,
-  TWITTER_IMAGE,
 } from "../../site-metadata";
 
 type ComponentRouteProps = {
@@ -31,12 +31,19 @@ export async function generateMetadata({
     };
   }
 
-  const title = item.name;
-  const description = `${item.description} Copy the JavaScript, TypeScript, CSS, or Tailwind implementation from MicroKit UI.`;
+  const title = componentTitle(item);
+  const description = componentDescription(item);
   const canonical = `/components/${item.id}`;
 
   return {
-    title,
+    /*
+     * `absolute` drops the "| MicroKit UI" the root template appends. With it,
+     * 22 of the 44 titles on this site ran past the ~60 characters a result
+     * shows; without it the longest component title is 54. On a long-tail page
+     * the brand is the half worth losing — the words somebody typed are the
+     * ones that have to survive the truncation.
+     */
+    title: { absolute: title },
     description,
     alternates: { canonical },
     openGraph: {
@@ -46,13 +53,14 @@ export async function generateMetadata({
       description,
       siteName: SITE_NAME,
       locale: "en_US",
-      images: [OPEN_GRAPH_IMAGE],
+      // No `images` here on purpose. The colocated opengraph-image.tsx renders
+      // this component's own card, and an explicit list would override it and
+      // put the generic site picture back on all forty-two pages.
     },
     twitter: {
       card: "summary_large_image",
       title: `${title} | ${SITE_NAME}`,
       description,
-      images: [TWITTER_IMAGE],
     },
   };
 }
