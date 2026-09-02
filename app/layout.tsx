@@ -8,6 +8,8 @@ import {
   SITE_NAME,
   SITE_TITLE,
   SITE_URL,
+  SOCIAL_DESCRIPTION,
+  SOCIAL_TITLE,
   TWITTER_IMAGE,
 } from "./site-metadata";
 
@@ -64,16 +66,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
+    title: SOCIAL_TITLE,
+    description: SOCIAL_DESCRIPTION,
     siteName: SITE_NAME,
     locale: "en_US",
     images: [OPEN_GRAPH_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
+    title: SOCIAL_TITLE,
+    description: SOCIAL_DESCRIPTION,
     images: [TWITTER_IMAGE],
   },
   robots: {

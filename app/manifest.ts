@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import {
-  SITE_DESCRIPTION,
+  SOCIAL_DESCRIPTION,
   SITE_NAME,
   SITE_URL,
 } from "./site-metadata";
@@ -10,7 +10,7 @@ export default function manifest(): MetadataRoute.Manifest {
     id: SITE_URL,
     name: SITE_NAME,
     short_name: "MicroKit",
-    description: SITE_DESCRIPTION,
+    description: SOCIAL_DESCRIPTION,
     start_url: "/",
     display: "standalone",
     background_color: "#0b0c0e",

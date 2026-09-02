@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { SITE_DESCRIPTION, SITE_NAME } from "./site-metadata";
+import { SITE_NAME, SOCIAL_DESCRIPTION } from "./site-metadata";
 
 export const socialImageSize = {
   width: 1200,
@@ -101,7 +101,7 @@ export function createSocialImage() {
                 lineHeight: 1.35,
               }}
             >
-              {SITE_DESCRIPTION}
+              {SOCIAL_DESCRIPTION}
             </div>
           </div>
 
