@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { interactions } from "../../../content/interactions/catalog";
+import { StructuredData } from "../../../components/structured-data";
 import { ComponentDetailPage } from "../../page";
+import { componentSchema } from "../../schema";
 import {
   OPEN_GRAPH_IMAGE,
   SITE_NAME,
@@ -63,5 +65,10 @@ export default async function ComponentRoute({
 
   if (!item) notFound();
 
-  return <ComponentDetailPage item={item} />;
+  return (
+    <>
+      <StructuredData schema={componentSchema(item)} />
+      <ComponentDetailPage item={item} />
+    </>
+  );
 }

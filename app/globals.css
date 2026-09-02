@@ -267,3 +267,18 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
 @media (max-width:680px){
   .gallery-main > .empty{min-height:300px;padding:44px 16px}
 }
+
+/* Installation. Its own class rather than .detail-info, which is display:none
+   above — the whole point of the block is that a reader and a crawler can both
+   see what a component needs before copying it. */
+.component-install{
+  max-width:1220px;
+  margin:38px auto 0;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+}
+.component-install h2{font-size:13px;margin:0 0 8px}
+.component-install p{font-size:12px;color:#898f99;line-height:1.55;margin:0 0 12px}
+.component-install .code-block{max-width:420px}
+.component-install .code-block pre{padding:10px;font-size:11px}
+
