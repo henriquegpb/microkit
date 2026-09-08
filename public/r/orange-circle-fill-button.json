@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "orange-circle-fill-button",
+  "title": "Orange Circle Fill Button",
+  "author": "henriquegpb <https://github.com/henriquegpb>",
+  "description": "An orange outlined pill that fills from a growing circle.",
+  "files": [
+    {
+      "path": "registry/microkit/orange-circle-fill-button.tsx",
+      "content": "export function OrangeCircleFillButton() {\n  return <button type=\"button\" className=\"group relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-full border border-[#f97316] bg-[#f973162b] px-6 py-4 text-[18px] font-medium text-[#f97316] transition-transform duration-500 group-hover:scale-[1.06] group-focus-visible:scale-[1.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]\"><span className=\"relative z-10 transition-colors duration-300 group-hover:text-[#111] group-focus-visible:text-[#111]\">View all projects</span><span className=\"absolute size-60 scale-0 rounded-full bg-[#f97316] transition-transform duration-500 group-hover:scale-100 group-focus-visible:scale-100\" aria-hidden=\"true\" /></button>;\n}\n",
+      "type": "registry:component",
+      "target": "@components/microkit/orange-circle-fill-button.tsx"
+    }
+  ],
+  "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/orange-circle-fill-button",
+  "categories": [
+    "button",
+    "hover"
+  ],
+  "type": "registry:component"
+}

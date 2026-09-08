@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "whats-new-glow-button",
+  "title": "What's New Glow Button",
+  "author": "henriquegpb <https://github.com/henriquegpb>",
+  "description": "A dark, fully rounded button whose orange and blue glows follow the cursor.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "path": "registry/microkit/whats-new-glow-button.tsx",
+      "content": "\"use client\";\n\nimport type { PointerEvent as ReactPointerEvent } from \"react\";\nimport { ArrowRight } from \"lucide-react\";\n\nexport function WhatsNewGlowButton() {\n  const updateGlow = (event: ReactPointerEvent<HTMLButtonElement>) => {\n    const bounds = event.currentTarget.getBoundingClientRect();\n    const position = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100));\n    event.currentTarget.style.setProperty(\"--glow-x\", `${position}%`);\n  };\n  const resetGlow = (event: ReactPointerEvent<HTMLButtonElement>) => event.currentTarget.style.setProperty(\"--glow-x\", \"50%\");\n\n  return (\n    <button onPointerMove={updateGlow} onPointerLeave={resetGlow} className=\"group relative inline-flex min-h-[42px] items-center justify-center overflow-hidden rounded-full border border-[#36383d] bg-[#0e0e10] px-[18px] text-base font-medium text-[#f0f0f0]\">\n      <span className=\"relative z-10 inline-flex items-center gap-[9px]\"><ArrowRight size={16} strokeWidth={2.5} />{\"What's new\"}</span>\n      <span className=\"pointer-events-none absolute bottom-[-108%] left-[calc(var(--glow-x)-78%)] h-[180%] w-[112%] rounded-full bg-[linear-gradient(145deg,#ffbe91,#f97316_43%,#7a2808)] opacity-[.28] blur-[23px] transition-[left,transform,opacity] duration-[220ms] ease-out group-hover:translate-y-[-19px] group-hover:opacity-100\" />\n      <span className=\"pointer-events-none absolute bottom-[-108%] left-[calc(var(--glow-x)-30%)] h-[180%] w-[112%] rounded-full bg-[linear-gradient(145deg,#77e1e6,#2187d7_45%,#192b8a)] opacity-[.28] blur-[23px] transition-[left,transform,opacity] duration-[220ms] ease-out group-hover:translate-y-[-19px] group-hover:opacity-100\" />\n    </button>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/microkit/whats-new-glow-button.tsx"
+    }
+  ],
+  "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/whats-new-glow-button",
+  "categories": [
+    "button",
+    "hover"
+  ],
+  "type": "registry:component"
+}

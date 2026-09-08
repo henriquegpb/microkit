@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "focus-input",
+  "title": "Focus Field",
+  "author": "henriquegpb <https://github.com/henriquegpb>",
+  "description": "An input with a clean animated focus treatment.",
+  "files": [
+    {
+      "path": "registry/microkit/focus-input.tsx",
+      "content": "export function FocusField() {\n  return (\n    <label className=\"block w-[210px]\">\n      <span className=\"mb-[7px] block font-mono text-[10px] text-[#9298a1]\">Project name</span>\n      <input\n        className=\"w-full rounded-[5px] border border-[#363a42] bg-[#15171b] p-2 text-[11px] text-[#e8ebee] outline-none focus:border-[#f97316] focus:shadow-[0_0_0_3px_#f9731625]\"\n        placeholder=\"e.g. microkit-web\"\n      />\n    </label>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/microkit/focus-input.tsx"
+    }
+  ],
+  "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/focus-input",
+  "categories": [
+    "input",
+    "focus"
+  ],
+  "type": "registry:component"
+}

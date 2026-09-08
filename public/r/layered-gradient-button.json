@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "layered-gradient-button",
+  "title": "Layered Gradient Button",
+  "author": "henriquegpb <https://github.com/henriquegpb>",
+  "description": "A dimensional pill with gradient text and subtly shifting layered surfaces.",
+  "files": [
+    {
+      "path": "registry/microkit/layered-gradient-button.tsx",
+      "content": "export function LayeredGradientButton() {\n  return <button type=\"button\" className=\"group relative inline-flex cursor-pointer items-center justify-center rounded-full border-0 bg-transparent px-6 py-4 text-[18px] font-medium text-transparent [background:linear-gradient(to_right,#f0f0f0,#464646_48%,#f0f0f0)] bg-clip-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]\"><span className=\"relative z-10 transition-transform duration-300 group-hover:scale-105 group-focus-visible:scale-105\">View all projects</span><span className=\"absolute inset-0 z-[1] rounded-full border border-[#f0f0f033] bg-[radial-gradient(circle_at_50%_100%,#111,#252525)] transition-transform duration-300 group-hover:scale-105 group-focus-visible:scale-105\" aria-hidden=\"true\" /><span className=\"absolute top-1 z-0 h-[98%] w-[104%] scale-80 rounded-full bg-[#f0f0f080] opacity-0 [transition:opacity_.6s_ease,transform_.3s_ease] group-hover:translate-y-px group-hover:scale-[.98] group-hover:opacity-100 group-focus-visible:translate-y-px group-focus-visible:scale-[.98] group-focus-visible:opacity-100\" aria-hidden=\"true\" /></button>;\n}\n",
+      "type": "registry:component",
+      "target": "@components/microkit/layered-gradient-button.tsx"
+    }
+  ],
+  "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/layered-gradient-button",
+  "categories": [
+    "button",
+    "hover"
+  ],
+  "type": "registry:component"
+}

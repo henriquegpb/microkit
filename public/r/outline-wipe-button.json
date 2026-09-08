@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "outline-wipe-button",
+  "title": "Outline Wipe Button",
+  "author": "henriquegpb <https://github.com/henriquegpb>",
+  "description": "Hollow stroked lettering that fills with orange behind a rounded bar sweeping left to right.",
+  "files": [
+    {
+      "path": "registry/microkit/outline-wipe-button.tsx",
+      "content": "const LABEL = \"\\u00A0MicroKit\\u00A0\"; // non-breaking padding, so the wipe bar rests inside the word\n\nexport function OutlineWipeButton() {\n  return (\n    <button type=\"button\" aria-label=\"MicroKit\" className=\"group relative inline-flex cursor-pointer appearance-none items-center border-0 bg-transparent p-0 font-[Arial,Helvetica,sans-serif] text-[clamp(26px,6vw,34px)] font-normal leading-[1.1] tracking-[3px] text-transparent [-webkit-text-stroke:.7px_rgba(255,255,255,.6)] focus-visible:rounded-[4px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[#f97316]\">\n      <span aria-hidden=\"true\" className=\"block whitespace-nowrap leading-[1.1]\">{LABEL}</span>\n      <span aria-hidden=\"true\" className=\"absolute inset-0 w-0 overflow-hidden whitespace-nowrap leading-[1.1] text-[#f97316] [-webkit-text-stroke:.7px_#f97316] [transition:width_.85s_cubic-bezier(.16,1,.3,1),filter_.4s_ease] group-hover:w-full group-hover:[filter:drop-shadow(0_0_18px_rgba(249,115,22,.55))] group-focus-visible:w-full group-focus-visible:[filter:drop-shadow(0_0_18px_rgba(249,115,22,.55))] motion-reduce:transition-none\">{LABEL}</span>\n      <span aria-hidden=\"true\" className=\"pointer-events-none absolute inset-y-[6%] left-0 w-0 [transition:width_.85s_cubic-bezier(.16,1,.3,1)] after:absolute after:inset-y-0 after:right-[-6px] after:w-[6px] after:rounded-full after:bg-[#f97316] after:shadow-[0_0_16px_rgba(249,115,22,.55)] after:content-[''] group-hover:w-[calc(100%_-_6px)] group-focus-visible:w-[calc(100%_-_6px)] motion-reduce:transition-none\" />\n    </button>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/microkit/outline-wipe-button.tsx"
+    }
+  ],
+  "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/outline-wipe-button",
+  "categories": [
+    "button",
+    "hover"
+  ],
+  "type": "registry:component"
+}

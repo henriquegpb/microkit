@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sliding-underline-tabs",
+  "title": "Sliding Underline Tabs",
+  "author": "henriquegpb <https://github.com/henriquegpb>",
+  "description": "A compact tab switcher with an orange underline that glides between labels.",
+  "files": [
+    {
+      "path": "registry/microkit/sliding-underline-tabs.tsx",
+      "content": "\"use client\";\n\nimport { useState } from \"react\";\n\nconst tabs = [\n  { label: \"Audience\", content: \"Content one\" },\n  { label: \"Reactions\", content: \"Content two\" },\n  { label: \"Saved\", content: \"Content three\" },\n];\n\nexport function SlidingUnderlineTabs() {\n  const [active, setActive] = useState(0);\n  const activeTab = tabs[active];\n\n  return (\n    <>\n      <style>{\"@keyframes underline-tabs-enter { from { opacity: 0; transform: translateX(-5px); } to { opacity: 1; transform: translateX(0); } }\"}</style>\n    <section className=\"w-full max-w-[248px] rounded-[10px] border border-[#30343a] bg-[#101216] p-[5px]\">\n      <div className=\"relative grid grid-cols-3 border-b border-[#30343a]\" role=\"tablist\" aria-label=\"Activity\">\n        {tabs.map(({ label }, index) => (\n          <button\n            key={label}\n            id={`underline-tab-${index}`}\n            type=\"button\"\n            role=\"tab\"\n            aria-selected={active === index}\n            className={`relative z-10 cursor-pointer border-0 bg-transparent px-1 py-[9px] text-[10px] transition-colors duration-300 ease-[cubic-bezier(.16,1,.3,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#f97316] motion-reduce:transition-none ${active === index ? \"text-white\" : \"text-[#858c96]\"}`}\n            onClick={() => setActive(index)}\n          >\n            {label}\n          </button>\n        ))}\n        <span\n          className=\"pointer-events-none absolute bottom-[-2px] left-1 h-[3px] w-[calc(33.333333%_-_8px)] rounded-full bg-[#f97316] transition-transform duration-[750ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none\"\n          style={{ transform: `translateX(calc(${active * 100}% + ${active * 8}px))` }}\n          aria-hidden=\"true\"\n        />\n      </div>\n      <div key={active} className=\"grid min-h-[54px] place-content-center px-2 pb-1.5 pt-2.5 text-center text-[11px] text-[#f4f5f7] [animation:underline-tabs-enter_.65s_cubic-bezier(.22,1,.36,1)] motion-reduce:animate-none\">\n        <span>{activeTab.content}</span>\n      </div>\n    </section>\n    </>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/microkit/sliding-underline-tabs.tsx"
+    }
+  ],
+  "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/sliding-underline-tabs",
+  "categories": [
+    "navigation",
+    "click"
+  ],
+  "type": "registry:component"
+}
