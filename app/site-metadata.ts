@@ -5,6 +5,38 @@ export const REPO_URL = "https://github.com/henriquegpb/microkit";
 export const SITE_NAME = "MicroKit UI";
 
 /**
+ * How the shadcn CLI addresses one interaction.
+ *
+ * The full URL rather than `@microkit/{id}`: the namespace only resolves once
+ * the registry is listed in shadcn's open source index, and a command that
+ * fails for everyone who copies it is worse than a long one. When the namespace
+ * lands, this function is the whole change.
+ *
+ * The apex and not www — www answers every request with a 308, and a redirect
+ * in the middle of an install command is a thing that can break.
+ */
+export const registryItemAddress = (id: string) => `${SITE_URL}/r/${id}.json`;
+
+/**
+ * The four ways to run a one-off npm binary, in the order a reader scans for
+ * their own. The CLI is never installed as a dependency — it copies files and
+ * exits — so every one of these is a `dlx`-style invocation.
+ */
+export const PACKAGE_MANAGERS = ["npm", "pnpm", "yarn", "bun"] as const;
+export type PackageManager = (typeof PACKAGE_MANAGERS)[number];
+
+const RUNNER: Record<PackageManager, string> = {
+  npm: "npx",
+  pnpm: "pnpm dlx",
+  yarn: "yarn dlx",
+  bun: "bunx --bun",
+};
+
+export function registryInstallCommand(id: string, manager: PackageManager) {
+  return `${RUNNER[manager]} shadcn@latest add ${registryItemAddress(id)}`;
+}
+
+/**
  * Two strings the home page renders and the JSON-LD repeats.
  *
  * They live here rather than inline in the JSX because the rule for structured
