@@ -215,17 +215,27 @@ export function frameworkSchema(route: FrameworkRoute) {
  * The Installation line, as one string used by the visible block and by the
  * schema's `dependencies`. lucide-react is the only dependency in the catalog,
  * and it is there for icons.
+ *
+ * It names both paths because the page now offers both. The sentence used to
+ * end at "No dependencies required" — true of the code, and false of the page
+ * from the moment the shadcn registry went live, because there is now something
+ * to run.
  */
 export function installationNote(item: Interaction) {
   return item.dependency
-    ? `This interaction imports ${item.dependency} for its icons.`
-    : "No dependencies required. Drop the component into your project.";
+    ? `Requires ${item.dependency} for its icons. The shadcn CLI installs it for you; copying the code by hand means installing it yourself.`
+    : "No dependencies. The component is one self-contained file, whether the CLI writes it or you paste it.";
 }
 
-export function installationCommand(item: Interaction) {
-  return item.dependency
-    ? `npm install ${item.dependency}`
-    : "# No installation required";
+/**
+ * What to run after copying the code by hand.
+ *
+ * `null` rather than a "# nothing to install" placeholder: twenty-four of the
+ * interactions need no command, and a code block whose content is a comment
+ * saying so is a block that should not be on the page.
+ */
+export function dependencyInstallCommand(item: Interaction) {
+  return item.dependency ? `npm install ${item.dependency}` : null;
 }
 
 /**

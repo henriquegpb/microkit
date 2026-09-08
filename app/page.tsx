@@ -23,6 +23,7 @@ import {
   Search,
   SlidersHorizontal,
   Smartphone,
+  Terminal,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -38,7 +39,7 @@ import { componentsByCategory, interactions, type Interaction } from "../content
 import { InteractionPreview } from "../components/interactions/registry";
 import { StructuredData } from "../components/structured-data";
 import { Faq } from "../components/faq";
-import { homeSchema, installationCommand, installationNote } from "./schema";
+import { dependencyInstallCommand, homeSchema, installationNote } from "./schema";
 import {
   COMPONENTS_INDEX_DESCRIPTION,
   COMPONENTS_INDEX_HEADING,
@@ -48,8 +49,11 @@ import {
   frameworkLabel,
   GALLERY_HEADING,
   HERO_DESCRIPTION,
+  PACKAGE_MANAGERS,
   REPO_URL,
+  registryInstallCommand,
   type FrameworkRoute,
+  type PackageManager,
 } from "./site-metadata";
 
 const microKitCodeTheme: PrismTheme = {
@@ -101,7 +105,7 @@ const microKitCodeTheme: PrismTheme = {
   ],
 };
 
-const icons = { search: Search, copy: Copy, back: ArrowLeft, code: Code2, grid: PanelLeft, reset: RotateCcw, desktop: Monitor, mobile: Smartphone, check: Check, close: X, sliders: SlidersHorizontal, arrow: ArrowUpRight } satisfies Record<string, LucideIcon>;
+const icons = { search: Search, copy: Copy, back: ArrowLeft, code: Code2, terminal: Terminal, grid: PanelLeft, reset: RotateCcw, desktop: Monitor, mobile: Smartphone, check: Check, close: X, sliders: SlidersHorizontal, arrow: ArrowUpRight } satisfies Record<string, LucideIcon>;
 function Icon({ name, size = 16, filled = false }: { name: keyof typeof icons; size?: number; filled?: boolean }) { const Glyph = icons[name]; return <Glyph aria-hidden="true" size={size} strokeWidth={1.8} fill={filled ? "currentColor" : "none"} />; }
 type LibraryView = "all" | "recent" | "favorites";
 
@@ -597,7 +601,7 @@ function CodeSnippet({ label, code, item, copy, copied }: { label:string; code:s
    */
   return <div className="code-snippet"><button className="snippet-copy" onClick={()=>copy(id,code)} aria-label="Copy code"><Icon name={copied===id?"check":"copy"}/></button><Highlight theme={microKitCodeTheme} code={code} language={language}>{({ tokens, getLineProps, getTokenProps })=><pre>{tokens.map((line,index)=>{const { className, style }=getLineProps({line});return <span key={index} style={style} className={`${className} snippet-line`}><i>{index + 1}</i><code>{line.map((token,tokenIndex)=>{const { className: tokenClass, style: tokenStyle, children }=getTokenProps({token});return <span key={tokenIndex} className={tokenClass} style={tokenStyle}>{children}</span>;})}</code></span>;})}</pre>}</Highlight></div>;
 }
-function CodeBlock({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-block"><div className="code-head"><span><Icon name="code"/> {label}</span><button onClick={()=>copy(id,code)}><Icon name={copied===id?"check":"copy"}/> {copied===id?"Copied":"Copy"}</button></div><pre><code>{code}</code></pre></div> }
+function CodeBlock({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-block"><div className="code-head"><span><Icon name="terminal"/> {label}</span><button onClick={()=>copy(id,code)}><Icon name={copied===id?"check":"copy"}/> {copied===id?"Copied":"Copy"}</button></div><pre><code>{code}</code></pre></div> }
 /**
  * The one Installation block, rendered by both views of a component.
  *
@@ -609,5 +613,37 @@ function CodeBlock({ label, code, item, copy, copied }: { label:string; code:str
  *
  * `installationNote` is shared with the JSON-LD, so the `dependencies` field
  * and this paragraph cannot come to say different things.
+ *
+ * Two paths, CLI first. Every interaction is published as a shadcn registry
+ * item, so one command writes the component into the reader's project and
+ * installs whatever it imports — and the file it writes is byte-for-byte the
+ * TypeScript + Tailwind source in the Code panel above, which is what makes it
+ * a shortcut rather than a second product. Copying by hand stays, because
+ * owning the code is the point of the catalog and not everyone uses the CLI.
+ *
+ * Both panels stay in the DOM with the inactive one hidden, the same way the
+ * Preview and Code tabs do it: the dependency has to be in the static HTML for
+ * the schema's `dependencies` to describe something a crawler can see.
  */
-function Installation({ item, copy, copied }: { item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { return <section className="component-install"><h2>Installation</h2><p>{installationNote(item)}</p><CodeBlock label="Terminal" code={installationCommand(item)} item={item} copy={copy} copied={copied}/></section> }
+function Installation({ item, copy, copied }: { item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) {
+  const [manual, setManual] = useState(false);
+  const [manager, setManager] = useState<PackageManager>("npm");
+  const dependencyCommand = dependencyInstallCommand(item);
+
+  return <section className="component-install"><h2>Installation</h2>
+    <p className="install-lead">{installationNote(item)}</p>
+    <div className="install-tabs" role="tablist" aria-label="Installation method">
+      <button role="tab" aria-selected={!manual} className={manual ? "" : "active"} onClick={()=>setManual(false)}>shadcn CLI</button>
+      <button role="tab" aria-selected={manual} className={manual ? "active" : ""} onClick={()=>setManual(true)}>Manual</button>
+    </div>
+    <div className="install-panel" hidden={manual}>
+      <div className="install-managers">{PACKAGE_MANAGERS.map(name=><button key={name} className={manager===name ? "active" : ""} onClick={()=>setManager(name)}>{name}</button>)}</div>
+      <CodeBlock label="Terminal" code={registryInstallCommand(item.id, manager)} item={item} copy={copy} copied={copied}/>
+      <p>Writes <code>components/microkit/{item.id}.tsx</code> — the same TypeScript and Tailwind source shown above — and installs whatever it imports. The code is yours to edit from there.</p>
+    </div>
+    <div className="install-panel" hidden={!manual}>
+      <p>Copy the source from the Code panel above, in JavaScript or TypeScript and with CSS or Tailwind.</p>
+      {dependencyCommand ? <CodeBlock label="Terminal" code={dependencyCommand} item={item} copy={copy} copied={copied}/> : null}
+    </div>
+  </section>;
+}
