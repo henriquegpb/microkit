@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "microkit",
+  "homepage": "https://microkit.co",
+  "items": [
+    {
+      "name": "cursor-edge-glow-button",
+      "type": "registry:component",
+      "title": "Cursor Edge Glow Button",
+      "description": "A spring-tracked pill light with mirrored edge glows that crossfade as the pointer changes sides.",
+      "author": "henriquegpb <https://github.com/henriquegpb>",
+      "categories": ["button", "hover"],
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/cursor-edge-glow-button",
+      "files": [
+        {
+          "path": "registry/microkit/cursor-edge-glow-button.tsx",
+          "type": "registry:component",
+          "target": "@components/microkit/cursor-edge-glow-button.tsx"
+        }
+      ]
+    }
+  ]
+}
