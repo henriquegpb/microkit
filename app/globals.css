@@ -105,7 +105,17 @@ button, input, select { font:inherit; } button { cursor:pointer; color:inherit; 
 .gallery-workspace{overflow-x:hidden;overflow-y:auto;scrollbar-color:#545961 #0b0c0e}
 .gallery-main{overflow:visible}
 .gallery-workspace::-webkit-scrollbar{width:10px}.gallery-workspace::-webkit-scrollbar-track{background:#0b0c0e}.gallery-workspace::-webkit-scrollbar-thumb{border:2px solid #0b0c0e;border-radius:999px;background:#545961}.gallery-workspace::-webkit-scrollbar-thumb:hover{background:#6a7079}
-.sponsors-rail .sponsor-card{position:sticky;top:34px}
+/* The sponsor rail sticks for the whole scroll, not just the first screen.
+   A sticky box can only travel inside its containing block, and when the flex
+   container is itself the scroller that block is one viewport tall — the
+   container has a definite height, so the flex line never grows past it and the
+   gallery simply overflows it. So the scroller is a plain block and an ordinary
+   flex row inside it holds the two columns; that row is as tall as the gallery,
+   which is the distance the rail has to travel. */
+.gallery-workspace{display:block}
+.gallery-row{display:flex;align-items:flex-start;min-height:100%}
+.sponsors-rail{position:sticky;top:0}
+.sponsors-rail .sponsor-card{position:relative;top:auto}
 .sidebar-trigger{border:0;background:transparent}.sidebar-trigger:hover{border:0;background:transparent;color:#f1f2f4}
 .component-code{width:min(100%,1220px);min-width:0}.code-section{min-width:0}.code-snippet{max-width:100%;overflow-x:auto;overflow-y:hidden}.code-snippet pre{width:max-content;min-width:100%;overflow:visible}.snippet-line{white-space:pre;overflow-wrap:normal}
 .sponsor-cta { position:relative; display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:13px; border-radius:11px; background:var(--blue); color:#1a0f06; font-size:14px; font-weight:700; text-decoration:none; transition:background .16s, transform .16s; }.sponsor-cta:hover { background:#fb8a3c; }.sponsor-cta-icon{position:relative;display:grid;width:16px;height:18px;place-items:center;overflow:hidden}.sponsor-cta-arrow{position:absolute;transform:rotate(-45deg);transition:transform .42s cubic-bezier(.16,1,.3,1)}.sponsor-cta-arrow-incoming{transform:translate(-16px,12px) rotate(-45deg)}.sponsor-cta:hover .sponsor-cta-arrow-current,.sponsor-cta:focus-visible .sponsor-cta-arrow-current{transform:translate(16px,-12px) rotate(-45deg)}.sponsor-cta:hover .sponsor-cta-arrow-incoming,.sponsor-cta:focus-visible .sponsor-cta-arrow-incoming{transform:translate(0,0) rotate(-45deg)}
