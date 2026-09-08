@@ -1,0 +1,15 @@
+export function SlidingSendButton() {
+  return (
+    <button type="button" className="group inline-flex h-[50px] w-[min(170px,calc(100vw-40px))] cursor-pointer appearance-none items-center justify-center overflow-hidden rounded-full border border-[#48484f] bg-[#15151b] p-0 font-[Arial,Helvetica,sans-serif] text-[#f7f7fa] transition-[border-color,background-color] duration-300 hover:border-[#5a5a62] hover:bg-[#18181e] focus-visible:border-[#5a5a62] focus-visible:bg-[#18181e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-[#f97316] motion-reduce:transition-none">
+      <span className="relative flex w-full items-center justify-center">
+        <span className="whitespace-nowrap text-[16px] font-normal leading-none tracking-[-.4px] transition-transform duration-[450ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-[17px] group-focus-visible:translate-x-[17px] motion-reduce:transition-none">Share it now</span>
+        <span className="absolute left-[calc(50%-59px)] grid size-5 -translate-x-3 scale-0 place-items-center text-[#f97316] transition-transform duration-[450ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0 group-hover:scale-100 group-focus-visible:translate-x-0 group-focus-visible:scale-100 motion-reduce:transition-none" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" className="size-full -rotate-[5deg]">
+            <path d="M28.14 4.94 19.6 27.72c-.4 1.06-1.87 1.1-2.33.06l-4.04-9.05-9.03-4.02c-1.04-.46-1-1.93.06-2.33L27.04 3.86c.74-.28 1.38.34 1.1 1.08Z" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round" />
+            <path d="m13.02 18.63 5.75-5.75" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+          </svg>
+        </span>
+      </span>
+    </button>
+  );
+}

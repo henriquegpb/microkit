@@ -107,8 +107,7 @@ export function OutlineWipeButton() {
   }
 }`;
 
-export const tailwindCode = `// Non-breaking padding so the wipe bar has room to rest inside the word.
-const LABEL = "\\u00A0MicroKit\\u00A0";
+export const tailwindCode = `const LABEL = "\\u00A0MicroKit\\u00A0"; // non-breaking padding, so the wipe bar rests inside the word
 
 export function OutlineWipeButton() {
   return (

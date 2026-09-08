@@ -1,0 +1,3 @@
+export function CircleSurfaceButton() {
+  return <button type="button" className="group relative grid size-32 cursor-pointer place-items-center overflow-hidden rounded-full border border-[#f0f0f0] bg-transparent p-3 text-[13px] font-medium text-[#f0f0f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"><span className="relative z-10 transition-colors duration-300 group-hover:text-[#111] group-focus-visible:text-[#111]">CLICK HERE</span><span className="absolute inset-0 rounded-full bg-[#323232] transition-[transform,background-color] duration-500 group-hover:scale-110 group-hover:bg-[#f97316] group-focus-visible:scale-110 group-focus-visible:bg-[#f97316]" aria-hidden="true" /></button>;
+}
