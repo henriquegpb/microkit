@@ -39,7 +39,7 @@ import { componentsByCategory, interactions, type Interaction } from "../content
 import { InteractionPreview } from "../components/interactions/registry";
 import { StructuredData } from "../components/structured-data";
 import { Faq } from "../components/faq";
-import { dependencyInstallCommand, homeSchema, installationNote } from "./schema";
+import { homeSchema, installationNote } from "./schema";
 import {
   COMPONENTS_INDEX_DESCRIPTION,
   COMPONENTS_INDEX_HEADING,
@@ -311,7 +311,7 @@ export function ComponentDetailPage({ item }: { item: Interaction }) {
     setFavorite(!favorite);
   };
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={() => setSidebar(!sidebar)} view="all" counts={{ all: interactions.length, recent: 0, favorites: 0 }} choose={() => window.location.assign("/")} /><main className="playground-main"><div className="crumb"><button className="back-slide" onClick={() => window.location.assign("/")}><span className="back-slide-label">All interactions</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></button><span>/</span><span>{item.category}</span></div><section className="playground-heading"><div><div className="eyebrow">{item.category} <span>•</span> {item.framework}</div><h1>{item.name}</h1><p>{item.description}</p></div><div className="header-actions"><FavoriteButton className={`square ${favorite ? "saved" : ""}`} saved={favorite} label="Save favorite" onClick={toggleFavorite}/></div></section><div className="play-tabs"><button className={!codeTab ? "active" : ""} onClick={() => setCodeTab(false)}>Preview</button><button className={codeTab ? "active" : ""} onClick={() => setCodeTab(true)}>Code</button></div><div className="play-panel" hidden={codeTab}><div className="play-layout"><section className="canvas-card"><div className="canvas dark desktop"><Demo id={item.id} large/></div><div className="canvas-footer"><span><i className="status-dot"/> Live preview</span></div></section></div></div><div className="play-panel" hidden={!codeTab}><CodePanel item={item} copy={copy} copied={copied}/></div><Installation item={item} copy={copy} copied={copied}/><Related item={item}/></main></div></div>;
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={() => setSidebar(!sidebar)} view="all" counts={{ all: interactions.length, recent: 0, favorites: 0 }} choose={() => window.location.assign("/")} /><main className="playground-main"><div className="crumb"><button className="back-slide" onClick={() => window.location.assign("/")}><span className="back-slide-label">All interactions</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></button><span>/</span><span>{item.category}</span></div><section className="playground-heading"><div><div className="eyebrow">{item.category} <span>•</span> {item.framework}</div><h1>{item.name}</h1><p>{item.description}</p></div><div className="header-actions"><FavoriteButton className={`square ${favorite ? "saved" : ""}`} saved={favorite} label="Save favorite" onClick={toggleFavorite}/></div></section><div className="play-tabs"><button className={!codeTab ? "active" : ""} onClick={() => setCodeTab(false)}>Preview</button><button className={codeTab ? "active" : ""} onClick={() => setCodeTab(true)}>Code</button></div><div className="play-panel" hidden={codeTab}><div className="play-layout"><section className="canvas-card"><div className="canvas dark desktop"><Demo id={item.id} large/></div><div className="canvas-footer"><span><i className="status-dot"/> Live preview</span></div></section></div></div><div className="play-panel" hidden={!codeTab}><Installation item={item} copy={copy} copied={copied}/><CodePanel item={item} copy={copy} copied={copied}/></div><Related item={item}/></main></div></div>;
 }
 
 /** How many neighbours a component page links to. */
@@ -612,38 +612,33 @@ function CodeBlock({ label, code, item, copy, copied }: { label:string; code:str
  * catalog is lucide-react, and it is there for icons.
  *
  * `installationNote` is shared with the JSON-LD, so the `dependencies` field
- * and this paragraph cannot come to say different things.
+ * and this paragraph cannot come to say different things — including when there
+ * is nothing to say, which is why both go quiet together.
  *
- * Two paths, CLI first. Every interaction is published as a shadcn registry
- * item, so one command writes the component into the reader's project and
- * installs whatever it imports — and the file it writes is byte-for-byte the
- * TypeScript + Tailwind source in the Code panel above, which is what makes it
- * a shortcut rather than a second product. Copying by hand stays, because
- * owning the code is the point of the catalog and not everyone uses the CLI.
+ * It opens the Code tab, above the source. Somebody who switched to Code came
+ * for the implementation, and the one command that fetches it should be the
+ * first thing they read.
  *
- * Both panels stay in the DOM with the inactive one hidden, the same way the
- * Preview and Code tabs do it: the dependency has to be in the static HTML for
- * the schema's `dependencies` to describe something a crawler can see.
+ * A heading, at most one sentence, and the command. There is no "manual" tab
+ * beside it, because the manual path is the panel directly below in four
+ * variants; and no paragraph under the command explaining where the file lands,
+ * because the command names the component and the code follows it on the same
+ * screen. Prose that narrates what the reader is looking at is prose to cut.
+ *
+ * The panel it lives in stays in the DOM while the Preview tab is open, so the
+ * dependency sentence the schema's `dependencies` field quotes describes
+ * something a crawler can see either way.
  */
 function Installation({ item, copy, copied }: { item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) {
-  const [manual, setManual] = useState(false);
   const [manager, setManager] = useState<PackageManager>("npm");
-  const dependencyCommand = dependencyInstallCommand(item);
+  const note = installationNote(item);
 
   return <section className="component-install"><h2>Installation</h2>
-    <p className="install-lead">{installationNote(item)}</p>
-    <div className="install-tabs" role="tablist" aria-label="Installation method">
-      <button role="tab" aria-selected={!manual} className={manual ? "" : "active"} onClick={()=>setManual(false)}>shadcn CLI</button>
-      <button role="tab" aria-selected={manual} className={manual ? "active" : ""} onClick={()=>setManual(true)}>Manual</button>
+    {note ? <p className="install-lead">{note}</p> : null}
+    <div className="install-managers" data-active={PACKAGE_MANAGERS.indexOf(manager)} role="tablist" aria-label="Package manager">
+      <span className="install-managers-indicator" aria-hidden="true" />
+      {PACKAGE_MANAGERS.map(name=><button key={name} type="button" role="tab" aria-selected={manager===name} className={manager===name ? "active" : ""} onClick={()=>setManager(name)}>{name}</button>)}
     </div>
-    <div className="install-panel" hidden={manual}>
-      <div className="install-managers">{PACKAGE_MANAGERS.map(name=><button key={name} className={manager===name ? "active" : ""} onClick={()=>setManager(name)}>{name}</button>)}</div>
-      <CodeBlock label="Terminal" code={registryInstallCommand(item.id, manager)} item={item} copy={copy} copied={copied}/>
-      <p>Writes <code>components/microkit/{item.id}.tsx</code> — the same TypeScript and Tailwind source shown above — and installs whatever it imports. The code is yours to edit from there.</p>
-    </div>
-    <div className="install-panel" hidden={!manual}>
-      <p>Copy the source from the Code panel above, in JavaScript or TypeScript and with CSS or Tailwind.</p>
-      {dependencyCommand ? <CodeBlock label="Terminal" code={dependencyCommand} item={item} copy={copy} copied={copied}/> : null}
-    </div>
+    <CodeBlock label="Terminal" code={registryInstallCommand(item.id, manager)} item={item} copy={copy} copied={copied}/>
   </section>;
 }

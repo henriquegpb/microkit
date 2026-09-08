@@ -270,35 +270,41 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
 
 /* Installation. Its own class rather than .detail-info, which is display:none
    above — the whole point of the block is that a reader and a crawler can both
-   see what a component needs before copying it. */
+   see what a component needs before copying it.
+
+   No top border and a small top margin: it now opens the Code panel, directly
+   under the Preview/Code tabs, and those already draw a rule across the page. */
 .component-install{
   max-width:1220px;
-  margin:38px auto 0;
-  padding-top:24px;
-  border-top:1px solid var(--line);
+  margin:34px auto 0;
 }
-/* A peer of Code, not of Related components. Both headings answer "how do I get
-   this into my project"; one command and one copy-paste are the two answers, and
+/* A peer of Code, which follows it. Both headings answer "how do I get this
+   into my project"; one command and one copy-paste are the two answers, and
    sizing the command like a footnote hid the faster one. */
 .component-install h2{margin:0 0 12px;color:#f1f2f4;font-size:25px;letter-spacing:-1px}
-.component-install p{font-size:12px;color:#898f99;line-height:1.55;margin:12px 0 0}
-.install-panel>p:first-child{margin:0 0 12px}
-/* The dependency sentence sits above the tabs, not inside them: it is true of
-   both paths, the schema's `dependencies` field quotes it, and repeating it in
-   each panel would put it in the HTML twice. */
-.component-install .install-lead{margin:0 0 16px;max-width:680px}
-.component-install p code{padding:1px 5px;border:1px solid #2c333d;border-radius:4px;background:#161a20;color:#cfd4da;font:11px var(--font-geist-mono,monospace)}
+/* One sentence at most, and only when the component imports something. */
+.component-install .install-lead{margin:0 0 16px;max-width:680px;color:#898f99;font-size:12px;line-height:1.55}
 
-/* The two install paths, tabbed the way Preview and Code are tabbed above —
-   same treatment at the smaller scale this section reads at. Both panels stay
-   in the DOM with the inactive one hidden, so the dependency sentence the
-   schema's `dependencies` field quotes is in the static HTML either way. */
-.install-tabs{display:flex;gap:16px;margin:0 0 14px;border-bottom:1px solid var(--line)}
-.install-tabs button{margin-bottom:-1px;border:0;border-bottom:2px solid transparent;background:none;padding:8px 2px;color:#858c96;font-size:12px;cursor:pointer}
-.install-tabs button.active{border-color:#8bbaff;color:#f4f5f7}
-.install-managers{display:inline-flex;margin:0 0 10px;padding:2px;border:1px solid #2b2f36;border-radius:5px;background:#0f1114}
-.install-managers button{border:0;border-radius:3px;background:transparent;padding:4px 10px;color:#818894;font:10px var(--font-geist-mono,monospace);cursor:pointer}
-.install-managers button.active{background:#292d34;color:#edf0f3}
+/* The package managers, on the catalog's own sliding indicator — the same
+   easing sliding-underline-tabs uses, so the site keeps moving the one way it
+   moves. A pill rather than the orange underline of the Preview/Code tabs
+   directly above: two identical tab rows a hundred pixels apart would read as
+   one control split in half.
+
+   Four equal columns, so the indicator is one column wide and each step is a
+   flat translateX(100%) instead of four measured offsets. */
+.install-managers{position:relative;display:inline-grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0 0 10px;padding:3px;border:1px solid #2b2f36;border-radius:6px;background:#0f1114}
+.install-managers button{position:relative;z-index:1;border:0;background:transparent;padding:6px 14px;color:#818894;font:11px var(--font-geist-mono,monospace);cursor:pointer;transition:color .3s cubic-bezier(.22,1,.36,1)}
+.install-managers button:hover{color:#cfd4da}
+.install-managers button.active{color:#edf0f3}
+.install-managers button:focus-visible{outline:2px solid #f97316;outline-offset:-2px;border-radius:4px}
+.install-managers-indicator{position:absolute;z-index:0;top:3px;bottom:3px;left:3px;width:calc((100% - 6px) / 4);border-radius:4px;background:#292d34;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.install-managers[data-active="1"] .install-managers-indicator{transform:translateX(100%)}
+.install-managers[data-active="2"] .install-managers-indicator{transform:translateX(200%)}
+.install-managers[data-active="3"] .install-managers-indicator{transform:translateX(300%)}
+@media (prefers-reduced-motion: reduce){
+  .install-managers-indicator,.install-managers button{transition:none}
+}
 
 /* The command runs past seventy characters, so it wraps. A box that scrolls
    sideways hides the end of the one line the reader came here to copy. */
