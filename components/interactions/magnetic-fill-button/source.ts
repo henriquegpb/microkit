@@ -1,4 +1,6 @@
-export const componentCode = `import type { PointerEvent as ReactPointerEvent } from "react";
+export const componentCode = `"use client";
+
+import type { PointerEvent as ReactPointerEvent } from "react";
 
 export function MagneticFillButton() {
   const move = (event: ReactPointerEvent<HTMLButtonElement>) => {
@@ -65,7 +67,9 @@ export function MagneticFillButton() {
   outline-offset: 4px;
 }`;
 
-export const tailwindCode = `import type { PointerEvent as ReactPointerEvent } from "react";
+export const tailwindCode = `"use client";
+
+import type { PointerEvent as ReactPointerEvent } from "react";
 
 export function MagneticFillButton() {
   const move = (event: ReactPointerEvent<HTMLButtonElement>) => {

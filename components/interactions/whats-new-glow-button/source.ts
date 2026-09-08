@@ -1,4 +1,6 @@
-export const componentCode = `import type { PointerEvent as ReactPointerEvent } from "react";
+export const componentCode = `"use client";
+
+import type { PointerEvent as ReactPointerEvent } from "react";
 import { ArrowRight } from "lucide-react";
 
 export function WhatsNewGlowButton() {
@@ -32,7 +34,9 @@ export function WhatsNewGlowButton() {
 .whats-new-button:hover .whats-new-glow, .whats-new-button:focus-visible .whats-new-glow { transform: translateY(-19px); opacity: 1; }
 .whats-new-button:focus-visible { outline: 2px solid #f97316; outline-offset: 3px; }`;
 
-export const tailwindCode = `import type { PointerEvent as ReactPointerEvent } from "react";
+export const tailwindCode = `"use client";
+
+import type { PointerEvent as ReactPointerEvent } from "react";
 import { ArrowRight } from "lucide-react";
 
 export function WhatsNewGlowButton() {

@@ -1,4 +1,6 @@
-export const componentCode = `import { useState } from "react";
+export const componentCode = `"use client";
+
+import { useState } from "react";
 import { Star, ThumbsUp, Users } from "lucide-react";
 
 const tabs = [
@@ -98,7 +100,9 @@ export function SlidingContentTabs() {
   .sliding-tabs-content { animation: none; }
 }`;
 
-export const tailwindCode = `import { useState } from "react";
+export const tailwindCode = `"use client";
+
+import { useState } from "react";
 import { Star, ThumbsUp, Users } from "lucide-react";
 
 const tabs = [

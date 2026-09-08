@@ -1,4 +1,6 @@
-export const componentCode = `import { useEffect, useRef, useState } from "react";
+export const componentCode = `"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { Clock, Heart, Layers } from "lucide-react";
 
 const items = [
@@ -100,7 +102,9 @@ export function SpotlightIndicator() {
 }
 .spot-item.active .spot-item-icon { opacity: 1; color: #f97316; }`;
 
-export const tailwindCode = `import { useEffect, useRef, useState } from "react";
+export const tailwindCode = `"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { Clock, Heart, Layers } from "lucide-react";
 
 const items = [
