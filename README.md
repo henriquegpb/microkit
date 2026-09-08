@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-  <img src="./app/icon.svg" alt="MicroKit orange square" width="88" height="88" />
+  <img src="./public/icon.svg" alt="MicroKit orange square" width="88" height="88" />
   <h1>MicroKit UI</h1>
   <strong>Details matter.</strong>
   <br />
@@ -20,6 +20,11 @@
   <a href="https://www.microkit.co/submit">Submit a component</a>
   ·
   <a href="https://www.microkit.co/sponsors">Sponsors</a>
+  <br />
+  <br />
+  <a href="https://www.microkit.co">
+    <img src="./public/AppHome.png" alt="MicroKit UI home page: the Details Matter hero above a gallery of copyable interactions" width="900" />
+  </a>
 </div>
 
 <br />
@@ -32,7 +37,7 @@ MicroKit is built for copying and learning from the source—not for hiding inte
 
 ## Features
 
-- **29 interactive components** with dedicated preview pages
+- **43 interactive components** with dedicated preview pages
 - **JavaScript and TypeScript** implementations
 - **CSS and Tailwind** styling variants
 - **Live previews** for testing every interaction before copying
