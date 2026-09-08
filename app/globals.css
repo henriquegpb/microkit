@@ -294,7 +294,14 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
    Four equal columns, so the indicator is one column wide and each step is a
    flat translateX(100%) instead of four measured offsets. */
 .install-managers{position:relative;display:inline-grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0 0 10px;padding:3px;border:1px solid #2b2f36;border-radius:6px;background:#0f1114}
-.install-managers button{position:relative;z-index:1;border:0;background:transparent;padding:6px 14px;color:#818894;font:11px var(--font-geist-mono,monospace);cursor:pointer;transition:color .3s cubic-bezier(.22,1,.36,1)}
+.install-managers button{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px;border:0;background:transparent;padding:6px 12px;color:#818894;font:11px var(--font-geist-mono,monospace);cursor:pointer;transition:color .3s cubic-bezier(.22,1,.36,1)}
+/* Desaturated, keeping each mark's own light and dark. `--pm-lift` is set per
+   logo in the component and evens out how heavy each one reads once the colour
+   is gone; the selected state multiplies it rather than replacing it, so a mark
+   brightens from wherever it already sits. */
+.pm-logo{flex:none;display:block;filter:grayscale(1) brightness(var(--pm-lift,1)) opacity(.72);transition:filter .3s cubic-bezier(.22,1,.36,1)}
+.install-managers button:hover .pm-logo{filter:grayscale(1) brightness(calc(var(--pm-lift,1) * 1.12)) opacity(.88)}
+.install-managers button.active .pm-logo{filter:grayscale(1) brightness(calc(var(--pm-lift,1) * 1.28)) opacity(1)}
 .install-managers button:hover{color:#cfd4da}
 .install-managers button.active{color:#edf0f3}
 .install-managers button:focus-visible{outline:2px solid #f97316;outline-offset:-2px;border-radius:4px}

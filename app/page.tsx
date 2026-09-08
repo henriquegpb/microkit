@@ -35,6 +35,7 @@ import {
   PanelLeftCloseIcon,
   PanelLeftOpenIcon,
 } from "../components/animated-icons";
+import { PackageManagerLogo } from "../components/package-manager-logos";
 import { componentsByCategory, interactions, type Interaction } from "../content/interactions/catalog";
 import { InteractionPreview } from "../components/interactions/registry";
 import { StructuredData } from "../components/structured-data";
@@ -637,7 +638,7 @@ function Installation({ item, copy, copied }: { item:Interaction; copy:(id:strin
     {note ? <p className="install-lead">{note}</p> : null}
     <div className="install-managers" data-active={PACKAGE_MANAGERS.indexOf(manager)} role="tablist" aria-label="Package manager">
       <span className="install-managers-indicator" aria-hidden="true" />
-      {PACKAGE_MANAGERS.map(name=><button key={name} type="button" role="tab" aria-selected={manager===name} className={manager===name ? "active" : ""} onClick={()=>setManager(name)}>{name}</button>)}
+      {PACKAGE_MANAGERS.map(name=><button key={name} type="button" role="tab" aria-selected={manager===name} className={manager===name ? "active" : ""} onClick={()=>setManager(name)}><PackageManagerLogo name={name}/>{name}</button>)}
     </div>
     <CodeBlock label="Terminal" code={registryInstallCommand(item.id, manager)} item={item} copy={copy} copied={copied}/>
   </section>;
