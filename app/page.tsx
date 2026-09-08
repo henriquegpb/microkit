@@ -4,6 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { forwardRef, useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { Highlight, type Language, type PrismTheme } from "prism-react-renderer";
+import { MorphIcon } from "morphicons/react";
+// Icon data, not components: MorphIcon interpolates paths, so it consumes the
+// `lucide` data package. Pinned to the same version as the `lucide-react`
+// components rendered elsewhere, so the shape that morphs is the shape that
+// sits still everywhere else.
+import { Check as CheckData, Copy as CopyData } from "lucide";
 import {
   ArrowLeft,
   ArrowRight,
@@ -108,6 +114,22 @@ const microKitCodeTheme: PrismTheme = {
 
 const icons = { search: Search, copy: Copy, back: ArrowLeft, code: Code2, terminal: Terminal, grid: PanelLeft, reset: RotateCcw, desktop: Monitor, mobile: Smartphone, check: Check, close: X, sliders: SlidersHorizontal, arrow: ArrowUpRight } satisfies Record<string, LucideIcon>;
 function Icon({ name, size = 16, filled = false }: { name: keyof typeof icons; size?: number; filled?: boolean }) { const Glyph = icons[name]; return <Glyph aria-hidden="true" size={size} strokeWidth={1.8} fill={filled ? "currentColor" : "none"} />; }
+
+/**
+ * The copy affordance, wherever it appears.
+ *
+ * One component so both copy buttons — the one floating over a code snippet and
+ * the one labelled in a terminal block's header — confirm the same way. The
+ * clipboard does not report back, so the icon turning into a check is the only
+ * evidence the click did anything; morphing it rather than swapping it is what
+ * ties the check to the button that was pressed.
+ *
+ * `reducedMotion="user"` because the rest of the catalog honours the setting,
+ * and a morph degrades to the instant swap this used to be.
+ */
+function CopyGlyph({ done }: { done: boolean }) {
+  return <MorphIcon icon={done ? CheckData : CopyData} size={16} strokeWidth={1.8} spring="snappy" reducedMotion="user" />;
+}
 type LibraryView = "all" | "recent" | "favorites";
 
 function FavoriteButton({ className, saved, label, onClick, size = 20 }: { className: string; saved: boolean; label: string; onClick: () => void; size?: number }) {
@@ -600,9 +622,9 @@ function CodeSnippet({ label, code, item, copy, copied }: { label:string; code:s
    * It only ever surfaced when somebody opened the Code tab; now that the panel
    * is always in the DOM it fired on every build.
    */
-  return <div className="code-snippet"><button className="snippet-copy" onClick={()=>copy(id,code)} aria-label="Copy code"><Icon name={copied===id?"check":"copy"}/></button><Highlight theme={microKitCodeTheme} code={code} language={language}>{({ tokens, getLineProps, getTokenProps })=><pre>{tokens.map((line,index)=>{const { className, style }=getLineProps({line});return <span key={index} style={style} className={`${className} snippet-line`}><i>{index + 1}</i><code>{line.map((token,tokenIndex)=>{const { className: tokenClass, style: tokenStyle, children }=getTokenProps({token});return <span key={tokenIndex} className={tokenClass} style={tokenStyle}>{children}</span>;})}</code></span>;})}</pre>}</Highlight></div>;
+  return <div className="code-snippet"><button className="snippet-copy" onClick={()=>copy(id,code)} aria-label="Copy code"><CopyGlyph done={copied===id}/></button><Highlight theme={microKitCodeTheme} code={code} language={language}>{({ tokens, getLineProps, getTokenProps })=><pre>{tokens.map((line,index)=>{const { className, style }=getLineProps({line});return <span key={index} style={style} className={`${className} snippet-line`}><i>{index + 1}</i><code>{line.map((token,tokenIndex)=>{const { className: tokenClass, style: tokenStyle, children }=getTokenProps({token});return <span key={tokenIndex} className={tokenClass} style={tokenStyle}>{children}</span>;})}</code></span>;})}</pre>}</Highlight></div>;
 }
-function CodeBlock({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-block"><div className="code-head"><span><Icon name="terminal"/> {label}</span><button onClick={()=>copy(id,code)}><Icon name={copied===id?"check":"copy"}/> {copied===id?"Copied":"Copy"}</button></div><pre><code>{code}</code></pre></div> }
+function CodeBlock({ label, code, item, copy, copied }: { label:string; code:string; item:Interaction; copy:(id:string,t:string)=>void; copied:string|null }) { const id=`${item.id}-${label}`; return <div className="code-block"><div className="code-head"><span><Icon name="terminal"/> {label}</span><button onClick={()=>copy(id,code)}><CopyGlyph done={copied===id}/> {copied===id?"Copied":"Copy"}</button></div><pre><code>{code}</code></pre></div> }
 /**
  * The one Installation block, rendered by both views of a component.
  *
