@@ -216,27 +216,18 @@ export function frameworkSchema(route: FrameworkRoute) {
  * schema's `dependencies`. lucide-react is the only dependency in the catalog,
  * and it is there for icons.
  *
- * It names both paths because the page now offers both. The sentence used to
- * end at "No dependencies required" — true of the code, and false of the page
- * from the moment the shadcn registry went live, because there is now something
- * to run.
+ * `null` for the twenty-four interactions that import nothing. A line announcing
+ * the absence of dependencies is a line the reader has to process to learn that
+ * there was nothing to learn, and the install command below it works the same
+ * either way. `componentSchema` drops the `dependencies` field to match, rather
+ * than describing a sentence the page no longer prints.
  */
 export function installationNote(item: Interaction) {
   return item.dependency
     ? `Requires ${item.dependency} for its icons. The shadcn CLI installs it for you; copying the code by hand means installing it yourself.`
-    : "No dependencies. The component is one self-contained file, whether the CLI writes it or you paste it.";
+    : null;
 }
 
-/**
- * What to run after copying the code by hand.
- *
- * `null` rather than a "# nothing to install" placeholder: twenty-four of the
- * interactions need no command, and a code block whose content is a comment
- * saying so is a block that should not be on the page.
- */
-export function dependencyInstallCommand(item: Interaction) {
-  return item.dependency ? `npm install ${item.dependency}` : null;
-}
 
 /**
  * A component page: the source itself, and where it sits.
@@ -268,8 +259,12 @@ export function componentSchema(item: Interaction) {
         programmingLanguage: ["TypeScript", "JavaScript", "CSS"],
         // The eyebrow above the title reads "{category} • {framework}".
         ...(item.framework === "React" ? { runtimePlatform: "React" } : {}),
-        // Verbatim from the Installation block below the code.
-        dependencies: installationNote(item),
+        // Verbatim from the Installation block, and only when that block prints
+        // it — an interaction that imports nothing says nothing, so there is no
+        // sentence here for this field to repeat.
+        ...(installationNote(item)
+          ? { dependencies: installationNote(item) }
+          : {}),
         codeRepository: REPO_URL,
         isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
       },
