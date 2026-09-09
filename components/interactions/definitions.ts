@@ -42,6 +42,7 @@ import { definition as SlidingUnderlineTabsDefinition } from "./sliding-underlin
 import { definition as FloatingNewsletterButtonDefinition } from "./floating-newsletter-button/definition";
 import { definition as AuroraDownloadButtonDefinition } from "./aurora-download-button/definition";
 import { definition as OutlineWipeButtonDefinition } from "./outline-wipe-button/definition";
+import { definition as BlurGlideMenuDefinition } from "./blur-glide-menu/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
@@ -49,6 +50,7 @@ export const interactionDefinitions: Interaction[] = [
   FocusFieldDefinition,
   SocialIconButtonsDefinition,
   SocialHighlightCardsDefinition,
+  BlurGlideMenuDefinition,
   ExpandingContactButtonDefinition,
   ContactRevealButtonDefinition,
   ContactDetailsRevealDefinition,

@@ -102,6 +102,28 @@
       ]
     },
     {
+      "name": "blur-glide-menu",
+      "type": "registry:component",
+      "title": "Blur Glide Menu",
+      "description": "A nested menu whose steps blur before they glide aside, while the surface animates to the height of the step arriving.",
+      "author": "henriquegpb <https://github.com/henriquegpb>",
+      "categories": [
+        "navigation",
+        "click"
+      ],
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/blur-glide-menu",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/microkit/blur-glide-menu.tsx",
+          "type": "registry:component",
+          "target": "@components/microkit/blur-glide-menu.tsx"
+        }
+      ]
+    },
+    {
       "name": "expanding-contact-button",
       "type": "registry:component",
       "title": "Expanding Contact Button",

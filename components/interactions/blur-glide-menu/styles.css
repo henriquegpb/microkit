@@ -1,0 +1,390 @@
+/*
+ * The trigger's own place in the layout, held still.
+ *
+ * The surface hangs off the trigger rather than sitting under it in flow, and
+ * the space it can ever need is reserved here: 26px of trigger, a 7px gap and
+ * the tallest step. A step that grows or shrinks then moves nothing above it,
+ * which matters because the height animation is the point — a trigger drifting
+ * up and down would read as the whole component jumping. Editing the rows means
+ * editing the reserve.
+ */
+.glide-menu {
+  position: relative;
+  width: 214px;
+  height: 182px;
+  color: #dfe2e5;
+  font-size: 11px;
+  text-align: center;
+}
+
+.glide-menu,
+.glide-menu *,
+.glide-menu *::before,
+.glide-menu *::after {
+  box-sizing: border-box;
+}
+
+.glide-menu-trigger {
+  display: inline-flex;
+  height: 26px;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #2f333a;
+  border-radius: 6px;
+  background: #16181c;
+  padding: 0 8px 0 10px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    border-color .2s ease,
+    background-color .2s ease;
+}
+
+.glide-menu-trigger:hover {
+  border-color: #3d434c;
+  background: #1b1e23;
+}
+
+.glide-menu-trigger:focus-visible {
+  outline: 2px solid #86b6ff;
+  outline-offset: 2px;
+}
+
+.glide-menu-trigger svg {
+  color: #868d97;
+  transition: transform .34s cubic-bezier(.32, .72, 0, 1);
+}
+
+.glide-menu[data-open="true"] .glide-menu-trigger svg {
+  transform: rotate(180deg);
+}
+
+.glide-menu-surface {
+  position: absolute;
+  top: 33px;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  border: 1px solid #2b2f36;
+  text-align: left;
+  border-radius: 9px;
+  background: #121418;
+  padding: 5px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .04),
+    0 16px 34px rgba(0, 0, 0, .45);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px) scale(.97);
+  transform-origin: 50% 0;
+  filter: blur(5px);
+  transition:
+    opacity .18s ease,
+    transform .26s cubic-bezier(.32, .72, 0, 1),
+    filter .22s ease,
+    visibility 0s linear .26s;
+}
+
+.glide-menu[data-open="true"] .glide-menu-surface {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  filter: blur(0);
+  transition:
+    opacity .22s ease,
+    transform .36s cubic-bezier(.32, .72, 0, 1),
+    filter .28s ease,
+    visibility 0s;
+}
+
+/* The arriving step sets this height; the leaving one is out of flow. */
+.glide-menu-panels {
+  position: relative;
+  overflow: hidden;
+  transition: height .4s cubic-bezier(.45, .05, .15, 1);
+}
+
+.glide-menu-panel {
+  width: 100%;
+}
+
+.glide-menu-panel[data-phase="out"],
+.glide-menu-panel[data-phase="out-back"] {
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+.glide-menu-panel[data-phase="in"] {
+  animation: glide-menu-in .4s cubic-bezier(.45, .05, .15, 1) both;
+}
+
+.glide-menu-panel[data-phase="out"] {
+  animation: glide-menu-out .4s cubic-bezier(.45, .05, .15, 1) both;
+}
+
+.glide-menu-panel[data-phase="in-back"] {
+  animation: glide-menu-in-back .4s cubic-bezier(.45, .05, .15, 1) both;
+}
+
+.glide-menu-panel[data-phase="out-back"] {
+  animation: glide-menu-out-back .4s cubic-bezier(.45, .05, .15, 1) both;
+}
+
+.glide-menu-header {
+  display: flex;
+  height: 26px;
+  align-items: center;
+  gap: 5px;
+  padding-right: 5px;
+}
+
+.glide-menu-back {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  place-items: center;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #868d97;
+  cursor: pointer;
+  transition:
+    background-color .18s ease,
+    color .18s ease;
+}
+
+.glide-menu-back:hover {
+  background: #22262c;
+  color: #dfe2e5;
+}
+
+.glide-menu-back:focus-visible {
+  outline: 1.5px solid #86b6ff;
+  outline-offset: 0;
+}
+
+.glide-menu-search,
+.glide-menu-title {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #dfe2e5;
+  font: inherit;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.glide-menu-search::placeholder {
+  color: #6d747e;
+}
+
+/* Two classes deep so a project's own input:focus-visible rule cannot win. */
+.glide-menu-panel .glide-menu-search:focus,
+.glide-menu-panel .glide-menu-search:focus-visible {
+  outline: none;
+}
+
+.glide-menu-divider {
+  height: 1px;
+  margin: 3px 0;
+  background: #23262c;
+}
+
+.glide-menu-list {
+  position: relative;
+}
+
+/* One surface the rows share, so the pointer drags it down the list. */
+.glide-menu-highlight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 26px;
+  pointer-events: none;
+  border-radius: 5px;
+  background: #22262c;
+  opacity: 0;
+  transition:
+    transform .3s cubic-bezier(.32, .72, 0, 1),
+    opacity .18s ease;
+}
+
+.glide-menu-highlight[data-visible="true"] {
+  opacity: 1;
+}
+
+.glide-menu-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  height: 26px;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  padding: 0 7px;
+  color: #c6cbd2;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+
+.glide-menu-row:hover,
+.glide-menu-row:focus-visible {
+  color: #f4f5f7;
+}
+
+.glide-menu-row:focus-visible {
+  outline: 1.5px solid #86b6ff;
+  outline-offset: -1.5px;
+}
+
+.glide-menu-icon {
+  display: grid;
+  width: 14px;
+  height: 14px;
+  flex: none;
+  place-items: center;
+  color: #868d97;
+  transition: color .18s ease;
+}
+
+.glide-menu-row:hover .glide-menu-icon,
+.glide-menu-row:focus-visible .glide-menu-icon {
+  color: #c6cbd2;
+}
+
+.glide-menu-avatar {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  flex: none;
+  place-items: center;
+  border-radius: 6px;
+  color: #15171a;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.glide-menu-dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  margin: 0 3px;
+  border-radius: 50%;
+}
+
+.glide-menu-label {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.glide-menu-hint {
+  flex: none;
+  color: #6b727c;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+}
+
+.glide-menu-chevron {
+  flex: none;
+  color: #5c636d;
+  transition:
+    transform .24s cubic-bezier(.32, .72, 0, 1),
+    color .18s ease;
+}
+
+.glide-menu-row:hover .glide-menu-chevron,
+.glide-menu-row:focus-visible .glide-menu-chevron {
+  color: #868d97;
+  transform: translateX(2px);
+}
+
+.glide-menu-empty {
+  display: flex;
+  height: 26px;
+  align-items: center;
+  margin: 0;
+  padding: 0 7px;
+  color: #6d747e;
+}
+
+/*
+ * A full panel width each way, so the two steps never sit on top of each other:
+ * the step being left walks all the way out of the frame while the new one
+ * arrives from the opposite edge, edge to edge, like one strip being pulled
+ * past the opening.
+ *
+ * Which is why transform is only ever declared at 0% and 100%. An intermediate
+ * transform keyframe gives that property its own eased interval, the two panels
+ * stop sharing a progress, and the arriving step laps the one leaving and
+ * covers it. The blur is what carries the intermediate stops instead: the step
+ * being left blurs 6px deep by 30% of the way through, when the easing has
+ * moved it barely a tenth of its travel, and the step arriving stays hazy for
+ * the whole slide and only pulls into focus over the last third, by which time
+ * it has all but stopped. Nothing legible ever moves, in either direction —
+ * which is what turns a slide of two lists into one surface passing.
+ */
+@keyframes glide-menu-in {
+  0% { opacity: 0; transform: translateX(100%); filter: blur(8px); }
+  45% { opacity: .9; }
+  65% { filter: blur(6.5px); }
+  100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+
+@keyframes glide-menu-out {
+  0% { opacity: 1; transform: translateX(0); filter: blur(0); }
+  30% { opacity: .9; filter: blur(6px); }
+  100% { opacity: 0; transform: translateX(-100%); filter: blur(9px); }
+}
+
+@keyframes glide-menu-in-back {
+  0% { opacity: 0; transform: translateX(-100%); filter: blur(8px); }
+  45% { opacity: .9; }
+  65% { filter: blur(6.5px); }
+  100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+
+@keyframes glide-menu-out-back {
+  0% { opacity: 1; transform: translateX(0); filter: blur(0); }
+  30% { opacity: .9; filter: blur(6px); }
+  100% { opacity: 0; transform: translateX(100%); filter: blur(9px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glide-menu-trigger,
+  .glide-menu-trigger svg,
+  .glide-menu-surface,
+  .glide-menu[data-open="true"] .glide-menu-surface,
+  .glide-menu-panels,
+  .glide-menu-highlight,
+  .glide-menu-row,
+  .glide-menu-icon,
+  .glide-menu-chevron,
+  .glide-menu-back {
+    transition-duration: .01ms;
+  }
+
+  .glide-menu-panel[data-phase="in"],
+  .glide-menu-panel[data-phase="in-back"] {
+    animation-duration: .01ms;
+  }
+
+  .glide-menu-panel[data-phase="out"],
+  .glide-menu-panel[data-phase="out-back"] {
+    animation: none;
+    opacity: 0;
+  }
+}
