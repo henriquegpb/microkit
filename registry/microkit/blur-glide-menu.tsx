@@ -93,28 +93,10 @@ const rootPanel: MenuPanel = {
   ],
 };
 
-/* The row height the highlight is positioned against, in px. */
 const ROW_HEIGHT = 26;
-/* Long enough for the outgoing panel to finish its blur-and-glide exit. */
 const PANEL_MS = 420;
 const CLOSE_MS = 240;
 
-/*
- * A full panel width each way, so the two steps never sit on top of each other:
- * the step being left walks all the way out of the frame while the new one
- * arrives from the opposite edge, edge to edge, like one strip being pulled
- * past the opening.
- *
- * Which is why transform is only ever declared at 0% and 100%. An intermediate
- * transform keyframe gives that property its own eased interval, the two panels
- * stop sharing a progress, and the arriving step laps the one leaving and
- * covers it. The blur is what carries the intermediate stops instead: the step
- * being left blurs 6px deep by 30% of the way through, when the easing has
- * moved it barely a tenth of its travel, and the step arriving stays hazy for
- * the whole slide and only pulls into focus over the last third, by which time
- * it has all but stopped. Nothing legible ever moves, in either direction —
- * which is what turns a slide of two lists into one surface passing.
- */
 const panelKeyframes = `
 @keyframes glide-menu-in {
   0% { opacity: 0; transform: translateX(100%); filter: blur(8px); }
@@ -147,7 +129,6 @@ const phaseClass = {
   "out-back": "absolute inset-x-0 top-0 [animation:glide-menu-out-back_.4s_cubic-bezier(.45,.05,.15,1)_both] motion-reduce:animate-none motion-reduce:opacity-0",
 };
 
-/* A trail of row ids resolves to the step it opens, and to the row that opened it. */
 function stepAt(trail: string[]) {
   let panel = rootPanel;
   let title = "";
@@ -165,14 +146,6 @@ function matches(panel: MenuPanel, query: string) {
   return term ? panel.rows.filter((row) => row.label.toLowerCase().includes(term)) : panel.rows;
 }
 
-/**
- * One step of the menu.
- *
- * The highlight is a single element the rows share rather than a background per
- * row: hovering moves it, so the pointer drags one surface down the list
- * instead of lighting up disconnected rectangles. It keeps its last index when
- * the pointer leaves so returning to the list slides from where it stopped.
- */
 function MenuPanel({
   panel,
   title,
@@ -300,24 +273,6 @@ function MenuPanel({
   );
 }
 
-/**
- * A menu that walks into its own submenus.
- *
- * The surface hangs off the trigger rather than sitting under it in flow, and
- * the root reserves the space it can ever need — 26px of trigger, a 7px gap and
- * the tallest step, h-[182px] — so a step that grows or shrinks moves nothing
- * above it. Editing the rows means editing that reserve.
- *
- * The step change is the whole interaction, and the trick is the order of it:
- * the outgoing step blurs almost before it starts moving, so the eye loses the
- * words early and reads the slide as one surface passing rather than two lists
- * swapping. The container animates its height at the same time, from the step
- * that is arriving, which is why a four-row step opening under a three-row one
- * never snaps.
- *
- * Heights are measured rather than declared: the search field filters rows, so
- * the height a step wants changes as somebody types.
- */
 export function BlurGlideMenu() {
   const [open, setOpen] = useState(true);
   const [nav, setNav] = useState<{ trail: string[]; direction: -1 | 0 | 1 }>({ trail: [], direction: 0 });
@@ -331,19 +286,16 @@ export function BlurGlideMenu() {
 
   const step = stepAt(nav.trail);
 
-  /* The arriving step owns the container height; the outgoing one is taken out of flow. */
   useEffect(() => {
     if (activeRef.current) setHeight(activeRef.current.offsetHeight);
   }, [nav, query, open]);
 
-  /* A reduced-motion visitor gets no animationend, so the exit is cleared on a timer either way. */
   useEffect(() => {
     if (!leaving) return;
     const timer = setTimeout(() => setLeaving(null), PANEL_MS);
     return () => clearTimeout(timer);
   }, [leaving]);
 
-  /* Rewind to the first step once the surface is out of sight, never in front of the visitor. */
   useEffect(() => {
     if (open) return;
     const timer = setTimeout(() => {
@@ -354,14 +306,6 @@ export function BlurGlideMenu() {
     return () => clearTimeout(timer);
   }, [open]);
 
-  /*
-   * A click away closes it, but only a click away inside the element the menu
-   * was placed in — not anywhere in the document. The listener sits on that
-   * element for a reason: a menu that watches the whole page collapses when
-   * somebody clicks a nav link or scrollbar three sections away, which reads as
-   * the component breaking rather than dismissing. Swap `region` for `document`
-   * to dismiss on any click in the page instead.
-   */
   useEffect(() => {
     if (!open) return;
     const region = rootRef.current?.parentElement;
@@ -373,7 +317,6 @@ export function BlurGlideMenu() {
     return () => region.removeEventListener("pointerdown", handlePointerDown);
   }, [open]);
 
-  /* Focus follows the step, but only once a step has actually been chosen. */
   useEffect(() => {
     if (nav.direction === 0) return;
     const target = searchRef.current ?? activeRef.current?.querySelector<HTMLButtonElement>("[data-row]");

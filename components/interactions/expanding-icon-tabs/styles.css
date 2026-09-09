@@ -1,0 +1,107 @@
+.expanding-tabs {
+  display: flex;
+  max-width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #2b2f36;
+  border-radius: 12px;
+  background: #121418;
+  padding: 4px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .04),
+    0 10px 24px rgba(0, 0, 0, .35);
+  color: #dfe2e5;
+  font-size: 11px;
+}
+
+.expanding-tabs,
+.expanding-tabs *,
+.expanding-tabs *::before,
+.expanding-tabs *::after {
+  box-sizing: border-box;
+}
+
+.expanding-tabs-separator {
+  width: 1px;
+  height: 18px;
+  flex: none;
+  margin: 0 2px;
+  background: #23262c;
+}
+
+.expanding-tab {
+  display: inline-flex;
+  height: 30px;
+  align-items: center;
+  gap: 0;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  padding: 0 8px;
+  color: #868d97;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    gap .5s cubic-bezier(.32, .72, 0, 1),
+    padding .5s cubic-bezier(.32, .72, 0, 1),
+    background-color .3s ease,
+    color .3s ease;
+}
+
+.expanding-tab:hover {
+  background: #1b1e23;
+  color: #dfe2e5;
+}
+
+.expanding-tab:focus-visible {
+  outline: 1.5px solid #f97316;
+  outline-offset: -1.5px;
+}
+
+.expanding-tab[aria-pressed="true"] {
+  gap: 6px;
+  padding: 0 11px;
+  background: #22262c;
+  color: #f4f5f7;
+}
+
+.expanding-tab-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  transition: color .3s ease;
+}
+
+.expanding-tab[aria-pressed="true"] .expanding-tab-icon {
+  color: #f97316;
+}
+
+.expanding-tab-label {
+  display: grid;
+  grid-template-columns: 0fr;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    grid-template-columns .5s cubic-bezier(.32, .72, 0, 1),
+    opacity .3s ease;
+}
+
+.expanding-tab[aria-pressed="true"] .expanding-tab-label {
+  grid-template-columns: 1fr;
+  opacity: 1;
+}
+
+.expanding-tab-label > span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .expanding-tab,
+  .expanding-tab-icon,
+  .expanding-tab-label {
+    transition-duration: .01ms;
+  }
+}

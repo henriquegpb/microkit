@@ -124,6 +124,28 @@
       ]
     },
     {
+      "name": "expanding-icon-tabs",
+      "type": "registry:component",
+      "title": "Expanding Icon Tabs",
+      "description": "An icon bar where the chosen tab widens to reveal its label and the rest of the row slides over to make room.",
+      "author": "henriquegpb <https://github.com/henriquegpb>",
+      "categories": [
+        "navigation",
+        "click"
+      ],
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/expanding-icon-tabs",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/microkit/expanding-icon-tabs.tsx",
+          "type": "registry:component",
+          "target": "@components/microkit/expanding-icon-tabs.tsx"
+        }
+      ]
+    },
+    {
       "name": "expanding-contact-button",
       "type": "registry:component",
       "title": "Expanding Contact Button",

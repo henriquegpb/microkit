@@ -95,13 +95,10 @@ const rootPanel: MenuPanel = {
   ],
 };
 
-/* The row height the highlight is positioned against, in px. */
 const ROW_HEIGHT = 26;
-/* Long enough for the outgoing panel to finish its blur-and-glide exit. */
 const PANEL_MS = 420;
 const CLOSE_MS = 240;
 
-/* A trail of row ids resolves to the step it opens, and to the row that opened it. */
 function stepAt(trail: string[]) {
   let panel = rootPanel;
   let title = "";
@@ -119,14 +116,6 @@ function matches(panel: MenuPanel, query: string) {
   return term ? panel.rows.filter((row) => row.label.toLowerCase().includes(term)) : panel.rows;
 }
 
-/**
- * One step of the menu.
- *
- * The highlight is a single element the rows share rather than a background per
- * row: hovering moves it, so the pointer drags one surface down the list
- * instead of lighting up disconnected rectangles. It keeps its last index when
- * the pointer leaves so returning to the list slides from where it stopped.
- */
 function MenuPanel({
   panel,
   title,
@@ -225,19 +214,6 @@ function MenuPanel({
   );
 }
 
-/**
- * A menu that walks into its own submenus.
- *
- * The step change is the whole interaction, and the trick is the order of it:
- * the outgoing step blurs almost before it starts moving, so the eye loses the
- * words early and reads the slide as one surface passing rather than two lists
- * swapping. The container animates its height at the same time, from the step
- * that is arriving, which is why a four-row step opening under a three-row one
- * never snaps.
- *
- * Heights are measured rather than declared: the search field filters rows, so
- * the height a step wants changes as somebody types.
- */
 export function BlurGlideMenu() {
   const [open, setOpen] = useState(true);
   const [nav, setNav] = useState<{ trail: string[]; direction: -1 | 0 | 1 }>({ trail: [], direction: 0 });
@@ -251,19 +227,16 @@ export function BlurGlideMenu() {
 
   const step = stepAt(nav.trail);
 
-  /* The arriving step owns the container height; the outgoing one is taken out of flow. */
   useEffect(() => {
     if (activeRef.current) setHeight(activeRef.current.offsetHeight);
   }, [nav, query, open]);
 
-  /* A reduced-motion visitor gets no animationend, so the exit is cleared on a timer either way. */
   useEffect(() => {
     if (!leaving) return;
     const timer = setTimeout(() => setLeaving(null), PANEL_MS);
     return () => clearTimeout(timer);
   }, [leaving]);
 
-  /* Rewind to the first step once the surface is out of sight, never in front of the visitor. */
   useEffect(() => {
     if (open) return;
     const timer = setTimeout(() => {
@@ -274,14 +247,6 @@ export function BlurGlideMenu() {
     return () => clearTimeout(timer);
   }, [open]);
 
-  /*
-   * A click away closes it, but only a click away inside the element the menu
-   * was placed in — not anywhere in the document. The listener sits on that
-   * element for a reason: a menu that watches the whole page collapses when
-   * somebody clicks a nav link or scrollbar three sections away, which reads as
-   * the component breaking rather than dismissing. Swap `region` for `document`
-   * to dismiss on any click in the page instead.
-   */
   useEffect(() => {
     if (!open) return;
     const region = rootRef.current?.parentElement;
@@ -293,7 +258,6 @@ export function BlurGlideMenu() {
     return () => region.removeEventListener("pointerdown", handlePointerDown);
   }, [open]);
 
-  /* Focus follows the step, but only once a step has actually been chosen. */
   useEffect(() => {
     if (nav.direction === 0) return;
     const target = searchRef.current ?? activeRef.current?.querySelector<HTMLButtonElement>("[data-row]");

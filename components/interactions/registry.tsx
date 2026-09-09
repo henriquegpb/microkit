@@ -45,6 +45,7 @@ import { FloatingNewsletterButton } from "./floating-newsletter-button/component
 import { AuroraDownloadButton } from "./aurora-download-button/component";
 import { OutlineWipeButton } from "./outline-wipe-button/component";
 import { BlurGlideMenu } from "./blur-glide-menu/component";
+import { ExpandingIconTabs } from "./expanding-icon-tabs/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
@@ -87,6 +88,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "neon-invert-button": NeonInvertButton,
   "contact-underline-button": ContactUnderlineButton,
   "blur-glide-menu": BlurGlideMenu,
+  "expanding-icon-tabs": ExpandingIconTabs,
   "sliding-content-tabs": SlidingContentTabs,
   "sliding-underline-tabs": SlidingUnderlineTabs,
   "floating-newsletter-button": FloatingNewsletterButton,

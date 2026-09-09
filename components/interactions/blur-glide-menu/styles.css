@@ -1,13 +1,3 @@
-/*
- * The trigger's own place in the layout, held still.
- *
- * The surface hangs off the trigger rather than sitting under it in flow, and
- * the space it can ever need is reserved here: 26px of trigger, a 7px gap and
- * the tallest step. A step that grows or shrinks then moves nothing above it,
- * which matters because the height animation is the point — a trigger drifting
- * up and down would read as the whole component jumping. Editing the rows means
- * editing the reserve.
- */
 .glide-menu {
   position: relative;
   width: 214px;
@@ -98,7 +88,6 @@
     visibility 0s;
 }
 
-/* The arriving step sets this height; the leaving one is out of flow. */
 .glide-menu-panels {
   position: relative;
   overflow: hidden;
@@ -183,7 +172,6 @@
   color: #6d747e;
 }
 
-/* Two classes deep so a project's own input:focus-visible rule cannot win. */
 .glide-menu-panel .glide-menu-search:focus,
 .glide-menu-panel .glide-menu-search:focus-visible {
   outline: none;
@@ -199,7 +187,6 @@
   position: relative;
 }
 
-/* One surface the rows share, so the pointer drags it down the list. */
 .glide-menu-highlight {
   position: absolute;
   top: 0;
@@ -321,22 +308,6 @@
   color: #6d747e;
 }
 
-/*
- * A full panel width each way, so the two steps never sit on top of each other:
- * the step being left walks all the way out of the frame while the new one
- * arrives from the opposite edge, edge to edge, like one strip being pulled
- * past the opening.
- *
- * Which is why transform is only ever declared at 0% and 100%. An intermediate
- * transform keyframe gives that property its own eased interval, the two panels
- * stop sharing a progress, and the arriving step laps the one leaving and
- * covers it. The blur is what carries the intermediate stops instead: the step
- * being left blurs 6px deep by 30% of the way through, when the easing has
- * moved it barely a tenth of its travel, and the step arriving stays hazy for
- * the whole slide and only pulls into focus over the last third, by which time
- * it has all but stopped. Nothing legible ever moves, in either direction —
- * which is what turns a slide of two lists into one surface passing.
- */
 @keyframes glide-menu-in {
   0% { opacity: 0; transform: translateX(100%); filter: blur(8px); }
   45% { opacity: .9; }
