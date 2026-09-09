@@ -146,6 +146,28 @@
       ]
     },
     {
+      "name": "next-dot-fill-button",
+      "type": "registry:component",
+      "title": "Next Dot Fill Button",
+      "description": "A bordered pill whose leading dot expands into a solid fill while the label swaps for an arrow cue.",
+      "author": "henriquegpb <https://github.com/henriquegpb>",
+      "categories": [
+        "button",
+        "hover"
+      ],
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/next-dot-fill-button",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/microkit/next-dot-fill-button.tsx",
+          "type": "registry:component",
+          "target": "@components/microkit/next-dot-fill-button.tsx"
+        }
+      ]
+    },
+    {
       "name": "expanding-contact-button",
       "type": "registry:component",
       "title": "Expanding Contact Button",

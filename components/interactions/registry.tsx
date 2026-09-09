@@ -46,6 +46,7 @@ import { AuroraDownloadButton } from "./aurora-download-button/component";
 import { OutlineWipeButton } from "./outline-wipe-button/component";
 import { BlurGlideMenu } from "./blur-glide-menu/component";
 import { ExpandingIconTabs } from "./expanding-icon-tabs/component";
+import { NextDotFillButton } from "./next-dot-fill-button/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
@@ -89,6 +90,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "contact-underline-button": ContactUnderlineButton,
   "blur-glide-menu": BlurGlideMenu,
   "expanding-icon-tabs": ExpandingIconTabs,
+  "next-dot-fill-button": NextDotFillButton,
   "sliding-content-tabs": SlidingContentTabs,
   "sliding-underline-tabs": SlidingUnderlineTabs,
   "floating-newsletter-button": FloatingNewsletterButton,

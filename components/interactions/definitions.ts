@@ -44,6 +44,7 @@ import { definition as AuroraDownloadButtonDefinition } from "./aurora-download-
 import { definition as OutlineWipeButtonDefinition } from "./outline-wipe-button/definition";
 import { definition as BlurGlideMenuDefinition } from "./blur-glide-menu/definition";
 import { definition as ExpandingIconTabsDefinition } from "./expanding-icon-tabs/definition";
+import { definition as NextDotFillButtonDefinition } from "./next-dot-fill-button/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
@@ -53,6 +54,7 @@ export const interactionDefinitions: Interaction[] = [
   SocialHighlightCardsDefinition,
   BlurGlideMenuDefinition,
   ExpandingIconTabsDefinition,
+  NextDotFillButtonDefinition,
   ExpandingContactButtonDefinition,
   ContactRevealButtonDefinition,
   ContactDetailsRevealDefinition,

@@ -1,0 +1,93 @@
+.next-dot-fill-button,
+.next-dot-fill-button * {
+  box-sizing: border-box;
+}
+
+.next-dot-fill-button {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  width: min(132px, calc(100vw - 40px));
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid #d7dbe2;
+  border-radius: 999px;
+  background: #fff;
+  padding: 0;
+  color: #0a0a0a;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.next-dot-fill-button__fill {
+  position: absolute;
+  left: 26px;
+  top: calc(50% - 4.5px);
+  z-index: 1;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #0a0a0a;
+  transition: transform .5s cubic-bezier(.16, 1, .3, 1);
+}
+
+.next-dot-fill-button__label {
+  position: relative;
+  z-index: 0;
+  transform: translateX(5px);
+  transition: transform .35s cubic-bezier(.16, 1, .3, 1), opacity .3s ease;
+}
+
+.next-dot-fill-button__reveal {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fafafa;
+  transform: translateX(46px);
+  opacity: 0;
+  transition: transform .35s cubic-bezier(.16, 1, .3, 1), opacity .3s ease;
+}
+
+.next-dot-fill-button__reveal svg {
+  flex-shrink: 0;
+}
+
+.next-dot-fill-button:hover .next-dot-fill-button__fill,
+.next-dot-fill-button:focus-visible .next-dot-fill-button__fill {
+  transform: scale(28);
+}
+
+.next-dot-fill-button:hover .next-dot-fill-button__label,
+.next-dot-fill-button:focus-visible .next-dot-fill-button__label {
+  transform: translateX(46px);
+  opacity: 0;
+}
+
+.next-dot-fill-button:hover .next-dot-fill-button__reveal,
+.next-dot-fill-button:focus-visible .next-dot-fill-button__reveal {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.next-dot-fill-button:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .next-dot-fill-button__fill,
+  .next-dot-fill-button__label,
+  .next-dot-fill-button__reveal {
+    transition: none;
+  }
+}
