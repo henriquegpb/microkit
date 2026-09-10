@@ -45,6 +45,7 @@ import { definition as OutlineWipeButtonDefinition } from "./outline-wipe-button
 import { definition as BlurGlideMenuDefinition } from "./blur-glide-menu/definition";
 import { definition as ExpandingIconTabsDefinition } from "./expanding-icon-tabs/definition";
 import { definition as NextDotFillButtonDefinition } from "./next-dot-fill-button/definition";
+import { definition as SecurePurchaseButtonDefinition } from "./secure-purchase-button/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
@@ -55,6 +56,7 @@ export const interactionDefinitions: Interaction[] = [
   BlurGlideMenuDefinition,
   ExpandingIconTabsDefinition,
   NextDotFillButtonDefinition,
+  SecurePurchaseButtonDefinition,
   ExpandingContactButtonDefinition,
   ContactRevealButtonDefinition,
   ContactDetailsRevealDefinition,

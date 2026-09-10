@@ -168,6 +168,25 @@
       ]
     },
     {
+      "name": "secure-purchase-button",
+      "type": "registry:component",
+      "title": "Secure Purchase Button",
+      "description": "A purchase button that opens room for a pixel-wave loader, swaps it for a shield once the payment clears, then resets itself.",
+      "author": "henriquegpb <https://github.com/henriquegpb>",
+      "categories": [
+        "button",
+        "click"
+      ],
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/secure-purchase-button",
+      "files": [
+        {
+          "path": "registry/microkit/secure-purchase-button.tsx",
+          "type": "registry:component",
+          "target": "@components/microkit/secure-purchase-button.tsx"
+        }
+      ]
+    },
+    {
       "name": "expanding-contact-button",
       "type": "registry:component",
       "title": "Expanding Contact Button",
