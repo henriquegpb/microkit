@@ -45,6 +45,7 @@ import { PackageManagerLogo } from "../components/package-manager-logos";
 import { componentsByCategory, interactions, type Interaction } from "../content/interactions/catalog";
 import { InteractionPreview } from "../components/interactions/registry";
 import { StructuredData } from "../components/structured-data";
+import { HomeBackground } from "../components/home-background";
 import { Faq } from "../components/faq";
 import { homeSchema, installationNote } from "./schema";
 import {
@@ -204,10 +205,19 @@ function HeroTunnel() {
     startAnimation();
   };
 
+  /*
+   * The light stays where it was left. Sending it home on the way out made the
+   * artwork undo the one thing the reader had just done to it, and the return
+   * trip was the most visible movement on the page — a light drifting back to a
+   * corner nobody pointed at. HERO_TUNNEL_HOME is now only where it starts.
+   *
+   * The frame loop is left to finish the last few percent of travel to wherever
+   * the pointer was when it crossed the edge, so the light settles rather than
+   * stopping dead.
+   */
   const handlePointerLeave = () => {
     boundsRef.current = null;
     trackingRef.current = false;
-    targetRef.current = { ...HERO_TUNNEL_HOME };
     startAnimation();
   };
 
@@ -317,7 +327,23 @@ export default function Home() {
     openComponent(item);
   };
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><div className="gallery-row"><main className="gallery-main"><HeroCard/><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {category === "All" ? "All interactions" : category}</div><h1>{category === "All" ? GALLERY_HEADING : category}</h1><p>{filtered.length} {filtered.length === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p><Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link></div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></div></div><div className="active-filter"><span>{category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div><section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`} onClick={()=>markRecentlyViewed(item.id)}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>{!filtered.length && <div className="empty"><Icon name="search" size={28}/><h2>No interactions found</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div></div>;
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><HomeBackground/><div className="gallery-row"><main className="gallery-main"><HeroCard/><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {category === "All" ? "All interactions" : category}</div><h1>{category === "All" ? GALLERY_HEADING : category}</h1><p>{filtered.length} {filtered.length === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p><Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link></div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></div></div><div className="active-filter"><span>{category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div><section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`} onClick={()=>markRecentlyViewed(item.id)}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>{!filtered.length && <div className="empty"><Icon name="search" size={28}/><h2>No interactions found</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/><HomeFootnote/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div></div>;
+}
+
+/** The sites this one took its cues from. */
+const INSPIRATION = ["https://21st.dev/", "https://morphin.dev/", "https://huly.io/", "https://oryzo.ai/"];
+
+/**
+ * The credit at the floor of the home page.
+ *
+ * Home only, bottom left, and deliberately quiet: it sits under the FAQ at the
+ * end of the one page somebody scrolls to the bottom of. Plain text rather than
+ * anchors — this is an acknowledgement, not four ways off the page, and four
+ * live links in the last line of a catalog would be the most clickable thing
+ * below the fold.
+ */
+function HomeFootnote() {
+  return <p className="home-footnote">Found inspiration in: {INSPIRATION.join(" ")}</p>;
 }
 
 export function ComponentDetailPage({ item }: { item: Interaction }) {

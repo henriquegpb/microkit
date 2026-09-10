@@ -116,6 +116,65 @@ button, input, select { font:inherit; } button { cursor:pointer; color:inherit; 
 .gallery-row{display:flex;align-items:flex-start;min-height:100%}
 .sponsors-rail{position:sticky;top:0}
 .sponsors-rail .sponsor-card{position:relative;top:auto}
+
+/* The window scrolls, not the gallery column.
+   The column used to be the scroller, which meant the field — absolutely
+   positioned at the top of it — was cut off at that scroller's own top edge:
+   scroll a little and a hard orange line sat directly under the topbar, right
+   through the middle of the gradient. With the window as the scrollport the cut
+   lands at the window edge instead, where there is nothing to see, and the
+   topbar sticks so it stays put exactly as it did before.
+   The sponsors and submit pages keep their own full-height shells; they
+   re-declare `.app` further down and are unaffected by this. */
+html, body{overflow:visible}
+html{scrollbar-color:#545961 #0b0c0e}
+html::-webkit-scrollbar{width:10px}
+html::-webkit-scrollbar-track{background:#0b0c0e}
+html::-webkit-scrollbar-thumb{border:2px solid #0b0c0e;border-radius:999px;background:#545961}
+html::-webkit-scrollbar-thumb:hover{background:#6a7079}
+.app{height:auto;min-height:100dvh;overflow:visible}
+/* Opaque now that the page runs underneath it. The colour is what the old
+   rgba(11,12,14,.96) resolved to against `--bg` anyway, so nothing changes
+   except that headings no longer ghost through it on the way past. */
+.topbar{position:sticky;top:0;background:var(--bg)}
+.shell{overflow:visible}
+/* `clip` rather than `hidden`: hidden on one axis forces the other to `auto`,
+   which would quietly make this a scroller again — the exact thing being
+   removed. */
+.gallery-workspace{overflow-x:clip;overflow-y:visible}
+.gallery-main,.playground-main{overflow:visible}
+/* The rail parks below the sticky topbar rather than behind it. Same 91px from
+   the top of the window as when it stuck to the top of the inner scroller. */
+.sponsors-rail{top:57px}
+
+/* The animated field behind the top of the home page.
+   Absolute inside the scroller, not fixed, so it travels with the hero and is
+   gone by the time the grid is what you are reading. The row above it is the
+   whole of the page's content, so one stacking rule there keeps every card,
+   heading and control in front of the canvas. */
+.gallery-workspace{position:relative}
+.gallery-row{position:relative;z-index:1}
+.home-field{
+  position:absolute;
+  inset:0 0 auto;
+  height:clamp(360px,72vh,900px);
+  z-index:0;
+  pointer-events:none;
+  /* The bottom edge is masked away rather than covered by a second dark panel:
+     nothing is painted over the page, the canvas simply stops existing. It is
+     fully gone by 88% of a 72vh layer — around two thirds down the first
+     screen — so the fold is never where the effect ends. */
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000c 34%,#0006 62%,transparent 88%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000c 34%,#0006 62%,transparent 88%);
+  /* The canvas paints its first frame at full strength; without this the field
+     would arrive in one frame, whenever WebGL happens to be ready. `both` holds
+     the end state, which is also where the layer's overall strength is set. */
+  animation:home-field-in 1.6s cubic-bezier(.22,1,.36,1) .12s both;
+}
+@keyframes home-field-in{from{opacity:0}to{opacity:.88}}
+/* The still counterpart of the shader, from the same three colours. */
+.home-field-still{position:absolute;inset:0;background:radial-gradient(120% 90% at 8% 0%,#8a3d0d55,#2e140429 45%,transparent 70%)}
+@media (prefers-reduced-motion:reduce){.home-field{animation:none;opacity:.88}}
 .sidebar-trigger{border:0;background:transparent}.sidebar-trigger:hover{border:0;background:transparent;color:#f1f2f4}
 .component-code{width:min(100%,1220px);min-width:0}.code-section{min-width:0}.code-snippet{max-width:100%;overflow-x:auto;overflow-y:hidden}.code-snippet pre{width:max-content;min-width:100%;overflow:visible}.snippet-line{white-space:pre;overflow-wrap:normal}
 .sponsor-cta { position:relative; display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:13px; border-radius:11px; background:var(--blue); color:#1a0f06; font-size:14px; font-weight:700; text-decoration:none; transition:background .16s, transform .16s; }.sponsor-cta:hover { background:#fb8a3c; }.sponsor-cta-icon{position:relative;display:grid;width:16px;height:18px;place-items:center;overflow:hidden}.sponsor-cta-arrow{position:absolute;transform:rotate(-45deg);transition:transform .42s cubic-bezier(.16,1,.3,1)}.sponsor-cta-arrow-incoming{transform:translate(-16px,12px) rotate(-45deg)}.sponsor-cta:hover .sponsor-cta-arrow-current,.sponsor-cta:focus-visible .sponsor-cta-arrow-current{transform:translate(16px,-12px) rotate(-45deg)}.sponsor-cta:hover .sponsor-cta-arrow-incoming,.sponsor-cta:focus-visible .sponsor-cta-arrow-incoming{transform:translate(0,0) rotate(-45deg)}
@@ -331,14 +390,14 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
 /* FAQ. The answers stay in the DOM while collapsed — <details> only hides them
    — which is what keeps the FAQPage schema describing text that is really on
    the page. */
-/* The FAQ is the last thing on the home page, so its own bottom padding is what
-   keeps the final answer off the floor — and it has to clear the tallest state,
-   which is the last question open. */
+/* The footnote follows the FAQ, so this padding is the gap between the last
+   answer and that line rather than the page's whole tail — it only has to hold
+   the two apart with the last question open. */
 .faq{
   max-width:1220px;
   margin:64px auto 0;
   padding-top:26px;
-  padding-bottom:106px;
+  padding-bottom:70px;
   border-top:1px solid var(--line);
 }
 .faq h2{font-size:16px;letter-spacing:-.4px;margin:0 0 14px}
@@ -382,8 +441,27 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
   text-wrap:pretty;
 }
 @media (max-width:680px){
-  .faq{margin-top:48px;padding-bottom:40px}
+  .faq{margin-top:48px;padding-bottom:34px}
   .faq summary{gap:16px;align-items:flex-start;padding-right:6px}
+}
+
+/* The credit line at the floor of the home page. Left-aligned to the same
+   column as the FAQ above it, faint enough to read as a mark in the paper
+   rather than as content, and inert — no hover state, because there is nothing
+   to click and a line that reacts to the pointer promises otherwise.
+   The gallery column gives up its bottom padding so this sits on the floor of
+   the page; the 10px below is only enough to keep the descenders off it. */
+.gallery-main{padding-bottom:0}
+.home-footnote{
+  max-width:1220px;
+  margin:0 auto;
+  padding-bottom:10px;
+  font:10px var(--font-geist-mono,monospace);
+  letter-spacing:.02em;
+  line-height:1.7;
+  color:#e4e6ea;
+  opacity:.2;
+  text-wrap:pretty;
 }
 
 /* The gallery card body is an anchor now, not a button — same box, same hover,
