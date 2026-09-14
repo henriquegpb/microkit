@@ -19,9 +19,21 @@ export const SITE_NAME = "MicroKit UI";
 export const registryItemAddress = (id: string) => `@microkit/${id}`;
 export const registryItemUrl = (id: string) => `${SITE_URL}/r/${id}.json`;
 
-/** Where the namespace is listed, for anyone who wants to check. */
+/**
+ * Where the namespace is listed, for anyone who wants to check.
+ *
+ * The `#:~:text=` is a text fragment: the browser finds "@microkit" on the page
+ * and scrolls it into view, which matters because the directory runs to 35 pages
+ * of ten and the entry sits mid-page. It is also why the deep link is text and
+ * not an `#id` — the cards carry no ids to anchor to.
+ *
+ * Two things to know. The list is client-rendered, so the scroll lands a beat
+ * after paint rather than instantly. And a browser without text-fragment support
+ * ignores the fragment and opens page 16 at the top, which is the old behaviour
+ * and still correct — the link degrades rather than breaking.
+ */
 export const REGISTRY_DIRECTORY_URL =
-  "https://ui.shadcn.com/docs/registry/registry-index";
+  "https://ui.shadcn.com/docs/directory?page=16#:~:text=%40microkit";
 export const REGISTRY_INDEX_URL = "https://ui.shadcn.com/r/registries.json";
 
 /**

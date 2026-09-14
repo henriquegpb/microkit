@@ -445,24 +445,24 @@
       ]
     },
     {
-      "name": "download-ios-button",
+      "name": "icon-swap-button",
       "type": "registry:component",
-      "title": "Download for iOS Button",
-      "description": "An outlined iOS download button whose arrow reveals without changing its width.",
+      "title": "Icon Swap Button",
+      "description": "A leading icon slides out as an arrow opens in to take its place, trading without changing the button's width.",
       "author": "henriquegpb <https://github.com/henriquegpb>",
       "categories": [
         "button",
         "hover"
       ],
-      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/download-ios-button",
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/icon-swap-button",
       "dependencies": [
         "lucide-react"
       ],
       "files": [
         {
-          "path": "registry/microkit/download-ios-button.tsx",
+          "path": "registry/microkit/icon-swap-button.tsx",
           "type": "registry:component",
-          "target": "@components/microkit/download-ios-button.tsx"
+          "target": "@components/microkit/icon-swap-button.tsx"
         }
       ]
     },

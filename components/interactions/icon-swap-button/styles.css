@@ -1,4 +1,4 @@
-.download-ios-button {
+.icon-swap-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -11,27 +11,40 @@
   padding: 8px 16px;
   color: #f0f0f0;
 }
-.download-ios-content {
+.icon-swap-content {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
-.download-ios-apple {
+/*
+ * `align-items: center` centres the icon's bounding box, which is not the same
+ * as centring what you see. The Apple mark carries a detached leaf that adds
+ * height at the top and almost no mass, so the box centres while the body —
+ * the part the eye reads as the logo — hangs low. Measured against the painted
+ * pixels, the ink centroid sits 2.1px under the box centre at this size.
+ *
+ * `top` rather than `transform` or `margin`: both of those are already spoken
+ * for by the swap below, and a base value there would have to be repeated in
+ * every hover rule to survive being overwritten.
+ */
+.icon-swap-icon {
+  position: relative;
+  top: -2px;
   width: 24px;
   height: 24px;
   flex: none;
   color: #f0f0f0;
   transition: width .52s cubic-bezier(.16, 1, .3, 1), margin .52s cubic-bezier(.16, 1, .3, 1), opacity .24s ease, transform .52s cubic-bezier(.16, 1, .3, 1);
 }
-.download-ios-label {
+.icon-swap-label {
   position: relative;
   z-index: 1;
   white-space: nowrap;
   font-size: 16px;
   font-weight: 500;
 }
-.download-ios-arrow {
+.icon-swap-arrow {
   display: grid;
   width: 0;
   height: 24px;
@@ -42,21 +55,21 @@
   transform: translateX(18px);
   transition: width .52s cubic-bezier(.16, 1, .3, 1), margin .52s cubic-bezier(.16, 1, .3, 1), opacity .24s ease, transform .52s cubic-bezier(.16, 1, .3, 1);
 }
-.download-ios-button:hover .download-ios-apple,
-.download-ios-button:focus-visible .download-ios-apple {
+.icon-swap-button:hover .icon-swap-icon,
+.icon-swap-button:focus-visible .icon-swap-icon {
   width: 0;
   margin-right: -8px;
   opacity: 0;
   transform: translateX(-18px);
 }
-.download-ios-button:hover .download-ios-arrow,
-.download-ios-button:focus-visible .download-ios-arrow {
+.icon-swap-button:hover .icon-swap-arrow,
+.icon-swap-button:focus-visible .icon-swap-arrow {
   width: 24px;
   margin-left: 0;
   opacity: 1;
   transform: translateX(0);
 }
-.download-ios-button:focus-visible {
+.icon-swap-button:focus-visible {
   outline: 2px solid #f97316;
   outline-offset: 3px;
 }

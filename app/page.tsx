@@ -412,9 +412,18 @@ function RegistryCallout() {
           <CopyGlyph done={copied}/>
         </button>
       </div>
+      {/*
+        The mark trades places with an arrow on hover, the same swap the Star on
+        GitHub button runs: the logo collapses to nothing and slides left while
+        the arrow opens from the right, so the row never changes width and the
+        badge reads as a link rather than a label.
+      */}
       <a className="registry-badge" href={REGISTRY_DIRECTORY_URL} target="_blank" rel="noreferrer">
-        <span className="registry-badge-mark" aria-hidden="true"/>
-        Official shadcn registry
+        <span className="registry-badge-content">
+          <span className="registry-badge-mark" aria-hidden="true"/>
+          <span className="registry-badge-label">Official shadcn registry</span>
+          <span className="registry-badge-arrow" aria-hidden="true"><ArrowRight size={14} strokeWidth={2.2}/></span>
+        </span>
       </a>
     </section>
   );

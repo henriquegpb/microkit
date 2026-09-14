@@ -657,13 +657,26 @@ a.card-info:focus-visible{outline:2px solid #f97316;outline-offset:-2px}
    click. shadcn runs no verification programme, so it says official rather than
    verified: the registry is in the official index, which is a fact, where
    "verified" would describe a badge nobody issues. */
-.registry-badge{display:inline-flex;align-items:center;gap:8px;flex:none;border:1px solid #2b3037;border-radius:999px;background:#101216;padding:7px 13px 7px 11px;color:#a9b0ba;font-size:11px;font-weight:500;text-decoration:none;transition:border-color .25s ease,color .25s ease}
-.registry-badge:hover{border-color:#3d454e;color:#e4e7ec}
+.registry-badge{display:inline-flex;align-items:center;flex:none;overflow:hidden;border:1px solid #2b3037;border-radius:999px;background:#101216;padding:7px 13px 7px 11px;color:#a9b0ba;font-size:11px;font-weight:500;text-decoration:none;transition:border-color .25s ease,color .25s ease,box-shadow .25s ease}
+/* The border lights in the brand orange and throws a soft halo the same colour.
+   Two shadows, not one: a tight ring that reads as the border itself glowing,
+   and a wider bloom behind it. Both are box-shadows, so the glow composites and
+   never asks the pill to repaint. */
+.registry-badge:hover,.registry-badge:focus-visible{border-color:#f97316;color:#e9ebef;box-shadow:0 0 0 1px #f9731640,0 0 18px 2px #f9731638}
+.registry-badge-content{position:relative;display:inline-flex;align-items:center;gap:8px}
+.registry-badge-label{white-space:nowrap}
 /* The shadcn mark, painted rather than drawn: the file ships its strokes in
    black, and a mask turns the shape into whatever colour the badge wants —
-   here the brand orange. Static and 13px, so masking costs nothing; what was
-   expensive elsewhere on this page was a mask over moving content. */
-.registry-badge-mark{width:13px;height:13px;flex:none;background:#f97316;-webkit-mask:url("/logos/Shadcn.svg") center/contain no-repeat;mask:url("/logos/Shadcn.svg") center/contain no-repeat}
+   here the brand orange.
+
+   The box is 20px but the mark reads smaller: the file draws its two strokes
+   inside a 100-unit viewBox and they only span 12.5 to 84.4 of it, so `contain`
+   fits that padding into the box too and about 72% of the 20px is ink. Sizing
+   this by eye rather than by the number is why it is 20 and not 14. */
+.registry-badge-mark{width:20px;height:20px;flex:none;background:#f97316;-webkit-mask:url("/logos/Shadcn.svg") center/contain no-repeat;mask:url("/logos/Shadcn.svg") center/contain no-repeat;transition:width .52s cubic-bezier(.16,1,.3,1),margin .52s cubic-bezier(.16,1,.3,1),opacity .24s ease,transform .52s cubic-bezier(.16,1,.3,1)}
+.registry-badge-arrow{display:grid;width:0;height:20px;margin-left:-8px;overflow:hidden;place-items:center;opacity:0;transform:translateX(16px);transition:width .52s cubic-bezier(.16,1,.3,1),margin .52s cubic-bezier(.16,1,.3,1),opacity .24s ease,transform .52s cubic-bezier(.16,1,.3,1)}
+.registry-badge:hover .registry-badge-mark,.registry-badge:focus-visible .registry-badge-mark{width:0;margin-right:-8px;opacity:0;transform:translateX(-16px)}
+.registry-badge:hover .registry-badge-arrow,.registry-badge:focus-visible .registry-badge-arrow{width:20px;margin-left:0;opacity:1;transform:translateX(0)}
 /* A fixed basis rather than a stretch: filling the row left the command marooned
    in empty space, and sizing to content made the box breathe in and out as the
    name rotated. 560px clears the longest id in the catalog. */

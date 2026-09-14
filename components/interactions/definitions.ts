@@ -16,7 +16,7 @@ import { definition as ReadMoreSwapDefinition } from "./read-more-swap/definitio
 import { definition as ProjectsArrowButtonDefinition } from "./projects-arrow-button/definition";
 import { definition as WhatsNewGlowButtonDefinition } from "./whats-new-glow-button/definition";
 import { definition as PreviewInBrowserButtonDefinition } from "./preview-browser-button/definition";
-import { definition as DownloadIOSButtonDefinition } from "./download-ios-button/definition";
+import { definition as IconSwapButtonDefinition } from "./icon-swap-button/definition";
 import { definition as MagneticFillButtonDefinition } from "./magnetic-fill-button/definition";
 import { definition as SlidingSendButtonDefinition } from "./sliding-send-button/definition";
 import { definition as GetStartedCircleSwapDefinition } from "./get-started-circle-swap/definition";
@@ -69,7 +69,7 @@ export const interactionDefinitions: Interaction[] = [
   ProjectsArrowButtonDefinition,
   WhatsNewGlowButtonDefinition,
   PreviewInBrowserButtonDefinition,
-  DownloadIOSButtonDefinition,
+  IconSwapButtonDefinition,
   MagneticFillButtonDefinition,
   SlidingSendButtonDefinition,
   GetStartedCircleSwapDefinition,

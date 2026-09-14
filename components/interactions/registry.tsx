@@ -18,7 +18,7 @@ import { ReadMoreSwap } from "./read-more-swap/component";
 import { ProjectsArrowButton } from "./projects-arrow-button/component";
 import { WhatsNewGlowButton } from "./whats-new-glow-button/component";
 import { PreviewInBrowserButton } from "./preview-browser-button/component";
-import { DownloadIOSButton } from "./download-ios-button/component";
+import { IconSwapButton } from "./icon-swap-button/component";
 import { MagneticFillButton } from "./magnetic-fill-button/component";
 import { SlidingSendButton } from "./sliding-send-button/component";
 import { GetStartedCircleSwap } from "./get-started-circle-swap/component";
@@ -67,7 +67,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "projects-arrow-button": ProjectsArrowButton,
   "whats-new-glow-button": WhatsNewGlowButton,
   "preview-browser-button": PreviewInBrowserButton,
-  "download-ios-button": DownloadIOSButton,
+  "icon-swap-button": IconSwapButton,
   "magnetic-fill-button": MagneticFillButton,
   "sliding-send-button": SlidingSendButton,
   "get-started-circle-swap": GetStartedCircleSwap,

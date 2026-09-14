@@ -2,12 +2,12 @@ import type { Interaction } from "@/content/interactions/types";
 import { componentCode, tailwindCode } from "./source";
 
 export const definition = {
-  id: "download-ios-button",
-  name: "Download for iOS Button",
+  id: "icon-swap-button",
+  name: "Icon Swap Button",
   category: "Click feedback",
   framework: "CSS",
   type: "Hover",
-  description: "An outlined iOS download button whose arrow reveals without changing its width.",
+  description: "A leading icon slides out as an arrow opens in to take its place, trading without changing the button's width.",
   new: true,
   dependency: "lucide-react",
   code: componentCode,
