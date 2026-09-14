@@ -413,7 +413,7 @@ function RegistryCallout() {
         </button>
       </div>
       <a className="registry-badge" href={REGISTRY_DIRECTORY_URL} target="_blank" rel="noreferrer">
-        <span className="registry-badge-dot" aria-hidden="true"/>
+        <span className="registry-badge-mark" aria-hidden="true"/>
         Official shadcn registry
       </a>
     </section>
