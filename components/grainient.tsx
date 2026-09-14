@@ -181,11 +181,22 @@ const Grainient: React.FC<GrainientProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
+    /*
+     * Rendered at one device pixel per CSS pixel, not two.
+     *
+     * On a Retina display `dpr: 2` put four times the pixels through this
+     * fragment shader every frame — around 5.8 million of them on a full
+     * window, each doing noise, a warp and five sines, continuously, for as
+     * long as the hero is on screen. What that buys is sharper detail in a
+     * field that has no detail to sharpen: it is soft noise over a gradient,
+     * and it is under a mask. What it cost was every other animation on a page
+     * that also runs forty-seven live previews.
+     */
     const renderer = new Renderer({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      dpr: 1
     });
 
     const gl = renderer.gl;
@@ -249,10 +260,25 @@ const Grainient: React.FC<GrainientProps> = ({
     let isPageVisible = !document.hidden;
     const t0 = performance.now();
 
+    /*
+     * Drawn at about thirty frames a second rather than at the display's rate.
+     *
+     * The field drifts — `timeSpeed` is 0.4 — so nothing in it moves far enough
+     * between frames for sixty to look different from thirty. The frames it
+     * skips are the budget everything else on the page draws in: the previews,
+     * the hero's own lighting, and whatever the reader is hovering. The clock
+     * still reads real elapsed time, so the motion keeps its speed rather than
+     * running at half.
+     */
+    const FRAME_MS = 1000 / 30;
+    let lastDrawn = 0;
+
     const loop = (t: number) => {
+      raf = requestAnimationFrame(loop);
+      if (t - lastDrawn < FRAME_MS) return;
+      lastDrawn = t;
       (program.uniforms.iTime as { value: number }).value = (t - t0) * 0.001;
       renderer.render({ scene: mesh });
-      raf = requestAnimationFrame(loop);
     };
 
     const tryStart = () => {

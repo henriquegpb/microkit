@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { forwardRef, useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { Highlight, type Language, type PrismTheme } from "prism-react-renderer";
 import { MorphIcon } from "morphicons/react";
 // Icon data, not components: MorphIcon interpolates paths, so it consumes the
@@ -58,8 +58,11 @@ import {
   GALLERY_HEADING,
   HERO_DESCRIPTION,
   PACKAGE_MANAGERS,
+  REGISTRY_DIRECTORY_URL,
   REPO_URL,
   registryInstallCommand,
+  registryItemAddress,
+  registryRunner,
   type FrameworkRoute,
   type PackageManager,
 } from "./site-metadata";
@@ -243,45 +246,176 @@ function HeroTunnel() {
   );
 }
 
-function HeroCard() {
-  const cardRef = useRef<HTMLElement>(null);
-  const pointerRef = useRef({ x: 50, y: 50 });
-  const frameRef = useRef<number | null>(null);
+/**
+ * The hero, in two parts inside one border.
+ *
+ * `.hero-stage` is the picture — it carries the aspect ratio, the grid overlay,
+ * the gradient and the container queries the slips and the copy size against.
+ * The card around it is now just the frame and a column, so anything passed as
+ * `children` lands under the picture and inside the same border.
+ *
+ * The pointer is measured against the stage rather than the card. The glowing
+ * grid only covers the picture, so tracking the card would have offset the
+ * light by however tall the footer happens to be.
+ */
+function HeroCard({ children }: { children?: React.ReactNode }) {
+  return (
+    <section className="hero-card" aria-label="MicroKit UI introduction">
+      {/*
+        No pointer tracking on the stage.
 
-  useEffect(() => () => {
-    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+        It fed one thing: a grid that lit up under the cursor, drawn by masking
+        a full-width overlay with a radial gradient whose centre moved every
+        frame. That is a repaint of the whole card for a circle two hundred
+        pixels across, on a page that has a WebGL field and forty-seven live
+        previews to draw first. The tunnel keeps its own tracking — it moves one
+        SVG gradient and repaints nothing else.
+      */}
+      <div className="hero-stage">
+        <div className="hero-copy">
+          <h2>Details Matter!</h2>
+          <p className="hero-description">{HERO_DESCRIPTION}</p>
+        </div>
+        <div className="hero-figure" aria-hidden="true"><HeroTunnel/></div>
+        <span className="hero-border-flash hero-border-flash-top" aria-hidden="true"/>
+        <span className="hero-border-flash hero-border-flash-left" aria-hidden="true"/>
+        <span className="grid-slip grid-slip-one" aria-hidden="true"/>
+        <span className="grid-slip grid-slip-two" aria-hidden="true"/>
+        <span className="grid-slip grid-slip-three" aria-hidden="true"/>
+        <span className="grid-slip grid-slip-four" aria-hidden="true"/>
+        <span className="grid-slip grid-slip-five" aria-hidden="true"/>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+/**
+ * The install line, under the hero.
+ *
+ * The catalog's pitch is that the code is yours to copy, which reads as work.
+ * One command that writes a component into your project reads as no work at
+ * all, and the home page never said it was possible — the whole story lived on
+ * the component pages, below the fold, behind a tab.
+ *
+ * It cycles because the point is not one component: it is that any of the
+ * forty-seven installs this way. The name is the only part that moves, so the
+ * command reads as a constant with a slot in it.
+ *
+ * Hovering stops the rotation. A target that moves while you reach for the copy
+ * button is a target you cannot hit, and the reader who hovers is the reader
+ * about to use it. Reduced motion stops it for good and leaves the first one.
+ */
+/**
+ * The install line, under the hero, cycling the catalog.
+ *
+ * The name changes one letter at a time, on the catalog's own Staggered Letter
+ * Text Swap — same easing, same 125% travel, a clipped cell per character. That
+ * component trades a word for itself so each letter has a partner; here the
+ * name changes length, so the letters enter and there is nothing to trade with.
+ *
+ * Everything about the timer is gated, because this sits on a page already
+ * running forty-seven live previews and a WebGL gradient, and an animation that
+ * costs something while nobody is looking at it costs the person who is looking
+ * at something else:
+ *
+ * - off screen, it stops (the hero scrolls away and never comes back for most
+ *   readers, so this is the gate that does the most work)
+ * - in a background tab, it stops
+ * - under the pointer, it stops, so a moving target does not slip out from
+ *   under somebody reaching for the copy button
+ * - with reduced motion, it never starts
+ *
+ * The letters are spans rather than one animated element because the effect is
+ * per character; they are cheap to animate — transforms, composited — and the
+ * gates are what keep them from running when they are not earning it.
+ */
+function RegistryCallout() {
+  const [index, setIndex] = useState(0);
+  const [manager, setManager] = useState<PackageManager>("npm");
+  const [copied, setCopied] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [onScreen, setOnScreen] = useState(false);
+  const rootRef = useRef<HTMLElement>(null);
+  const item = interactions[index % interactions.length];
+  const address = registryItemAddress(item.id);
+  const command = registryInstallCommand(item.id, manager);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting));
+    observer.observe(root);
+    return () => observer.disconnect();
   }, []);
 
-  const handlePointerMove = (event: ReactPointerEvent<HTMLElement>) => {
-    pointerRef.current = { x: event.clientX, y: event.clientY };
-    if (frameRef.current !== null) return;
+  useEffect(() => {
+    if (!onScreen || hovered) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    frameRef.current = requestAnimationFrame(() => {
-      const card = cardRef.current;
-      if (card) {
-        const bounds = card.getBoundingClientRect();
-        card.style.setProperty("--pointer-x", `${((pointerRef.current.x - bounds.left) / bounds.width) * 100}%`);
-        card.style.setProperty("--pointer-y", `${((pointerRef.current.y - bounds.top) / bounds.height) * 100}%`);
-      }
-      frameRef.current = null;
-    });
+    let timer = 0;
+    const start = () => { timer = window.setInterval(() => setIndex(i => i + 1), 2800); };
+    const stop = () => { window.clearInterval(timer); timer = 0; };
+    const onVisibility = () => (document.hidden ? stop() : start());
+
+    if (!document.hidden) start();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => { stop(); document.removeEventListener("visibilitychange", onVisibility); };
+  }, [onScreen, hovered]);
+
+  const copyCommand = async () => {
+    await navigator.clipboard?.writeText(command);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1400);
   };
 
   return (
-    <section ref={cardRef} className="hero-card" aria-label="MicroKit UI introduction" onPointerMove={handlePointerMove}>
-      <div className="hero-copy">
-        <h2>Details Matter!</h2>
-        <p className="hero-description">{HERO_DESCRIPTION}</p>
+    <section ref={rootRef} className="registry-callout" aria-label="Install with the shadcn CLI">
+      {/*
+        The pause belongs to the command box, not to the row around it. It was
+        on the whole callout, and once the callout moved inside the hero card
+        that meant crossing the bottom of the card stopped the rotation — which
+        reads as the thing freezing rather than waiting for you.
+      */}
+      <div className="registry-command" onPointerEnter={()=>setHovered(true)} onPointerLeave={()=>setHovered(false)} onFocusCapture={()=>setHovered(true)} onBlurCapture={()=>setHovered(false)}>
+        <div className="registry-runners" role="tablist" aria-label="Package manager">
+          {PACKAGE_MANAGERS.map(name => (
+            <button key={name} type="button" role="tab" aria-selected={manager===name} aria-label={name} title={name} className={manager===name ? "active" : ""} onClick={()=>setManager(name)}>
+              <PackageManagerLogo name={name}/>
+            </button>
+          ))}
+        </div>
+        <code>
+          <span className="registry-command-static">{registryRunner(manager)} shadcn@latest add </span>
+          {/*
+            A clipped cell per character, rising a beat behind the one before —
+            the catalog's own Staggered Letter Text Swap, on its easing and its
+            125% travel. That component trades a word for itself so each letter
+            has a partner; here the name changes length, so the letters enter
+            and there is nothing to trade with.
+
+            Clipping keeps these off the cheap compositing path, which is what
+            made them expensive while the hero was repainting a full-width grid
+            under the cursor on every frame. That overlay is gone, so this is
+            paid for. `aria-label` carries the whole string: a name split into
+            thirty spans is thirty things to announce one at a time.
+          */}
+          <span key={item.id} className="registry-command-item" aria-label={address}>
+            {address.split("").map((character, position) => (
+              <span className="registry-letter" style={{ "--letter-delay": `${position * 18}ms` } as CSSProperties} key={position} aria-hidden="true">
+                <span>{character}</span>
+              </span>
+            ))}
+          </span>
+        </code>
+        <button type="button" className="registry-copy" onClick={copyCommand} aria-label={`Copy the install command for ${item.name}`}>
+          <CopyGlyph done={copied}/>
+        </button>
       </div>
-      <div className="hero-figure" aria-hidden="true"><HeroTunnel/></div>
-      <span className="hero-grid-light" aria-hidden="true"/>
-      <span className="hero-border-flash hero-border-flash-top" aria-hidden="true"/>
-      <span className="hero-border-flash hero-border-flash-left" aria-hidden="true"/>
-      <span className="grid-slip grid-slip-one" aria-hidden="true"/>
-      <span className="grid-slip grid-slip-two" aria-hidden="true"/>
-      <span className="grid-slip grid-slip-three" aria-hidden="true"/>
-      <span className="grid-slip grid-slip-four" aria-hidden="true"/>
-      <span className="grid-slip grid-slip-five" aria-hidden="true"/>
+      <a className="registry-badge" href={REGISTRY_DIRECTORY_URL} target="_blank" rel="noreferrer">
+        <span className="registry-badge-dot" aria-hidden="true"/>
+        Official shadcn registry
+      </a>
     </section>
   );
 }
@@ -327,7 +461,7 @@ export default function Home() {
     openComponent(item);
   };
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><HomeBackground/><div className="gallery-row"><main className="gallery-main"><HeroCard/><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {category === "All" ? "All interactions" : category}</div><h1>{category === "All" ? GALLERY_HEADING : category}</h1><p>{filtered.length} {filtered.length === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p><Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link></div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></div></div><div className="active-filter"><span>{category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div><section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`} onClick={()=>markRecentlyViewed(item.id)}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>{!filtered.length && <div className="empty"><Icon name="search" size={28}/><h2>No interactions found</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/><HomeFootnote/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div></div>;
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><HomeBackground/><div className="gallery-row"><main className="gallery-main"><HeroCard><RegistryCallout/></HeroCard><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {category === "All" ? "All interactions" : category}</div><h1>{category === "All" ? GALLERY_HEADING : category}</h1><p>{filtered.length} {filtered.length === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p><Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link></div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></div></div><div className="active-filter"><span>{category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div><section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`} onClick={()=>markRecentlyViewed(item.id)}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>{!filtered.length && <div className="empty"><Icon name="search" size={28}/><h2>No interactions found</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/><HomeFootnote/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div></div>;
 }
 
 /** The sites this one took its cues from. */

@@ -7,15 +7,22 @@ export const SITE_NAME = "MicroKit UI";
 /**
  * How the shadcn CLI addresses one interaction.
  *
- * The full URL rather than `@microkit/{id}`: the namespace only resolves once
- * the registry is listed in shadcn's open source index, and a command that
- * fails for everyone who copies it is worse than a long one. When the namespace
- * lands, this function is the whole change.
+ * `@microkit` resolves for everybody: the registry is in shadcn's open source
+ * index, so the CLI looks the namespace up and writes it into the reader's
+ * `components.json` on first use. No configuration, and nothing to paste but
+ * the name of the component they want.
  *
- * The apex and not www — www answers every request with a 308, and a redirect
- * in the middle of an install command is a thing that can break.
+ * The full URL below still works and needs no index at all. It is the fallback
+ * worth knowing about — for a pinned CLI older than the listing, or for anyone
+ * who would rather not have a namespace added to their config.
  */
-export const registryItemAddress = (id: string) => `${SITE_URL}/r/${id}.json`;
+export const registryItemAddress = (id: string) => `@microkit/${id}`;
+export const registryItemUrl = (id: string) => `${SITE_URL}/r/${id}.json`;
+
+/** Where the namespace is listed, for anyone who wants to check. */
+export const REGISTRY_DIRECTORY_URL =
+  "https://ui.shadcn.com/docs/registry/registry-index";
+export const REGISTRY_INDEX_URL = "https://ui.shadcn.com/r/registries.json";
 
 /**
  * The four ways to run a one-off npm binary, in the order a reader scans for
@@ -31,6 +38,9 @@ const RUNNER: Record<PackageManager, string> = {
   yarn: "yarn dlx",
   bun: "bunx --bun",
 };
+
+/** The runner alone, for surfaces that render the command in parts. */
+export const registryRunner = (manager: PackageManager) => RUNNER[manager];
 
 export function registryInstallCommand(id: string, manager: PackageManager) {
   return `${RUNNER[manager]} shadcn@latest add ${registryItemAddress(id)}`;

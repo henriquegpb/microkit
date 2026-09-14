@@ -13,6 +13,12 @@
   <a href="https://www.microkit.co">
     <img alt="Website status" src="https://img.shields.io/website?url=https%3A%2F%2Fwww.microkit.co&label=website&color=f97316" />
   </a>
+  <a href="https://ui.shadcn.com/docs/registry/registry-index">
+    <img alt="Official shadcn registry" src="https://img.shields.io/badge/official%20shadcn%20registry-%40microkit-f97316?style=flat" />
+  </a>
+  <br />
+  <br />
+  <code>npx shadcn@latest add @microkit/cursor-edge-glow-button</code>
   <br />
   <br />
   <a href="https://www.microkit.co">Explore interactions</a>
@@ -37,7 +43,8 @@ MicroKit is built for copying and learning from the source—not for hiding inte
 
 ## Features
 
-- **43 interactive components** with dedicated preview pages
+- **47 interactive components** with dedicated preview pages
+- **One-command install** through the shadcn CLI, or copy the source by hand
 - **JavaScript and TypeScript** implementations
 - **CSS and Tailwind** styling variants
 - **Live previews** for testing every interaction before copying
@@ -46,7 +53,52 @@ MicroKit is built for copying and learning from the source—not for hiding inte
 - **Direct component routes** for sharing individual interactions
 - **GitHub-based submissions** with no custom backend required
 
-## Using a component
+## Install with the shadcn CLI
+
+MicroKit is published as a [shadcn registry](https://ui.shadcn.com/docs/registry)
+and listed in the
+[open source registry directory](https://ui.shadcn.com/docs/registry/registry-index),
+so the `@microkit` namespace resolves without any configuration:
+
+```bash
+npx shadcn@latest add @microkit/cursor-edge-glow-button
+```
+
+The CLI writes the component to `components/microkit/` as a single
+self-contained TypeScript and Tailwind file — the same source the site shows —
+and installs anything it imports. From there the code is yours to edit.
+
+Browse what is available:
+
+```bash
+npx shadcn@latest search @microkit
+```
+
+There is still no npm package, and there is not going to be one. The CLI copies
+a file and exits; nothing is added to your dependency tree but what the
+component itself imports.
+
+<details>
+<summary>Without the namespace</summary>
+
+Every item is also addressable by URL, which needs no registry index at all:
+
+```bash
+npx shadcn@latest add https://microkit.co/r/cursor-edge-glow-button.json
+```
+
+And straight from this repository:
+
+```bash
+npx shadcn@latest add henriquegpb/microkit/cursor-edge-glow-button
+```
+
+</details>
+
+## Copying by hand
+
+The CLI ships the TypeScript + Tailwind variant. The site carries four, so copy
+from there if you want JavaScript, or plain CSS instead of utility classes:
 
 1. Open the [interaction library](https://www.microkit.co).
 2. Select a component to open its dedicated page.
@@ -56,7 +108,8 @@ MicroKit is built for copying and learning from the source—not for hiding inte
 6. Choose CSS or Tailwind.
 7. Copy the source into your project and customize it.
 
-Some interactions use `lucide-react` for icons. Any required dependency is visible in the copied source.
+Some interactions use `lucide-react` for icons. Any required dependency is
+visible in the copied source, and the CLI installs it for you.
 
 ## Run locally
 
@@ -90,7 +143,12 @@ app/
 content/
   interactions/catalog.ts    Component metadata and copyable source
 
+registry.json                shadcn registry catalog (generated)
+registry/microkit/           One distributable file per interaction (generated)
+scripts/build-registry.mjs   Generates both from the catalog
+
 public/
+  r/                         Published registry JSON (generated)
   assets/img/                Shared logos and visual assets
 
 .github/
@@ -145,7 +203,14 @@ npm run dev
 npm run lint
 npm run build
 npm run start
+npm run registry:build
 ```
+
+`registry:build` regenerates the shadcn registry from the catalog. Run it after
+changing an interaction's `source.ts` and commit the regenerated `registry.json`,
+`registry/microkit/*.tsx` and `public/r/*.json` in the same change — they are
+build artifacts, and hand-editing them is how the installed code drifts from the
+code the site shows.
 
 The site is built with Next.js, React, TypeScript, Tailwind CSS, Lucide icons, Prism syntax highlighting, and Vercel Analytics.
 
