@@ -42,9 +42,7 @@ export function IconSwapButton() {
   align-items: center;
   gap: 8px;
 }
-/* The leaf on the Apple mark adds bounding-box height but almost no mass, so
-   centring the box leaves the body sitting ~2px low. Nudge the ink, not the
-   box. Using \`top\` keeps the swap's own transform and margin free. */
+
 .icon-swap-icon {
   position: relative;
   top: -2px;

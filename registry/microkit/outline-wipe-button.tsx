@@ -1,4 +1,4 @@
-const LABEL = "\u00A0MicroKit\u00A0"; // non-breaking padding, so the wipe bar rests inside the word
+const LABEL = "\u00A0MicroKit\u00A0";
 
 export function OutlineWipeButton() {
   return (

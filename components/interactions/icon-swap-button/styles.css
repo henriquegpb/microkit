@@ -17,17 +17,7 @@
   align-items: center;
   gap: 8px;
 }
-/*
- * `align-items: center` centres the icon's bounding box, which is not the same
- * as centring what you see. The Apple mark carries a detached leaf that adds
- * height at the top and almost no mass, so the box centres while the body —
- * the part the eye reads as the logo — hangs low. Measured against the painted
- * pixels, the ink centroid sits 2.1px under the box centre at this size.
- *
- * `top` rather than `transform` or `margin`: both of those are already spoken
- * for by the swap below, and a base value there would have to be repeated in
- * every hover rule to survive being overwritten.
- */
+
 .icon-swap-icon {
   position: relative;
   top: -2px;

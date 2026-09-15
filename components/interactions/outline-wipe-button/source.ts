@@ -1,6 +1,5 @@
 export const componentCode = `import "./styles.css";
 
-// Non-breaking padding so the wipe bar has room to rest inside the word.
 const LABEL = "\\u00A0MicroKit\\u00A0";
 
 export function OutlineWipeButton() {
@@ -107,7 +106,7 @@ export function OutlineWipeButton() {
   }
 }`;
 
-export const tailwindCode = `const LABEL = "\\u00A0MicroKit\\u00A0"; // non-breaking padding, so the wipe bar rests inside the word
+export const tailwindCode = `const LABEL = "\\u00A0MicroKit\\u00A0";
 
 export function OutlineWipeButton() {
   return (

@@ -17,27 +17,12 @@
   font-size: 11px;
 }
 
-/*
- * The anchor is as tall as the open bar and bottom-aligns it, so the extra
- * height the bar takes on hover is spent upwards and its bottom edge never
- * moves.
- */
 .preview-toolbar__anchor {
   display: flex;
   height: 34px;
   align-items: flex-end;
 }
 
-/*
- * Opening and closing both run in 170ms, split into two overlapping phases: the
- * bar covers ~83% of its growth in the first half, then finishes the last
- * stretch while the icons scale up with it.
- *
- * Every easing is paired with its mirror — cubic-bezier(a,b,c,d) reversed is
- * cubic-bezier(1-c,1-d,1-a,1-b) — and the closed state carries the mirrored
- * halves, so closing replays the opening backwards: the icons shrink away
- * first, then the bar collapses.
- */
 .preview-toolbar__bar {
   position: relative;
   width: 44px;
@@ -68,11 +53,6 @@
     box-shadow 170ms cubic-bezier(.34, .8, .5, 1);
 }
 
-/*
- * The row keeps its final size at every moment and is centred on the bar, so
- * opening animates two boxes at most. Laying the icons out again on each frame
- * is what made them stutter behind the bar.
- */
 .preview-toolbar__row {
   position: absolute;
   top: 50%;
@@ -107,12 +87,6 @@
     color 150ms ease;
 }
 
-/*
- * The 80ms delay is the icons' half of the 170ms: it starts them where the bar
- * has almost finished and lands them on full size exactly as the bar does. It
- * sits on the open state alone, and only on opacity and transform, so closing
- * drops them at once and hover feedback never waits.
- */
 .preview-toolbar:hover .preview-toolbar__action,
 .preview-toolbar:focus-within .preview-toolbar__action {
   opacity: 1;

@@ -4,11 +4,6 @@ import "./styles.css";
 
 import { ArrowRight } from "lucide-react";
 
-/*
- * The glyph the button leads with. Nothing here is Apple-specific beyond the
- * path — swap in any 1:1 mark and the interaction is unchanged, which is the
- * point of the component. See `styles.css` for why it is nudged up 2px.
- */
 function AppleMark() {
   return (
     <svg className="icon-swap-icon" width="18" height="20" viewBox="0 0 14 16" fill="none" aria-hidden="true">

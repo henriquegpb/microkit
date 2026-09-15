@@ -56,27 +56,12 @@ export function PreviewHoverToolbar() {
   font-size: 11px;
 }
 
-/*
- * The anchor is as tall as the open bar and bottom-aligns it, so the extra
- * height the bar takes on hover is spent upwards and its bottom edge never
- * moves.
- */
 .preview-toolbar__anchor {
   display: flex;
   height: 34px;
   align-items: flex-end;
 }
 
-/*
- * Opening and closing both run in 170ms, split into two overlapping phases: the
- * bar covers ~83% of its growth in the first half, then finishes the last
- * stretch while the icons scale up with it.
- *
- * Every easing is paired with its mirror — cubic-bezier(a,b,c,d) reversed is
- * cubic-bezier(1-c,1-d,1-a,1-b) — and the closed state carries the mirrored
- * halves, so closing replays the opening backwards: the icons shrink away
- * first, then the bar collapses.
- */
 .preview-toolbar__bar {
   position: relative;
   width: 44px;
@@ -107,11 +92,6 @@ export function PreviewHoverToolbar() {
     box-shadow 170ms cubic-bezier(.34, .8, .5, 1);
 }
 
-/*
- * The row keeps its final size at every moment and is centred on the bar, so
- * opening animates two boxes at most. Laying the icons out again on each frame
- * is what made them stutter behind the bar.
- */
 .preview-toolbar__row {
   position: absolute;
   top: 50%;
@@ -146,12 +126,6 @@ export function PreviewHoverToolbar() {
     color 150ms ease;
 }
 
-/*
- * The 80ms delay is the icons' half of the 170ms: it starts them where the bar
- * has almost finished and lands them on full size exactly as the bar does. It
- * sits on the open state alone, and only on opacity and transform, so closing
- * drops them at once and hover feedback never waits.
- */
 .preview-toolbar:hover .preview-toolbar__action,
 .preview-toolbar:focus-within .preview-toolbar__action {
   opacity: 1;
@@ -231,28 +205,13 @@ const actions = [
 export function PreviewHoverToolbar() {
   return (
     <div className="group/preview flex h-full min-h-[140px] w-full items-center justify-center font-[Arial,Helvetica,sans-serif] text-[11px] text-[#dfe2e5]">
-      {/* As tall as the open bar and bottom-aligned, so the bar grows upwards only. */}
       <div className="flex h-[34px] items-end">
-        {/*
-          Opening and closing both run in 170ms, split into two overlapping phases:
-          the bar covers ~83% of its growth in the first half, then finishes the
-          last stretch while the icons scale up with it. Every easing is paired
-          with its mirror and the closed state carries the mirrored halves, so
-          closing replays the opening backwards.
-        */}
         <div className="relative h-[16px] w-[44px] rounded-full border border-[#2e3238] bg-[rgba(14,16,19,.55)] [transition:width_170ms_cubic-bezier(.5,0,.66,.2),height_170ms_cubic-bezier(.5,0,.66,.2),background-color_170ms_cubic-bezier(.5,0,.66,.2),border-color_170ms_cubic-bezier(.5,0,.66,.2),box-shadow_170ms_cubic-bezier(.5,0,.66,.2)] group-hover/preview:h-[34px] group-hover/preview:w-[104px] group-hover/preview:border-[#3a4048] group-hover/preview:bg-[#15181c] group-hover/preview:shadow-[0_12px_26px_rgba(0,0,0,.5)] group-hover/preview:[transition:width_170ms_cubic-bezier(.34,.8,.5,1),height_170ms_cubic-bezier(.34,.8,.5,1),background-color_170ms_cubic-bezier(.34,.8,.5,1),border-color_170ms_cubic-bezier(.34,.8,.5,1),box-shadow_170ms_cubic-bezier(.34,.8,.5,1)] group-focus-within/preview:h-[34px] group-focus-within/preview:w-[104px] group-focus-within/preview:border-[#3a4048] group-focus-within/preview:bg-[#15181c] group-focus-within/preview:shadow-[0_12px_26px_rgba(0,0,0,.5)] group-focus-within/preview:[transition:width_170ms_cubic-bezier(.34,.8,.5,1),height_170ms_cubic-bezier(.34,.8,.5,1),background-color_170ms_cubic-bezier(.34,.8,.5,1),border-color_170ms_cubic-bezier(.34,.8,.5,1),box-shadow_170ms_cubic-bezier(.34,.8,.5,1)] motion-reduce:transition-none motion-reduce:group-hover/preview:transition-none motion-reduce:group-focus-within/preview:transition-none">
-          {/* The row is always at its final size, so opening lays out nothing but the bar. */}
           <div
             className="absolute left-1/2 top-1/2 flex items-center gap-[4px] [transform:translate(-50%,-50%)]"
             role="toolbar"
             aria-label="Preview actions"
           >
-            {/*
-              The 80ms delay is the icons' half of the 170ms: it starts them where
-              the bar has almost finished and lands them on full size exactly as the
-              bar does. It sits on the open state alone, and only on opacity and
-              transform, so closing drops them at once and hover never waits.
-            */}
             {actions.map((action) => (
               <button
                 key={action.id}

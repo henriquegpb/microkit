@@ -2,7 +2,6 @@
 
 import "./styles.css";
 
-// Non-breaking padding so the wipe bar has room to rest inside the word.
 const LABEL = "\u00A0MicroKit\u00A0";
 
 export function OutlineWipeButton() {
