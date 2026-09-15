@@ -34,8 +34,7 @@
     width 170ms cubic-bezier(.5, 0, .66, .2),
     height 170ms cubic-bezier(.5, 0, .66, .2),
     background-color 170ms cubic-bezier(.5, 0, .66, .2),
-    border-color 170ms cubic-bezier(.5, 0, .66, .2),
-    box-shadow 170ms cubic-bezier(.5, 0, .66, .2);
+    border-color 170ms cubic-bezier(.5, 0, .66, .2);
 }
 
 .preview-toolbar:hover .preview-toolbar__bar,
@@ -44,13 +43,11 @@
   height: 34px;
   border-color: #3a4048;
   background: #15181c;
-  box-shadow: 0 12px 26px rgba(0, 0, 0, .5);
   transition:
     width 170ms cubic-bezier(.34, .8, .5, 1),
     height 170ms cubic-bezier(.34, .8, .5, 1),
     background-color 170ms cubic-bezier(.34, .8, .5, 1),
-    border-color 170ms cubic-bezier(.34, .8, .5, 1),
-    box-shadow 170ms cubic-bezier(.34, .8, .5, 1);
+    border-color 170ms cubic-bezier(.34, .8, .5, 1);
 }
 
 .preview-toolbar__row {

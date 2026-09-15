@@ -73,8 +73,7 @@ export function PreviewHoverToolbar() {
     width 170ms cubic-bezier(.5, 0, .66, .2),
     height 170ms cubic-bezier(.5, 0, .66, .2),
     background-color 170ms cubic-bezier(.5, 0, .66, .2),
-    border-color 170ms cubic-bezier(.5, 0, .66, .2),
-    box-shadow 170ms cubic-bezier(.5, 0, .66, .2);
+    border-color 170ms cubic-bezier(.5, 0, .66, .2);
 }
 
 .preview-toolbar:hover .preview-toolbar__bar,
@@ -83,13 +82,11 @@ export function PreviewHoverToolbar() {
   height: 34px;
   border-color: #3a4048;
   background: #15181c;
-  box-shadow: 0 12px 26px rgba(0, 0, 0, .5);
   transition:
     width 170ms cubic-bezier(.34, .8, .5, 1),
     height 170ms cubic-bezier(.34, .8, .5, 1),
     background-color 170ms cubic-bezier(.34, .8, .5, 1),
-    border-color 170ms cubic-bezier(.34, .8, .5, 1),
-    box-shadow 170ms cubic-bezier(.34, .8, .5, 1);
+    border-color 170ms cubic-bezier(.34, .8, .5, 1);
 }
 
 .preview-toolbar__row {
@@ -206,7 +203,7 @@ export function PreviewHoverToolbar() {
   return (
     <div className="group/preview flex h-full min-h-[140px] w-full items-center justify-center font-[Arial,Helvetica,sans-serif] text-[11px] text-[#dfe2e5]">
       <div className="flex h-[34px] items-end">
-        <div className="relative h-[16px] w-[44px] rounded-full border border-[#2e3238] bg-[rgba(14,16,19,.55)] [transition:width_170ms_cubic-bezier(.5,0,.66,.2),height_170ms_cubic-bezier(.5,0,.66,.2),background-color_170ms_cubic-bezier(.5,0,.66,.2),border-color_170ms_cubic-bezier(.5,0,.66,.2),box-shadow_170ms_cubic-bezier(.5,0,.66,.2)] group-hover/preview:h-[34px] group-hover/preview:w-[104px] group-hover/preview:border-[#3a4048] group-hover/preview:bg-[#15181c] group-hover/preview:shadow-[0_12px_26px_rgba(0,0,0,.5)] group-hover/preview:[transition:width_170ms_cubic-bezier(.34,.8,.5,1),height_170ms_cubic-bezier(.34,.8,.5,1),background-color_170ms_cubic-bezier(.34,.8,.5,1),border-color_170ms_cubic-bezier(.34,.8,.5,1),box-shadow_170ms_cubic-bezier(.34,.8,.5,1)] group-focus-within/preview:h-[34px] group-focus-within/preview:w-[104px] group-focus-within/preview:border-[#3a4048] group-focus-within/preview:bg-[#15181c] group-focus-within/preview:shadow-[0_12px_26px_rgba(0,0,0,.5)] group-focus-within/preview:[transition:width_170ms_cubic-bezier(.34,.8,.5,1),height_170ms_cubic-bezier(.34,.8,.5,1),background-color_170ms_cubic-bezier(.34,.8,.5,1),border-color_170ms_cubic-bezier(.34,.8,.5,1),box-shadow_170ms_cubic-bezier(.34,.8,.5,1)] motion-reduce:transition-none motion-reduce:group-hover/preview:transition-none motion-reduce:group-focus-within/preview:transition-none">
+        <div className="relative h-[16px] w-[44px] rounded-full border border-[#2e3238] bg-[rgba(14,16,19,.55)] [transition:width_170ms_cubic-bezier(.5,0,.66,.2),height_170ms_cubic-bezier(.5,0,.66,.2),background-color_170ms_cubic-bezier(.5,0,.66,.2),border-color_170ms_cubic-bezier(.5,0,.66,.2)] group-hover/preview:h-[34px] group-hover/preview:w-[104px] group-hover/preview:border-[#3a4048] group-hover/preview:bg-[#15181c] group-hover/preview:[transition:width_170ms_cubic-bezier(.34,.8,.5,1),height_170ms_cubic-bezier(.34,.8,.5,1),background-color_170ms_cubic-bezier(.34,.8,.5,1),border-color_170ms_cubic-bezier(.34,.8,.5,1)] group-focus-within/preview:h-[34px] group-focus-within/preview:w-[104px] group-focus-within/preview:border-[#3a4048] group-focus-within/preview:bg-[#15181c] group-focus-within/preview:[transition:width_170ms_cubic-bezier(.34,.8,.5,1),height_170ms_cubic-bezier(.34,.8,.5,1),background-color_170ms_cubic-bezier(.34,.8,.5,1),border-color_170ms_cubic-bezier(.34,.8,.5,1)] motion-reduce:transition-none motion-reduce:group-hover/preview:transition-none motion-reduce:group-focus-within/preview:transition-none">
           <div
             className="absolute left-1/2 top-1/2 flex items-center gap-[4px] [transform:translate(-50%,-50%)]"
             role="toolbar"
