@@ -48,6 +48,7 @@ import { BlurGlideMenu } from "./blur-glide-menu/component";
 import { ExpandingIconTabs } from "./expanding-icon-tabs/component";
 import { NextDotFillButton } from "./next-dot-fill-button/component";
 import { SecurePurchaseButton } from "./secure-purchase-button/component";
+import { PreviewHoverToolbar } from "./preview-hover-toolbar/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
@@ -93,6 +94,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "expanding-icon-tabs": ExpandingIconTabs,
   "next-dot-fill-button": NextDotFillButton,
   "secure-purchase-button": SecurePurchaseButton,
+  "preview-hover-toolbar": PreviewHoverToolbar,
   "sliding-content-tabs": SlidingContentTabs,
   "sliding-underline-tabs": SlidingUnderlineTabs,
   "floating-newsletter-button": FloatingNewsletterButton,

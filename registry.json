@@ -168,6 +168,28 @@
       ]
     },
     {
+      "name": "preview-hover-toolbar",
+      "type": "registry:component",
+      "title": "Preview Hover Toolbar",
+      "description": "A thin empty pill that grows wider and taller off its fixed bottom edge when the surrounding preview is hovered, scaling its actions in one after another with a label above each.",
+      "author": "henriquegpb <https://github.com/henriquegpb>",
+      "categories": [
+        "navigation",
+        "hover"
+      ],
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/preview-hover-toolbar",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/microkit/preview-hover-toolbar.tsx",
+          "type": "registry:component",
+          "target": "@components/microkit/preview-hover-toolbar.tsx"
+        }
+      ]
+    },
+    {
       "name": "secure-purchase-button",
       "type": "registry:component",
       "title": "Secure Purchase Button",

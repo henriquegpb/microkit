@@ -46,6 +46,7 @@ import { definition as BlurGlideMenuDefinition } from "./blur-glide-menu/definit
 import { definition as ExpandingIconTabsDefinition } from "./expanding-icon-tabs/definition";
 import { definition as NextDotFillButtonDefinition } from "./next-dot-fill-button/definition";
 import { definition as SecurePurchaseButtonDefinition } from "./secure-purchase-button/definition";
+import { definition as PreviewHoverToolbarDefinition } from "./preview-hover-toolbar/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
@@ -56,6 +57,7 @@ export const interactionDefinitions: Interaction[] = [
   BlurGlideMenuDefinition,
   ExpandingIconTabsDefinition,
   NextDotFillButtonDefinition,
+  PreviewHoverToolbarDefinition,
   SecurePurchaseButtonDefinition,
   ExpandingContactButtonDefinition,
   ContactRevealButtonDefinition,
