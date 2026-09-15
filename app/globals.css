@@ -682,7 +682,7 @@ a.card-info:focus-visible{outline:2px solid #f97316;outline-offset:-2px}
    name rotated. 560px clears the longest id in the catalog. */
 /* Sized to the longest command in the catalog and no wider. The basis is what
    keeps the box from breathing as the name rotates. */
-.registry-command{display:flex;align-items:center;gap:9px;min-width:0;flex:0 1 min(100%, 700px);border:1px solid var(--line);border-radius:9px;background:#0f1114;padding:6px}
+.registry-command{display:flex;align-items:center;gap:9px;min-width:0;flex:1 1 360px;max-width:900px;border:1px solid var(--line);border-radius:9px;background:#0f1114;padding:6px}
 /* No mask here. A CSS mask puts the element on its own render surface and
    takes its children off the compositor with it — the thirty-odd letters
    animating inside stopped being cheap transforms and became a re-raster of
