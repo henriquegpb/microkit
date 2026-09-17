@@ -126,9 +126,27 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "dark",
+  /*
+   * Os dois temas são declarados aqui para que os controles nativos — barras de
+   * rolagem, campos de formulário, o fundo por baixo do overscroll — sigam o
+   * tema junto com o CSS. `themeColor` fica com a cor do tema escuro, que é o
+   * padrão do site; o navegador troca sozinho quando o outro é escolhido.
+   */
+  colorScheme: "dark light",
   themeColor: "#0b0c0e",
 };
+
+/*
+ * Roda antes da primeira pintura, para que o tema já esteja certo no primeiro
+ * frame. Sem isto o site pinta escuro e corrige depois da hidratação, que é
+ * exatamente o flash que quem prefere claro enxerga toda vez que abre a página.
+ *
+ * Fica inline por isso mesmo: um arquivo externo chegaria tarde demais. É
+ * deliberadamente pequeno e falha em silêncio — em janela privada, com o
+ * armazenamento bloqueado, cai na preferência do sistema, e se nem isso
+ * existir o site fica no escuro, que é o valor do `:root`.
+ */
+const NO_FLASH = `(function(){try{var t=localStorage.getItem("microkit-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"}document.documentElement.dataset.theme=t}catch(e){}})()`;
 
 export default function RootLayout({
   children,
@@ -139,7 +157,12 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      // O script abaixo escreve este atributo antes da hidratação, de propósito.
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: NO_FLASH }} />
+      </head>
       <body className="min-h-full flex flex-col">{children}<Analytics /></body>
     </html>
   );
