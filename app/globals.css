@@ -161,23 +161,41 @@
  */
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f6f7f9;
+  /*
+   * A faixa é larga de propósito, e essa é a diferença entre os dois temas.
+   *
+   * A primeira versão desta paleta pôs fundo, superfície e palco todos entre
+   * #e7 e #ff, espelhando a distância que o tema escuro usa entre #0b e #20.
+   * No escuro aquilo funciona: o olho separa muito bem valores baixos, e um
+   * degrau de 5% de luminância ali já é uma borda. Em cima, a mesma distância
+   * desaparece — a tela inteira virou uma folha só, sem hierarquia, e foi
+   * exatamente o que se viu.
+   *
+   * Então o claro tira sua estrutura de onde interfaces claras sempre tiraram:
+   * a página é cinza, o cartão é branco e se levanta dela, e a linha é visível
+   * em vez de sugerida. A distância entre página e cartão é maior aqui do que
+   * a do tema escuro em números absolutos — 22 contra 6 — porque perto do
+   * branco o olho lê um mesmo salto como menor, e o que tem de bater entre os
+   * dois temas é a sensação de relevo, não a aritmética. Os cinzas também são neutros aqui, não azulados como
+   * eram: com a laranja da marca por perto, o azul no cinza lia como névoa.
+   */
+  --bg: #e9ecf0;
   --surface: #ffffff;
-  --surface2: #f0f2f5;
-  --surface3: #e7eaef;
+  --surface2: #f7f8fa;
+  --surface3: #dfe2e8;
 
-  --line-soft: #e9ecf1;
-  --line: #dfe3ea;
-  --line-strong: #cbd2dc;
-  --line-loud: #adb6c3;
+  --line-soft: #e2e5ea;
+  --line: #d2d7de;
+  --line-strong: #b4bbc5;
+  --line-loud: #939ba8;
 
-  --text-faint: #a2aab6;
-  --text-dim: #868f9c;
-  --muted: #69727f;
-  --text-3: #545d6a;
-  --text-2: #3b434f;
-  --text-soft: #262d38;
-  --text: #14181e;
+  --text-faint: #98a0ac;
+  --text-dim: #79828f;
+  --muted: #5d6673;
+  --text-3: #49525f;
+  --text-2: #333b47;
+  --text-soft: #212833;
+  --text: #0f131a;
   --text-bright: #000000;
 
   --blue: #ea580c;
@@ -215,10 +233,10 @@
    */
   --pm-theme: .6;
 
-  --stage: #eef0f4;
+  --stage: #e3e6ec;
   --stage-raised: #ffffff;
-  --stage-line: #dfe3ea;
-  --stage-muted: #69727f;
+  --stage-line: #d2d7de;
+  --stage-muted: #5d6673;
 
   --arch: #ffffff;
   --tunnel-0: #ea580c;
