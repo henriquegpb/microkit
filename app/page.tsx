@@ -67,6 +67,7 @@ import {
   type FrameworkRoute,
   type PackageManager,
 } from "./site-metadata";
+import { splitCssVariant, toJavaScript } from "./code-variants";
 
 const microKitCodeTheme: PrismTheme = {
   plain: {
@@ -769,31 +770,14 @@ export function CodePanel({ item, copy, copied }: { item:Interaction; copy:(id:s
     document.addEventListener("pointerdown", openSelector);
     return () => document.removeEventListener("pointerdown", openSelector);
   }, []);
-  const tailwindCode = item.tailwindCode;
-  const implementation = styling === "Tailwind" ? tailwindCode : item.code;
-  const toJavaScript = (source: string) => language === "JavaScript"
-    ? source
-        .replace(/^import type[^\n]*\n/gm, "")
-        .replace(/: ReactPointerEvent<HTMLButtonElement>/g, "")
-        .replace(/\buseRef<[^>]+>/g, "useRef")
-    : source;
-  const separator = implementation.indexOf("\n/* ");
-  const componentSource = styling === "CSS" && separator !== -1 ? implementation.slice(0, separator) : implementation;
-  const componentCode = toJavaScript(componentSource).trim();
-  const cssCode = styling === "CSS" && separator !== -1 ? formatCssCode(implementation.slice(separator + 1)) : "";
-  const code = styling === "Tailwind" ? componentCode : implementation;
+  const implementation = styling === "Tailwind" ? item.tailwindCode : item.code;
+  // Tailwind carries its styles in the markup, so there is nothing to split off.
+  const variant = styling === "CSS" ? splitCssVariant(implementation) : { component: implementation, css: "" };
+  const componentCode = (language === "JavaScript" ? toJavaScript(variant.component) : variant.component).trim();
+  const cssCode = variant.css;
+  const code = componentCode;
 
   return <div className="component-code"><section className="code-section"><h2>Code</h2><div className="code-selectors"><label><span>{language === "TypeScript" ? "TS" : "JS"}</span><select value={language} onChange={event=>setLanguage(event.target.value as "JavaScript" | "TypeScript")}><option>JavaScript</option><option>TypeScript</option></select></label><label><span className={`code-style-logo ${styling.toLowerCase()}`}>{styling === "CSS" ? <Image src="/assets/img/CSS.svg" alt="" width={17} height={17} /> : <Image src="/assets/img/Tailwind.svg" alt="" width={20} height={12} />}</span><select value={styling} onChange={event=>setStyling(event.target.value as "CSS" | "Tailwind")}><option>CSS</option><option>Tailwind</option></select></label></div>{styling === "CSS" ? <div className="code-files"><div className="code-file"><h3>{language} component</h3><CodeSnippet label={`${item.id}-${language}`} code={componentCode} item={item} copy={copy} copied={copied}/></div><div className="code-file"><h3>CSS</h3><CodeSnippet label={`${item.id}-css`} code={cssCode} item={item} copy={copy} copied={copied}/></div></div> : <CodeSnippet label={`${item.id}-${language}-tailwind`} code={code} item={item} copy={copy} copied={copied}/>}</section></div>
-}
-function formatCssCode(source: string) {
-  return source
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/\s*\{\s*/g, " {\n  ")
-    .replace(/;\s*/g, ";\n  ")
-    .replace(/\s*\}/g, "\n}\n")
-    .replace(/\n[ \t]*\n+/g, "\n")
-    .replace(/\n  \n}/g, "\n}")
-    .trim();
 }
 function getSnippetLanguage(label: string): Language {
   if (label.endsWith("-css")) return "css";
