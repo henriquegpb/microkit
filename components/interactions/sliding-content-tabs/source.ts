@@ -41,10 +41,11 @@ export function SlidingContentTabs() {
 
 /* sliding-content-tabs.css */
 .sliding-tabs {
+  color-scheme: light dark;
   width: min(100%, 288px);
-  border: 1px solid #30343a;
+  border: 1px solid light-dark(#dfe3ea, #30343a);
   border-radius: 10px;
-  background: #101216;
+  background: light-dark(#ffffff, #101216);
   padding: 5px;
 }
 .sliding-tabs-list {
@@ -64,7 +65,7 @@ export function SlidingContentTabs() {
   border-radius: 6px;
   background: transparent;
   padding: 9px 6px;
-  color: #858c96;
+  color: light-dark(#69727f, #858c96);
   font-size: 11px;
   cursor: pointer;
   transition: color .3s cubic-bezier(.16, 1, .3, 1);
@@ -78,7 +79,7 @@ export function SlidingContentTabs() {
   height: 100%;
   border-radius: 6px;
   background: #f97316;
-  box-shadow: 0 1px 2px #0005;
+  box-shadow: 0 1px 2px light-dark(#0000001f, #0005);
   transition: transform .75s cubic-bezier(.22, 1, .36, 1);
 }
 .tabs-active-1 .sliding-tabs-indicator { transform: translateX(100%); }
@@ -86,7 +87,7 @@ export function SlidingContentTabs() {
 .sliding-tabs-content {
   margin: 0;
   padding: 14px 8px 7px;
-  color: #a9afb8;
+  color: light-dark(#545d6a, #a9afb8);
   font-size: 11px;
   line-height: 1.4;
   animation: sliding-tabs-enter .65s cubic-bezier(.22, 1, .36, 1);
@@ -116,7 +117,7 @@ export function SlidingContentTabs() {
   const activeTab = tabs[active];
 
   return (
-    <section className="w-full max-w-[288px] rounded-[10px] border border-[#30343a] bg-[#101216] p-[5px]">
+    <section className="[color-scheme:light_dark] w-full max-w-[288px] rounded-[10px] border border-[light-dark(#dfe3ea,#30343a)] bg-[light-dark(#ffffff,#101216)] p-[5px]">
       <div className="relative grid grid-cols-3" role="tablist" aria-label="Activity">
         {tabs.map(({ label, Icon }, index) => (
           <button
@@ -125,7 +126,7 @@ export function SlidingContentTabs() {
             type="button"
             role="tab"
             aria-selected={active === index}
-            className={\`relative z-10 inline-flex min-w-0 items-center justify-center gap-1.5 rounded-md border-0 bg-transparent px-1.5 py-[9px] text-[11px] transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#f97316] \${active === index ? "text-white" : "text-[#858c96]"}\`}
+            className={\`relative z-10 inline-flex min-w-0 items-center justify-center gap-1.5 rounded-md border-0 bg-transparent px-1.5 py-[9px] text-[11px] transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#f97316] \${active === index ? "text-white" : "text-[light-dark(#69727f,#858c96)]"}\`}
             onClick={() => setActive(index)}
           >
             <Icon size={15} strokeWidth={1.8} aria-hidden="true" />
@@ -133,12 +134,12 @@ export function SlidingContentTabs() {
           </button>
         ))}
         <span
-          className="pointer-events-none absolute inset-y-0 left-0 w-1/3 rounded-md bg-[#f97316] shadow-[0_1px_2px_#0005] transition-transform duration-[750ms] ease-[cubic-bezier(.22,1,.36,1)]"
+          className="pointer-events-none absolute inset-y-0 left-0 w-1/3 rounded-md bg-[#f97316] shadow-[0_1px_2px_light-dark(#0000001f,#0005)] transition-transform duration-[750ms] ease-[cubic-bezier(.22,1,.36,1)]"
           style={{ transform: \`translateX(\${active * 100}%)\` }}
           aria-hidden="true"
         />
       </div>
-      <p key={active} className="m-0 px-2 pb-[7px] pt-[14px] text-[11px] leading-[1.4] text-[#a9afb8]">
+      <p key={active} className="m-0 px-2 pb-[7px] pt-[14px] text-[11px] leading-[1.4] text-[light-dark(#545d6a,#a9afb8)]">
         {activeTab.content}
       </p>
     </section>

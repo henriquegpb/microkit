@@ -54,6 +54,7 @@
 }
 
 :root {
+  color-scheme: dark;
   --bg: #0b0c0e;
   --surface: #111317;
   --surface2: #1b1d22;
@@ -91,28 +92,31 @@
   --accent-purple: #bba5ff;
 
   /*
-   * O palco, e por que ele não tem tema.
+   * O palco onde os componentes são exibidos.
    *
-   * Tudo acima muda com o tema do site. Estes não mudam nunca, porque não
-   * descrevem a interface — descrevem a superfície onde os componentes são
-   * exibidos, e os quarenta e oito são desenhados para fundo escuro com hex
-   * fixo e zero variantes `dark:`. Se o palco seguisse o tema, cada preview da
-   * galeria e cada página de componente quebraria junto no modo claro: um menu
-   * cinza-escuro sobre branco, um botão claro que some.
+   * Ele segue o tema, e isso depende inteiramente de os próprios componentes
+   * terem tema: cada cor deles é declarada com `light-dark()`, que resolve pela
+   * propriedade `color-scheme` herdada daqui. Enquanto não tiverem, um palco
+   * claro é um palco onde o componente aparece errado, e é por isso que estes
+   * tokens já foram invariantes.
    *
-   * Dar modo claro a eles não é uma questão de esforço. O produto é código para
-   * colar, e um componente que referencia `var(--surface)` colado no projeto de
-   * outra pessoa renderiza errado — trinta e quatro dos quarenta e oito são CSS
-   * puro, sem Tailwind onde uma variante `dark:` pudesse existir.
-   *
-   * Os `--stage-light-*` são o outro lado do botão claro/escuro que o próprio
-   * preview já tem, e também são fixos: aquele botão mostra o componente sobre
-   * claro, o que é independente do tema em que o visitante está lendo o site.
+   * Continuam separados de `--surface` e companhia porque não são a mesma
+   * decisão: o palco é mais escuro que a interface no tema escuro e mais claro
+   * que ela no claro, para que a peça exposta se destaque do quadro em volta
+   * nos dois casos.
    */
   --stage: #0b0c0e;
   --stage-raised: #111317;
   --stage-line: #343940;
   --stage-muted: #8d939d;
+
+  /*
+   * O botão claro/escuro do próprio preview, que existe em CSS e nunca ganhou
+   * interface. Continua fixo porque é uma pergunta diferente da do tema: "como
+   * esta peça fica sobre claro", independentemente do tema em que o site está
+   * sendo lido. Com os componentes ganhando `light-dark()`, estas regras viram
+   * redundantes e devem sair junto com a última delas.
+   */
   --stage-light: #f1f2f4;
   --stage-light-surface: #ffffff;
   --stage-light-text: #0b0c0e;
@@ -141,6 +145,7 @@
  * dois temas. E nada de `--stage-*` aparece aqui, deliberadamente.
  */
 :root[data-theme="light"] {
+  color-scheme: light;
   --bg: #f6f7f9;
   --surface: #ffffff;
   --surface2: #f0f2f5;
@@ -194,6 +199,11 @@
    * logo e venceria qualquer valor daqui.
    */
   --pm-theme: .6;
+
+  --stage: #ffffff;
+  --stage-raised: #f6f7f9;
+  --stage-line: #dfe3ea;
+  --stage-muted: #69727f;
 }
 * { box-sizing:border-box; }
 html, body { margin:0; background:var(--bg); color:var(--text); font-family:Arial, Helvetica, sans-serif; min-height:100%; overflow:hidden; }
