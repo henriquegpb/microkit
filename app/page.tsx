@@ -232,10 +232,17 @@ function HeroTunnel() {
       <svg className="hero-tunnel-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         <defs>
           <radialGradient ref={gradientRef} id="hero-tunnel-gradient" gradientUnits="userSpaceOnUse" cx={HERO_TUNNEL_HOME.x} cy={HERO_TUNNEL_HOME.y} r="115">
-            <stop offset="0" stopColor="#f97316"/>
-            <stop offset=".22" stopColor="#743313"/>
-            <stop offset=".5" stopColor="#160a04"/>
-            <stop offset=".82" stopColor="#000"/>
+            {/*
+              * As paradas vêm de tokens porque este gradiente tem tema: ele
+              * desce da laranja da marca até a cor do próprio quadrado, e no
+              * tema claro esse destino é o oposto do que é no escuro. Um
+              * `stopColor` fixo aqui deixaria o túnel mergulhando no preto
+              * dentro de um quadrado branco.
+              */}
+            <stop offset="0" stopColor="var(--tunnel-0)"/>
+            <stop offset=".22" stopColor="var(--tunnel-1)"/>
+            <stop offset=".5" stopColor="var(--tunnel-2)"/>
+            <stop offset=".82" stopColor="var(--tunnel-3)"/>
           </radialGradient>
         </defs>
         <rect x="1" y="1" width="98" height="98" rx="21.5"/>

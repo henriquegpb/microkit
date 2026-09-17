@@ -111,6 +111,21 @@
   --stage-muted: #8d939d;
 
   /*
+   * O quadrado do hero e o túnel dentro dele.
+   *
+   * O gradiente vai da laranja da marca até a cor de fundo do próprio quadrado,
+   * e é isso que dá a sensação de profundidade: os retângulos concêntricos
+   * somem no fundo em vez de pararem numa borda. Por isso a última parada e o
+   * `--arch` têm de ser a mesma cor — separá-los abre um anel visível no lugar
+   * onde o túnel deveria terminar.
+   */
+  --arch: #000000;
+  --tunnel-0: #f97316;
+  --tunnel-1: #743313;
+  --tunnel-2: #160a04;
+  --tunnel-3: #000000;
+
+  /*
    * O botão claro/escuro do próprio preview, que existe em CSS e nunca ganhou
    * interface. Continua fixo porque é uma pergunta diferente da do tema: "como
    * esta peça fica sobre claro", independentemente do tema em que o site está
@@ -204,6 +219,12 @@
   --stage-raised: #ffffff;
   --stage-line: #dfe3ea;
   --stage-muted: #69727f;
+
+  --arch: #ffffff;
+  --tunnel-0: #ea580c;
+  --tunnel-1: #f6b184;
+  --tunnel-2: #fae2d2;
+  --tunnel-3: #ffffff;
 }
 * { box-sizing:border-box; }
 html, body { margin:0; background:var(--bg); color:var(--text); font-family:Arial, Helvetica, sans-serif; min-height:100%; overflow:hidden; }
@@ -429,7 +450,7 @@ body.sponsors-document{height:auto;min-height:100%;overflow-x:hidden;overflow-y:
 .component-code .code-snippet pre{box-sizing:border-box;width:100%;max-width:100%;min-width:0}
 
 /* One shared SVG gradient keeps the tunnel responsive without repainting six CSS gradients. */
-.hero-arch{top:-50%;right:10%;width:53%;height:auto;aspect-ratio:1;transform:none;overflow:hidden;isolation:isolate;border-radius:22%;background:var(--black);box-shadow:0 20px 60px #0008}
+.hero-arch{top:-50%;right:10%;width:53%;height:auto;aspect-ratio:1;transform:none;overflow:hidden;isolation:isolate;border-radius:22%;background:var(--arch);box-shadow:0 20px 60px light-dark(#14181e29, #0008)}
 .hero-tunnel-svg{display:block;width:100%;height:100%;overflow:visible}
 .hero-tunnel-svg rect{fill:none;stroke:url(#hero-tunnel-gradient);stroke-width:2px;vector-effect:non-scaling-stroke}
 @media (max-width:1000px){.hero-arch{top:-50%;right:6%;width:58%;height:auto}}
@@ -964,3 +985,10 @@ a.card-info:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
  * inline sabe qual é o tema antes da hidratação.
  */
 :root[data-theme="light"] .home-field { display: none; }
+
+/*
+ * A marca do GitHub é um SVG `fill="white"`, desenhado para a topbar escura.
+ * Mesmo caso das marcas dos patrocinadores: `brightness(0)` devolve o mesmo
+ * desenho em preto, em vez de trocar por outro arquivo.
+ */
+:root[data-theme="light"] .github-mark { filter: brightness(0); }
