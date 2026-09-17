@@ -41,7 +41,6 @@ export function SlidingContentTabs() {
 
 /* sliding-content-tabs.css */
 .sliding-tabs {
-  color-scheme: light dark;
   width: min(100%, 288px);
   border: 1px solid light-dark(#dfe3ea, #30343a);
   border-radius: 10px;
@@ -117,7 +116,7 @@ export function SlidingContentTabs() {
   const activeTab = tabs[active];
 
   return (
-    <section className="[color-scheme:light_dark] w-full max-w-[288px] rounded-[10px] border border-[light-dark(#dfe3ea,#30343a)] bg-[light-dark(#ffffff,#101216)] p-[5px]">
+    <section className="w-full max-w-[288px] rounded-[10px] border border-[light-dark(#dfe3ea,#30343a)] bg-[light-dark(#ffffff,#101216)] p-[5px]">
       <div className="relative grid grid-cols-3" role="tablist" aria-label="Activity">
         {tabs.map(({ label, Icon }, index) => (
           <button

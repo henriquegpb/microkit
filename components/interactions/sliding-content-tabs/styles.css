@@ -1,5 +1,4 @@
 .sliding-tabs {
-  color-scheme: light dark;
   width: min(100%, 288px);
   border: 1px solid light-dark(#dfe3ea, #30343a);
   border-radius: 10px;

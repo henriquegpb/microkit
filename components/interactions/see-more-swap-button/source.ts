@@ -25,11 +25,11 @@ export function SeeMoreSwapButton() {
   justify-content: center;
   width: 196px;
   overflow: hidden;
-  border: 0;
+  border: 1px solid light-dark(#d2d7de, transparent);
   border-radius: 999px;
-  background: light-dark(#14181e,#f0f0f0);
+  background: light-dark(#ffffff,#f0f0f0);
   padding: 12px 16px;
-  color: light-dark(#ffffff,#101016);
+  color: light-dark(#14181e,#101016);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
   transition: background-color .5s cubic-bezier(.16, 1, .3, 1), color .5s cubic-bezier(.16, 1, .3, 1);
@@ -64,19 +64,19 @@ export function SeeMoreSwapButton() {
 }
 .see-more-swap-icon-left {
   left: 0;
-  background: light-dark(#ffffff,#101016);
-  color: light-dark(#14181e,#fff);
+  background: light-dark(#14181e,#101016);
+  color: light-dark(#ffffff,#fff);
 }
 .see-more-swap-icon-right {
   right: 0;
-  background: light-dark(#14181e,#fff);
-  color: light-dark(#ffffff,#101016);
+  background: light-dark(#ffffff,#fff);
+  color: light-dark(#14181e,#101016);
   transform: translateX(64px);
 }
 .see-more-swap-button:hover,
 .see-more-swap-button:focus-visible {
-  background: light-dark(#e7eaef,#22222d);
-  color: light-dark(#14181e,#f0f0f0);
+  background: light-dark(#14181e,#22222d);
+  color: light-dark(#ffffff,#f0f0f0);
 }
 .see-more-swap-button:hover .see-more-swap-icon-left,
 .see-more-swap-button:focus-visible .see-more-swap-icon-left {
@@ -99,13 +99,13 @@ export const tailwindCode = `import { ArrowDown } from "lucide-react";
 
 export function SeeMoreSwapButton() {
   return (
-    <button type="button" className="group inline-flex w-[196px] cursor-pointer appearance-none box-border items-center justify-center overflow-hidden rounded-full border-0 bg-[light-dark(#14181e,#f0f0f0)] px-4 py-3 text-[light-dark(#ffffff,#101016)] [font-family:Arial,Helvetica,sans-serif] transition-colors duration-[500ms] ease-[cubic-bezier(.16,1,.3,1)] hover:bg-[light-dark(#e7eaef,#22222d)] hover:text-[light-dark(#14181e,#f0f0f0)] focus-visible:bg-[light-dark(#e7eaef,#22222d)] focus-visible:text-[light-dark(#14181e,#f0f0f0)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]">
+    <button type="button" className="group inline-flex w-[196px] cursor-pointer appearance-none box-border items-center justify-center overflow-hidden rounded-full border border-[light-dark(#d2d7de,transparent)] bg-[light-dark(#ffffff,#f0f0f0)] px-4 py-3 text-[light-dark(#14181e,#101016)] [font-family:Arial,Helvetica,sans-serif] transition-colors duration-[500ms] ease-[cubic-bezier(.16,1,.3,1)] hover:bg-[light-dark(#14181e,#22222d)] hover:text-[light-dark(#ffffff,#f0f0f0)] focus-visible:bg-[light-dark(#14181e,#22222d)] focus-visible:text-[light-dark(#ffffff,#f0f0f0)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]">
       <span className="relative flex h-10 w-full items-center justify-center">
-        <span className="absolute left-0 grid size-10 place-items-center rounded-full bg-[light-dark(#ffffff,#101016)] text-white transition-transform duration-[500ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:-translate-x-16 group-focus-visible:-translate-x-16" aria-hidden="true">
+        <span className="absolute left-0 grid size-10 place-items-center rounded-full bg-[light-dark(#14181e,#101016)] text-white transition-transform duration-[500ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:-translate-x-16 group-focus-visible:-translate-x-16" aria-hidden="true">
           <ArrowDown size={20} strokeWidth={2.4} />
         </span>
         <span className="relative z-10 translate-x-4 whitespace-nowrap text-center text-[16px] font-medium [line-height:normal] transition-transform duration-[500ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:-translate-x-4 group-focus-visible:-translate-x-4">See more</span>
-        <span className="absolute right-0 grid size-10 translate-x-16 place-items-center rounded-full bg-white text-[light-dark(#ffffff,#101016)] transition-transform duration-[500ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0" aria-hidden="true">
+        <span className="absolute right-0 grid size-10 translate-x-16 place-items-center rounded-full bg-white text-[light-dark(#14181e,#101016)] transition-transform duration-[500ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0" aria-hidden="true">
           <ArrowDown size={20} strokeWidth={2.4} />
         </span>
       </span>
