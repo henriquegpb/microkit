@@ -18,7 +18,9 @@
  *   --only <id>    one interaction, repeatable
  *   --zoom <n>     render scale, see below (default 2)
  *   --gif          also write a gif
- *   --fps <n>      gif frame rate (default 20; the mp4 is always 25)
+ *   --fps <n>      gif frame rate (default 15; the mp4 is always 25)
+ *   --gif-width <n>   gif width in pixels (default 640)
+ *   --gif-colors <n>  gif palette size (default 64)
  */
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, rmSync } from "node:fs";
@@ -66,7 +68,9 @@ const only = args.reduce(
 
 const BASE = flag("base", "http://localhost:3000").replace(/\/$/, "");
 const ZOOM = Number(flag("zoom", 2));
-const GIF_FPS = Number(flag("fps", 20));
+const GIF_FPS = Number(flag("fps", 15));
+const GIF_WIDTH = Number(flag("gif-width", 640));
+const GIF_COLORS = Number(flag("gif-colors", 64));
 const WANT_GIF = args.includes("--gif");
 
 const { interactionDefinitions } = await import(
@@ -284,13 +288,32 @@ function encode(webm, id, box, leadInSeconds) {
   );
 
   if (WANT_GIF) {
-    /* Two passes: one to build a palette from the clip's own colours, one to
-     * apply it. A gif made without this dithers a dark preview into bands. */
+    /*
+     * A soft glow on near-black is close to the worst case for this format: it
+     * is all gradient, every frame differs from the last, and gif has neither
+     * interframe compression worth the name nor more than 256 colours. The
+     * defaults below came from measuring this catalog's most expensive clip,
+     * which lands at 2.4MB unconstrained and 780KB here — small enough to
+     * attach to an email, which is the only reason a gif is being made at all.
+     *
+     * 64 colours rather than 256 is where most of that comes from, and on these
+     * previews it costs nothing visible: the palette is built from the clip's
+     * own frames, and a dark surface with one hue of glow does not need more.
+     * A preview that does will want --gif-colors.
+     *
+     * Two passes regardless — generate a palette, then apply it. A gif made in
+     * one pass quantises against a generic palette and bands the gradient.
+     */
+    const scale = `scale=${GIF_WIDTH}:-1:flags=lanczos`;
     const palette = `${OUT}/${id}-palette.png`;
-    execFileSync("ffmpeg", ["-y", "-i", mp4, "-vf", `fps=${GIF_FPS},palettegen=stats_mode=diff`, palette], { stdio: "pipe" });
     execFileSync(
       "ffmpeg",
-      ["-y", "-i", mp4, "-i", palette, "-lavfi", `fps=${GIF_FPS}[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=3`, `${OUT}/${id}.gif`],
+      ["-y", "-i", mp4, "-vf", `fps=${GIF_FPS},${scale},palettegen=max_colors=${GIF_COLORS}:stats_mode=diff`, palette],
+      { stdio: "pipe" },
+    );
+    execFileSync(
+      "ffmpeg",
+      ["-y", "-i", mp4, "-i", palette, "-lavfi", `fps=${GIF_FPS},${scale}[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=3`, `${OUT}/${id}.gif`],
       { stdio: "pipe" },
     );
     rmSync(palette);
