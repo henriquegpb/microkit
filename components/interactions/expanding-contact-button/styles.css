@@ -10,7 +10,7 @@
   border-radius: 999px;
   padding: 0;
   background: transparent;
-  color: #f0f0f0;
+  color: light-dark(#14181e, #f0f0f0);
   font-size: 13px;
   font-weight: 500;
   line-height: 1;
@@ -32,7 +32,7 @@
   place-items: center;
   width: 36px;
   height: 36px;
-  color: #111;
+  color: light-dark(#f6f7f9, #111);
 }
 .contact-pill > span:last-child {
   position: absolute;
@@ -43,7 +43,7 @@
   transition: opacity .18s ease .1s, transform .24s ease .06s;
 }
 .contact-pill:hover,
-.contact-pill:focus-visible { width: 145px; background: #f4f4f5; color: #111; }
+.contact-pill:focus-visible { width: 145px; background: light-dark(#14181e, #f4f4f5); color: light-dark(#f6f7f9, #111); }
 .contact-pill:hover > span:last-child,
 .contact-pill:focus-visible > span:last-child { opacity: 1; transform: translateX(0); }
 .contact-pill:focus-visible { outline: 2px solid #f97316; outline-offset: 4px; }

@@ -8,11 +8,11 @@
   width: 100%;
   max-width: 176px;
   overflow: hidden;
-  border: 1px solid #f0f0f0;
+  border: 1px solid light-dark(#14181e, #f0f0f0);
   border-radius: 999px;
   background: transparent;
   padding: 12px 32px;
-  color: #f0f0f0;
+  color: light-dark(#14181e, #f0f0f0);
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;

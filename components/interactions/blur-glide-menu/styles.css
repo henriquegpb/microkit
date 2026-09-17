@@ -2,7 +2,7 @@
   position: relative;
   width: 214px;
   height: 182px;
-  color: #dfe2e5;
+  color: light-dark(#262d38, #dfe2e5);
   font-size: 11px;
   text-align: center;
 }
@@ -19,9 +19,9 @@
   height: 26px;
   align-items: center;
   gap: 7px;
-  border: 1px solid #2f333a;
+  border: 1px solid light-dark(#dfe3ea, #2f333a);
   border-radius: 6px;
-  background: #16181c;
+  background: light-dark(#ffffff, #16181c);
   padding: 0 8px 0 10px;
   color: inherit;
   font: inherit;
@@ -32,8 +32,8 @@
 }
 
 .glide-menu-trigger:hover {
-  border-color: #3d434c;
-  background: #1b1e23;
+  border-color: light-dark(#adb6c3, #3d434c);
+  background: light-dark(#f0f2f5, #1b1e23);
 }
 
 .glide-menu-trigger:focus-visible {
@@ -42,7 +42,7 @@
 }
 
 .glide-menu-trigger svg {
-  color: #868d97;
+  color: light-dark(#69727f, #868d97);
   transition: transform .34s cubic-bezier(.32, .72, 0, 1);
 }
 
@@ -56,10 +56,10 @@
   left: 0;
   z-index: 1;
   width: 100%;
-  border: 1px solid #2b2f36;
+  border: 1px solid light-dark(#dfe3ea, #2b2f36);
   text-align: left;
   border-radius: 9px;
-  background: #121418;
+  background: light-dark(#ffffff, #121418);
   padding: 5px;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, .04),
@@ -137,7 +137,7 @@
   border: 0;
   border-radius: 5px;
   background: transparent;
-  color: #868d97;
+  color: light-dark(#69727f, #868d97);
   cursor: pointer;
   transition:
     background-color .18s ease,
@@ -145,8 +145,8 @@
 }
 
 .glide-menu-back:hover {
-  background: #22262c;
-  color: #dfe2e5;
+  background: light-dark(#e7eaef, #22262c);
+  color: light-dark(#262d38, #dfe2e5);
 }
 
 .glide-menu-back:focus-visible {
@@ -162,14 +162,14 @@
   border: 0;
   background: transparent;
   padding: 0;
-  color: #dfe2e5;
+  color: light-dark(#262d38, #dfe2e5);
   font: inherit;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .glide-menu-search::placeholder {
-  color: #6d747e;
+  color: light-dark(#868f9c, #6d747e);
 }
 
 .glide-menu-panel .glide-menu-search:focus,
@@ -180,7 +180,7 @@
 .glide-menu-divider {
   height: 1px;
   margin: 3px 0;
-  background: #23262c;
+  background: light-dark(#e7eaef, #23262c);
 }
 
 .glide-menu-list {
@@ -195,7 +195,7 @@
   height: 26px;
   pointer-events: none;
   border-radius: 5px;
-  background: #22262c;
+  background: light-dark(#e7eaef, #22262c);
   opacity: 0;
   transition:
     transform .3s cubic-bezier(.32, .72, 0, 1),
@@ -218,7 +218,7 @@
   border-radius: 5px;
   background: transparent;
   padding: 0 7px;
-  color: #c6cbd2;
+  color: light-dark(#3b434f, #c6cbd2);
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -227,7 +227,7 @@
 
 .glide-menu-row:hover,
 .glide-menu-row:focus-visible {
-  color: #f4f5f7;
+  color: light-dark(#14181e, #f4f5f7);
 }
 
 .glide-menu-row:focus-visible {
@@ -241,13 +241,13 @@
   height: 14px;
   flex: none;
   place-items: center;
-  color: #868d97;
+  color: light-dark(#69727f, #868d97);
   transition: color .18s ease;
 }
 
 .glide-menu-row:hover .glide-menu-icon,
 .glide-menu-row:focus-visible .glide-menu-icon {
-  color: #c6cbd2;
+  color: light-dark(#3b434f, #c6cbd2);
 }
 
 .glide-menu-avatar {
@@ -257,7 +257,7 @@
   flex: none;
   place-items: center;
   border-radius: 6px;
-  color: #15171a;
+  color: light-dark(#ffffff, #15171a);
   font-size: 9px;
   font-weight: 600;
 }
@@ -280,14 +280,14 @@
 
 .glide-menu-hint {
   flex: none;
-  color: #6b727c;
+  color: light-dark(#868f9c, #6b727c);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 10px;
 }
 
 .glide-menu-chevron {
   flex: none;
-  color: #5c636d;
+  color: light-dark(#a2aab6, #5c636d);
   transition:
     transform .24s cubic-bezier(.32, .72, 0, 1),
     color .18s ease;
@@ -295,7 +295,7 @@
 
 .glide-menu-row:hover .glide-menu-chevron,
 .glide-menu-row:focus-visible .glide-menu-chevron {
-  color: #868d97;
+  color: light-dark(#69727f, #868d97);
   transform: translateX(2px);
 }
 
@@ -305,7 +305,7 @@
   align-items: center;
   margin: 0;
   padding: 0 7px;
-  color: #6d747e;
+  color: light-dark(#868f9c, #6d747e);
 }
 
 @keyframes glide-menu-in {

@@ -32,11 +32,11 @@ export function MagneticFillButton() {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid #f0f0f0;
+  border: 1px solid light-dark(#14181e,#f0f0f0);
   border-radius: 100px;
   background: transparent;
   padding: 12px 32px;
-  color: #f0f0f0;
+  color: light-dark(#14181e,#f0f0f0);
   transform: translate(var(--magnetic-x), var(--magnetic-y));
   transition: transform .22s cubic-bezier(.16, 1, .3, 1), color .28s ease;
 }
@@ -56,7 +56,7 @@ export function MagneticFillButton() {
 }
 .magnetic-fill-button:hover,
 .magnetic-fill-button:focus-visible {
-  color: #111;
+  color: light-dark(#f6f7f9,#111);
 }
 .magnetic-fill-button:hover .magnetic-fill-background,
 .magnetic-fill-button:focus-visible .magnetic-fill-background {
@@ -88,7 +88,7 @@ export function MagneticFillButton() {
     <button
       onPointerMove={move}
       onPointerLeave={reset}
-      className="group relative inline-flex items-center justify-center overflow-hidden rounded-[100px] border border-[#f0f0f0] bg-transparent px-8 py-3 text-base font-medium text-[#f0f0f0] [transform:translate(var(--magnetic-x,0px),var(--magnetic-y,0px))] transition-[transform,color] duration-[220ms] ease-[cubic-bezier(.16,1,.3,1)] hover:text-[#111] focus-visible:text-[#111] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"
+      className="group relative inline-flex items-center justify-center overflow-hidden rounded-[100px] border border-[light-dark(#14181e,#f0f0f0)] bg-transparent px-8 py-3 text-base font-medium text-[light-dark(#14181e,#f0f0f0)] [transform:translate(var(--magnetic-x,0px),var(--magnetic-y,0px))] transition-[transform,color] duration-[220ms] ease-[cubic-bezier(.16,1,.3,1)] hover:text-[light-dark(#f6f7f9,#111)] focus-visible:text-[light-dark(#f6f7f9,#111)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"
     >
       <span className="relative z-10">Start a project</span>
       <span className="absolute inset-x-0 bottom-0 h-0 bg-[#f97316] transition-[height] duration-[380ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:h-full group-focus-visible:h-full" aria-hidden="true" />

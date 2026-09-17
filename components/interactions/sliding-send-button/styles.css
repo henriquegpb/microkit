@@ -11,11 +11,11 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid #48484f;
+  border: 1px solid light-dark(#adb6c3, #48484f);
   border-radius: 999px;
-  background: #15151b;
+  background: light-dark(#ffffff, #15151b);
   padding: 0;
-  color: #f7f7fa;
+  color: light-dark(#14181e, #f7f7fa);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
   transition: border-color .3s ease, background-color .3s ease;
@@ -58,8 +58,8 @@
 
 .sliding-send-button:hover,
 .sliding-send-button:focus-visible {
-  border-color: #5a5a62;
-  background: #18181e;
+  border-color: light-dark(#a2aab6, #5a5a62);
+  background: light-dark(#f0f2f5, #18181e);
 }
 
 .sliding-send-button:hover .sliding-send-button__label,

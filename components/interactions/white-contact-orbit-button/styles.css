@@ -10,8 +10,8 @@
   border: 0;
   border-radius: 999px;
   padding: 0;
-  background: #fff;
-  color: #111;
+  background: light-dark(#14181e, #fff);
+  color: light-dark(#f6f7f9, #111);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
 }
@@ -35,7 +35,7 @@
   height: 34px;
   place-items: center;
   border-radius: 50%;
-  color: #111;
+  color: light-dark(#f6f7f9, #111);
   transition: color .12s ease;
 }
 
@@ -43,7 +43,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: #111;
+  background: light-dark(#f6f7f9, #111);
   transform: scale(0);
   transform-origin: center;
   transition: transform .42s cubic-bezier(.16, 1, .3, 1);
@@ -57,7 +57,7 @@
 
 .white-contact-orbit-button:hover .white-contact-orbit-button-icon,
 .white-contact-orbit-button:focus-visible .white-contact-orbit-button-icon {
-  color: #fff;
+  color: light-dark(#14181e, #fff);
   transition-delay: .08s;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .white-contact-orbit-button:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid light-dark(#14181e, #fff);
   outline-offset: 4px;
 }
 

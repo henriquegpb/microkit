@@ -178,7 +178,7 @@ function MenuPanel({
           <div className="flex h-[26px] items-center gap-[5px] pr-[5px]">
             <button
               type="button"
-              className="grid size-5 flex-none place-items-center rounded-[5px] border-0 bg-transparent text-[#868d97] [transition:background-color_.18s_ease,color_.18s_ease] hover:bg-[#22262c] hover:text-[#dfe2e5] focus-visible:outline focus-visible:outline-[1.5px] focus-visible:outline-offset-0 focus-visible:outline-[#86b6ff] motion-reduce:[transition-duration:.01ms]"
+              className="grid size-5 flex-none place-items-center rounded-[5px] border-0 bg-transparent text-[light-dark(#69727f,#868d97)] [transition:background-color_.18s_ease,color_.18s_ease] hover:bg-[light-dark(#e7eaef,#22262c)] hover:text-[light-dark(#262d38,#dfe2e5)] focus-visible:outline focus-visible:outline-[1.5px] focus-visible:outline-offset-0 focus-visible:outline-[#86b6ff] motion-reduce:[transition-duration:.01ms]"
               onClick={onBack}
               aria-label={`Back from ${title}`}
             >
@@ -187,7 +187,7 @@ function MenuPanel({
             {panel.search ? (
               <input
                 ref={searchRef}
-                className="min-w-0 flex-1 truncate border-0 bg-transparent p-0 text-[11px] text-[#dfe2e5] placeholder:text-[#6d747e] focus:outline-none focus-visible:outline-none"
+                className="min-w-0 flex-1 truncate border-0 bg-transparent p-0 text-[11px] text-[light-dark(#262d38,#dfe2e5)] placeholder:text-[light-dark(#868f9c,#6d747e)] focus:outline-none focus-visible:outline-none"
                 data-search=""
                 type="text"
                 value={query}
@@ -196,10 +196,10 @@ function MenuPanel({
                 onChange={(event) => onQuery?.(event.target.value)}
               />
             ) : (
-              <span className="min-w-0 flex-1 truncate text-[11px] text-[#dfe2e5]">{title}</span>
+              <span className="min-w-0 flex-1 truncate text-[11px] text-[light-dark(#262d38,#dfe2e5)]">{title}</span>
             )}
           </div>
-          <div className="my-[3px] h-px bg-[#23262c]" />
+          <div className="my-[3px] h-px bg-[light-dark(#e7eaef,#23262c)]" />
         </>
       )}
       <div
@@ -208,7 +208,7 @@ function MenuPanel({
         onMouseLeave={() => setCursor((state) => ({ ...state, visible: false }))}
       >
         <span
-          className={`pointer-events-none absolute inset-x-0 top-0 h-[26px] rounded-[5px] bg-[#22262c] [transition:transform_.3s_cubic-bezier(.32,.72,0,1),opacity_.18s_ease] motion-reduce:[transition-duration:.01ms] ${cursor.visible ? "opacity-100" : "opacity-0"}`}
+          className={`pointer-events-none absolute inset-x-0 top-0 h-[26px] rounded-[5px] bg-[light-dark(#e7eaef,#22262c)] [transition:transform_.3s_cubic-bezier(.32,.72,0,1),opacity_.18s_ease] motion-reduce:[transition-duration:.01ms] ${cursor.visible ? "opacity-100" : "opacity-0"}`}
           style={{ transform: `translateY(${cursor.index * ROW_HEIGHT}px)` }}
           aria-hidden="true"
         />
@@ -217,7 +217,7 @@ function MenuPanel({
             key={row.id}
             type="button"
             role="menuitem"
-            className="group relative z-[1] flex h-[26px] w-full items-center gap-2 rounded-[5px] border-0 bg-transparent px-[7px] text-left text-[11px] text-[#c6cbd2] [transition:color_.18s_ease] hover:text-[#f4f5f7] focus-visible:text-[#f4f5f7] focus-visible:outline focus-visible:outline-[1.5px] focus-visible:outline-offset-[-1.5px] focus-visible:outline-[#86b6ff] motion-reduce:[transition-duration:.01ms]"
+            className="group relative z-[1] flex h-[26px] w-full items-center gap-2 rounded-[5px] border-0 bg-transparent px-[7px] text-left text-[11px] text-[light-dark(#3b434f,#c6cbd2)] [transition:color_.18s_ease] hover:text-[light-dark(#14181e,#f4f5f7)] focus-visible:text-[light-dark(#14181e,#f4f5f7)] focus-visible:outline focus-visible:outline-[1.5px] focus-visible:outline-offset-[-1.5px] focus-visible:outline-[#86b6ff] motion-reduce:[transition-duration:.01ms]"
             data-row=""
             aria-haspopup={row.panel ? "menu" : undefined}
             onMouseEnter={() => setCursor({ index, visible: true })}
@@ -231,13 +231,13 @@ function MenuPanel({
             }}
           >
             {row.icon && (
-              <span className="grid size-[14px] flex-none place-items-center text-[#868d97] [transition:color_.18s_ease] group-hover:text-[#c6cbd2] group-focus-visible:text-[#c6cbd2] motion-reduce:[transition-duration:.01ms]">
+              <span className="grid size-[14px] flex-none place-items-center text-[light-dark(#69727f,#868d97)] [transition:color_.18s_ease] group-hover:text-[light-dark(#3b434f,#c6cbd2)] group-focus-visible:text-[light-dark(#3b434f,#c6cbd2)] motion-reduce:[transition-duration:.01ms]">
                 <row.icon size={14} strokeWidth={1.7} aria-hidden="true" />
               </span>
             )}
             {row.initials && (
               <span
-                className="grid size-[18px] flex-none place-items-center rounded-md text-[9px] font-semibold text-[#15171a]"
+                className="grid size-[18px] flex-none place-items-center rounded-md text-[9px] font-semibold text-[light-dark(#ffffff,#15171a)]"
                 style={{ background: row.tint }}
                 aria-hidden="true"
               >
@@ -253,11 +253,11 @@ function MenuPanel({
             )}
             <span className="min-w-0 flex-1 truncate">{row.label}</span>
             {row.hint && (
-              <span className="flex-none font-mono text-[10px] text-[#6b727c]">{row.hint}</span>
+              <span className="flex-none font-mono text-[10px] text-[light-dark(#868f9c,#6b727c)]">{row.hint}</span>
             )}
             {row.panel && (
               <ChevronRight
-                className="flex-none text-[#5c636d] [transition:transform_.24s_cubic-bezier(.32,.72,0,1),color_.18s_ease] group-hover:text-[#868d97] group-hover:[transform:translateX(2px)] group-focus-visible:text-[#868d97] group-focus-visible:[transform:translateX(2px)] motion-reduce:[transition-duration:.01ms]"
+                className="flex-none text-[light-dark(#a2aab6,#5c636d)] [transition:transform_.24s_cubic-bezier(.32,.72,0,1),color_.18s_ease] group-hover:text-[light-dark(#69727f,#868d97)] group-hover:[transform:translateX(2px)] group-focus-visible:text-[light-dark(#69727f,#868d97)] group-focus-visible:[transform:translateX(2px)] motion-reduce:[transition-duration:.01ms]"
                 size={13}
                 strokeWidth={1.8}
                 aria-hidden="true"
@@ -266,7 +266,7 @@ function MenuPanel({
           </button>
         ))}
         {!rows.length && (
-          <p className="m-0 flex h-[26px] items-center px-[7px] text-[11px] text-[#6d747e]">No matches</p>
+          <p className="m-0 flex h-[26px] items-center px-[7px] text-[11px] text-[light-dark(#868f9c,#6d747e)]">No matches</p>
         )}
       </div>
     </div>
@@ -375,14 +375,14 @@ export function BlurGlideMenu() {
 
   return (
     <div
-      className="relative h-[182px] w-[214px] text-center text-[11px] text-[#dfe2e5]"
+      className="relative h-[182px] w-[214px] text-center text-[11px] text-[light-dark(#262d38,#dfe2e5)]"
       ref={rootRef}
       onKeyDown={handleKeyDown}
     >
       <style>{panelKeyframes}</style>
       <button
         type="button"
-        className="inline-flex h-[26px] items-center gap-[7px] rounded-md border border-[#2f333a] bg-[#16181c] pl-[10px] pr-2 text-[11px] text-[#dfe2e5] [transition:border-color_.2s_ease,background-color_.2s_ease] hover:border-[#3d434c] hover:bg-[#1b1e23] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#86b6ff] motion-reduce:[transition-duration:.01ms]"
+        className="inline-flex h-[26px] items-center gap-[7px] rounded-md border border-[light-dark(#dfe3ea,#2f333a)] bg-[light-dark(#ffffff,#16181c)] pl-[10px] pr-2 text-[11px] text-[light-dark(#262d38,#dfe2e5)] [transition:border-color_.2s_ease,background-color_.2s_ease] hover:border-[light-dark(#adb6c3,#3d434c)] hover:bg-[light-dark(#f0f2f5,#1b1e23)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#86b6ff] motion-reduce:[transition-duration:.01ms]"
         ref={triggerRef}
         aria-haspopup="menu"
         aria-expanded={open}
@@ -390,14 +390,14 @@ export function BlurGlideMenu() {
       >
         Board actions
         <ChevronDown
-          className={`text-[#868d97] [transition:transform_.34s_cubic-bezier(.32,.72,0,1)] motion-reduce:[transition-duration:.01ms] ${open ? "[transform:rotate(180deg)]" : ""}`}
+          className={`text-[light-dark(#69727f,#868d97)] [transition:transform_.34s_cubic-bezier(.32,.72,0,1)] motion-reduce:[transition-duration:.01ms] ${open ? "[transform:rotate(180deg)]" : ""}`}
           size={13}
           strokeWidth={1.8}
           aria-hidden="true"
         />
       </button>
       <div
-        className={`absolute left-0 top-[33px] z-[1] w-full origin-top rounded-[9px] border border-[#2b2f36] bg-[#121418] p-[5px] text-left shadow-[inset_0_1px_0_rgba(255,255,255,.04),0_16px_34px_rgba(0,0,0,.45)] ${
+        className={`absolute left-0 top-[33px] z-[1] w-full origin-top rounded-[9px] border border-[light-dark(#dfe3ea,#2b2f36)] bg-[light-dark(#ffffff,#121418)] p-[5px] text-left shadow-[inset_0_1px_0_rgba(255,255,255,.04),0_16px_34px_rgba(0,0,0,.45)] ${
           open
             ? "visible opacity-100 [filter:blur(0px)] [transform:none] [transition:opacity_.22s_ease,transform_.36s_cubic-bezier(.32,.72,0,1),filter_.28s_ease,visibility_0s]"
             : "invisible opacity-0 blur-[5px] [transform:translateY(-6px)_scale(.97)] [transition:opacity_.18s_ease,transform_.26s_cubic-bezier(.32,.72,0,1),filter_.22s_ease,visibility_0s_linear_.26s]"

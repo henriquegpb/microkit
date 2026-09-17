@@ -4,14 +4,14 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
-  border: 1px solid #2b2f36;
+  border: 1px solid light-dark(#dfe3ea, #2b2f36);
   border-radius: 12px;
-  background: #121418;
+  background: light-dark(#ffffff, #121418);
   padding: 4px;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, .04),
     0 10px 24px rgba(0, 0, 0, .35);
-  color: #dfe2e5;
+  color: light-dark(#262d38, #dfe2e5);
   font-size: 11px;
 }
 
@@ -27,7 +27,7 @@
   height: 18px;
   flex: none;
   margin: 0 2px;
-  background: #23262c;
+  background: light-dark(#e7eaef, #23262c);
 }
 
 .expanding-tab {
@@ -39,7 +39,7 @@
   border-radius: 9px;
   background: transparent;
   padding: 0 8px;
-  color: #868d97;
+  color: light-dark(#69727f, #868d97);
   font: inherit;
   cursor: pointer;
   transition:
@@ -50,8 +50,8 @@
 }
 
 .expanding-tab:hover {
-  background: #1b1e23;
-  color: #dfe2e5;
+  background: light-dark(#f0f2f5, #1b1e23);
+  color: light-dark(#262d38, #dfe2e5);
 }
 
 .expanding-tab:focus-visible {
@@ -62,8 +62,8 @@
 .expanding-tab[aria-pressed="true"] {
   gap: 6px;
   padding: 0 11px;
-  background: #22262c;
-  color: #f4f5f7;
+  background: light-dark(#e7eaef, #22262c);
+  color: light-dark(#14181e, #f4f5f7);
 }
 
 .expanding-tab-icon {

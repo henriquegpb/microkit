@@ -99,14 +99,14 @@ export function ExpandingIconTabs() {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
-  border: 1px solid #2b2f36;
+  border: 1px solid light-dark(#dfe3ea,#2b2f36);
   border-radius: 12px;
-  background: #121418;
+  background: light-dark(#ffffff,#121418);
   padding: 4px;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, .04),
     0 10px 24px rgba(0, 0, 0, .35);
-  color: #dfe2e5;
+  color: light-dark(#262d38,#dfe2e5);
   font-size: 11px;
 }
 
@@ -122,7 +122,7 @@ export function ExpandingIconTabs() {
   height: 18px;
   flex: none;
   margin: 0 2px;
-  background: #23262c;
+  background: light-dark(#e7eaef,#23262c);
 }
 
 .expanding-tab {
@@ -134,7 +134,7 @@ export function ExpandingIconTabs() {
   border-radius: 9px;
   background: transparent;
   padding: 0 8px;
-  color: #868d97;
+  color: light-dark(#69727f,#868d97);
   font: inherit;
   cursor: pointer;
   transition:
@@ -145,8 +145,8 @@ export function ExpandingIconTabs() {
 }
 
 .expanding-tab:hover {
-  background: #1b1e23;
-  color: #dfe2e5;
+  background: light-dark(#f0f2f5,#1b1e23);
+  color: light-dark(#262d38,#dfe2e5);
 }
 
 .expanding-tab:focus-visible {
@@ -157,8 +157,8 @@ export function ExpandingIconTabs() {
 .expanding-tab[aria-pressed="true"] {
   gap: 6px;
   padding: 0 11px;
-  background: #22262c;
-  color: #f4f5f7;
+  background: light-dark(#e7eaef,#22262c);
+  color: light-dark(#14181e,#f4f5f7);
 }
 
 .expanding-tab-icon {
@@ -256,7 +256,7 @@ export function ExpandingIconTabs() {
 
   return (
     <div
-      className="flex max-w-full flex-wrap items-center gap-1 rounded-xl border border-[#2b2f36] bg-[#121418] p-1 text-[11px] text-[#dfe2e5] shadow-[inset_0_1px_0_rgba(255,255,255,.04),0_10px_24px_rgba(0,0,0,.35)]"
+      className="flex max-w-full flex-wrap items-center gap-1 rounded-xl border border-[light-dark(#dfe3ea,#2b2f36)] bg-[light-dark(#ffffff,#121418)] p-1 text-[11px] text-[light-dark(#262d38,#dfe2e5)] shadow-[inset_0_1px_0_rgba(255,255,255,.04),0_10px_24px_rgba(0,0,0,.35)]"
       role="toolbar"
       aria-label="Workspace views"
       ref={rootRef}
@@ -266,7 +266,7 @@ export function ExpandingIconTabs() {
         "separator" in item ? (
           <span
             key={\`separator-\${index}\`}
-            className="mx-[2px] h-[18px] w-px flex-none bg-[#23262c]"
+            className="mx-[2px] h-[18px] w-px flex-none bg-[light-dark(#e7eaef,#23262c)]"
             role="separator"
             aria-orientation="vertical"
           />
@@ -276,8 +276,8 @@ export function ExpandingIconTabs() {
             type="button"
             className={\`inline-flex h-[30px] items-center rounded-[9px] border-0 text-[11px] [transition:gap_.5s_cubic-bezier(.32,.72,0,1),padding_.5s_cubic-bezier(.32,.72,0,1),background-color_.3s_ease,color_.3s_ease] motion-reduce:[transition-duration:.01ms] focus-visible:outline focus-visible:outline-[1.5px] focus-visible:outline-offset-[-1.5px] focus-visible:outline-[#f97316] \${
               active === item.id
-                ? "gap-1.5 bg-[#22262c] px-[11px] text-[#f4f5f7]"
-                : "gap-0 bg-transparent px-2 text-[#868d97] hover:bg-[#1b1e23] hover:text-[#dfe2e5]"
+                ? "gap-1.5 bg-[light-dark(#e7eaef,#22262c)] px-[11px] text-[light-dark(#14181e,#f4f5f7)]"
+                : "gap-0 bg-transparent px-2 text-[light-dark(#69727f,#868d97)] hover:bg-[light-dark(#f0f2f5,#1b1e23)] hover:text-[light-dark(#262d38,#dfe2e5)]"
             }\`}
             data-tab=""
             aria-label={item.label}

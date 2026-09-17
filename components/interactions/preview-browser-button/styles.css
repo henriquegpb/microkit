@@ -3,11 +3,11 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid light-dark(#14181e, #f0f0f0);
   border-radius: 999px;
   background: transparent;
   padding: 12px 24px;
-  color: #f0f0f0;
+  color: light-dark(#14181e, #f0f0f0);
   font-size: 16px;
   font-weight: 500;
 }

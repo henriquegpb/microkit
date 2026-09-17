@@ -51,7 +51,7 @@ export function PreviewHoverToolbar() {
   min-height: 140px;
   align-items: center;
   justify-content: center;
-  color: #dfe2e5;
+  color: light-dark(#262d38,#dfe2e5);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
 }
@@ -66,7 +66,7 @@ export function PreviewHoverToolbar() {
   position: relative;
   width: 44px;
   height: 16px;
-  border: 1px solid #2e3238;
+  border: 1px solid light-dark(#dfe3ea,#2e3238);
   border-radius: 999px;
   background: rgba(14, 16, 19, .55);
   transition:
@@ -80,8 +80,8 @@ export function PreviewHoverToolbar() {
 .preview-toolbar:focus-within .preview-toolbar__bar {
   width: 104px;
   height: 34px;
-  border-color: #3a4048;
-  background: #15181c;
+  border-color: light-dark(#cbd2dc,#3a4048);
+  background: light-dark(#ffffff,#15181c);
   transition:
     width 170ms cubic-bezier(.34, .8, .5, 1),
     height 170ms cubic-bezier(.34, .8, .5, 1),
@@ -110,7 +110,7 @@ export function PreviewHoverToolbar() {
   border-radius: 999px;
   background: transparent;
   padding: 0;
-  color: #868d97;
+  color: light-dark(#69727f,#868d97);
   font: inherit;
   opacity: 0;
   transform: scale(.55);
@@ -136,8 +136,8 @@ export function PreviewHoverToolbar() {
 }
 
 .preview-toolbar__action:hover {
-  background: #2a2f36;
-  color: #f4f5f7;
+  background: light-dark(#dfe3ea,#2a2f36);
+  color: light-dark(#14181e,#f4f5f7);
 }
 
 .preview-toolbar__action:focus-visible {
@@ -153,11 +153,11 @@ export function PreviewHoverToolbar() {
   position: absolute;
   bottom: calc(100% + 12px);
   left: 50%;
-  border: 1px solid #2e3238;
+  border: 1px solid light-dark(#dfe3ea,#2e3238);
   border-radius: 8px;
-  background: #1c1f24;
+  background: light-dark(#f0f2f5,#1c1f24);
   padding: 5px 9px;
-  color: #e7e9ec;
+  color: light-dark(#262d38,#e7e9ec);
   font-size: 11px;
   line-height: 1;
   white-space: nowrap;
@@ -201,9 +201,9 @@ const actions = [
 
 export function PreviewHoverToolbar() {
   return (
-    <div className="group/preview flex h-full min-h-[140px] w-full items-center justify-center font-[Arial,Helvetica,sans-serif] text-[11px] text-[#dfe2e5]">
+    <div className="group/preview flex h-full min-h-[140px] w-full items-center justify-center font-[Arial,Helvetica,sans-serif] text-[11px] text-[light-dark(#262d38,#dfe2e5)]">
       <div className="flex h-[34px] items-end">
-        <div className="relative h-[16px] w-[44px] rounded-full border border-[#2e3238] bg-[rgba(14,16,19,.55)] [transition:width_170ms_cubic-bezier(.5,0,.66,.2),height_170ms_cubic-bezier(.5,0,.66,.2),background-color_170ms_cubic-bezier(.5,0,.66,.2),border-color_170ms_cubic-bezier(.5,0,.66,.2)] group-hover/preview:h-[34px] group-hover/preview:w-[104px] group-hover/preview:border-[#3a4048] group-hover/preview:bg-[#15181c] group-hover/preview:[transition:width_170ms_cubic-bezier(.34,.8,.5,1),height_170ms_cubic-bezier(.34,.8,.5,1),background-color_170ms_cubic-bezier(.34,.8,.5,1),border-color_170ms_cubic-bezier(.34,.8,.5,1)] group-focus-within/preview:h-[34px] group-focus-within/preview:w-[104px] group-focus-within/preview:border-[#3a4048] group-focus-within/preview:bg-[#15181c] group-focus-within/preview:[transition:width_170ms_cubic-bezier(.34,.8,.5,1),height_170ms_cubic-bezier(.34,.8,.5,1),background-color_170ms_cubic-bezier(.34,.8,.5,1),border-color_170ms_cubic-bezier(.34,.8,.5,1)] motion-reduce:transition-none motion-reduce:group-hover/preview:transition-none motion-reduce:group-focus-within/preview:transition-none">
+        <div className="relative h-[16px] w-[44px] rounded-full border border-[light-dark(#dfe3ea,#2e3238)] bg-[rgba(14,16,19,.55)] [transition:width_170ms_cubic-bezier(.5,0,.66,.2),height_170ms_cubic-bezier(.5,0,.66,.2),background-color_170ms_cubic-bezier(.5,0,.66,.2),border-color_170ms_cubic-bezier(.5,0,.66,.2)] group-hover/preview:h-[34px] group-hover/preview:w-[104px] group-hover/preview:border-[light-dark(#cbd2dc,#3a4048)] group-hover/preview:bg-[light-dark(#ffffff,#15181c)] group-hover/preview:[transition:width_170ms_cubic-bezier(.34,.8,.5,1),height_170ms_cubic-bezier(.34,.8,.5,1),background-color_170ms_cubic-bezier(.34,.8,.5,1),border-color_170ms_cubic-bezier(.34,.8,.5,1)] group-focus-within/preview:h-[34px] group-focus-within/preview:w-[104px] group-focus-within/preview:border-[light-dark(#cbd2dc,#3a4048)] group-focus-within/preview:bg-[light-dark(#ffffff,#15181c)] group-focus-within/preview:[transition:width_170ms_cubic-bezier(.34,.8,.5,1),height_170ms_cubic-bezier(.34,.8,.5,1),background-color_170ms_cubic-bezier(.34,.8,.5,1),border-color_170ms_cubic-bezier(.34,.8,.5,1)] motion-reduce:transition-none motion-reduce:group-hover/preview:transition-none motion-reduce:group-focus-within/preview:transition-none">
           <div
             className="absolute left-1/2 top-1/2 flex items-center gap-[4px] [transform:translate(-50%,-50%)]"
             role="toolbar"
@@ -213,11 +213,11 @@ export function PreviewHoverToolbar() {
               <button
                 key={action.id}
                 type="button"
-                className="group/action pointer-events-none relative grid size-[28px] flex-none cursor-pointer place-items-center rounded-full border-0 bg-transparent p-0 font-[inherit] text-[#868d97] opacity-0 [transform:scale(.55)] [transition:opacity_70ms_ease,transform_90ms_cubic-bezier(.64,0,.78,0),background-color_150ms_ease,color_150ms_ease] hover:bg-[#2a2f36] hover:text-[#f4f5f7] focus-visible:outline-[1.5px] focus-visible:outline-offset-1 focus-visible:outline-[#86b6ff] group-hover/preview:pointer-events-auto group-hover/preview:opacity-100 group-hover/preview:[transform:scale(1)] group-hover/preview:[transition:opacity_70ms_ease_80ms,transform_90ms_cubic-bezier(.22,1,.36,1)_80ms,background-color_150ms_ease,color_150ms_ease] group-focus-within/preview:pointer-events-auto group-focus-within/preview:opacity-100 group-focus-within/preview:[transform:scale(1)] group-focus-within/preview:[transition:opacity_70ms_ease_80ms,transform_90ms_cubic-bezier(.22,1,.36,1)_80ms,background-color_150ms_ease,color_150ms_ease] motion-reduce:transition-none motion-reduce:group-hover/preview:transition-none motion-reduce:group-focus-within/preview:transition-none"
+                className="group/action pointer-events-none relative grid size-[28px] flex-none cursor-pointer place-items-center rounded-full border-0 bg-transparent p-0 font-[inherit] text-[light-dark(#69727f,#868d97)] opacity-0 [transform:scale(.55)] [transition:opacity_70ms_ease,transform_90ms_cubic-bezier(.64,0,.78,0),background-color_150ms_ease,color_150ms_ease] hover:bg-[light-dark(#dfe3ea,#2a2f36)] hover:text-[light-dark(#14181e,#f4f5f7)] focus-visible:outline-[1.5px] focus-visible:outline-offset-1 focus-visible:outline-[#86b6ff] group-hover/preview:pointer-events-auto group-hover/preview:opacity-100 group-hover/preview:[transform:scale(1)] group-hover/preview:[transition:opacity_70ms_ease_80ms,transform_90ms_cubic-bezier(.22,1,.36,1)_80ms,background-color_150ms_ease,color_150ms_ease] group-focus-within/preview:pointer-events-auto group-focus-within/preview:opacity-100 group-focus-within/preview:[transform:scale(1)] group-focus-within/preview:[transition:opacity_70ms_ease_80ms,transform_90ms_cubic-bezier(.22,1,.36,1)_80ms,background-color_150ms_ease,color_150ms_ease] motion-reduce:transition-none motion-reduce:group-hover/preview:transition-none motion-reduce:group-focus-within/preview:transition-none"
                 aria-label={action.label}
               >
                 <span
-                  className="pointer-events-none absolute bottom-[calc(100%+12px)] left-1/2 whitespace-nowrap rounded-[8px] border border-[#2e3238] bg-[#1c1f24] px-[9px] py-[5px] text-[11px] leading-none text-[#e7e9ec] opacity-0 shadow-[0_10px_20px_rgba(0,0,0,.45)] [transform:translate(-50%,5px)_scale(.94)] [transition:opacity_.18s_ease,transform_.3s_cubic-bezier(.22,1,.36,1)] group-hover/action:opacity-100 group-hover/action:[transform:translate(-50%,0)_scale(1)] group-focus-visible/action:opacity-100 group-focus-visible/action:[transform:translate(-50%,0)_scale(1)] motion-reduce:transition-none"
+                  className="pointer-events-none absolute bottom-[calc(100%+12px)] left-1/2 whitespace-nowrap rounded-[8px] border border-[light-dark(#dfe3ea,#2e3238)] bg-[light-dark(#f0f2f5,#1c1f24)] px-[9px] py-[5px] text-[11px] leading-none text-[light-dark(#262d38,#e7e9ec)] opacity-0 shadow-[0_10px_20px_rgba(0,0,0,.45)] [transform:translate(-50%,5px)_scale(.94)] [transition:opacity_.18s_ease,transform_.3s_cubic-bezier(.22,1,.36,1)] group-hover/action:opacity-100 group-hover/action:[transform:translate(-50%,0)_scale(1)] group-focus-visible/action:opacity-100 group-focus-visible/action:[transform:translate(-50%,0)_scale(1)] motion-reduce:transition-none"
                   aria-hidden="true"
                 >
                   {action.label}

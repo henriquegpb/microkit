@@ -5,11 +5,11 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid #f0f0f0;
+  border: 1px solid light-dark(#14181e, #f0f0f0);
   border-radius: 999px;
   background: transparent;
   padding: 12px 24px;
-  color: #f0f0f0;
+  color: light-dark(#14181e, #f0f0f0);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
 }
@@ -31,7 +31,7 @@
 }
 .yellow-fill-preview-button:hover .yellow-fill-preview-button-label,
 .yellow-fill-preview-button:focus-visible .yellow-fill-preview-button-label {
-  color: #111;
+  color: light-dark(#f6f7f9, #111);
 }
 .yellow-fill-preview-button:hover .yellow-fill-preview-button-fill,
 .yellow-fill-preview-button:focus-visible .yellow-fill-preview-button-fill {

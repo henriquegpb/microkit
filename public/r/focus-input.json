@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "registry/microkit/focus-input.tsx",
-      "content": "export function FocusField() {\n  return (\n    <label className=\"block w-[210px]\">\n      <span className=\"mb-[7px] block font-mono text-[10px] text-[#9298a1]\">Project name</span>\n      <input\n        className=\"w-full rounded-[5px] border border-[#363a42] bg-[#15171b] p-2 text-[11px] text-[#e8ebee] outline-none focus:border-[#f97316] focus:shadow-[0_0_0_3px_#f9731625]\"\n        placeholder=\"e.g. microkit-web\"\n      />\n    </label>\n  );\n}\n",
+      "content": "export function FocusField() {\n  return (\n    <label className=\"block w-[210px]\">\n      <span className=\"mb-[7px] block font-mono text-[10px] text-[light-dark(#69727f,#9298a1)]\">Project name</span>\n      <input\n        className=\"w-full rounded-[5px] border border-[light-dark(#cbd2dc,#363a42)] bg-[light-dark(#ffffff,#15171b)] p-2 text-[11px] text-[light-dark(#262d38,#e8ebee)] outline-none focus:border-[#f97316] focus:shadow-[0_0_0_3px_#f9731625]\"\n        placeholder=\"e.g. microkit-web\"\n      />\n    </label>\n  );\n}\n",
       "type": "registry:component",
       "target": "@components/microkit/focus-input.tsx"
     }

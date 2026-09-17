@@ -16,7 +16,7 @@
   border-radius: 999px;
   background: #f97316;
   padding: 0;
-  color: #fffaf6;
+  color: light-dark(#14181e, #fffaf6);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
   transition: background-color .3s ease, transform .2s ease;
@@ -32,8 +32,8 @@
   place-items: center;
   overflow: hidden;
   border-radius: 50%;
-  background: #141419;
-  color: #fffaf6;
+  background: light-dark(#ffffff, #141419);
+  color: light-dark(#14181e, #fffaf6);
   transform: translateY(-50%);
   transition: left .42s cubic-bezier(.16, 1, .3, 1), width .42s cubic-bezier(.16, 1, .3, 1), height .42s cubic-bezier(.16, 1, .3, 1);
 }
@@ -74,7 +74,7 @@
 }
 
 .expanding-newsletter-button:focus-visible {
-  outline: 2px solid #fffaf6;
+  outline: 2px solid light-dark(#14181e, #fffaf6);
   outline-offset: 4px;
 }
 

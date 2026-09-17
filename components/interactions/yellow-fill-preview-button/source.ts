@@ -15,11 +15,11 @@ export const componentCode = `export function YellowFillPreviewButton() {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid #f0f0f0;
+  border: 1px solid light-dark(#14181e,#f0f0f0);
   border-radius: 999px;
   background: transparent;
   padding: 12px 24px;
-  color: #f0f0f0;
+  color: light-dark(#14181e,#f0f0f0);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
 }
@@ -41,7 +41,7 @@ export const componentCode = `export function YellowFillPreviewButton() {
 }
 .yellow-fill-preview-button:hover .yellow-fill-preview-button-label,
 .yellow-fill-preview-button:focus-visible .yellow-fill-preview-button-label {
-  color: #111;
+  color: light-dark(#f6f7f9,#111);
 }
 .yellow-fill-preview-button:hover .yellow-fill-preview-button-fill,
 .yellow-fill-preview-button:focus-visible .yellow-fill-preview-button-fill {
@@ -56,9 +56,9 @@ export const tailwindCode = `export function YellowFillPreviewButton() {
   return (
     <button
       type="button"
-      className="group relative inline-flex cursor-pointer appearance-none items-center justify-center overflow-hidden rounded-full border border-[#f0f0f0] bg-transparent px-6 py-3 text-[#f0f0f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"
+      className="group relative inline-flex cursor-pointer appearance-none items-center justify-center overflow-hidden rounded-full border border-[light-dark(#14181e,#f0f0f0)] bg-transparent px-6 py-3 text-[light-dark(#14181e,#f0f0f0)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316]"
     >
-      <span className="relative z-10 text-base font-medium transition-colors duration-300 group-hover:text-[#111] group-focus-visible:text-[#111]">Preview in browser</span>
+      <span className="relative z-10 text-base font-medium transition-colors duration-300 group-hover:text-[light-dark(#f6f7f9,#111)] group-focus-visible:text-[light-dark(#f6f7f9,#111)]">Preview in browser</span>
       <span className="absolute inset-y-0 left-0 w-0 bg-[#f97316] transition-[width] duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:w-full group-focus-visible:w-full" aria-hidden="true" />
     </button>
   );

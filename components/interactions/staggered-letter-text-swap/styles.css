@@ -11,7 +11,7 @@
   border: 0;
   background: transparent;
   padding: 0;
-  color: #f7f7fa;
+  color: light-dark(#14181e, #f7f7fa);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
 }

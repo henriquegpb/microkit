@@ -49,7 +49,7 @@ export function SecurePurchaseButton() {
       <style>{purchaseKeyframes}</style>
       <button
         type="button"
-        className="group relative inline-flex h-[48px] w-fit cursor-pointer appearance-none items-center justify-center rounded-full border border-[#2b2f36] bg-[#121418] px-[24px] font-[Arial,Helvetica,sans-serif] text-base font-medium leading-none tracking-[-.02em] text-[#f2f4f6] shadow-[inset_0_1px_0_rgba(255,255,255,.04),0_10px_24px_rgba(0,0,0,.35)] [interpolate-size:allow-keywords] [transition:width_.45s_cubic-bezier(.16,1,.3,1),background-color_.2s_ease] hover:data-[state=idle]:bg-[#1b1e23] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316] data-[state=processing]:cursor-default data-[state=success]:cursor-default motion-reduce:transition-none"
+        className="group relative inline-flex h-[48px] w-fit cursor-pointer appearance-none items-center justify-center rounded-full border border-[light-dark(#dfe3ea,#2b2f36)] bg-[light-dark(#ffffff,#121418)] px-[24px] font-[Arial,Helvetica,sans-serif] text-base font-medium leading-none tracking-[-.02em] text-[light-dark(#14181e,#f2f4f6)] shadow-[inset_0_1px_0_rgba(255,255,255,.04),0_10px_24px_rgba(0,0,0,.35)] [interpolate-size:allow-keywords] [transition:width_.45s_cubic-bezier(.16,1,.3,1),background-color_.2s_ease] hover:data-[state=idle]:bg-[light-dark(#f0f2f5,#1b1e23)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f97316] data-[state=processing]:cursor-default data-[state=success]:cursor-default motion-reduce:transition-none"
         data-state={state}
         aria-busy={state === "processing"}
         onClick={handleClick}

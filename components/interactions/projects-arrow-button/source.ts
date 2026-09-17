@@ -13,7 +13,7 @@ export function ProjectsArrowButton() {
 }
 
 /* projects-arrow-button.css */
-.projects-arrow-button { display: inline-flex; align-items: center; gap: 9px; border: 0; background: transparent; color: #f0f0f0; font-size: 16px; font-weight: 500; letter-spacing: .5px; }
+.projects-arrow-button { display: inline-flex; align-items: center; gap: 9px; border: 0; background: transparent; color: light-dark(#14181e,#f0f0f0); font-size: 16px; font-weight: 500; letter-spacing: .5px; }
 .projects-arrow-icon { position: relative; display: grid; width: 32px; height: 32px; place-items: center; overflow: hidden; border: 1px solid currentColor; border-radius: 999px; }
 .projects-arrow { position: absolute; transition: transform .48s cubic-bezier(.16, 1, .3, 1); }
 .projects-arrow-incoming { transform: translateX(-25px); }
@@ -25,7 +25,7 @@ export const tailwindCode = `import { ArrowRight } from "lucide-react";
 
 export function ProjectsArrowButton() {
   return (
-    <button className="group inline-flex items-center gap-[9px] border-0 bg-transparent p-0 text-base font-medium tracking-[.5px] text-[#f0f0f0]">
+    <button className="group inline-flex items-center gap-[9px] border-0 bg-transparent p-0 text-base font-medium tracking-[.5px] text-[light-dark(#14181e,#f0f0f0)]">
       <span>Projects</span>
       <span className="relative grid size-8 place-items-center overflow-hidden rounded-full border border-current">
         <ArrowRight className="absolute transition-transform duration-[480ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-[25px]" size={18} strokeWidth={2.4} />

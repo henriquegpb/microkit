@@ -9,7 +9,7 @@
   border: 0;
   background: transparent;
   padding: 8px 24px;
-  color: #f0f0f0;
+  color: light-dark(#14181e, #f0f0f0);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
 }

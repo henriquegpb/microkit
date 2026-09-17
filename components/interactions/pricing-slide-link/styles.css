@@ -6,7 +6,7 @@
   border: 0;
   background: transparent;
   padding: 0;
-  color: #f0f0f0;
+  color: light-dark(#14181e, #f0f0f0);
   font-size: 16px;
   font-weight: 500;
   line-height: 1;

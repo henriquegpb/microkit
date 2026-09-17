@@ -30,11 +30,11 @@ export function SlidingSendButton() {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid #48484f;
+  border: 1px solid light-dark(#adb6c3,#48484f);
   border-radius: 999px;
-  background: #15151b;
+  background: light-dark(#ffffff,#15151b);
   padding: 0;
-  color: #f7f7fa;
+  color: light-dark(#14181e,#f7f7fa);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
   transition: border-color .3s ease, background-color .3s ease;
@@ -77,8 +77,8 @@ export function SlidingSendButton() {
 
 .sliding-send-button:hover,
 .sliding-send-button:focus-visible {
-  border-color: #5a5a62;
-  background: #18181e;
+  border-color: light-dark(#a2aab6,#5a5a62);
+  background: light-dark(#f0f2f5,#18181e);
 }
 
 .sliding-send-button:hover .sliding-send-button__label,
@@ -106,7 +106,7 @@ export function SlidingSendButton() {
 
 export const tailwindCode = `export function SlidingSendButton() {
   return (
-    <button type="button" className="group inline-flex h-[50px] w-[min(170px,calc(100vw-40px))] cursor-pointer appearance-none items-center justify-center overflow-hidden rounded-full border border-[#48484f] bg-[#15151b] p-0 font-[Arial,Helvetica,sans-serif] text-[#f7f7fa] transition-[border-color,background-color] duration-300 hover:border-[#5a5a62] hover:bg-[#18181e] focus-visible:border-[#5a5a62] focus-visible:bg-[#18181e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-[#f97316] motion-reduce:transition-none">
+    <button type="button" className="group inline-flex h-[50px] w-[min(170px,calc(100vw-40px))] cursor-pointer appearance-none items-center justify-center overflow-hidden rounded-full border border-[light-dark(#adb6c3,#48484f)] bg-[light-dark(#ffffff,#15151b)] p-0 font-[Arial,Helvetica,sans-serif] text-[light-dark(#14181e,#f7f7fa)] transition-[border-color,background-color] duration-300 hover:border-[light-dark(#a2aab6,#5a5a62)] hover:bg-[light-dark(#f0f2f5,#18181e)] focus-visible:border-[light-dark(#a2aab6,#5a5a62)] focus-visible:bg-[light-dark(#f0f2f5,#18181e)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-[#f97316] motion-reduce:transition-none">
       <span className="relative flex w-full items-center justify-center">
         <span className="whitespace-nowrap text-[16px] font-normal leading-none tracking-[-.4px] transition-transform duration-[450ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-[17px] group-focus-visible:translate-x-[17px] motion-reduce:transition-none">Share it now</span>
         <span className="absolute left-[calc(50%-59px)] grid size-5 -translate-x-3 scale-0 place-items-center text-[#f97316] transition-transform duration-[450ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-0 group-hover:scale-100 group-focus-visible:translate-x-0 group-focus-visible:scale-100 motion-reduce:transition-none" aria-hidden="true">
