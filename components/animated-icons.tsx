@@ -133,6 +133,52 @@ export const ClockIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
 );
 ClockIcon.displayName = "ClockIcon";
 
+/*
+ * Lucide's `library`: four spines of different heights. They lift in turn, so
+ * the nav item reads as a shelf of things rather than another stack of layers.
+ */
+const LIBRARY_SPINES = [
+  { d: "M4 4v16", lift: -1.6 },
+  { d: "M8 8v12", lift: -2.4 },
+  { d: "M12 6v14", lift: -1.8 },
+  { d: "m16 6 4 14", lift: -2.6 },
+];
+
+export const LibraryIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
+  ({ className, onMouseEnter, onMouseLeave, size = 28, ...props }, ref) => {
+    const controls = useAnimation();
+    const isControlledRef = useRef(false);
+    useImperativeHandle(ref, () => {
+      isControlledRef.current = true;
+      return { startAnimation: () => { void controls.start("animate"); }, stopAnimation: () => { void controls.start("normal"); } };
+    }, [controls]);
+    const handleMouseEnter = useCallback((event: MouseEvent<HTMLSpanElement>) => {
+      if (isControlledRef.current) onMouseEnter?.(event);
+      else void controls.start("animate");
+    }, [controls, onMouseEnter]);
+    const handleMouseLeave = useCallback((event: MouseEvent<HTMLSpanElement>) => {
+      if (isControlledRef.current) onMouseLeave?.(event);
+      else void controls.start("normal");
+    }, [controls, onMouseLeave]);
+
+    return <span className={className} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} {...props}>
+      <svg fill="none" height={size} stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width={size} xmlns="http://www.w3.org/2000/svg">
+        {LIBRARY_SPINES.map((spine, i) => (
+          <motion.path
+            key={spine.d}
+            animate={controls}
+            d={spine.d}
+            initial="normal"
+            transition={{ type: "spring", stiffness: 260, damping: 18, delay: i * 0.06 }}
+            variants={{ normal: { y: 0 }, animate: { y: spine.lift } }}
+          />
+        ))}
+      </svg>
+    </span>;
+  },
+);
+LibraryIcon.displayName = "LibraryIcon";
+
 const PANEL_TRANSITION: Transition = { times: [0, 0.4, 1], duration: 0.5 };
 
 function createPanelIcon(name: "PanelLeftCloseIcon" | "PanelLeftOpenIcon", path: string, movement: number) {

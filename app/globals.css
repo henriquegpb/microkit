@@ -719,3 +719,30 @@ a.card-info:focus-visible{outline:2px solid #f97316;outline-offset:-2px}
   .registry-callout{padding:14px 18px}
   .registry-command{flex-basis:100%}
 }
+
+/* Other libraries — cards that link out instead of opening a playground. The
+   preview is the library demonstrating itself, so it gets the full card face. */
+.library-card .card-preview{display:grid;place-items:center}
+.library-card .card-info:hover{background:#17191d}
+.library-badge{position:absolute;top:10px;left:10px;color:#f5c9a8;background:#24160d;border:1px solid #4a2a15;font:10px var(--font-geist-mono,monospace);padding:3px 5px;border-radius:3px}
+.library-card .card-meta span{white-space:nowrap}
+.library-out{display:grid;place-items:center;color:#868c96;border:0;padding:0}
+.library-card:hover .library-out{color:#ffbf91}
+
+.library-preview{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:18px}
+
+/* morphicons: one icon becoming the next, with the set it travels through
+   underneath. The chips are buttons so the morph can be aimed by hand. */
+.morph-stage{width:82px;height:82px;display:grid;place-items:center;border:1px solid #24282d;border-radius:20px;background:#111317;color:#f2f4f7}
+.morph-set{display:flex;gap:4px}
+.morph-set button{width:26px;height:26px;display:grid;place-items:center;border:1px solid transparent;border-radius:7px;background:transparent;color:#6f7681;cursor:pointer;transition:color .2s ease,background .2s ease,border-color .2s ease}
+.morph-set button:hover{color:#cfd4da;background:#191c21}
+.morph-set button.active{color:#ffbf91;border-color:#4a2a15;background:#24160d}
+.morph-set button:focus-visible{outline:2px solid #f97316;outline-offset:2px}
+
+/* lucide-animated: a row that plays itself until a pointer takes one over. */
+.animated-icon-row{display:flex;gap:8px}
+.animated-icon-tile{width:44px;height:44px;display:grid;place-items:center;border:1px solid #24282d;border-radius:11px;background:#111317;color:#cfd4da;transition:border-color .2s ease,color .2s ease}
+.animated-icon-tile:hover{border-color:#4a2a15;color:#ffbf91}
+.animated-icon-tile>span{display:grid;place-items:center}
+.library-preview-caption{font:10px var(--font-geist-mono,monospace);color:#6f7681}

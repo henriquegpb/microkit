@@ -34,13 +34,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import {
-  ClockIcon,
   HeartIcon,
   type AnimatedIconHandle,
   LayersIcon,
+  LibraryIcon,
   PanelLeftCloseIcon,
   PanelLeftOpenIcon,
 } from "../components/animated-icons";
+import { otherLibraries, OtherLibraryPreview, type OtherLibrary } from "../components/other-libraries";
 import { PackageManagerLogo } from "../components/package-manager-logos";
 import { componentsByCategory, interactions, type Interaction } from "../content/interactions/catalog";
 import { InteractionPreview } from "../components/interactions/registry";
@@ -134,16 +135,16 @@ function Icon({ name, size = 16, filled = false }: { name: keyof typeof icons; s
 function CopyGlyph({ done }: { done: boolean }) {
   return <MorphIcon icon={done ? CheckData : CopyData} size={16} strokeWidth={1.8} spring="snappy" reducedMotion="user" />;
 }
-type LibraryView = "all" | "recent" | "favorites";
+type LibraryView = "all" | "libraries" | "favorites";
 
 function FavoriteButton({ className, saved, label, onClick, size = 20 }: { className: string; saved: boolean; label: string; onClick: () => void; size?: number }) {
   const heartRef = useRef<AnimatedIconHandle>(null);
   return <button className={className} onClick={() => { onClick(); heartRef.current?.startAnimation(); }} onMouseEnter={() => heartRef.current?.startAnimation()} onMouseLeave={() => heartRef.current?.stopAnimation()} aria-label={label}><HeartIcon ref={heartRef} size={size} filled={saved}/></button>;
 }
 
-const NavigationIcon = forwardRef<AnimatedIconHandle, { name: "layers" | "clock" | "heart" }>(({ name }, ref) => {
+const NavigationIcon = forwardRef<AnimatedIconHandle, { name: "layers" | "library" | "heart" }>(({ name }, ref) => {
   if (name === "layers") return <LayersIcon ref={ref} size={16}/>;
-  if (name === "clock") return <ClockIcon ref={ref} size={16}/>;
+  if (name === "library") return <LibraryIcon ref={ref} size={16}/>;
   return <HeartIcon ref={ref} size={16}/>;
 });
 NavigationIcon.displayName = "NavigationIcon";
@@ -439,29 +440,33 @@ export default function Home() {
     if (typeof window === "undefined") return [];
     return JSON.parse(localStorage.getItem("microkit-favorites") || "[]");
   });
-  const [recent, setRecent] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    return JSON.parse(localStorage.getItem("microkit-recent") || "[]");
-  });
   const [sidebar, setSidebar] = useState(true);
   const toggleFavorite = (id: string) => setFavorites(prev => { const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]; localStorage.setItem("microkit-favorites", JSON.stringify(next)); return next; });
-  const markRecentlyViewed = (id: string) => setRecent(prev => { const next = [id, ...prev.filter(itemId => itemId !== id)].slice(0, 20); localStorage.setItem("microkit-recent", JSON.stringify(next)); return next; });
   const filtered = useMemo(() => {
     const matches = interactions.filter(item => (libraryView !== "all" || category === "All" || item.category === category || (category === "Click feedback" && item.type === "Click")) && (framework === "All frameworks" || item.framework === framework) && `${item.name} ${item.category} ${item.type}`.toLowerCase().includes(query.toLowerCase()));
-    const scoped = libraryView === "favorites" ? matches.filter(item => favorites.includes(item.id)) : libraryView === "recent" ? recent.map(id => matches.find(item => item.id === id)).filter((item): item is Interaction => Boolean(item)) : matches;
-    return sort === "Newest" && libraryView === "recent" ? scoped : [...scoped].sort((a,b) => sort === "A–Z" ? a.name.localeCompare(b.name) : sort === "Popular" ? (a.id === "magnetic-button" ? -1 : 1) : (a.new === b.new ? 0 : a.new ? -1 : 1));
-  }, [category, favorites, framework, libraryView, query, recent, sort]);
+    const scoped = libraryView === "favorites" ? matches.filter(item => favorites.includes(item.id)) : matches;
+    return [...scoped].sort((a,b) => sort === "A–Z" ? a.name.localeCompare(b.name) : sort === "Popular" ? (a.id === "magnetic-button" ? -1 : 1) : (a.new === b.new ? 0 : a.new ? -1 : 1));
+  }, [category, favorites, framework, libraryView, query, sort]);
+
+  /*
+   * "Other libraries" lists projects rather than interactions, so it answers to
+   * the search box but not to the framework or sort controls — those describe
+   * a snippet these entries do not have.
+   */
+  const libraries = useMemo(
+    () => otherLibraries.filter(library => `${library.name} ${library.tagline} ${library.meta}`.toLowerCase().includes(query.toLowerCase())),
+    [query],
+  );
+  const showingLibraries = libraryView === "libraries";
 
   const chooseCategory = (view: LibraryView) => { localStorage.setItem("microkit-library-view", view); setLibraryView(view); setCategory("All"); };
   const openComponent = (item: Interaction) => {
-    markRecentlyViewed(item.id);
     window.location.assign(`/components/${item.id}`);
   };
   /*
    * The card body is an <a href="/components/{id}">, so a click that lands
-   * inside it is left alone: the browser navigates, and the anchor's own
-   * handler is what records the view. Handling it here as well would race the
-   * navigation to the same URL.
+   * inside it is left alone: the browser navigates, and handling it here as
+   * well would race the navigation to the same URL.
    */
   const handleCardClick = (event: ReactMouseEvent<HTMLElement>, item: Interaction) => {
     const target = event.target as HTMLElement;
@@ -470,7 +475,22 @@ export default function Home() {
     openComponent(item);
   };
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><HomeBackground/><div className="gallery-row"><main className="gallery-main"><HeroCard><RegistryCallout/></HeroCard><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {category === "All" ? "All interactions" : category}</div><h1>{category === "All" ? GALLERY_HEADING : category}</h1><p>{filtered.length} {filtered.length === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p><Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link></div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></div></div><div className="active-filter"><span>{category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div><section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`} onClick={()=>markRecentlyViewed(item.id)}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>{!filtered.length && <div className="empty"><Icon name="search" size={28}/><h2>No interactions found</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/><HomeFootnote/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div></div>;
+  const count = showingLibraries ? libraries.length : filtered.length;
+  const heading = showingLibraries ? "Other libraries" : category === "All" ? GALLERY_HEADING : category;
+
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><HomeBackground/><div className="gallery-row"><main className="gallery-main"><HeroCard><RegistryCallout/></HeroCard><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {showingLibraries ? "Other libraries" : category === "All" ? "All interactions" : category}</div><h1>{heading}</h1>{showingLibraries ? <p>{count} {count === 1 ? "library" : "libraries"} we keep going back to. Built by other people, worth your time.</p> : <p>{count} {count === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p>}{!showingLibraries && <Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link>}</div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label>{!showingLibraries && <><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></>}</div></div><div className="active-filter"><span>{showingLibraries ? "Other libraries" : category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div>{showingLibraries ? <section className="gallery-grid">{libraries.map(library=><LibraryCard key={library.id} library={library}/>)}</section> : <section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>}{!count && <div className="empty"><Icon name="search" size={28}/><h2>{showingLibraries ? "No libraries found" : "No interactions found"}</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/><HomeFootnote/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div></div>;
+}
+
+/*
+ * A library is a destination, not a snippet: the whole card is a link out, and
+ * the preview is the library demonstrating itself instead of a component you
+ * could copy.
+ */
+function LibraryCard({ library }: { library: OtherLibrary }) {
+  return <article className="interaction-card library-card">
+    <div className="card-preview"><OtherLibraryPreview id={library.id}/><span className="library-badge">Library</span></div>
+    <a className="card-info" href={library.href} target="_blank" rel="noreferrer"><span><h2>{library.name}</h2><p>{library.tagline}</p></span><span className="card-meta"><span>{library.meta}</span><span className="state-type">{library.scale}</span><span className="library-out" aria-hidden="true"><ArrowUpRight size={14} strokeWidth={2.2}/></span></span></a>
+  </article>;
 }
 
 /** The sites this one took its cues from. */
@@ -503,7 +523,7 @@ export function ComponentDetailPage({ item }: { item: Interaction }) {
     setFavorite(!favorite);
   };
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={() => setSidebar(!sidebar)} view="all" counts={{ all: interactions.length, recent: 0, favorites: 0 }} choose={() => window.location.assign("/")} /><main className="playground-main"><div className="crumb"><button className="back-slide" onClick={() => window.location.assign("/")}><span className="back-slide-label">All interactions</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></button><span>/</span><span>{item.category}</span></div><section className="playground-heading"><div><div className="eyebrow">{item.category} <span>•</span> {item.framework}</div><h1>{item.name}</h1><p>{item.description}</p></div><div className="header-actions"><FavoriteButton className={`square ${favorite ? "saved" : ""}`} saved={favorite} label="Save favorite" onClick={toggleFavorite}/></div></section><div className="play-tabs"><button className={!codeTab ? "active" : ""} onClick={() => setCodeTab(false)}>Preview</button><button className={codeTab ? "active" : ""} onClick={() => setCodeTab(true)}>Code</button></div><div className="play-panel" hidden={codeTab}><div className="play-layout"><section className="canvas-card"><div className="canvas dark desktop"><Demo id={item.id} large/></div><div className="canvas-footer"><span><i className="status-dot"/> Live preview</span></div></section></div></div><div className="play-panel" hidden={!codeTab}><Installation item={item} copy={copy} copied={copied}/><CodePanel item={item} copy={copy} copied={copied}/></div><Related item={item}/></main></div></div>;
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={() => setSidebar(!sidebar)} view="all" counts={{ all: interactions.length, libraries: otherLibraries.length, favorites: 0 }} choose={() => window.location.assign("/")} /><main className="playground-main"><div className="crumb"><button className="back-slide" onClick={() => window.location.assign("/")}><span className="back-slide-label">All interactions</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></button><span>/</span><span>{item.category}</span></div><section className="playground-heading"><div><div className="eyebrow">{item.category} <span>•</span> {item.framework}</div><h1>{item.name}</h1><p>{item.description}</p></div><div className="header-actions"><FavoriteButton className={`square ${favorite ? "saved" : ""}`} saved={favorite} label="Save favorite" onClick={toggleFavorite}/></div></section><div className="play-tabs"><button className={!codeTab ? "active" : ""} onClick={() => setCodeTab(false)}>Preview</button><button className={codeTab ? "active" : ""} onClick={() => setCodeTab(true)}>Code</button></div><div className="play-panel" hidden={codeTab}><div className="play-layout"><section className="canvas-card"><div className="canvas dark desktop"><Demo id={item.id} large/></div><div className="canvas-footer"><span><i className="status-dot"/> Live preview</span></div></section></div></div><div className="play-panel" hidden={!codeTab}><Installation item={item} copy={copy} copied={copied}/><CodePanel item={item} copy={copy} copied={copied}/></div><Related item={item}/></main></div></div>;
 }
 
 /** How many neighbours a component page links to. */
@@ -586,7 +606,7 @@ function ComponentIndexShell({ heading, intro, eyebrow, groups, crumb, activeFra
   const [query, setQuery] = useState("");
   const [sidebar, setSidebar] = useState(true);
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={() => setSidebar(!sidebar)} view="all" counts={{ all: interactions.length, recent: 0, favorites: 0 }} choose={() => window.location.assign("/")} /><main className="playground-main"><div className="crumb"><Link className="back-slide" href={crumb.href}><span className="back-slide-label">{crumb.label}</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></Link></div><section className="playground-heading"><div><div className="eyebrow">Library <span>•</span> {eyebrow}</div><h1>{heading}</h1><p>{intro}</p></div></section><div className="component-index">{groups.map(group => <section className="component-index-group" key={group.category}><h2>{group.category} <em>{group.items.length}</em></h2><ul>{group.items.map(item => <li key={item.id}><a href={`/components/${item.id}`}><span className="component-index-entry"><span className="component-index-name">{item.name}</span><span className="component-index-summary">{item.description}</span></span><span className="component-index-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></li>)}</ul></section>)}</div><FrameworkLinks active={activeFramework}/></main></div></div>;
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={() => setSidebar(!sidebar)} view="all" counts={{ all: interactions.length, libraries: otherLibraries.length, favorites: 0 }} choose={() => window.location.assign("/")} /><main className="playground-main"><div className="crumb"><Link className="back-slide" href={crumb.href}><span className="back-slide-label">{crumb.label}</span><span className="back-slide-icon" aria-hidden="true"><ArrowLeft size={20} strokeWidth={2.25}/></span></Link></div><section className="playground-heading"><div><div className="eyebrow">Library <span>•</span> {eyebrow}</div><h1>{heading}</h1><p>{intro}</p></div></section><div className="component-index">{groups.map(group => <section className="component-index-group" key={group.category}><h2>{group.category} <em>{group.items.length}</em></h2><ul>{group.items.map(item => <li key={item.id}><a href={`/components/${item.id}`}><span className="component-index-entry"><span className="component-index-name">{item.name}</span><span className="component-index-summary">{item.description}</span></span><span className="component-index-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></li>)}</ul></section>)}</div><FrameworkLinks active={activeFramework}/></main></div></div>;
 }
 
 /**
@@ -690,9 +710,9 @@ Describe the interaction, its intended use, and any relevant source or attributi
 }
 const NAV_ITEMS = [
   { label: "All components", icon: "layers", view: "all" },
-  { label: "Recently viewed", icon: "clock", view: "recent" },
+  { label: "Other libraries", icon: "library", view: "libraries" },
   { label: "Favorites", icon: "heart", view: "favorites" },
-] satisfies { label: string; icon: "layers" | "clock" | "heart"; view: LibraryView }[];
+] satisfies { label: string; icon: "layers" | "library" | "heart"; view: LibraryView }[];
 
 function Sidebar({ open, toggle, view, counts, choose }: { open:boolean; toggle:()=>void; view?:LibraryView; counts?:Record<LibraryView,number>; choose:(view:LibraryView)=>void }) {
   const navRef = useRef<HTMLDivElement>(null);
@@ -707,7 +727,7 @@ function Sidebar({ open, toggle, view, counts, choose }: { open:boolean; toggle:
     return Math.max(0, NAV_ITEMS.findIndex(item => item.view === savedView));
   });
   const activeIndex = view ? NAV_ITEMS.findIndex(item => item.view === view) : localActiveIndex;
-  const liveCounts = counts ?? (typeof window === "undefined" ? { all: interactions.length, recent: 0, favorites: 0 } : { all: interactions.length, recent: JSON.parse(localStorage.getItem("microkit-recent") || "[]").length, favorites: JSON.parse(localStorage.getItem("microkit-favorites") || "[]").length });
+  const liveCounts = counts ?? (typeof window === "undefined" ? { all: interactions.length, libraries: otherLibraries.length, favorites: 0 } : { all: interactions.length, libraries: otherLibraries.length, favorites: JSON.parse(localStorage.getItem("microkit-favorites") || "[]").length });
 
   useEffect(() => {
     if (!open) { animatedRef.current = false; return; }
