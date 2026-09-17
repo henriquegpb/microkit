@@ -85,8 +85,8 @@ export function SecurePurchaseButton() {
   border-radius: 999px;
   background: light-dark(#ffffff,#121418);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .04),
-    0 10px 24px rgba(0, 0, 0, .35);
+    inset 0 1px 0 light-dark(rgba(20, 24, 30, .04), rgba(255, 255, 255, .04)),
+    0 10px 24px light-dark(rgba(246, 247, 249, .35), rgba(0, 0, 0, .35));
   padding: 0 24px;
   color: light-dark(#14181e,#f2f4f6);
   font-family: Arial, Helvetica, sans-serif;
@@ -187,12 +187,12 @@ export function SecurePurchaseButton() {
   0%, 100% {
     opacity: .5;
     transform: scale(.7);
-    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    box-shadow: 0 0 0 light-dark(rgba(20, 24, 30, 0), rgba(255, 255, 255, 0));
   }
   50% {
     opacity: 1;
     transform: scale(1);
-    box-shadow: 0 0 24px rgba(255, 255, 255, .8);
+    box-shadow: 0 0 24px light-dark(rgba(20, 24, 30, .8), rgba(255, 255, 255, .8));
   }
 }
 
@@ -246,8 +246,8 @@ const pixelDelays = Array.from({ length: 16 }, (_, index) =>
 
 const purchaseKeyframes = \`
 @keyframes secure-purchase-pulse {
-  0%, 100% { opacity: .5; transform: scale(.7); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
-  50% { opacity: 1; transform: scale(1); box-shadow: 0 0 24px rgba(255, 255, 255, .8); }
+  0%, 100% { opacity: .5; transform: scale(.7); box-shadow: 0 0 0 light-dark(rgba(20, 24, 30, 0), rgba(255, 255, 255, 0)); }
+  50% { opacity: 1; transform: scale(1); box-shadow: 0 0 24px light-dark(rgba(20, 24, 30, .8), rgba(255, 255, 255, .8)); }
 }
 @keyframes secure-purchase-label-in {
   from { opacity: 0; transform: translateY(6px); filter: blur(2px); }

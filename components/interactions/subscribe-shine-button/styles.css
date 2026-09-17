@@ -16,7 +16,7 @@
   width: 230px;
   height: 250px;
   flex: none;
-  background: linear-gradient(121deg, light-dark(#f0f2f5, #1b1b1b) 38%, light-dark(#14181e, #f0f0f0) 50%, light-dark(#f0f2f5, #1b1b1b) 61%);
+  background: linear-gradient(121deg, light-dark(#f4f6f9, #1b1b1b) 38%, light-dark(#14181e, #f0f0f0) 50%, light-dark(#f4f6f9, #1b1b1b) 61%);
 }
 .subscribe-shine-inner {
   position: absolute;
@@ -25,7 +25,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: light-dark(#f6f7f9, #0b0b11);
+  background: light-dark(#ffffff, #0b0b11);
   color: light-dark(#14181e, #f0f0f0);
   font-size: 13px;
   font-weight: 700;

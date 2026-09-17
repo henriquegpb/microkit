@@ -200,8 +200,8 @@
    */
   --pm-theme: .6;
 
-  --stage: #ffffff;
-  --stage-raised: #f6f7f9;
+  --stage: #eef0f4;
+  --stage-raised: #ffffff;
   --stage-line: #dfe3ea;
   --stage-muted: #69727f;
 }

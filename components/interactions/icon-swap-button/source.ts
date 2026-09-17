@@ -30,7 +30,7 @@ export function IconSwapButton() {
   width: 228px;
   min-height: 56px;
   overflow: hidden;
-  border: 1px solid #ffffff14;
+  border: 1px solid light-dark(#14181e14,#ffffff14);
   border-radius: 12px;
   background: transparent;
   padding: 8px 16px;
@@ -101,7 +101,7 @@ function AppleMark() {
 
 export function IconSwapButton() {
   return (
-    <button type="button" className="group inline-flex min-h-14 w-[228px] items-center justify-center overflow-hidden rounded-xl border border-[#ffffff14] bg-transparent px-4 py-2 text-[light-dark(#14181e,#f0f0f0)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[#f97316]">
+    <button type="button" className="group inline-flex min-h-14 w-[228px] items-center justify-center overflow-hidden rounded-xl border border-[light-dark(#14181e14,#ffffff14)] bg-transparent px-4 py-2 text-[light-dark(#14181e,#f0f0f0)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[#f97316]">
       <span className="relative inline-flex items-center gap-2">
         <AppleMark />
         <span className="relative z-10 whitespace-nowrap text-base font-medium">Download for iOS</span>

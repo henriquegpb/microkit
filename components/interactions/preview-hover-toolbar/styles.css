@@ -27,9 +27,9 @@
   position: relative;
   width: 44px;
   height: 16px;
-  border: 1px solid light-dark(#dfe3ea, #2e3238);
+  border: 1px solid light-dark(#c9d0da, #2e3238);
   border-radius: 999px;
-  background: rgba(14, 16, 19, .55);
+  background: light-dark(rgba(255, 255, 255, .55), rgba(14, 16, 19, .55));
   transition:
     width 170ms cubic-bezier(.5, 0, .66, .2),
     height 170ms cubic-bezier(.5, 0, .66, .2),
@@ -97,7 +97,7 @@
 }
 
 .preview-toolbar__action:hover {
-  background: light-dark(#dfe3ea, #2a2f36);
+  background: light-dark(#c9d0da, #2a2f36);
   color: light-dark(#14181e, #f4f5f7);
 }
 
@@ -114,9 +114,9 @@
   position: absolute;
   bottom: calc(100% + 12px);
   left: 50%;
-  border: 1px solid light-dark(#dfe3ea, #2e3238);
+  border: 1px solid light-dark(#c9d0da, #2e3238);
   border-radius: 8px;
-  background: light-dark(#f0f2f5, #1c1f24);
+  background: light-dark(#ffffff, #1c1f24);
   padding: 5px 9px;
   color: light-dark(#262d38, #e7e9ec);
   font-size: 11px;
@@ -125,7 +125,7 @@
   pointer-events: none;
   opacity: 0;
   transform: translate(-50%, 5px) scale(.94);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, .45);
+  box-shadow: 0 10px 20px light-dark(rgba(246, 247, 249, .45), rgba(0, 0, 0, .45));
   transition:
     opacity .18s ease,
     transform .3s cubic-bezier(.22, 1, .36, 1);

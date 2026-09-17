@@ -8,7 +8,7 @@
   width: 120px;
   min-height: 48px;
   overflow: hidden;
-  border: 1px solid #f0f0f033;
+  border: 1px solid light-dark(#14181e33, #f0f0f033);
   border-radius: 999px;
   background: transparent;
   padding: 8px 24px;

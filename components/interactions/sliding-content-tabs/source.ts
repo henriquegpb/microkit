@@ -70,7 +70,7 @@ export function SlidingContentTabs() {
   cursor: pointer;
   transition: color .3s cubic-bezier(.16, 1, .3, 1);
 }
-.sliding-tabs-list button.active { color: #fff; }
+.sliding-tabs-list button.active { color: light-dark(#14181e,#fff); }
 .sliding-tabs-list button:focus-visible { outline: 2px solid #f97316; outline-offset: -2px; }
 .sliding-tabs-indicator {
   position: absolute;

@@ -21,7 +21,7 @@ export function OutlineWipeButton() {
 .outline-wipe-button {
   --wipe-accent: #f97316;
   --wipe-bar: 6px;
-  --wipe-stroke: rgba(255, 255, 255, .6);
+  --wipe-stroke: light-dark(rgba(20, 24, 30, .6), rgba(255, 255, 255, .6));
   --wipe-ease: .85s cubic-bezier(.16, 1, .3, 1);
   appearance: none;
   position: relative;

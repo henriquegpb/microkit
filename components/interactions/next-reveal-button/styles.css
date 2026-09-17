@@ -6,7 +6,7 @@
   width: 110px;
   height: 42px;
   overflow: hidden;
-  border: 1px solid #f0f0f033;
+  border: 1px solid light-dark(#14181e33, #f0f0f033);
   border-radius: 999px;
   background: light-dark(#ffffff, #171717);
   color: light-dark(#14181e, #f0f0f0);

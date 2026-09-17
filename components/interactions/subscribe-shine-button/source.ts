@@ -59,7 +59,7 @@ export function SubscribeShineButton() {
   width: 230px;
   height: 250px;
   flex: none;
-  background: linear-gradient(121deg, light-dark(#f0f2f5,#1b1b1b) 38%, light-dark(#14181e,#f0f0f0) 50%, light-dark(#f0f2f5,#1b1b1b) 61%);
+  background: linear-gradient(121deg, light-dark(#f4f6f9,#1b1b1b) 38%, light-dark(#14181e,#f0f0f0) 50%, light-dark(#f4f6f9,#1b1b1b) 61%);
 }
 .subscribe-shine-inner {
   position: absolute;
@@ -68,7 +68,7 @@ export function SubscribeShineButton() {
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: light-dark(#f6f7f9,#0b0b11);
+  background: light-dark(#ffffff,#0b0b11);
   color: light-dark(#14181e,#f0f0f0);
   font-size: 13px;
   font-weight: 700;
@@ -82,7 +82,7 @@ export const tailwindCode = `export function SubscribeShineButton() {
   return (
     <button className="group relative flex h-[60px] w-[200px] items-center justify-center overflow-hidden rounded-full border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[#f97316]">
       <span className="h-[250px] w-[230px] shrink-0 bg-[linear-gradient(121deg,#1b1b1b_38%,#f0f0f0_50%,#1b1b1b_61%)]" />
-      <span className="absolute inset-px flex items-center justify-center rounded-full bg-[light-dark(#f6f7f9,#0b0b11)] text-[13px] font-bold leading-none text-[light-dark(#14181e,#f0f0f0)] uppercase">
+      <span className="absolute inset-px flex items-center justify-center rounded-full bg-[light-dark(#ffffff,#0b0b11)] text-[13px] font-bold leading-none text-[light-dark(#14181e,#f0f0f0)] uppercase">
         Subscribe
       </span>
     </button>

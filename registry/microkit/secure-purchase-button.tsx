@@ -21,8 +21,8 @@ const pixelDelays = Array.from({ length: 16 }, (_, index) =>
 
 const purchaseKeyframes = `
 @keyframes secure-purchase-pulse {
-  0%, 100% { opacity: .5; transform: scale(.7); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
-  50% { opacity: 1; transform: scale(1); box-shadow: 0 0 24px rgba(255, 255, 255, .8); }
+  0%, 100% { opacity: .5; transform: scale(.7); box-shadow: 0 0 0 light-dark(rgba(20, 24, 30, 0), rgba(255, 255, 255, 0)); }
+  50% { opacity: 1; transform: scale(1); box-shadow: 0 0 24px light-dark(rgba(20, 24, 30, .8), rgba(255, 255, 255, .8)); }
 }
 @keyframes secure-purchase-label-in {
   from { opacity: 0; transform: translateY(6px); filter: blur(2px); }

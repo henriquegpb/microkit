@@ -18,7 +18,7 @@ export function NextRevealButton() {
   width: 110px;
   height: 42px;
   overflow: hidden;
-  border: 1px solid #f0f0f033;
+  border: 1px solid light-dark(#14181e33,#f0f0f033);
   border-radius: 999px;
   background: light-dark(#ffffff,#171717);
   color: light-dark(#14181e,#f0f0f0);
@@ -50,7 +50,7 @@ export const tailwindCode = `import { ArrowRight } from "lucide-react";
 
 export function NextRevealButton() {
   return (
-    <button className="group relative inline-flex h-[42px] w-[110px] items-center justify-end overflow-hidden rounded-full border border-[#f0f0f033] bg-[light-dark(#ffffff,#171717)] px-[15px] text-[light-dark(#14181e,#f0f0f0)] transition-[background-color,border-color,color] duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:border-transparent hover:bg-[#f97316] hover:text-[light-dark(#f0f2f5,#171d1a)] focus-visible:border-transparent focus-visible:bg-[#f97316] focus-visible:text-[light-dark(#f0f2f5,#171d1a)]">
+    <button className="group relative inline-flex h-[42px] w-[110px] items-center justify-end overflow-hidden rounded-full border border-[light-dark(#14181e33,#f0f0f033)] bg-[light-dark(#ffffff,#171717)] px-[15px] text-[light-dark(#14181e,#f0f0f0)] transition-[background-color,border-color,color] duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:border-transparent hover:bg-[#f97316] hover:text-[light-dark(#f0f2f5,#171d1a)] focus-visible:border-transparent focus-visible:bg-[#f97316] focus-visible:text-[light-dark(#f0f2f5,#171d1a)]">
       <span className="absolute left-[21px] translate-y-[160%] text-base font-normal opacity-0 transition-[opacity,transform] duration-300 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
         Next
       </span>
