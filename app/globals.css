@@ -128,6 +128,14 @@
    * branco e o chrome recua ficando mais escuro. Com um token só para os dois,
    * um dos lados sai errado necessariamente.
    */
+  /*
+   * A altura dos controles da barra: tema, Submit e GitHub. Vinha de três
+   * lugares — 30px escritos no toggle, 35px no GitHub e 37px que caíam da
+   * padding do Submit — então os três divergiam a cada ajuste. Agora saem
+   * daqui, e o Submit mantém sua padding só para o eixo horizontal.
+   */
+  --control-h: 37px;
+
   --shell: #0b0c0e;
 
   --arch: #000000;
@@ -309,7 +317,7 @@ button, input, select { font:inherit; } button { cursor:pointer; color:inherit; 
 .favorite:hover,.favorite.saved{background:transparent;border-color:transparent;color:var(--accent-pink)}
 .topbar nav .submit-link{display:flex;align-items:center;gap:5px}.submit-link-icon{position:relative;display:grid;width:14px;height:16px;place-items:center;overflow:hidden}.submit-link-arrow{position:absolute;transform:rotate(-45deg);transition:transform .42s cubic-bezier(.16,1,.3,1)}.submit-link-arrow-incoming{transform:translate(-14px,10px) rotate(-45deg)}.submit-link:hover .submit-link-arrow-current,.submit-link:focus-visible .submit-link-arrow-current{transform:translate(14px,-10px) rotate(-45deg)}.submit-link:hover .submit-link-arrow-incoming,.submit-link:focus-visible .submit-link-arrow-incoming{transform:translate(0,0) rotate(-45deg)}
 .github{overflow:hidden}.github-content{position:relative;display:inline-flex;align-items:center;gap:6px}.github-mark{width:15px;height:15px;flex:none;transition:width .52s cubic-bezier(.16,1,.3,1),margin .52s cubic-bezier(.16,1,.3,1),opacity .24s ease,transform .52s cubic-bezier(.16,1,.3,1)}.github-arrow{display:grid;width:0;height:15px;margin-left:-6px;overflow:hidden;place-items:center;opacity:0;transform:translateX(14px);transition:width .52s cubic-bezier(.16,1,.3,1),margin .52s cubic-bezier(.16,1,.3,1),opacity .24s ease,transform .52s cubic-bezier(.16,1,.3,1)}.github:hover .github-mark,.github:focus-visible .github-mark{width:0;margin-right:-6px;opacity:0;transform:translateX(-14px)}.github:hover .github-arrow,.github:focus-visible .github-arrow{width:15px;margin-left:0;opacity:1;transform:translateX(0)}
-.topbar nav a.submit-link{padding:8px 11px;font-size:14px}.top-actions .github{height:35px;padding:0 12px;font-size:13px;transition:border-color .2s ease,color .2s ease}.top-actions .github:hover,.top-actions .github:focus-visible{border-color:var(--text-bright);color:var(--text-bright)}
+.topbar nav a.submit-link{height:var(--control-h);padding:0 11px;font-size:14px}.top-actions .github{height:var(--control-h);padding:0 12px;font-size:13px;transition:border-color .2s ease,color .2s ease}.top-actions .github:hover,.top-actions .github:focus-visible{border-color:var(--text-bright);color:var(--text-bright)}
 .active-filter>span{display:none}.active-filter:not(:has(button)){display:none}
 .gallery-grid{margin:24px auto 0}
 .gallery-workspace{overflow-x:hidden;overflow-y:auto;scrollbar-color:var(--text-faint) var(--bg)}
@@ -996,8 +1004,8 @@ a.card-info:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
    * um ícone de 16px com a mesma padding daria 32. Se o Submit mudar de
    * tamanho, este valor muda junto.
    */
-  width: 37px;
-  height: 37px;
+  width: var(--control-h);
+  height: var(--control-h);
   border: 1px solid var(--line);
   border-radius: 6px;
   background: var(--surface);
