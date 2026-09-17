@@ -168,6 +168,56 @@ async function framing(page, canvasBox) {
   return { content, crop: { x, y, width: right - x, height: bottom - y } };
 }
 
+/*
+ * Interactions that answer to where the pointer is, not merely to whether it
+ * arrived.
+ *
+ * The default gesture enters from outside, rests on the middle and leaves,
+ * which is the honest demonstration of a hover state: the thing it shows is the
+ * difference between off and on. It is the wrong demonstration of an
+ * interaction whose whole behaviour is positional — the edge glow crossfades as
+ * the pointer changes sides, and a pointer that only ever arrives at the centre
+ * never changes sides, so the clip showed a button lighting up and none of what
+ * makes it worth copying.
+ *
+ * Kept as a list because nothing in the catalog records this. `type` says
+ * Hover for both kinds, and no amount of reading the source tells you which
+ * ones are worth sweeping without watching them.
+ */
+const SWEPT = new Set(["cursor-edge-glow-button"]);
+
+/**
+ * Crosses the component end to end, three times, slowly enough to be followed.
+ *
+ * Stepped by hand rather than through `mouse.move`'s own `steps`, which
+ * interpolates as fast as it can: a traverse that takes two frames is a
+ * traverse a spring has no time to follow, and the spring is the point.
+ */
+async function sweep(page, box, canvasBox) {
+  const y = box.y + box.height / 2;
+  const overshoot = Math.min(box.width * 0.3, 140);
+  const left = Math.max(box.x - overshoot, canvasBox.x + 2);
+  const right = Math.min(
+    box.x + box.width + overshoot,
+    canvasBox.x + canvasBox.width - 2,
+  );
+
+  const traverse = async (from, to) => {
+    const steps = 46;
+    for (let step = 0; step <= steps; step++) {
+      await page.mouse.move(from + ((to - from) * step) / steps, y);
+      await page.waitForTimeout(22);
+    }
+    await page.waitForTimeout(420);
+  };
+
+  await page.mouse.move(left, y);
+  await page.waitForTimeout(500);
+  await traverse(left, right);
+  await traverse(right, left);
+  await traverse(left, right);
+}
+
 /** Whatever the interaction responds to, performed twice with a rest between. */
 async function perform(page, box, canvasBox, type) {
   const centre = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
@@ -280,7 +330,8 @@ for (const item of targets) {
   const { content, crop } = await framing(page, box);
 
   const leadIn = (Date.now() - openedAt) / 1000;
-  await perform(page, content, box, item.type);
+  if (SWEPT.has(item.id)) await sweep(page, content, box);
+  else await perform(page, content, box, item.type);
 
   await context.close();
   const webm = `${OUT}/.raw/${readdirSync(`${OUT}/.raw`)[0]}`;
