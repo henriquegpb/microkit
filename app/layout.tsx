@@ -62,6 +62,15 @@ export const metadata: Metadata = {
   category: "technology",
   alternates: {
     canonical: "/",
+    /*
+     * The feed is announced in the head rather than only linked in the footer,
+     * because that is where a reader looks for it: pasting the site's own URL
+     * into an RSS client is the way most people subscribe, and it only works if
+     * the page says where the feed is.
+     */
+    types: {
+      "application/rss+xml": [{ url: "/feed.xml", title: `${SITE_NAME} — new interactions` }],
+    },
   },
   openGraph: {
     type: "website",
