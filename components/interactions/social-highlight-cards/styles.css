@@ -58,7 +58,7 @@
   width: 30px;
   height: 30px;
   place-items: center;
-  color: light-dark(#ffffff, #0d0e13);
+  color: light-dark(#dde0e6, #0d0e13);
   opacity: .82;
   transform: scale(.96);
   transition:

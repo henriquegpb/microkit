@@ -12,11 +12,11 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid light-dark(#3b434f, #d7dbe2);
+  border: 1px solid light-dark(#d2d7de, #d7dbe2);
   border-radius: 999px;
-  background: light-dark(#14181e, #fff);
+  background: light-dark(#ffffff, #fff);
   padding: 0;
-  color: light-dark(#f6f7f9, #0a0a0a);
+  color: light-dark(#14181e, #0a0a0a);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   font-weight: 500;
@@ -33,7 +33,7 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: light-dark(#f6f7f9, #0a0a0a);
+  background: light-dark(#14181e, #0a0a0a);
   transition: transform .5s cubic-bezier(.16, 1, .3, 1);
 }
 
@@ -52,7 +52,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: light-dark(#14181e, #fafafa);
+  color: light-dark(#ffffff, #fafafa);
   transform: translateX(46px);
   opacity: 0;
   transition: transform .35s cubic-bezier(.16, 1, .3, 1), opacity .3s ease;

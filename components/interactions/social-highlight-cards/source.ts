@@ -102,7 +102,7 @@ export function SocialHighlightCards() {
   width: 30px;
   height: 30px;
   place-items: center;
-  color: light-dark(#ffffff,#0d0e13);
+  color: light-dark(#dde0e6,#0d0e13);
   opacity: .82;
   transform: scale(.96);
   transition:
@@ -208,7 +208,7 @@ export function SocialHighlightCards() {
         >
           <span className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_78%_92%_at_50%_-4%,color-mix(in_srgb,currentColor_38%,transparent)_0%,color-mix(in_srgb,currentColor_16%,transparent)_38%,transparent_76%)] opacity-20 group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden="true" />
           <span className="pointer-events-none absolute left-2 right-2 top-1 h-1 scale-x-[.96] rounded-full bg-current opacity-30 transition-[transform,opacity] duration-[480ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-x-100 group-hover:opacity-100 group-focus-visible:scale-x-100 group-focus-visible:opacity-100 motion-reduce:duration-[.01ms]" aria-hidden="true" />
-          <span className="grid size-[30px] scale-[.96] place-items-center text-[light-dark(#ffffff,#0d0e13)] opacity-[.82] transition-[color,opacity,transform] duration-[480ms] ease-[cubic-bezier(.22,1,.36,1)] [&_svg]:size-full group-hover:scale-100 group-hover:text-inherit group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:text-inherit group-focus-visible:opacity-100 motion-reduce:duration-[.01ms] max-[420px]:size-[27px]"><SocialIcon name={social.icon} /></span>
+          <span className="grid size-[30px] scale-[.96] place-items-center text-[light-dark(#dde0e6,#0d0e13)] opacity-[.82] transition-[color,opacity,transform] duration-[480ms] ease-[cubic-bezier(.22,1,.36,1)] [&_svg]:size-full group-hover:scale-100 group-hover:text-inherit group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:text-inherit group-focus-visible:opacity-100 motion-reduce:duration-[.01ms] max-[420px]:size-[27px]"><SocialIcon name={social.icon} /></span>
         </a>
       ))}
     </nav>
