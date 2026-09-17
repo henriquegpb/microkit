@@ -1,5 +1,12 @@
 import { interactions } from "../../content/interactions/catalog";
-import { REPO_URL, SITE_NAME, SITE_URL } from "../site-metadata";
+import {
+  REGISTRY_DIRECTORY_URL,
+  REPO_URL,
+  SITE_NAME,
+  SITE_URL,
+  registryInstallCommand,
+  registryItemUrl,
+} from "../site-metadata";
 
 /**
  * `llms.txt` as a route rather than a file in `public/`.
@@ -30,7 +37,15 @@ const catalogSection = categories
     const lines = items
       .map(
         (item) =>
-          `- ${item.name} — ${item.description} (${item.framework}, ${item.type})\n  ${SITE_URL}/components/${item.id}`,
+          /*
+           * The install command is repeated on every line rather than left to
+           * the `@microkit/<id>` pattern given above the list. An assistant
+           * quoting one interaction out of forty-eight quotes the lines it
+           * matched on and nothing else, so a pattern stated once in the
+           * preamble is a pattern that arrives without the id it needs. The
+           * command costs a line and removes the substitution step.
+           */
+          `- ${item.name} — ${item.description} (${item.framework}, ${item.type})\n  ${registryInstallCommand(item.id, "npm")}\n  ${SITE_URL}/components/${item.id}`,
       )
       .join("\n");
 
@@ -49,14 +64,46 @@ interaction — a button that reveals an arrow on hover, tabs with a sliding
 underline, an input with an animated focus ring — without writing it from
 scratch or pulling in an animation library for it.
 
-There is no npm package. You open a component, choose TypeScript or JavaScript
-and CSS or Tailwind, and copy the code. Each component has its own page with a
-live preview and all four variants.
+## Installing
+
+MicroKit is a shadcn registry, so the fastest way to add an interaction is the
+shadcn CLI. Every interaction below is addressable by its id:
+
+    ${registryInstallCommand("cursor-edge-glow-button", "npm")}
+
+The \`@microkit\` namespace needs no configuration — the registry is listed in
+shadcn's open source index (${
+  /*
+   * Without the text fragment the constant carries. It scrolls a browser to the
+   * entry, which is worth a line of URL on a page somebody clicks; here it is
+   * punctuation an assistant has to read past to reach a link it will not click.
+   */
+  REGISTRY_DIRECTORY_URL.split("#")[0]
+}), so the CLI
+resolves the name and writes it into the project's \`components.json\` on first
+use. Swap \`npx\` for \`pnpm dlx\`, \`yarn dlx\` or \`bunx --bun\` as the project
+requires.
+
+The CLI writes one self-contained TypeScript + Tailwind file to
+\`components/microkit/<id>.tsx\` and installs anything it imports. Nothing is
+added to the dependency tree but the component's own imports: there is no npm
+package for MicroKit itself and there is not going to be one.
+
+Every item is also addressable by URL, which needs no registry index at all:
+
+    npx shadcn@latest add ${registryItemUrl("cursor-edge-glow-button")}
+
+Copying by hand is equally supported and is what the site is built for. Each
+component has its own page with a live preview and four variants — TypeScript or
+JavaScript, CSS or Tailwind — where the CLI only ships the TypeScript + Tailwind
+one. Reach for a page when the reader wants plain CSS or JavaScript.
 
 - Site: ${SITE_URL}
 - All components: ${SITE_URL}/components
 - React interactions: ${SITE_URL}/components/react
 - CSS interactions: ${SITE_URL}/components/css
+- Every component's full source as plain text: ${SITE_URL}/llms-full.txt
+- New interactions, as RSS: ${SITE_URL}/feed.xml
 - Source: ${REPO_URL}
 - Submit an interaction: ${SITE_URL}/submit
 - Sponsors: ${SITE_URL}/sponsors
