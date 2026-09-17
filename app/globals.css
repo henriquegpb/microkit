@@ -944,3 +944,13 @@ a.card-info:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
   filter: brightness(0);
   opacity: .82;
 }
+
+/*
+ * O campo do hero não existe no tema claro.
+ *
+ * `HomeBackground` também deixa de montá-lo, para não criar um contexto WebGL
+ * que ninguém vai ver; esta regra é o que cobre os frames antes de o componente
+ * rodar, já que o HTML do servidor é renderizado no tema escuro e só o script
+ * inline sabe qual é o tema antes da hidratação.
+ */
+:root[data-theme="light"] .home-field { display: none; }

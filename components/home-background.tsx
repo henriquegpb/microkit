@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTheme } from "@/app/theme";
 import Grainient from "./grainient";
 
 /**
@@ -60,6 +61,19 @@ export function HomeBackground() {
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
+  const theme = useTheme();
+
+  /*
+   * The light theme has no field behind its hero.
+   *
+   * The CSS hides `.home-field` there too, which is what covers the frames
+   * before this component has run. This check is about the other cost: mounting
+   * the shader creates a WebGL context and claims the GPU memory behind it, and
+   * a context created for something nobody will see is worth not creating. Its
+   * own `IntersectionObserver` would stop the render loop against a hidden
+   * element, but only after the context exists.
+   */
+  if (theme === "light") return null;
 
   return (
     <div className="home-field" aria-hidden="true">
