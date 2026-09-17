@@ -97,8 +97,15 @@ try {
  */
 const VIEWPORT = { width: Math.round(900 * ZOOM), height: Math.round(560 * ZOOM) };
 
-rmSync(OUT, { recursive: true, force: true });
+/*
+ * A full run starts from an empty directory so a renamed interaction does not
+ * leave its old clip behind. A `--only` run must not: re-recording one
+ * interaction to fix its gesture is the main reason the flag exists, and
+ * wiping the other forty-seven to do it makes the flag useless.
+ */
+if (!only.length) rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
+rmSync(`${OUT}/.raw`, { recursive: true, force: true });
 
 const browser = await chromium.launch();
 
@@ -185,7 +192,15 @@ async function perform(page, box, canvasBox, type) {
       await page.mouse.up();
     } else if (type === "Focus") {
       await page.mouse.click(centre.x, centre.y);
-      await page.keyboard.type("hello@microkit.co", { delay: 90 });
+      // Cleared on the way in, so the second pass records the same interaction
+      // the first one did rather than typing on top of it.
+      await page.keyboard.press("ControlOrMeta+A");
+      await page.keyboard.press("Backspace");
+      /* Short and generic on purpose: the one focus interaction in the catalog
+       * labels its field "Project name", and the next one may label it anything
+       * at all. A word that fits any field beats a plausible-looking value that
+       * fits one. */
+      await page.keyboard.type("MicroKit", { delay: 110 });
     }
 
     await page.waitForTimeout(1400);
