@@ -2,7 +2,7 @@ export const componentCode = `import "./social-highlight-cards.css";
 
 const socials = [
   { label: "Henrique Barone on LinkedIn", href: "https://www.linkedin.com/in/hbarone/", highlight: "#0a66c2", icon: "linkedin" },
-  { label: "Henrique Barone on GitHub", href: "https://github.com/henriquegpb", highlight: "#f0f0f0", icon: "github" },
+  { label: "Henrique Barone on GitHub", href: "https://github.com/henriquegpb", highlight: "light-dark(#14181e,#f0f0f0)", icon: "github" },
   { label: "Henrique Barone on Instagram", href: "https://www.instagram.com/henrique_barone/", highlight: "#e4405f", icon: "instagram" },
 ];
 
@@ -57,12 +57,12 @@ export function SocialHighlightCards() {
   height: 64px;
   place-items: center;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, .09);
+  border: 1px solid light-dark(rgba(20, 24, 30, .09), rgba(255, 255, 255, .09));
   border-radius: 6px;
-  background: #16171d;
+  background: light-dark(#ffffff,#16171d);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .035),
-    0 1px 0 rgba(255, 255, 255, .08);
+    inset 0 1px 0 light-dark(rgba(20, 24, 30, .035), rgba(255, 255, 255, .035)),
+    0 1px 0 light-dark(rgba(20, 24, 30, .08), rgba(255, 255, 255, .08));
   text-decoration: none;
   transition:
     border-color 260ms cubic-bezier(.22, 1, .36, 1),
@@ -102,7 +102,7 @@ export function SocialHighlightCards() {
   width: 30px;
   height: 30px;
   place-items: center;
-  color: #0d0e13;
+  color: light-dark(#ffffff,#0d0e13);
   opacity: .82;
   transform: scale(.96);
   transition:
@@ -118,11 +118,11 @@ export function SocialHighlightCards() {
 
 .social-highlight-card:hover,
 .social-highlight-card:focus-visible {
-  border-color: color-mix(in srgb, currentColor 28%, rgba(255, 255, 255, .08));
-  background: #181920;
+  border-color: color-mix(in srgb, currentColor 28%, light-dark(rgba(20, 24, 30, .08), rgba(255, 255, 255, .08)));
+  background: light-dark(#f0f2f5,#181920);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .06),
-    0 10px 24px rgba(0, 0, 0, .28),
+    inset 0 1px 0 light-dark(rgba(20, 24, 30, .06), rgba(255, 255, 255, .06)),
+    0 10px 24px light-dark(rgba(246, 247, 249, .28), rgba(0, 0, 0, .28)),
     0 0 22px color-mix(in srgb, currentColor 12%, transparent);
 }
 
@@ -176,7 +176,7 @@ export function SocialHighlightCards() {
 
 export const tailwindCode = `const socials = [
   { label: "Henrique Barone on LinkedIn", href: "https://www.linkedin.com/in/hbarone/", highlight: "#0a66c2", icon: "linkedin" },
-  { label: "Henrique Barone on GitHub", href: "https://github.com/henriquegpb", highlight: "#f0f0f0", icon: "github" },
+  { label: "Henrique Barone on GitHub", href: "https://github.com/henriquegpb", highlight: "light-dark(#14181e,#f0f0f0)", icon: "github" },
   { label: "Henrique Barone on Instagram", href: "https://www.instagram.com/henrique_barone/", highlight: "#e4405f", icon: "instagram" },
 ];
 
@@ -197,7 +197,7 @@ export function SocialHighlightCards() {
     <nav className="flex items-center justify-center gap-3.5 max-[420px]:gap-2.5" aria-label="Social links">
       {socials.map((social) => (
         <a
-          className="group relative isolate grid size-16 place-items-center overflow-hidden rounded-md border border-white/[.09] bg-[#16171d] text-current no-underline shadow-[inset_0_1px_0_rgba(255,255,255,.035),0_1px_0_rgba(255,255,255,.08)] transition-[border-color,background-color] duration-[260ms] ease-[cubic-bezier(.22,1,.36,1)] hover:border-[color-mix(in_srgb,currentColor_28%,rgba(255,255,255,.08))] hover:bg-[#181920] hover:shadow-[inset_0_1px_0_rgba(255,255,255,.06),0_10px_24px_rgba(0,0,0,.28),0_0_22px_color-mix(in_srgb,currentColor_12%,transparent)] focus-visible:border-[color-mix(in_srgb,currentColor_28%,rgba(255,255,255,.08))] focus-visible:bg-[#181920] focus-visible:shadow-[inset_0_1px_0_rgba(255,255,255,.06),0_10px_24px_rgba(0,0,0,.28),0_0_22px_color-mix(in_srgb,currentColor_12%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current motion-reduce:duration-[.01ms] max-[420px]:size-14"
+          className="group relative isolate grid size-16 place-items-center overflow-hidden rounded-md border border-white/[.09] bg-[light-dark(#ffffff,#16171d)] text-current no-underline shadow-[inset_0_1px_0_rgba(255,255,255,.035),0_1px_0_rgba(255,255,255,.08)] transition-[border-color,background-color] duration-[260ms] ease-[cubic-bezier(.22,1,.36,1)] hover:border-[color-mix(in_srgb,currentColor_28%,light-dark(rgba(20, 24, 30, .08), rgba(255,255,255,.08)))] hover:bg-[light-dark(#f0f2f5,#181920)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,.06),0_10px_24px_rgba(0,0,0,.28),0_0_22px_color-mix(in_srgb,currentColor_12%,transparent)] focus-visible:border-[color-mix(in_srgb,currentColor_28%,light-dark(rgba(20, 24, 30, .08), rgba(255,255,255,.08)))] focus-visible:bg-[light-dark(#f0f2f5,#181920)] focus-visible:shadow-[inset_0_1px_0_rgba(255,255,255,.06),0_10px_24px_rgba(0,0,0,.28),0_0_22px_color-mix(in_srgb,currentColor_12%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current motion-reduce:duration-[.01ms] max-[420px]:size-14"
           href={social.href}
           key={social.href}
           target="_blank"
@@ -208,7 +208,7 @@ export function SocialHighlightCards() {
         >
           <span className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_78%_92%_at_50%_-4%,color-mix(in_srgb,currentColor_38%,transparent)_0%,color-mix(in_srgb,currentColor_16%,transparent)_38%,transparent_76%)] opacity-20 group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden="true" />
           <span className="pointer-events-none absolute left-2 right-2 top-1 h-1 scale-x-[.96] rounded-full bg-current opacity-30 transition-[transform,opacity] duration-[480ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-x-100 group-hover:opacity-100 group-focus-visible:scale-x-100 group-focus-visible:opacity-100 motion-reduce:duration-[.01ms]" aria-hidden="true" />
-          <span className="grid size-[30px] scale-[.96] place-items-center text-[#0d0e13] opacity-[.82] transition-[color,opacity,transform] duration-[480ms] ease-[cubic-bezier(.22,1,.36,1)] [&_svg]:size-full group-hover:scale-100 group-hover:text-inherit group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:text-inherit group-focus-visible:opacity-100 motion-reduce:duration-[.01ms] max-[420px]:size-[27px]"><SocialIcon name={social.icon} /></span>
+          <span className="grid size-[30px] scale-[.96] place-items-center text-[light-dark(#ffffff,#0d0e13)] opacity-[.82] transition-[color,opacity,transform] duration-[480ms] ease-[cubic-bezier(.22,1,.36,1)] [&_svg]:size-full group-hover:scale-100 group-hover:text-inherit group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:text-inherit group-focus-visible:opacity-100 motion-reduce:duration-[.01ms] max-[420px]:size-[27px]"><SocialIcon name={social.icon} /></span>
         </a>
       ))}
     </nav>

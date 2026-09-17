@@ -11,11 +11,11 @@
   height: 54px;
   align-items: center;
   justify-content: center;
-  border: 1px solid #48484f;
+  border: 1px solid light-dark(#adb6c3, #48484f);
   border-radius: 999px;
-  background: #15151b;
+  background: light-dark(#ffffff, #15151b);
   padding: 0;
-  color: #fff8f3;
+  color: light-dark(#14181e, #fff8f3);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
   isolation: isolate;
@@ -54,7 +54,7 @@
 .staggered-letter-glow-button:hover,
 .staggered-letter-glow-button:focus-visible {
   border-color: #f97316;
-  background: #18181e;
+  background: light-dark(#f0f2f5, #18181e);
   box-shadow: inset 28px 0 34px -28px rgba(249, 115, 22, .62), inset -28px 0 34px -28px rgba(249, 115, 22, .62), inset 0 0 18px rgba(249, 115, 22, .08);
 }
 

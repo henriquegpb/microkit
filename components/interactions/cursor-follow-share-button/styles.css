@@ -15,9 +15,9 @@
   overflow: hidden;
   border: 0;
   border-radius: 999px;
-  background: linear-gradient(110deg, #202029 0%, #181820 48%, #15161b 100%);
-  box-shadow: inset 0 3px 4px rgba(0, 0, 0, .72), inset 0 -2px 2px rgba(255, 255, 255, .07);
-  color: #f7f7fa;
+  background: linear-gradient(110deg, light-dark(#e7eaef, #202029) 0%, light-dark(#f0f2f5, #181820) 48%, light-dark(#ffffff, #15161b) 100%);
+  box-shadow: inset 0 3px 4px light-dark(rgba(246, 247, 249, .72), rgba(0, 0, 0, .72)), inset 0 -2px 2px light-dark(rgba(20, 24, 30, .07), rgba(255, 255, 255, .07));
+  color: light-dark(#14181e, #f7f7fa);
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
   isolation: isolate;
@@ -36,7 +36,7 @@
   border-radius: 50%;
   background: #ff6a22;
   box-shadow: 0 0 0 1px rgba(255, 198, 139, .48), 0 0 11px 4px rgba(255, 111, 35, .92), 0 0 28px 10px rgba(255, 91, 20, .48), 0 0 42px 16px rgba(255, 76, 19, .16);
-  color: #090a0f;
+  color: light-dark(#f6f7f9, #090a0f);
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, -50%) scale(.55);
@@ -90,8 +90,8 @@
 
 .cursor-follow-share-button:hover,
 .cursor-follow-share-button:focus-visible {
-  background: linear-gradient(110deg, #1e1e26 0%, #171820 48%, #121319 100%);
-  box-shadow: inset 0 2px 2px rgba(255, 255, 255, .24), inset 0 -3px 4px rgba(0, 0, 0, .74), 0 10px 13px rgba(0, 0, 0, .58);
+  background: linear-gradient(110deg, light-dark(#f0f2f5, #1e1e26) 0%, light-dark(#f0f2f5, #171820) 48%, light-dark(#ffffff, #121319) 100%);
+  box-shadow: inset 0 2px 2px light-dark(rgba(20, 24, 30, .24), rgba(255, 255, 255, .24)), inset 0 -3px 4px light-dark(rgba(246, 247, 249, .74), rgba(0, 0, 0, .74)), 0 10px 13px light-dark(rgba(246, 247, 249, .58), rgba(0, 0, 0, .58));
 }
 
 .cursor-follow-share-button:hover .cursor-follow-share-button__label--current,

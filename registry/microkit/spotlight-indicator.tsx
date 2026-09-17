@@ -30,13 +30,13 @@ export function SpotlightIndicator() {
   }, [active]);
 
   return (
-    <div ref={navRef} className="relative flex w-[210px] flex-col gap-0.5 rounded-lg border border-[#2f333a] bg-[#101216] p-1.5">
+    <div ref={navRef} className="relative flex w-[210px] flex-col gap-0.5 rounded-lg border border-[light-dark(#dfe3ea,#2f333a)] bg-[light-dark(#ffffff,#101216)] p-1.5">
       <span ref={barRef} className="pointer-events-none absolute left-1 w-0.5 rounded-sm bg-[#f97316] shadow-[2px_0_5px_rgba(249,115,22,.8),4px_0_11px_rgba(249,115,22,.45)] transition-[top,height] duration-300 ease-[cubic-bezier(.4,0,.2,1)]" />
       {items.map(({ label, Icon }, index) => (
         <button
           key={label}
           ref={(element) => { buttonRefs.current[index] = element; }}
-          className={`flex items-center gap-2.5 rounded-md bg-transparent px-3 py-2 text-left text-xs transition-colors duration-300 hover:bg-[#17191d] hover:text-[#e4e6e9] ${active === index ? "text-[#f6f7f8]" : "text-[#a9afb8]"}`}
+          className={`flex items-center gap-2.5 rounded-md bg-transparent px-3 py-2 text-left text-xs transition-colors duration-300 hover:bg-[light-dark(#f0f2f5,#17191d)] hover:text-[light-dark(#262d38,#e4e6e9)] ${active === index ? "text-[light-dark(#14181e,#f6f7f8)]" : "text-[light-dark(#545d6a,#a9afb8)]"}`}
           onClick={() => setActive(index)}
         >
           <Icon className={active === index ? "text-[#f97316]" : "opacity-40"} size={15} />

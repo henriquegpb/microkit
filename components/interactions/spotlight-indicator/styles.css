@@ -5,9 +5,9 @@
   gap: 2px;
   width: 210px;
   padding: 6px;
-  border: 1px solid #2f333a;
+  border: 1px solid light-dark(#dfe3ea, #2f333a);
   border-radius: 8px;
-  background: #101216;
+  background: light-dark(#ffffff, #101216);
 }
 .spot-bar {
   position: absolute;
@@ -28,15 +28,15 @@
   border-radius: 6px;
   background: transparent;
   padding: 8px 12px;
-  color: #a9afb8;
+  color: light-dark(#545d6a, #a9afb8);
   font-size: 12px;
   text-align: left;
   transition: color .3s cubic-bezier(.4, 0, .2, 1), background .3s cubic-bezier(.4, 0, .2, 1);
 }
 .spot-item:hover,
-.spot-item:focus-visible { background: #17191d; color: #e4e6e9; }
+.spot-item:focus-visible { background: light-dark(#f0f2f5, #17191d); color: light-dark(#262d38, #e4e6e9); }
 .spot-item:focus-visible { outline: 2px solid #f97316; outline-offset: -2px; }
-.spot-item.active { color: #f6f7f8; }
+.spot-item.active { color: light-dark(#14181e, #f6f7f8); }
 .spot-item-icon {
   display: inline-flex;
   align-items: center;
