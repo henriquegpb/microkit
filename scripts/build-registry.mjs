@@ -67,7 +67,7 @@ const CATEGORY_TAG = {
   Inputs: "input",
   Navigation: "navigation",
 };
-const TYPE_TAG = { Hover: "hover", Focus: "focus", Click: "click" };
+const TYPE_TAG = { Hover: "hover", Focus: "focus", Click: "click", Drag: "drag" };
 
 /*
  * Declared dependencies are read from the code being shipped, not from the

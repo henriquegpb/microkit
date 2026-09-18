@@ -47,12 +47,14 @@ import { definition as ExpandingIconTabsDefinition } from "./expanding-icon-tabs
 import { definition as NextDotFillButtonDefinition } from "./next-dot-fill-button/definition";
 import { definition as SecurePurchaseButtonDefinition } from "./secure-purchase-button/definition";
 import { definition as PreviewHoverToolbarDefinition } from "./preview-hover-toolbar/definition";
+import { definition as ScrubNumberFieldDefinition } from "./scrub-number-field/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
   CursorFollowShareButtonDefinition,
   FocusFieldDefinition,
   SocialIconButtonsDefinition,
+  ScrubNumberFieldDefinition,
   SocialHighlightCardsDefinition,
   BlurGlideMenuDefinition,
   ExpandingIconTabsDefinition,

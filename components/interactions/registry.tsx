@@ -49,11 +49,13 @@ import { ExpandingIconTabs } from "./expanding-icon-tabs/component";
 import { NextDotFillButton } from "./next-dot-fill-button/component";
 import { SecurePurchaseButton } from "./secure-purchase-button/component";
 import { PreviewHoverToolbar } from "./preview-hover-toolbar/component";
+import { ScrubNumberField } from "./scrub-number-field/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
   "cursor-follow-share-button": CursorFollowShareButton,
   "focus-input": FocusField,
+  "scrub-number-field": ScrubNumberField,
   "expanding-contact-button": ExpandingContactButton,
   "contact-reveal-button": ContactRevealButton,
   "contact-details-reveal": ContactDetailsReveal,

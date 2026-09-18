@@ -160,6 +160,14 @@ export function Demo({ id, large = false }: { id: string; large?: boolean }) {
 
 const HERO_TUNNEL_HOME = { x: 18, y: 82 };
 
+/*
+ * How far a press may travel and still count as a click on a card. Past this it
+ * was a drag — scrubbing a preview, selecting text, a slipped pointer — and a
+ * drag is not a request to open the component. Matches the threshold the drag
+ * interactions themselves use to tell the two apart.
+ */
+const CARD_DRAG_SLOP = 3;
+
 function HeroTunnel() {
   const gradientRef = useRef<SVGRadialGradientElement>(null);
   const frameRef = useRef<number | null>(null);
@@ -468,6 +476,8 @@ export default function Home() {
   );
   const showingLibraries = libraryView === "libraries";
 
+  const pressOrigin = useRef({ x: 0, y: 0 });
+
   const chooseCategory = (view: LibraryView) => { localStorage.setItem("microkit-library-view", view); setLibraryView(view); setCategory("All"); };
   const openComponent = (item: Interaction) => {
     window.location.assign(`/components/${item.id}`);
@@ -481,13 +491,14 @@ export default function Home() {
     const target = event.target as HTMLElement;
     const demo = target.closest<HTMLElement>(".demo");
     if (target.closest(".card-info") || target.closest(".favorite") || (demo && target !== demo)) return;
+    if (Math.hypot(event.clientX - pressOrigin.current.x, event.clientY - pressOrigin.current.y) > CARD_DRAG_SLOP) return;
     openComponent(item);
   };
 
   const count = showingLibraries ? libraries.length : filtered.length;
   const heading = showingLibraries ? "Other libraries" : category === "All" ? GALLERY_HEADING : category;
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><HomeBackground/><div className="gallery-row"><main className="gallery-main"><HeroCard><RegistryCallout/></HeroCard><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {showingLibraries ? "Other libraries" : category === "All" ? "All interactions" : category}</div><h1>{heading}</h1>{showingLibraries ? <p>{count} {count === 1 ? "library" : "libraries"} we keep going back to. Built by other people, worth your time.</p> : <p>{count} {count === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p>}{!showingLibraries && <Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link>}</div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label>{!showingLibraries && <><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></>}</div></div><div className="active-filter"><span>{showingLibraries ? "Other libraries" : category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div>{showingLibraries ? <section className="gallery-grid">{libraries.map(library=><LibraryCard key={library.id} library={library}/>)}</section> : <section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>}{!count && <div className="empty"><Icon name="search" size={28}/><h2>{showingLibraries ? "No libraries found" : "No interactions found"}</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/><HomeFootnote/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div></div>;
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><HomeBackground/><div className="gallery-row"><main className="gallery-main"><HeroCard><RegistryCallout/></HeroCard><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {showingLibraries ? "Other libraries" : category === "All" ? "All interactions" : category}</div><h1>{heading}</h1>{showingLibraries ? <p>{count} {count === 1 ? "library" : "libraries"} we keep going back to. Built by other people, worth your time.</p> : <p>{count} {count === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p>}{!showingLibraries && <Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link>}</div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label>{!showingLibraries && <><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></>}</div></div><div className="active-filter"><span>{showingLibraries ? "Other libraries" : category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div>{showingLibraries ? <section className="gallery-grid">{libraries.map(library=><LibraryCard key={library.id} library={library}/>)}</section> : <section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onPointerDown={event=>{pressOrigin.current={x:event.clientX,y:event.clientY}}} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>}{!count && <div className="empty"><Icon name="search" size={28}/><h2>{showingLibraries ? "No libraries found" : "No interactions found"}</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/><HomeFootnote/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div></div>;
 }
 
 /*

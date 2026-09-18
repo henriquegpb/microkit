@@ -43,7 +43,7 @@ MicroKit is built for copying and learning from the source—not for hiding inte
 
 ## Features
 
-- **47 interactive components** with dedicated preview pages
+- **49 interactive components** with dedicated preview pages
 - **One-command install** through the shadcn CLI, or copy the source by hand
 - **JavaScript and TypeScript** implementations
 - **CSS and Tailwind** styling variants

@@ -1,0 +1,57 @@
+.scrub-number-field {
+  --scrub-nudge: 5px;
+  display: flex;
+  align-items: center;
+  width: 96px;
+  height: 32px;
+  border: 1px solid light-dark(#cbd2dc, #363a42);
+  border-radius: 7px;
+  background: light-dark(#ffffff, #15171b);
+  padding: 0 10px;
+  cursor: ew-resize;
+  touch-action: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.scrub-number-field[data-bound="min"] { --scrub-nudge: -5px; }
+.scrub-number-input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: light-dark(#262d38, #e8ebee);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  cursor: inherit;
+}
+/* The field itself is the focus ring, so the input must not draw a second one inside it. */
+.scrub-number-input:focus,
+.scrub-number-input:focus-visible {
+  outline: 0;
+  cursor: text;
+}
+.scrub-number-field:focus-within {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px #f9731625;
+  cursor: text;
+}
+.scrub-number-field[data-scrubbing] {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px #f9731625;
+}
+.scrub-number-field[data-bound] {
+  border-color: #f97316;
+  animation: scrub-number-nudge .26s cubic-bezier(.22, 1, .36, 1);
+}
+@keyframes scrub-number-nudge {
+  0%, 100% { transform: translateX(0); }
+  40% { transform: translateX(var(--scrub-nudge)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  @keyframes scrub-number-nudge {
+    0%, 100% { transform: none; }
+  }
+}
