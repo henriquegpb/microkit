@@ -156,14 +156,14 @@ export const COMPONENTS_INDEX_DESCRIPTION = `Every MicroKit UI microinteraction 
  * without someone looking at the picture.
  */
 export const SITE_TITLE =
-  "MicroKit UI — Copy-paste React & CSS microinteractions";
+  "MicroKit UI - Copy-paste React & CSS microinteractions";
 export const SITE_DESCRIPTION = `${interactions.length} free copy-paste microinteractions for React, CSS and Tailwind — animated buttons, hover effects, tabs and inputs. No package to install, MIT licensed.`;
 
-export const SOCIAL_TITLE = "MicroKit UI — Microinteractions for developers";
+export const SOCIAL_TITLE = "MicroKit UI - Microinteractions for developers";
 export const SOCIAL_DESCRIPTION =
   "Copy-paste microinteractions for modern product interfaces.";
 export const SOCIAL_IMAGE_ALT =
-  "MicroKit UI — Copy-paste microinteractions for modern product interfaces";
+  "MicroKit UI - Copy-paste microinteractions for modern product interfaces";
 
 export const OPEN_GRAPH_IMAGE = {
   url: "/opengraph-image",

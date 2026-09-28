@@ -9,7 +9,7 @@ import { MorphIcon } from "morphicons/react";
 // `lucide` data package. Pinned to the same version as the `lucide-react`
 // components rendered elsewhere, so the shape that morphs is the shape that
 // sits still everywhere else.
-import { Check as CheckData, Copy as CopyData } from "lucide";
+import { Check as CheckData, Copy as CopyData, Heart as HeartData, Star as StarData } from "lucide";
 import {
   ArrowLeft,
   ArrowRight,
@@ -348,9 +348,34 @@ function HeroCard({ children }: { children?: React.ReactNode }) {
  * per character; they are cheap to animate — transforms, composited — and the
  * gates are what keep them from running when they are not earning it.
  */
+/**
+ * What changed between two runners, as [kept before, changed, kept after].
+ *
+ * Compared a word at a time, from both ends: "pnpm dlx" → "yarn dlx" lights
+ * "yarn" and leaves "dlx" alone, and a word with one letter different lights
+ * as a whole word — a flash that starts mid-word reads as a rendering glitch,
+ * not as a change. Each token keeps its trailing space, so joining them back
+ * gives the string exactly.
+ */
+function splitChange(from: string, to: string): [string, string, string] {
+  const tokenize = (text: string) => text.match(/\S+\s*/g) ?? [];
+  const before = tokenize(from).map(token => token.trim());
+  const after = tokenize(to);
+  const words = after.map(token => token.trim());
+  let start = 0;
+  while (start < before.length && start < words.length && before[start] === words[start]) start++;
+  let end = 0;
+  while (end < before.length - start && end < words.length - start && before[before.length - 1 - end] === words[words.length - 1 - end]) end++;
+  return [after.slice(0, start).join(""), after.slice(start, after.length - end).join(""), after.slice(after.length - end).join("")];
+}
+
 function RegistryCallout() {
   const [index, setIndex] = useState(0);
   const [manager, setManager] = useState<PackageManager>("npm");
+  // The runner that was on screen before the last switch, and a count that
+  // remounts the lit span so the flash replays on every switch.
+  const [previousRunner, setPreviousRunner] = useState(registryRunner("npm"));
+  const [switches, setSwitches] = useState(0);
   const [copied, setCopied] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [onScreen, setOnScreen] = useState(false);
@@ -381,6 +406,14 @@ function RegistryCallout() {
     return () => { stop(); document.removeEventListener("visibilitychange", onVisibility); };
   }, [onScreen, hovered]);
 
+  const chooseManager = (name: PackageManager) => {
+    if (name === manager) return;
+    setPreviousRunner(registryRunner(manager));
+    setSwitches(count => count + 1);
+    setManager(name);
+  };
+  const [runnerBefore, runnerChanged, runnerAfter] = splitChange(previousRunner, registryRunner(manager));
+
   const copyCommand = async () => {
     await navigator.clipboard?.writeText(command);
     setCopied(true);
@@ -396,15 +429,23 @@ function RegistryCallout() {
         reads as the thing freezing rather than waiting for you.
       */}
       <div className="registry-command" onPointerEnter={()=>setHovered(true)} onPointerLeave={()=>setHovered(false)} onFocusCapture={()=>setHovered(true)} onBlurCapture={()=>setHovered(false)}>
-        <div className="registry-runners" role="tablist" aria-label="Package manager">
+        <div className="registry-runners" style={{ "--active": PACKAGE_MANAGERS.indexOf(manager) } as CSSProperties} role="tablist" aria-label="Package manager">
+          {/* One pill that travels to the chosen runner, like the Installation tabs on a component page, instead of a background that blinks off one button and on at the next. */}
+          <span className="registry-runners-indicator" aria-hidden="true"/>
           {PACKAGE_MANAGERS.map(name => (
-            <button key={name} type="button" role="tab" aria-selected={manager===name} aria-label={name} title={name} className={manager===name ? "active" : ""} onClick={()=>setManager(name)}>
+            <button key={name} type="button" role="tab" aria-selected={manager===name} aria-label={name} title={name} className={manager===name ? "active" : ""} onClick={()=>chooseManager(name)}>
               <PackageManagerLogo name={name}/>
             </button>
           ))}
         </div>
         <code>
-          <span className="registry-command-static">{registryRunner(manager)} shadcn@latest add </span>
+          {/*
+            Only the characters that changed light up. They land in the
+            brightest text colour and fall back to the command's grey a beat
+            later, so the eye goes to the part of the line that is different
+            instead of reading the whole command again.
+          */}
+          <span className="registry-command-static">{runnerBefore}{runnerChanged && <span key={switches} className="registry-command-changed">{runnerChanged}</span>}{runnerAfter} shadcn@latest add </span>
           {/*
             A clipped cell per character, rising a beat behind the one before —
             the catalog's own Staggered Letter Text Swap, on its easing and its
@@ -444,6 +485,65 @@ function RegistryCallout() {
         </span>
       </a>
     </section>
+  );
+}
+
+/**
+ * The ask, under the hero.
+ *
+ * Stars are how a library this size gets found — GitHub's trending lists and
+ * every "awesome" roundup sort by them — and the only place the page asked for
+ * one was a small button in the topbar that reads as navigation. This says why
+ * it matters, once, where everybody who lands on the page passes it.
+ *
+ * Three pieces of motion, all borrowed from buttons already on the site:
+ *
+ * - hovering the card lights the star: it fills, turns one point, and throws
+ *   four sparks, so the card answers the pointer before the button does
+ * - the button runs the topbar GitHub button's swap, the mark collapsing left
+ *   while the arrow opens from the right — on the card's hover, since the whole
+ *   card is the link
+ * - clicking morphs the star into a heart and rolls the label to a thank-you.
+ *   The page cannot know whether the star was actually given — GitHub opens in
+ *   another tab — so it thanks the click and remembers nothing.
+ */
+function StarCard() {
+  const [thanked, setThanked] = useState(false);
+
+  return (
+    /*
+      The whole card is the link. A card that reacts to the pointer everywhere
+      but only answers a click on its button reads as broken, and the target
+      was a 34px strip of a card nearly the width of the page. The button stays
+      as the thing the eye reads as clickable; it is a span inside the link.
+    */
+    <a className={`star-card ${thanked ? "is-thanked" : ""}`} href={REPO_URL} target="_blank" rel="noreferrer" onClick={()=>setThanked(true)}>
+      <span className="star-card-tile" aria-hidden="true">
+        <span className="star-card-glyph"><MorphIcon icon={thanked ? HeartData : StarData} size={18} strokeWidth={1.8} spring="snappy" reducedMotion="user"/></span>
+        <span className="star-spark star-spark-one"/>
+        <span className="star-spark star-spark-two"/>
+        <span className="star-spark star-spark-three"/>
+        <span className="star-spark star-spark-four"/>
+      </span>
+      <div className="star-card-copy">
+        <h2>Like what you see? Give us a star.</h2>
+        <p>It&apos;s how other developers find MicroKit, and it really helps us.</p>
+      </div>
+      <span className="star-cta">
+        <span className="star-cta-mark" aria-hidden="true"/>
+        {/*
+          Both labels sit in the same grid cell, so the button is as wide as the
+          longer one from the start and does not jump when the thank-you rolls
+          in. The hidden one is out of the accessibility tree; the link keeps
+          one name.
+        */}
+        <span className="star-cta-labels">
+          <span className="star-cta-label" aria-hidden={thanked}>Star on GitHub</span>
+          <span className="star-cta-label star-cta-label-thanks" aria-hidden={!thanked}>Thank you!</span>
+        </span>
+        <span className="star-cta-arrow" aria-hidden="true"><ArrowRight size={15} strokeWidth={2.3}/></span>
+      </span>
+    </a>
   );
 }
 
@@ -498,7 +598,7 @@ export default function Home() {
   const count = showingLibraries ? libraries.length : filtered.length;
   const heading = showingLibraries ? "Other libraries" : category === "All" ? GALLERY_HEADING : category;
 
-  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><HomeBackground/><div className="gallery-row"><main className="gallery-main"><HeroCard><RegistryCallout/></HeroCard><div className="gallery-header"><div><div className="eyebrow">Library <span>•</span> {showingLibraries ? "Other libraries" : category === "All" ? "All interactions" : category}</div><h1>{heading}</h1>{showingLibraries ? <p>{count} {count === 1 ? "library" : "libraries"} we keep going back to. Built by other people, worth your time.</p> : <p>{count} {count === 1 ? "interaction" : "interactions"} ready to copy, adapt, and ship.</p>}{!showingLibraries && <Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link>}</div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label>{!showingLibraries && <><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></>}</div></div><div className="active-filter"><span>{showingLibraries ? "Other libraries" : category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div>{showingLibraries ? <section className="gallery-grid">{libraries.map(library=><LibraryCard key={library.id} library={library}/>)}</section> : <section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onPointerDown={event=>{pressOrigin.current={x:event.clientX,y:event.clientY}}} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>}{!count && <div className="empty"><Icon name="search" size={28}/><h2>{showingLibraries ? "No libraries found" : "No interactions found"}</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/><HomeFootnote/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div></div>;
+  return <div className={`app ${sidebar ? "" : "sidebar-is-collapsed"}`}><StructuredData schema={homeSchema}/><Header query={query} setQuery={setQuery}/><div className="shell"><Sidebar open={sidebar} toggle={()=>setSidebar(!sidebar)} choose={chooseCategory}/><div className="gallery-workspace"><HomeBackground/><div className="gallery-row"><main className="gallery-main"><HeroCard><RegistryCallout/></HeroCard><StarCard/><div className="gallery-header"><div>{/* The page's one h1, kept for the outline and for crawlers after the visible heading went: the hero already says what this page is. */}<h1 className="visually-hidden">{heading}</h1>{!showingLibraries && <Link className="gallery-index-link" href="/components">Browse all {interactions.length} as a list</Link>}</div><div className="gallery-controls"><label className="inline-search"><Icon name="search"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Filter results" /></label>{!showingLibraries && <><select value={framework} onChange={e=>setFramework(e.target.value)}><option>All frameworks</option><option>React</option><option>CSS</option></select><select value={sort} onChange={e=>setSort(e.target.value)}><option>Newest</option><option>Popular</option><option>A–Z</option></select></>}</div></div><div className="active-filter"><span>{showingLibraries ? "Other libraries" : category === "All" ? "All components" : category}</span>{query && <button onClick={()=>setQuery("")}><Icon name="close"/> Clear search</button>}</div>{showingLibraries ? <section className="gallery-grid">{libraries.map(library=><LibraryCard key={library.id} library={library}/>)}</section> : <section className="gallery-grid">{filtered.map(item=><article className="interaction-card" key={item.id} onPointerDown={event=>{pressOrigin.current={x:event.clientX,y:event.clientY}}} onClick={event=>handleCardClick(event,item)}><div className="card-preview"><Demo id={item.id}/>{item.new && <span className="new-badge">New</span>}<FavoriteButton className={`favorite ${favorites.includes(item.id)?"saved":""}`} saved={favorites.includes(item.id)} label={`Save ${item.name}`} onClick={()=>toggleFavorite(item.id)}/></div><a className="card-info" href={`/components/${item.id}`}><span><h2>{item.name}</h2><p>{item.category}</p></span><span className="card-meta"><span>{item.framework}</span><span className="state-type">{item.type}</span></span></a></article>)}</section>}{!count && <div className="empty"><Icon name="search" size={28}/><h2>{showingLibraries ? "No libraries found" : "No interactions found"}</h2><p>Try a different search or clear your filters.</p><button onClick={()=>{setQuery("");setCategory("All");setFramework("All frameworks")}}>Clear all filters</button></div>}<Faq/><HomeFootnote/></main><aside className="sponsors-rail"><SponsorCard/></aside></div></div></div></div>;
 }
 
 /*
