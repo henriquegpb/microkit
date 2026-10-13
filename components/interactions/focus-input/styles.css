@@ -14,8 +14,13 @@
   color: light-dark(#262d38, #e8ebee);
   font-size: 11px;
   outline: 0;
+  box-shadow: 0 0 0 0 #f9731600;
+  transition: border-color .32s cubic-bezier(.22, 1, .36, 1), box-shadow .32s cubic-bezier(.22, 1, .36, 1);
 }
 .demo-input input:focus {
   border-color: #f97316;
   box-shadow: 0 0 0 3px #f9731625;
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-input input { transition: none; }
 }

@@ -46,6 +46,7 @@ import { definition as BlurGlideMenuDefinition } from "./blur-glide-menu/definit
 import { definition as ExpandingIconTabsDefinition } from "./expanding-icon-tabs/definition";
 import { definition as NextDotFillButtonDefinition } from "./next-dot-fill-button/definition";
 import { definition as SecurePurchaseButtonDefinition } from "./secure-purchase-button/definition";
+import { definition as HoverGlideCardsDefinition } from "./hover-glide-cards/definition";
 import { definition as PreviewHoverToolbarDefinition } from "./preview-hover-toolbar/definition";
 import { definition as ScrubNumberFieldDefinition } from "./scrub-number-field/definition";
 
@@ -61,6 +62,7 @@ export const interactionDefinitions: Interaction[] = [
   NextDotFillButtonDefinition,
   PreviewHoverToolbarDefinition,
   SecurePurchaseButtonDefinition,
+  HoverGlideCardsDefinition,
   ExpandingContactButtonDefinition,
   ContactRevealButtonDefinition,
   ContactDetailsRevealDefinition,

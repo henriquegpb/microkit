@@ -228,6 +228,28 @@
       ]
     },
     {
+      "name": "hover-glide-cards",
+      "type": "registry:component",
+      "title": "Hover Glide Cards",
+      "description": "One highlight glides from card to card under the pointer, seen only through the cards themselves, so it drains out of one and fills the next.",
+      "author": "henriquegpb <https://github.com/henriquegpb>",
+      "categories": [
+        "navigation",
+        "hover"
+      ],
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/hover-glide-cards",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/microkit/hover-glide-cards.tsx",
+          "type": "registry:component",
+          "target": "@components/microkit/hover-glide-cards.tsx"
+        }
+      ]
+    },
+    {
       "name": "expanding-contact-button",
       "type": "registry:component",
       "title": "Expanding Contact Button",

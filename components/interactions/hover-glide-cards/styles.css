@@ -1,0 +1,111 @@
+.hover-glide-cards {
+  position: relative;
+  display: grid;
+  width: 100%;
+  max-width: 312px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.hover-glide-cards,
+.hover-glide-cards * {
+  box-sizing: border-box;
+}
+
+.hover-glide-cards__layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
+.hover-glide-cards__glide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 0;
+  height: 0;
+  border-radius: 10px;
+  background: light-dark(rgba(20, 24, 30, .055), rgba(255, 255, 255, .045));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform .3s cubic-bezier(.32, .72, 0, 1),
+    width .3s cubic-bezier(.32, .72, 0, 1),
+    height .3s cubic-bezier(.32, .72, 0, 1),
+    opacity .18s ease;
+}
+
+.hover-glide-cards__glide[data-visible] {
+  opacity: 1;
+}
+
+.hover-glide-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  border: 1px solid light-dark(#e3e6eb, #24272d);
+  border-radius: 10px;
+  background: light-dark(#ffffff, #121418);
+  padding: 10px;
+  color: light-dark(#14181e, #f2f4f6);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hover-glide-card:focus-visible {
+  outline: 2px solid #86b6ff;
+  outline-offset: 2px;
+}
+
+.hover-glide-card__mark {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  margin-bottom: 9px;
+  border-radius: 7px;
+  background: light-dark(#f0f2f5, #1b1e23);
+  color: light-dark(#69727f, #868d97);
+}
+
+.hover-glide-card__name,
+.hover-glide-card__detail {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hover-glide-card__name {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.hover-glide-card__detail {
+  margin-top: 2px;
+  color: light-dark(#69727f, #868d97);
+  font-size: 11px;
+  line-height: 14px;
+}
+
+@media (hover: none) {
+  .hover-glide-cards__glide {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-glide-cards__glide {
+    transition: opacity .01ms;
+  }
+}
