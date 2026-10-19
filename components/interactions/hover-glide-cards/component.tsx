@@ -6,10 +6,10 @@ import { useEffect, useRef } from "react";
 import { CalendarDays, FolderOpen, Mail, NotebookPen } from "lucide-react";
 
 const apps = [
-  { name: "Calendar", detail: "Plan around your week", icon: CalendarDays },
+  { name: "Calendar", detail: "Plan your week", icon: CalendarDays },
   { name: "Mail", detail: "Triage every inbox", icon: Mail },
   { name: "Notes", detail: "Draft from meetings", icon: NotebookPen },
-  { name: "Files", detail: "Find anything shared", icon: FolderOpen },
+  { name: "Files", detail: "Find shared files", icon: FolderOpen },
 ];
 
 export function HoverGlideCards() {
@@ -120,7 +120,7 @@ export function HoverGlideCards() {
       {apps.map((app) => (
         <button type="button" className="hover-glide-card" data-glide-card="" key={app.name}>
           <span className="hover-glide-card__mark">
-            <app.icon size={14} strokeWidth={1.8} aria-hidden="true" />
+            <app.icon size={12} strokeWidth={1.8} aria-hidden="true" />
           </span>
           <span className="hover-glide-card__name">{app.name}</span>
           <span className="hover-glide-card__detail">{app.detail}</span>

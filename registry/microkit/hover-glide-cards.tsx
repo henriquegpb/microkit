@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react";
 import { CalendarDays, FolderOpen, Mail, NotebookPen } from "lucide-react";
 
 const apps = [
-  { name: "Calendar", detail: "Plan around your week", icon: CalendarDays },
+  { name: "Calendar", detail: "Plan your week", icon: CalendarDays },
   { name: "Mail", detail: "Triage every inbox", icon: Mail },
   { name: "Notes", detail: "Draft from meetings", icon: NotebookPen },
-  { name: "Files", detail: "Find anything shared", icon: FolderOpen },
+  { name: "Files", detail: "Find shared files", icon: FolderOpen },
 ];
 
 export function HoverGlideCards() {
@@ -111,17 +111,17 @@ export function HoverGlideCards() {
   }, []);
 
   return (
-    <div className="relative grid w-full max-w-[312px] grid-cols-2 gap-[8px]" role="group" aria-label="Workspace apps" ref={hostRef}>
+    <div className="@container relative grid w-full max-w-[240px] grid-cols-2 gap-[6px]" role="group" aria-label="Workspace apps" ref={hostRef}>
       <span className="pointer-events-none absolute left-0 top-0 z-[1] block [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat]" ref={layerRef} aria-hidden="true">
         <span className="pointer-events-none absolute left-0 top-0 block h-0 w-0 rounded-[10px] bg-[light-dark(rgba(20,24,30,.055),rgba(255,255,255,.045))] opacity-0 [transition:transform_.3s_cubic-bezier(.32,.72,0,1),width_.3s_cubic-bezier(.32,.72,0,1),height_.3s_cubic-bezier(.32,.72,0,1),opacity_.18s_ease] data-[visible]:opacity-100 motion-reduce:[transition:opacity_.01ms] [@media(hover:none)]:hidden" ref={glideRef} />
       </span>
       {apps.map((app) => (
-        <button type="button" className="m-0 flex min-w-0 cursor-pointer flex-col items-start rounded-[10px] border border-[light-dark(#e3e6eb,#24272d)] bg-[light-dark(#ffffff,#121418)] p-[10px] text-left text-[color:light-dark(#14181e,#f2f4f6)] [font:inherit] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#86b6ff]" data-glide-card="" key={app.name}>
-          <span className="mb-[9px] grid size-[24px] place-items-center rounded-[7px] bg-[light-dark(#f0f2f5,#1b1e23)] text-[color:light-dark(#69727f,#868d97)]">
-            <app.icon size={14} strokeWidth={1.8} aria-hidden="true" />
+        <button type="button" className="m-0 flex min-w-0 cursor-pointer flex-col items-start rounded-[10px] border border-[light-dark(#e3e6eb,#24272d)] bg-[light-dark(#ffffff,#121418)] p-[8px] text-left text-[color:light-dark(#14181e,#f2f4f6)] [font:inherit] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#86b6ff]" data-glide-card="" key={app.name}>
+          <span className="mb-[6px] grid size-[20px] place-items-center rounded-[6px] bg-[light-dark(#f0f2f5,#1b1e23)] text-[color:light-dark(#69727f,#868d97)]">
+            <app.icon size={12} strokeWidth={1.8} aria-hidden="true" />
           </span>
-          <span className="max-w-full truncate text-[12px] font-semibold leading-[16px]">{app.name}</span>
-          <span className="mt-[2px] max-w-full truncate text-[11px] leading-[14px] text-[color:light-dark(#69727f,#868d97)]">{app.detail}</span>
+          <span className="max-w-full truncate text-[12px] font-semibold leading-[15px]">{app.name}</span>
+          <span className="mt-[1px] max-w-full truncate text-[11px] leading-[13px] text-[color:light-dark(#69727f,#868d97)] @max-[236px]:hidden">{app.detail}</span>
         </button>
       ))}
     </div>
