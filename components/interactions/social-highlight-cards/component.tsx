@@ -1,5 +1,7 @@
 import "./styles.css";
 
+import type { CSSProperties } from "react";
+
 const socials = [
   { label: "Henrique Barone on LinkedIn", href: "https://www.linkedin.com/in/hbarone/", highlight: "#0a66c2", icon: "linkedin" },
   { label: "Henrique Barone on GitHub", href: "https://github.com/henriquegpb", highlight: "#f0f0f0", icon: "github" },
@@ -30,7 +32,7 @@ export function SocialHighlightCards() {
           rel="noreferrer"
           title={social.label}
           aria-label={social.label}
-          style={{ color: social.highlight }}
+          style={{ color: social.highlight, "--social-highlight": social.highlight } as CSSProperties}
         >
           <span className="social-highlight-card__glow" aria-hidden="true" />
           <span className="social-highlight-card__beam" aria-hidden="true" />

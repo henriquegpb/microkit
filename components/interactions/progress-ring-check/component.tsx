@@ -1,0 +1,247 @@
+"use client";
+
+import "./styles.css";
+
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { animate, useMotionValue, useReducedMotion } from "motion/react";
+
+export type ProgressRingCheckStatus = "pending" | "running" | "done" | "failed" | "cancelled";
+
+export type ProgressRingCheckProps = {
+  status?: ProgressRingCheckStatus;
+  progress?: number;
+  label?: ReactNode;
+  color?: string;
+  doneColor?: string;
+  errorColor?: string;
+  size?: number;
+  strokeWidth?: number;
+  dashes?: number;
+  fontSize?: number;
+  spinDuration?: number;
+  arcLength?: number;
+  drawDuration?: number;
+  fillOpacity?: number;
+  strike?: boolean;
+  strikeDelay?: number;
+  className?: string;
+  style?: CSSProperties;
+};
+
+const UI = { type: "spring" as const, duration: 0.3, bounce: 0 };
+const MORPH = { duration: 0.3, ease: [0.77, 0, 0.175, 1] as [number, number, number, number] };
+const CHECK = "M7.5 12.25 10.5 15.25 16.75 8.75";
+const CROSS = "M8.5 8.5 15.5 15.5M15.5 8.5 8.5 15.5";
+const TEXT: Record<ProgressRingCheckStatus, string> = {
+  pending: "Pending",
+  running: "In progress",
+  done: "Completed",
+  failed: "Failed",
+  cancelled: "Cancelled",
+};
+const IDLE_DASH = 0.3;
+
+const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
+
+export function ProgressRingCheck({
+  status = "pending",
+  progress,
+  label,
+  color = "currentColor",
+  doneColor = "#22c55e",
+  errorColor = "#ef4444",
+  size = 20,
+  strokeWidth = 2,
+  dashes = 8,
+  fontSize = 14,
+  spinDuration = 1100,
+  arcLength = 0.68,
+  drawDuration = 240,
+  fillOpacity = 0.06,
+  strike = true,
+  strikeDelay = 60,
+  className = "",
+  style,
+}: ProgressRingCheckProps) {
+  const reduce = useReducedMotion();
+  const r = 10 - strokeWidth / 2;
+  const C = 2 * Math.PI * r;
+  const P = C / Math.max(1, dashes);
+  const determinate = status === "running" && typeof progress === "number" && Number.isFinite(progress);
+  const indeterminate = status === "running" && !determinate;
+  const solid = status === "running" || status === "done" || status === "failed";
+  const targetArc = indeterminate ? arcLength : determinate ? clamp01(progress as number) : 1;
+
+  const mode = useMotionValue(solid ? 1 : 0);
+  const arc = useMotionValue(targetArc);
+  const travel = useMotionValue(0);
+  const ringRef = useRef<SVGCircleElement>(null);
+  const geo = useRef({ C, P });
+  const gen = useRef(0);
+
+  const writeDash = () => {
+    const g = geo.current;
+    const m = mode.get();
+    const a = arc.get();
+    const dash = IDLE_DASH * g.P + (a * g.C - IDLE_DASH * g.P) * m;
+    const gap = (1 - IDLE_DASH) * g.P + ((1 - a) * g.C - (1 - IDLE_DASH) * g.P) * m;
+    ringRef.current?.setAttribute("stroke-dasharray", `${Math.max(0, dash)} ${Math.max(0, gap)}`);
+  };
+
+  useLayoutEffect(() => {
+    geo.current = { C, P };
+    writeDash();
+    ringRef.current?.setAttribute("stroke-dashoffset", String(travel.get()));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [C, P]);
+
+  useEffect(() => {
+    const offs = [
+      mode.on("change", writeDash),
+      arc.on("change", writeDash),
+      travel.on("change", (value: number) => ringRef.current?.setAttribute("stroke-dashoffset", String(value))),
+    ];
+    return () => {
+      offs.forEach((off) => off());
+      mode.stop();
+      arc.stop();
+      travel.stop();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const g = ++gen.current;
+    if (reduce) {
+      mode.jump(solid ? 1 : 0);
+      arc.jump(targetArc);
+      travel.jump(0);
+      return;
+    }
+    if (mode.get() === 0) arc.jump(targetArc);
+    animate(mode, solid ? 1 : 0, MORPH);
+    animate(arc, targetArc, UI);
+    if (indeterminate) {
+      const t0 = travel.get();
+      animate(travel, [t0, t0 - C], { duration: spinDuration / 1000, ease: "linear", repeat: Infinity });
+      return;
+    }
+    const unit = determinate ? C : P;
+    const to = Math.floor(travel.get() / unit) * unit;
+    animate(travel, to, UI).then(() => {
+      if (gen.current === g) travel.jump(0);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, determinate, targetArc, reduce, C, P, spinDuration]);
+
+  const spoken = TEXT[status] + (determinate ? `, ${Math.round(clamp01(progress as number) * 100)}%` : "");
+  const hasLabel = label !== undefined && label !== null;
+
+  return (
+    <span
+      className={`progress-ring-check${className ? ` ${className}` : ""}`}
+      data-status={status}
+      data-indeterminate={indeterminate ? "" : undefined}
+      data-strike={strike ? "" : undefined}
+      style={
+        {
+          "--prc-size": `${size}px`,
+          "--prc-stroke": strokeWidth,
+          "--prc-color": color,
+          "--prc-done": doneColor,
+          "--prc-error": errorColor,
+          "--prc-fill": fillOpacity,
+          "--prc-font": `${fontSize}px`,
+          "--prc-draw": `${drawDuration}ms`,
+          "--prc-strike-delay": `${120 + strikeDelay}ms`,
+          "--prc-check-delay": "120ms",
+          ...style,
+        } as CSSProperties
+      }
+    >
+      <svg
+        className="progress-ring-check__icon"
+        viewBox="0 0 24 24"
+        width={size}
+        height={size}
+        role={hasLabel ? undefined : "img"}
+        aria-label={hasLabel ? undefined : spoken}
+        aria-hidden={hasLabel || undefined}
+      >
+        <circle className="progress-ring-check__track" cx="12" cy="12" r={r} transform="rotate(-90 12 12)" />
+        <circle ref={ringRef} className="progress-ring-check__ring" cx="12" cy="12" r={r} transform="rotate(-90 12 12)" />
+        <path className="progress-ring-check__glyph progress-ring-check__glyph--check" d={CHECK} pathLength="1" />
+        <path className="progress-ring-check__glyph progress-ring-check__glyph--cross" d={CROSS} pathLength="1" />
+      </svg>
+      {hasLabel ? <span className="progress-ring-check__sr">{spoken}: </span> : null}
+      {hasLabel ? (
+        <span className="progress-ring-check__label">
+          {label}
+          <span className="progress-ring-check__strike" aria-hidden="true" />
+        </span>
+      ) : null}
+    </span>
+  );
+}
+
+const tasks: { label: string; status: ProgressRingCheckStatus }[] = [
+  { label: "Sync calendar events", status: "done" },
+  { label: "Generate weekly report", status: "running" },
+  { label: "Notify the team", status: "pending" },
+];
+
+const SPIN_MS = 1600;
+
+const nextStatus: Record<Exclude<ProgressRingCheckStatus, "pending" | "running">, ProgressRingCheckStatus> = {
+  done: "failed",
+  failed: "cancelled",
+  cancelled: "pending",
+};
+
+export function ProgressRingCheckList() {
+  const [statuses, setStatuses] = useState(() => tasks.map((task) => task.status));
+  const timers = useRef<number[]>([]);
+
+  const update = (index: number, status: ProgressRingCheckStatus) =>
+    setStatuses((current) => current.map((value, i) => (i === index ? status : value)));
+
+  const finishLater = (index: number) => {
+    timers.current.push(window.setTimeout(() => update(index, "done"), SPIN_MS));
+  };
+
+  useEffect(() => {
+    const pending = timers.current;
+    tasks.forEach((task, index) => {
+      if (task.status !== "running") return;
+      const finish = () => setStatuses((current) => current.map((value, i) => (i === index ? "done" : value)));
+      pending.push(window.setTimeout(finish, SPIN_MS));
+    });
+    return () => pending.forEach((timer) => window.clearTimeout(timer));
+  }, []);
+
+  const advance = (index: number) => {
+    const status = statuses[index];
+    if (status === "pending") {
+      update(index, "running");
+      finishLater(index);
+    } else if (status !== "running") {
+      update(index, nextStatus[status]);
+    }
+  };
+
+  return (
+    <div className="progress-ring-check-list">
+      {tasks.map((task, index) => (
+        <button key={task.label} type="button" className="progress-ring-check-list__row" onClick={() => advance(index)}>
+          <ProgressRingCheck
+            status={statuses[index]}
+            label={task.label}
+            size={22}
+            fontSize={16}
+          />
+        </button>
+      ))}
+    </div>
+  );
+}

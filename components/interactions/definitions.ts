@@ -49,11 +49,19 @@ import { definition as SecurePurchaseButtonDefinition } from "./secure-purchase-
 import { definition as HoverGlideCardsDefinition } from "./hover-glide-cards/definition";
 import { definition as PreviewHoverToolbarDefinition } from "./preview-hover-toolbar/definition";
 import { definition as ScrubNumberFieldDefinition } from "./scrub-number-field/definition";
+import { definition as HoldToDeleteButtonDefinition } from "./hold-to-delete-button/definition";
+import { definition as BounceCheckboxDefinition } from "./bounce-checkbox/definition";
+import { definition as FuseUndoButtonDefinition } from "./fuse-undo-button/definition";
+import { definition as ProgressRingCheckDefinition } from "./progress-ring-check/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
   CursorFollowShareButtonDefinition,
   FocusFieldDefinition,
+  HoldToDeleteButtonDefinition,
+  FuseUndoButtonDefinition,
+  ProgressRingCheckDefinition,
+  BounceCheckboxDefinition,
   SocialIconButtonsDefinition,
   ScrubNumberFieldDefinition,
   SocialHighlightCardsDefinition,

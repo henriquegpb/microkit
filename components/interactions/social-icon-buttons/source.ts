@@ -1,6 +1,7 @@
 export const componentCode = `"use client";
 
 import { useId, useState } from "react";
+import type { CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
 
 import "./social-icon-buttons.css";
@@ -75,7 +76,7 @@ export function SocialIconButtons() {
             title={social.label}
             aria-label={social.label}
             data-adjacent-side={adjacentSide || undefined}
-            style={{ color: social.brand }}
+            style={{ color: social.brand, "--social-brand": social.brand } as CSSProperties}
             onMouseEnter={() => setActiveIndex(index)}
             onFocus={() => setActiveIndex(index)}
             onBlur={() => setActiveIndex(-1)}
@@ -107,11 +108,12 @@ export function SocialIconButtons() {
   border-radius: 50%;
   background: light-dark(#ffffff,#101015);
   text-decoration: none;
+  transition: box-shadow .45s cubic-bezier(.22, 1, .36, 1);
 }
 .social-icon-button-swap {
   display: grid;
   place-items: center;
-  transition: transform .32s cubic-bezier(.22, 1, .36, 1);
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
 }
 .social-icon-button-swap:not(.social-icon-button-arrow) { color: light-dark(#262d38,#e8e8ec); }
 .social-icon-button-swap svg { width: 18px; height: 18px; }
@@ -126,14 +128,14 @@ export function SocialIconButtons() {
 }
 .social-button-border-base,
 .social-button-border-edge { fill: none; stroke-width: 1; }
-.social-button-border-base { stroke: light-dark(#dfe3ea,#2b2b34); transition: stroke .2s ease; }
+.social-button-border-base { stroke: light-dark(#dfe3ea,#2b2b34); transition: stroke .4s cubic-bezier(.22, 1, .36, 1); }
 .social-button-border-edge,
 .social-button-fill-edge { opacity: 0; }
 .social-button-border-edge { stroke-linecap: round; }
 .social-button-border[data-side] .social-button-border-edge,
 .social-button-border[data-side] .social-button-fill-edge {
   opacity: 1;
-  animation: social-neighbor-in .16s ease-out;
+  animation: social-neighbor-in .4s ease-out;
 }
 .social-icon-button:hover .social-icon-button-swap:not(.social-icon-button-arrow),
 .social-icon-button:focus-visible .social-icon-button-swap:not(.social-icon-button-arrow) { transform: translateY(-260%); }
@@ -144,7 +146,7 @@ export function SocialIconButtons() {
 .social-icon-button:hover,
 .social-icon-button:focus-visible {
   outline: none;
-  box-shadow: 0 0 18px color-mix(in srgb, currentColor 55%, transparent);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--social-brand) 55%, transparent);
 }
 .social-icon-button:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 @keyframes social-neighbor-in { from { opacity: 0; } }
@@ -158,6 +160,7 @@ export function SocialIconButtons() {
 export const tailwindCode = `"use client";
 
 import { useId, useState } from "react";
+import type { CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
 
 const socials = [
@@ -177,9 +180,9 @@ function SocialButtonBorder({ side = "", brand = "transparent" }) {
   const fillGradientId = gradientId + "-fill";
   const path = side === "left" ? "M10.6 2.14A17.5 17.5 0 0 0 10.6 33.86" : "M25.4 2.14A17.5 17.5 0 0 1 25.4 33.86";
   const fillCenter = side === "left" ? "0" : "36";
-  const neighborClass = side ? "opacity-100 [animation:social-neighbor-in_.16s_ease-out] motion-reduce:animate-none" : "opacity-0";
+  const neighborClass = side ? "opacity-100 [animation:social-neighbor-in_.4s_ease-out] motion-reduce:animate-none" : "opacity-0";
 
-  return <svg className="pointer-events-none absolute inset-0 size-full overflow-visible" data-side={side || undefined} viewBox="0 0 36 36" aria-hidden="true" style={{ color: brand }}><defs><linearGradient id={gradientId} x1="0" y1="2.14" x2="0" y2="33.86" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="currentColor" stopOpacity="0" /><stop offset=".28" stopColor="currentColor" stopOpacity=".2" /><stop offset=".5" stopColor="currentColor" stopOpacity=".86" /><stop offset=".72" stopColor="currentColor" stopOpacity=".2" /><stop offset="1" stopColor="currentColor" stopOpacity="0" /></linearGradient><radialGradient id={fillGradientId} cx={fillCenter} cy="18" r="25" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="currentColor" stopOpacity=".14" /><stop offset=".42" stopColor="currentColor" stopOpacity=".06" /><stop offset=".82" stopColor="currentColor" stopOpacity="0" /></radialGradient></defs><circle className={neighborClass} cx="18" cy="18" r="17" fill={"url(#" + fillGradientId + ")"} /><circle className="fill-none stroke-[light-dark(#dfe3ea,#2b2b34)] stroke-[1px] transition-[stroke] duration-200 group-hover:stroke-current group-focus-visible:stroke-current motion-reduce:transition-none" cx="18" cy="18" r="17.5" /><path className={"fill-none stroke-[1px] [stroke-linecap:round] " + neighborClass} d={path} stroke={"url(#" + gradientId + ")"} /></svg>;
+  return <svg className="pointer-events-none absolute inset-0 size-full overflow-visible" data-side={side || undefined} viewBox="0 0 36 36" aria-hidden="true" style={{ color: brand }}><defs><linearGradient id={gradientId} x1="0" y1="2.14" x2="0" y2="33.86" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="currentColor" stopOpacity="0" /><stop offset=".28" stopColor="currentColor" stopOpacity=".2" /><stop offset=".5" stopColor="currentColor" stopOpacity=".86" /><stop offset=".72" stopColor="currentColor" stopOpacity=".2" /><stop offset="1" stopColor="currentColor" stopOpacity="0" /></linearGradient><radialGradient id={fillGradientId} cx={fillCenter} cy="18" r="25" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="currentColor" stopOpacity=".14" /><stop offset=".42" stopColor="currentColor" stopOpacity=".06" /><stop offset=".82" stopColor="currentColor" stopOpacity="0" /></radialGradient></defs><circle className={neighborClass} cx="18" cy="18" r="17" fill={"url(#" + fillGradientId + ")"} /><circle className="fill-none stroke-[light-dark(#dfe3ea,#2b2b34)] stroke-[1px] transition-[stroke] duration-[400ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:stroke-current group-focus-visible:stroke-current motion-reduce:transition-none" cx="18" cy="18" r="17.5" /><path className={"fill-none stroke-[1px] [stroke-linecap:round] " + neighborClass} d={path} stroke={"url(#" + gradientId + ")"} /></svg>;
 }
 
 export function SocialIconButtons() {
@@ -188,6 +191,6 @@ export function SocialIconButtons() {
 
   return <><style>{"@keyframes social-neighbor-in { from { opacity: 0; } }"}</style><div className="flex items-center gap-[10px]" aria-label="Social links" onMouseLeave={() => setActiveIndex(-1)}>{socials.map((social, index) => {
     const adjacentSide = activeIndex < 0 || Math.abs(index - activeIndex) !== 1 ? "" : index < activeIndex ? "right" : "left";
-    return <a className="group relative grid size-[42px] place-items-center overflow-hidden rounded-full border-0 bg-[light-dark(#ffffff,#101015)] no-underline hover:shadow-[0_0_18px_color-mix(in_srgb,currentColor_55%,transparent)] focus-visible:shadow-[0_0_18px_color-mix(in_srgb,currentColor_55%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current" href={social.href} key={social.href} target="_blank" rel="noreferrer" title={social.label} aria-label={social.label} style={{ color: social.brand }} onMouseEnter={() => setActiveIndex(index)} onFocus={() => setActiveIndex(index)} onBlur={() => setActiveIndex(-1)}><SocialButtonBorder side={adjacentSide} brand={activeBrand} /><span className="grid place-items-center text-[light-dark(#262d38,#e8e8ec)] transition-transform duration-[320ms] ease-[cubic-bezier(.22,1,.36,1)] [&_svg]:size-[18px] group-hover:-translate-y-[260%] group-focus-visible:-translate-y-[260%] motion-reduce:transition-none"><SocialIcon name={social.icon} /></span><span className="absolute grid translate-y-[260%] place-items-center transition-transform duration-[320ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0 group-focus-visible:translate-y-0 motion-reduce:transition-none"><ArrowRight size={17} strokeWidth={1.9} /></span></a>;
+    return <a className="group relative grid size-[42px] place-items-center overflow-hidden rounded-full border-0 bg-[light-dark(#ffffff,#101015)] no-underline transition-shadow duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none hover:shadow-[0_0_18px_color-mix(in_srgb,var(--social-brand)_55%,transparent)] focus-visible:shadow-[0_0_18px_color-mix(in_srgb,var(--social-brand)_55%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current" href={social.href} key={social.href} target="_blank" rel="noreferrer" title={social.label} aria-label={social.label} style={{ color: social.brand, "--social-brand": social.brand } as CSSProperties} onMouseEnter={() => setActiveIndex(index)} onFocus={() => setActiveIndex(index)} onBlur={() => setActiveIndex(-1)}><SocialButtonBorder side={adjacentSide} brand={activeBrand} /><span className="grid place-items-center text-[light-dark(#262d38,#e8e8ec)] transition-transform duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] [&_svg]:size-[18px] group-hover:-translate-y-[260%] group-focus-visible:-translate-y-[260%] motion-reduce:transition-none"><SocialIcon name={social.icon} /></span><span className="absolute grid translate-y-[260%] place-items-center transition-transform duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0 group-focus-visible:translate-y-0 motion-reduce:transition-none"><ArrowRight size={17} strokeWidth={1.9} /></span></a>;
   })}</div></>;
 }`;

@@ -51,12 +51,20 @@ import { SecurePurchaseButton } from "./secure-purchase-button/component";
 import { HoverGlideCards } from "./hover-glide-cards/component";
 import { PreviewHoverToolbar } from "./preview-hover-toolbar/component";
 import { ScrubNumberField } from "./scrub-number-field/component";
+import { HoldToDeleteButton } from "./hold-to-delete-button/component";
+import { BounceCheckboxList } from "./bounce-checkbox/component";
+import { FuseUndoButton } from "./fuse-undo-button/component";
+import { ProgressRingCheckList } from "./progress-ring-check/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
   "cursor-follow-share-button": CursorFollowShareButton,
   "focus-input": FocusField,
   "scrub-number-field": ScrubNumberField,
+  "hold-to-delete-button": HoldToDeleteButton,
+  "bounce-checkbox": BounceCheckboxList,
+  "fuse-undo-button": FuseUndoButton,
+  "progress-ring-check": ProgressRingCheckList,
   "expanding-contact-button": ExpandingContactButton,
   "contact-reveal-button": ContactRevealButton,
   "contact-details-reveal": ContactDetailsReveal,

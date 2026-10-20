@@ -1,0 +1,131 @@
+.bounce-checkbox,
+.bounce-checkbox * {
+  box-sizing: border-box;
+}
+
+.bounce-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.bounce-checkbox {
+  position: relative;
+  display: inline-flex;
+  min-height: var(--bc-row);
+  align-items: center;
+  gap: var(--bc-gap);
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--bc-ink);
+  font-family: inherit;
+  font-size: var(--bc-font);
+  font-weight: 500;
+  letter-spacing: -.01em;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+.bounce-checkbox:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.bounce-checkbox__box {
+  flex: none;
+  width: var(--bc-box);
+  height: var(--bc-box);
+  border-radius: var(--bc-radius);
+  transition: transform 160ms cubic-bezier(.23, 1, .32, 1);
+}
+
+.bounce-checkbox[data-pressed] .bounce-checkbox__box {
+  transform: scale(.95);
+}
+
+.bounce-checkbox:focus-visible .bounce-checkbox__box {
+  outline: 2px solid color-mix(in srgb, var(--bc-ink) 45%, transparent);
+  outline-offset: 3px;
+}
+
+.bounce-checkbox__surface {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  overflow: hidden;
+  border-radius: inherit;
+  transform-origin: center;
+}
+
+.bounce-checkbox__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 var(--bc-ring) var(--bc-ink);
+  opacity: .28;
+  transition: opacity 120ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bounce-checkbox:enabled:hover .bounce-checkbox__ring {
+    opacity: .5;
+  }
+}
+
+.bounce-checkbox__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--bc-fill);
+  transform-origin: center;
+}
+
+.bounce-checkbox__tick {
+  position: relative;
+  width: 68%;
+  height: 68%;
+  overflow: visible;
+  fill: none;
+  stroke: var(--bc-check);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bounce-checkbox__label {
+  position: relative;
+  display: inline-block;
+}
+
+.bounce-checkbox__word {
+  display: inline-block;
+}
+
+.bounce-checkbox__rule {
+  position: absolute;
+  top: 46%;
+  right: 0;
+  left: 0;
+  height: var(--bc-rule);
+  border-radius: 2px;
+  background: currentColor;
+  pointer-events: none;
+  transform-origin: var(--bc-origin);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bounce-checkbox__box {
+    transition: none;
+  }
+}

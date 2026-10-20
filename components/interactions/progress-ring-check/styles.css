@@ -1,0 +1,201 @@
+.progress-ring-check {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--prc-size) * .5);
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.progress-ring-check__icon {
+  flex-shrink: 0;
+  overflow: visible;
+  color: var(--prc-color);
+  transition: color 200ms ease;
+}
+
+.progress-ring-check[data-status="done"] .progress-ring-check__icon {
+  color: var(--prc-done);
+}
+
+.progress-ring-check[data-status="failed"] .progress-ring-check__icon {
+  color: var(--prc-error);
+}
+
+.progress-ring-check__track {
+  fill: currentColor;
+  fill-opacity: 0;
+  stroke: currentColor;
+  stroke-opacity: 0;
+  stroke-width: var(--prc-stroke);
+  transition: fill-opacity 180ms ease, stroke-opacity 200ms ease;
+}
+
+.progress-ring-check[data-status="running"] .progress-ring-check__track {
+  stroke-opacity: .2;
+}
+
+.progress-ring-check[data-status="done"] .progress-ring-check__track,
+.progress-ring-check[data-status="failed"] .progress-ring-check__track {
+  fill-opacity: var(--prc-fill);
+}
+
+.progress-ring-check__ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: var(--prc-stroke);
+  opacity: .55;
+  transition: opacity 200ms ease;
+}
+
+.progress-ring-check[data-status="running"] .progress-ring-check__ring,
+.progress-ring-check[data-status="done"] .progress-ring-check__ring,
+.progress-ring-check[data-status="failed"] .progress-ring-check__ring {
+  opacity: 1;
+}
+
+.progress-ring-check__glyph {
+  fill: none;
+  stroke: currentColor;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1.05;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: var(--prc-stroke);
+  opacity: 0;
+  transition: stroke-dashoffset 160ms cubic-bezier(.23, 1, .32, 1), opacity 0ms linear 160ms;
+}
+
+.progress-ring-check[data-status="done"] .progress-ring-check__glyph--check,
+.progress-ring-check[data-status="failed"] .progress-ring-check__glyph--cross,
+.progress-ring-check[data-status="cancelled"] .progress-ring-check__glyph--cross {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  transition:
+    stroke-dashoffset var(--prc-draw) cubic-bezier(.23, 1, .32, 1) var(--prc-check-delay),
+    opacity 0ms linear var(--prc-check-delay);
+}
+
+.progress-ring-check__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.progress-ring-check__label {
+  position: relative;
+  color: var(--prc-color);
+  font-size: var(--prc-font);
+  line-height: 1.25;
+  opacity: .65;
+  transition: opacity 200ms ease;
+}
+
+.progress-ring-check[data-status="running"] .progress-ring-check__label,
+.progress-ring-check[data-status="failed"] .progress-ring-check__label {
+  opacity: 1;
+}
+
+.progress-ring-check[data-status="done"] .progress-ring-check__label {
+  opacity: .6;
+}
+
+.progress-ring-check[data-status="cancelled"] .progress-ring-check__label {
+  opacity: .55;
+}
+
+.progress-ring-check__strike {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: max(1px, calc(var(--prc-font) / 14));
+  background: currentColor;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left;
+  translate: 0 -50%;
+  transition: transform 160ms cubic-bezier(.23, 1, .32, 1);
+}
+
+.progress-ring-check[data-status="done"][data-strike] .progress-ring-check__strike {
+  transform: scaleX(1);
+  transition: transform 280ms cubic-bezier(.23, 1, .32, 1) var(--prc-strike-delay);
+}
+
+.progress-ring-check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.progress-ring-check-list__row {
+  appearance: none;
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  padding: 0 14px;
+  color: light-dark(#14181e, #f2f4f6);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .2s ease;
+}
+
+.progress-ring-check-list__row:hover {
+  background: light-dark(#f0f2f5, #1b1e23);
+}
+
+.progress-ring-check-list__row:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+}
+
+@keyframes prc-breathe {
+  50% {
+    opacity: .45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-ring-check[data-indeterminate] .progress-ring-check__ring {
+    animation: prc-breathe 1400ms cubic-bezier(.77, 0, .175, 1) infinite;
+  }
+
+  .progress-ring-check__glyph {
+    stroke-dashoffset: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .progress-ring-check[data-status="done"] .progress-ring-check__glyph--check,
+  .progress-ring-check[data-status="failed"] .progress-ring-check__glyph--cross,
+  .progress-ring-check[data-status="cancelled"] .progress-ring-check__glyph--cross {
+    transition: opacity 200ms ease;
+  }
+
+  .progress-ring-check__strike {
+    transform: scaleX(1);
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .progress-ring-check[data-status="done"][data-strike] .progress-ring-check__strike {
+    transform: scaleX(1);
+    opacity: 1;
+    transition: opacity 200ms ease;
+  }
+
+  .progress-ring-check-list__row {
+    transition: none;
+  }
+}

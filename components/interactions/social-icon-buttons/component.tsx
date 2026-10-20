@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import type { CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
 
 import "./styles.css";
@@ -52,6 +53,6 @@ export function SocialIconButtons() {
 
   return <div className="social-icon-buttons" aria-label="Social links" onMouseLeave={() => setActiveIndex(-1)}>{socials.map((social, index) => {
     const adjacentSide = activeIndex < 0 || Math.abs(index - activeIndex) !== 1 ? "" : index < activeIndex ? "right" : "left";
-    return <a className="social-icon-button" href={social.href} key={social.href} target="_blank" rel="noreferrer" title={social.label} aria-label={social.label} data-adjacent-side={adjacentSide || undefined} style={{ color: social.brand }} onMouseEnter={() => setActiveIndex(index)} onFocus={() => setActiveIndex(index)} onBlur={() => setActiveIndex(-1)}><SocialButtonBorder side={adjacentSide} brand={activeBrand} /><span className="social-icon-button-swap"><SocialIcon name={social.icon} /></span><span className="social-icon-button-swap social-icon-button-arrow"><ArrowRight size={17} strokeWidth={1.9} /></span></a>;
+    return <a className="social-icon-button" href={social.href} key={social.href} target="_blank" rel="noreferrer" title={social.label} aria-label={social.label} data-adjacent-side={adjacentSide || undefined} style={{ color: social.brand, "--social-brand": social.brand } as CSSProperties} onMouseEnter={() => setActiveIndex(index)} onFocus={() => setActiveIndex(index)} onBlur={() => setActiveIndex(-1)}><SocialButtonBorder side={adjacentSide} brand={activeBrand} /><span className="social-icon-button-swap"><SocialIcon name={social.icon} /></span><span className="social-icon-button-swap social-icon-button-arrow"><ArrowRight size={17} strokeWidth={1.9} /></span></a>;
   })}</div>;
 }

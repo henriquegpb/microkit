@@ -87,8 +87,13 @@ function dependenciesOf(source, id) {
       `${id}: tailwindCode imports ${local.join(", ")} — the published file must be self-contained`,
     );
   }
+  // An import names a module, the CLI installs a package: `motion/react` comes
+  // from `motion`, `@scope/pkg/sub` from `@scope/pkg`.
+  const packages = specifiers.map((specifier) =>
+    specifier.split("/").slice(0, specifier.startsWith("@") ? 2 : 1).join("/"),
+  );
   // React is the peer every consumer already has; the CLI must not install it.
-  return [...new Set(specifiers.filter((specifier) => specifier !== "react"))];
+  return [...new Set(packages.filter((name) => name !== "react"))];
 }
 
 const outputDir = `${ROOT}/registry/microkit`;

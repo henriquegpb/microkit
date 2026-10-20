@@ -54,7 +54,20 @@ export function CursorFollowShareButton() {
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
   isolation: isolate;
-  transition: background .3s ease, box-shadow .3s cubic-bezier(.16, 1, .3, 1);
+  transition: box-shadow .5s cubic-bezier(.16, 1, .3, 1);
+}
+
+.cursor-follow-share-button::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(110deg, light-dark(#f0f2f5,#1e1e26) 0%, light-dark(#f0f2f5,#171820) 48%, light-dark(#ffffff,#121319) 100%);
+  box-shadow: inset 0 2px 2px light-dark(rgba(20, 24, 30, .24), rgba(255, 255, 255, .24)), inset 0 -3px 4px light-dark(rgba(246, 247, 249, .74), rgba(0, 0, 0, .74));
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  transition: opacity .45s ease;
 }
 
 .cursor-follow-share-button__orb {
@@ -72,8 +85,8 @@ export function CursorFollowShareButton() {
   color: light-dark(#f6f7f9,#090a0f);
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -50%) scale(.55);
-  transition: transform .3s cubic-bezier(.16, 1, .3, 1), opacity .2s ease;
+  transform: translate(-50%, -50%) scale(.4);
+  transition: transform .6s cubic-bezier(.16, 1, .3, 1), opacity .4s ease;
 }
 
 .cursor-follow-share-button__orb::before {
@@ -115,6 +128,11 @@ export function CursorFollowShareButton() {
   transform: translateY(145%);
 }
 
+.cursor-follow-share-button:hover::before,
+.cursor-follow-share-button:focus-visible::before {
+  opacity: 1;
+}
+
 .cursor-follow-share-button:hover .cursor-follow-share-button__orb,
 .cursor-follow-share-button:focus-visible .cursor-follow-share-button__orb {
   opacity: 1;
@@ -123,7 +141,6 @@ export function CursorFollowShareButton() {
 
 .cursor-follow-share-button:hover,
 .cursor-follow-share-button:focus-visible {
-  background: linear-gradient(110deg, light-dark(#f0f2f5,#1e1e26) 0%, light-dark(#f0f2f5,#171820) 48%, light-dark(#ffffff,#121319) 100%);
   box-shadow: inset 0 2px 2px light-dark(rgba(20, 24, 30, .24), rgba(255, 255, 255, .24)), inset 0 -3px 4px light-dark(rgba(246, 247, 249, .74), rgba(0, 0, 0, .74)), 0 10px 13px light-dark(rgba(246, 247, 249, .58), rgba(0, 0, 0, .58));
 }
 
@@ -150,7 +167,8 @@ export function CursorFollowShareButton() {
     transition: none;
   }
 
-  .cursor-follow-share-button {
+  .cursor-follow-share-button,
+  .cursor-follow-share-button::before {
     transition: none;
   }
 }`;
@@ -170,8 +188,8 @@ export function CursorFollowShareButton() {
   };
 
   return (
-    <button type="button" onPointerEnter={updateOrbPosition} onPointerMove={updateOrbPosition} className="group relative isolate inline-grid h-[66px] w-[min(200px,calc(100vw-40px))] cursor-pointer place-items-center overflow-hidden rounded-full border-0 bg-[linear-gradient(110deg,#202029_0%,#181820_48%,#15161b_100%)] font-[Arial,Helvetica,sans-serif] text-[light-dark(#14181e,#f7f7fa)] shadow-[inset_0_3px_4px_rgba(0,0,0,.72),inset_0_-2px_2px_rgba(255,255,255,.07)] [--cursor-x:50%] [--cursor-y:50%] [transition:background_.3s_ease,box-shadow_.3s_cubic-bezier(.16,1,.3,1)] hover:bg-[linear-gradient(110deg,#1e1e26_0%,#171820_48%,#121319_100%)] hover:shadow-[inset_0_2px_2px_rgba(255,255,255,.24),inset_0_-3px_4px_rgba(0,0,0,.74),0_10px_13px_rgba(0,0,0,.58)] focus-visible:bg-[linear-gradient(110deg,#1e1e26_0%,#171820_48%,#121319_100%)] focus-visible:shadow-[inset_0_2px_2px_rgba(255,255,255,.24),inset_0_-3px_4px_rgba(0,0,0,.74),0_10px_13px_rgba(0,0,0,.58)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[7px] focus-visible:outline-[#ff6a22] motion-reduce:transition-none">
-      <span className="pointer-events-none absolute z-0 grid size-10 place-items-center rounded-full bg-[#ff6a22] text-[light-dark(#f6f7f9,#090a0f)] opacity-0 shadow-[0_0_0_1px_rgba(255,198,139,.48),0_0_11px_4px_rgba(255,111,35,.92),0_0_28px_10px_rgba(255,91,20,.48),0_0_42px_16px_rgba(255,76,19,.16)] [left:var(--cursor-x)] [top:var(--cursor-y)] [transform:translate(-50%,-50%)_scale(.55)] [transition:transform_.3s_cubic-bezier(.16,1,.3,1),opacity_.2s_ease] before:absolute before:-inset-[30px] before:-z-10 before:rounded-full before:bg-[radial-gradient(circle,rgba(255,106,34,.34),rgba(255,72,24,.12)_38%,transparent_69%)] group-hover:opacity-100 group-hover:[transform:translate(-50%,-50%)_scale(1)] group-focus-visible:opacity-100 group-focus-visible:[transform:translate(-50%,-50%)_scale(1)] motion-reduce:transition-none" aria-hidden="true">
+    <button type="button" onPointerEnter={updateOrbPosition} onPointerMove={updateOrbPosition} className="group relative isolate inline-grid h-[66px] w-[min(200px,calc(100vw-40px))] cursor-pointer place-items-center overflow-hidden rounded-full border-0 bg-[linear-gradient(110deg,#202029_0%,#181820_48%,#15161b_100%)] font-[Arial,Helvetica,sans-serif] text-[light-dark(#14181e,#f7f7fa)] shadow-[inset_0_3px_4px_rgba(0,0,0,.72),inset_0_-2px_2px_rgba(255,255,255,.07)] [--cursor-x:50%] [--cursor-y:50%] [transition:box-shadow_.5s_cubic-bezier(.16,1,.3,1)] before:pointer-events-none before:absolute before:inset-0 before:z-[-1] before:rounded-[inherit] before:bg-[linear-gradient(110deg,#1e1e26_0%,#171820_48%,#121319_100%)] before:shadow-[inset_0_2px_2px_rgba(255,255,255,.24),inset_0_-3px_4px_rgba(0,0,0,.74)] before:opacity-0 before:[transition:opacity_.45s_ease] hover:before:opacity-100 focus-visible:before:opacity-100 motion-reduce:before:transition-none hover:shadow-[inset_0_2px_2px_rgba(255,255,255,.24),inset_0_-3px_4px_rgba(0,0,0,.74),0_10px_13px_rgba(0,0,0,.58)] focus-visible:shadow-[inset_0_2px_2px_rgba(255,255,255,.24),inset_0_-3px_4px_rgba(0,0,0,.74),0_10px_13px_rgba(0,0,0,.58)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[7px] focus-visible:outline-[#ff6a22] motion-reduce:transition-none">
+      <span className="pointer-events-none absolute z-0 grid size-10 place-items-center rounded-full bg-[#ff6a22] text-[light-dark(#f6f7f9,#090a0f)] opacity-0 shadow-[0_0_0_1px_rgba(255,198,139,.48),0_0_11px_4px_rgba(255,111,35,.92),0_0_28px_10px_rgba(255,91,20,.48),0_0_42px_16px_rgba(255,76,19,.16)] [left:var(--cursor-x)] [top:var(--cursor-y)] [transform:translate(-50%,-50%)_scale(.4)] [transition:transform_.6s_cubic-bezier(.16,1,.3,1),opacity_.4s_ease] before:absolute before:-inset-[30px] before:-z-10 before:rounded-full before:bg-[radial-gradient(circle,rgba(255,106,34,.34),rgba(255,72,24,.12)_38%,transparent_69%)] group-hover:opacity-100 group-hover:[transform:translate(-50%,-50%)_scale(1)] group-focus-visible:opacity-100 group-focus-visible:[transform:translate(-50%,-50%)_scale(1)] motion-reduce:transition-none" aria-hidden="true">
         <svg viewBox="0 0 32 32" fill="none" className="size-[19px] -translate-x-px translate-y-px -rotate-[5deg]">
           <path d="M28.14 4.94 19.6 27.72c-.4 1.06-1.87 1.1-2.33.06l-4.04-9.05-9.03-4.02c-1.04-.46-1-1.93.06-2.33L27.04 3.86c.74-.28 1.38.34 1.1 1.08Z" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round" />
           <path d="m13.02 18.63 5.75-5.75" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
