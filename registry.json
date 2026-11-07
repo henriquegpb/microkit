@@ -149,6 +149,25 @@
       ]
     },
     {
+      "name": "count-up-number",
+      "type": "registry:component",
+      "title": "Count Up Number",
+      "description": "A stat that counts up from zero the first time it scrolls into view, easing out so the last digits settle slowly; it is sized to the finished number, so nothing around it shifts while it climbs.",
+      "author": "henriquegpb <https://github.com/henriquegpb>",
+      "categories": [
+        "data-display",
+        "scroll"
+      ],
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/count-up-number",
+      "files": [
+        {
+          "path": "registry/microkit/count-up-number.tsx",
+          "type": "registry:component",
+          "target": "@components/microkit/count-up-number.tsx"
+        }
+      ]
+    },
+    {
       "name": "social-icon-buttons",
       "type": "registry:component",
       "title": "Social Icon Buttons",

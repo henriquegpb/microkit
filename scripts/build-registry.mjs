@@ -66,8 +66,9 @@ const CATEGORY_TAG = {
   "Click feedback": "button",
   Inputs: "input",
   Navigation: "navigation",
+  "Data display": "data-display",
 };
-const TYPE_TAG = { Hover: "hover", Focus: "focus", Click: "click", Drag: "drag" };
+const TYPE_TAG = { Hover: "hover", Focus: "focus", Click: "click", Drag: "drag", Scroll: "scroll" };
 
 /*
  * Declared dependencies are read from the code being shipped, not from the

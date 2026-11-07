@@ -53,6 +53,7 @@ import { definition as HoldToDeleteButtonDefinition } from "./hold-to-delete-but
 import { definition as BounceCheckboxDefinition } from "./bounce-checkbox/definition";
 import { definition as FuseUndoButtonDefinition } from "./fuse-undo-button/definition";
 import { definition as ProgressRingCheckDefinition } from "./progress-ring-check/definition";
+import { definition as CountUpNumberDefinition } from "./count-up-number/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
@@ -62,6 +63,7 @@ export const interactionDefinitions: Interaction[] = [
   FuseUndoButtonDefinition,
   ProgressRingCheckDefinition,
   BounceCheckboxDefinition,
+  CountUpNumberDefinition,
   SocialIconButtonsDefinition,
   ScrubNumberFieldDefinition,
   SocialHighlightCardsDefinition,

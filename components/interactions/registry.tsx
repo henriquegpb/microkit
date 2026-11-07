@@ -55,6 +55,7 @@ import { HoldToDeleteButton } from "./hold-to-delete-button/component";
 import { BounceCheckboxList } from "./bounce-checkbox/component";
 import { FuseUndoButton } from "./fuse-undo-button/component";
 import { ProgressRingCheckList } from "./progress-ring-check/component";
+import { CountUpStat } from "./count-up-number/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
@@ -65,6 +66,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "bounce-checkbox": BounceCheckboxList,
   "fuse-undo-button": FuseUndoButton,
   "progress-ring-check": ProgressRingCheckList,
+  "count-up-number": CountUpStat,
   "expanding-contact-button": ExpandingContactButton,
   "contact-reveal-button": ContactRevealButton,
   "contact-details-reveal": ContactDetailsReveal,
