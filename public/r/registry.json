@@ -168,6 +168,25 @@
       ]
     },
     {
+      "name": "rolling-number-stepper",
+      "type": "registry:component",
+      "title": "Rolling Number Stepper",
+      "description": "A minus and plus stepper where only the digits that change roll, up on the way up and down on the way down, and a digit that appears or disappears opens or closes its column; holding a button keeps stepping.",
+      "author": "henriquegpb <https://github.com/henriquegpb>",
+      "categories": [
+        "input",
+        "click"
+      ],
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/rolling-number-stepper",
+      "files": [
+        {
+          "path": "registry/microkit/rolling-number-stepper.tsx",
+          "type": "registry:component",
+          "target": "@components/microkit/rolling-number-stepper.tsx"
+        }
+      ]
+    },
+    {
       "name": "glide-pill-tabs",
       "type": "registry:component",
       "title": "Glide Pill Tabs",

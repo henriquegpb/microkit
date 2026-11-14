@@ -57,6 +57,7 @@ import { FuseUndoButton } from "./fuse-undo-button/component";
 import { ProgressRingCheckList } from "./progress-ring-check/component";
 import { CountUpStat } from "./count-up-number/component";
 import { GlidePillTabs } from "./glide-pill-tabs/component";
+import { RollingNumberStepper } from "./rolling-number-stepper/component";
 
 const interactionComponents: Record<string, ComponentType> = {
   "cursor-edge-glow-button": CursorEdgeGlowButton,
@@ -69,6 +70,7 @@ const interactionComponents: Record<string, ComponentType> = {
   "progress-ring-check": ProgressRingCheckList,
   "count-up-number": CountUpStat,
   "glide-pill-tabs": GlidePillTabs,
+  "rolling-number-stepper": RollingNumberStepper,
   "expanding-contact-button": ExpandingContactButton,
   "contact-reveal-button": ContactRevealButton,
   "contact-details-reveal": ContactDetailsReveal,
