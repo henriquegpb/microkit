@@ -132,7 +132,7 @@ export function RollingNumberStepper() {
 
   return (
     <div
-      className="inline-flex items-center gap-[18px] rounded-full border border-[color:light-dark(#e3e6eb,#24272d)] bg-[light-dark(#ffffff,#121418)] p-[6px] text-[color:light-dark(#14181e,#f2f4f6)]"
+      className="inline-flex items-center gap-[18px] text-[color:light-dark(#14181e,#f2f4f6)]"
       role="group" aria-label="Tickets">
       <button
         type="button"

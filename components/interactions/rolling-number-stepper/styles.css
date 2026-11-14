@@ -2,10 +2,6 @@
   display: inline-flex;
   align-items: center;
   gap: 18px;
-  border: 1px solid light-dark(#e3e6eb, #24272d);
-  border-radius: 999px;
-  background: light-dark(#ffffff, #121418);
-  padding: 6px;
   color: light-dark(#14181e, #f2f4f6);
 }
 
