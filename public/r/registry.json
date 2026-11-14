@@ -168,6 +168,25 @@
       ]
     },
     {
+      "name": "glide-pill-tabs",
+      "type": "registry:component",
+      "title": "Glide Pill Tabs",
+      "description": "A pill of filter tabs where the selection slides from option to option and a softer hover highlight glides behind them; when the options overflow, the row scrolls sideways to keep the chosen one in view.",
+      "author": "henriquegpb <https://github.com/henriquegpb>",
+      "categories": [
+        "navigation",
+        "click"
+      ],
+      "docs": "Live preview and the CSS, JavaScript and Tailwind variants: https://microkit.co/components/glide-pill-tabs",
+      "files": [
+        {
+          "path": "registry/microkit/glide-pill-tabs.tsx",
+          "type": "registry:component",
+          "target": "@components/microkit/glide-pill-tabs.tsx"
+        }
+      ]
+    },
+    {
       "name": "social-icon-buttons",
       "type": "registry:component",
       "title": "Social Icon Buttons",

@@ -1,0 +1,103 @@
+.glide-pill-tabs {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  gap: 2px;
+  overflow-x: auto;
+  border: 1px solid light-dark(rgba(20, 24, 30, .06), rgba(242, 244, 246, .06));
+  border-radius: 999px;
+  background: light-dark(rgba(20, 24, 30, .035), rgba(242, 244, 246, .035));
+  padding: 4px;
+  scrollbar-width: none;
+}
+
+.glide-pill-tabs,
+.glide-pill-tabs * {
+  box-sizing: border-box;
+}
+
+.glide-pill-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.glide-pill-tabs__glide,
+.glide-pill-tabs__indicator {
+  position: absolute;
+  left: 0;
+  z-index: 0;
+  display: block;
+  width: 0;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.glide-pill-tabs__glide {
+  top: 0;
+  height: 0;
+  background: light-dark(rgba(20, 24, 30, .07), rgba(242, 244, 246, .07));
+  transition:
+    transform .3s cubic-bezier(.32, .72, 0, 1),
+    width .3s cubic-bezier(.32, .72, 0, 1),
+    height .3s cubic-bezier(.32, .72, 0, 1),
+    opacity .3s cubic-bezier(.32, .72, 0, 1);
+}
+
+.glide-pill-tabs__indicator {
+  top: 4px;
+  bottom: 4px;
+  background: light-dark(#14181e, #f2f4f6);
+  transition:
+    transform .38s cubic-bezier(.32, .72, 0, 1),
+    width .38s cubic-bezier(.32, .72, 0, 1),
+    opacity .38s cubic-bezier(.32, .72, 0, 1);
+}
+
+.glide-pill-tabs__glide[data-visible],
+.glide-pill-tabs__indicator[data-visible] {
+  opacity: 1;
+}
+
+.glide-pill-tab {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  height: 30px;
+  margin: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 0 13px;
+  color: light-dark(rgba(20, 24, 30, .6), rgba(242, 244, 246, .6));
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .28s cubic-bezier(.4, 0, .2, 1);
+}
+
+.glide-pill-tab:hover {
+  color: light-dark(#14181e, #f2f4f6);
+}
+
+.glide-pill-tab[data-selected],
+.glide-pill-tab[data-selected]:hover {
+  color: light-dark(#ffffff, #101216);
+}
+
+.glide-pill-tab:focus-visible {
+  outline: 1.5px solid light-dark(rgba(20, 24, 30, .6), rgba(242, 244, 246, .6));
+  outline-offset: -1.5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glide-pill-tabs__glide,
+  .glide-pill-tabs__indicator {
+    transition-property: opacity;
+  }
+}

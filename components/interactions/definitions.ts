@@ -54,6 +54,7 @@ import { definition as BounceCheckboxDefinition } from "./bounce-checkbox/defini
 import { definition as FuseUndoButtonDefinition } from "./fuse-undo-button/definition";
 import { definition as ProgressRingCheckDefinition } from "./progress-ring-check/definition";
 import { definition as CountUpNumberDefinition } from "./count-up-number/definition";
+import { definition as GlidePillTabsDefinition } from "./glide-pill-tabs/definition";
 
 export const interactionDefinitions: Interaction[] = [
   CursorEdgeGlowButtonDefinition,
@@ -64,6 +65,7 @@ export const interactionDefinitions: Interaction[] = [
   ProgressRingCheckDefinition,
   BounceCheckboxDefinition,
   CountUpNumberDefinition,
+  GlidePillTabsDefinition,
   SocialIconButtonsDefinition,
   ScrubNumberFieldDefinition,
   SocialHighlightCardsDefinition,
